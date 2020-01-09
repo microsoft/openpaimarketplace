@@ -1,0 +1,373 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "Marketplace API"
+tags:
+  - name: marketplace
+  - name: tag
+  - name: star
+paths:
+  /marketplace/items:
+    post:
+      tags:
+        - marketplace
+      summary: Add a new marketplace item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MarketplaceItemReq"
+      responses:
+        201:
+          description: Return item id if created successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        405:
+          $ref: "#/components/responses/InvalidInput"
+    get:
+      tags:
+        - marketplace
+      summary: List marketplace items
+      parameters:
+        - in: query
+          name: author
+          schema:
+            type: string
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: catagory
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MarketplaceItemRes"
+
+  /marketplace/items/{itemId}:
+    get:
+      tags:
+        - marketplace
+      summary: Get specific marketplace item info
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketplaceItemRes"
+        404:
+          $ref: "#/components/responses/404NotFound"
+    put:
+      tags:
+        - marketplace
+      summary: Update a marketplace item
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MarketplaceItemReq"
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+        405:
+          $ref: "#/components/responses/InvalidInput"
+    delete:
+      tags:
+        - marketplace
+      summary: delete a marketplace item
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+  /marketplace/items/{itemId}/tags:
+    get:
+      tags:
+        - tag
+      summary: Get tags of specific marketplace item
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tag"
+        404:
+          $ref: "#/components/responses/404NotFound"
+  /marketplace/items/{itemId}/tags/{tagName}:
+    parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: tagName
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - tag
+      summary: Get the tag name of item, 404 if tag not found
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+        404:
+          $ref: "#/components/responses/404NotFound"
+    put:
+      tags:
+        - tag
+      summary: Add a tag to item, 409 if item already has this tag
+      responses:
+        200:
+          description: OK
+        409:
+          description: Conflict
+    delete:
+      tags:
+        - tag
+      summary: Unstar the item if stared, 404 if not stared
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+  /marketplace/items/{itemId}/starUsers:
+    get:
+      tags:
+        - star
+      summary: Get star users of specific marketplace item
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        404:
+          $ref: "#/components/responses/404NotFound"
+  /marketplace/tags/:
+    get:
+      tags:
+        - tag
+      summary: List all tags
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tag"
+  /marketplace/tags/{tagName}/items:
+    get:
+      tags:
+        - tag
+      summary: List all items of given tag
+      parameters:
+        - name: tagName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MarketplaceItemRes"
+  /user/{username}/starItems:
+    get:
+      tags:
+        - star
+      summary: list star items of a specific user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MarketplaceItemRes"
+        404:
+          $ref: "#/components/responses/404NotFound"
+  /user/{username}/starItems/{itemId}:
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - star
+      summary: Get the stared marketplace item info of a user, 404 if user not stared
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketplaceItemRes"
+        404:
+          $ref: "#/components/responses/404NotFound"
+    put:
+      tags:
+        - star
+      summary: Star the marketplace item, 409 if already stared
+      responses:
+        200:
+          description: OK
+        409:
+          description: Conflict
+    delete:
+      tags:
+        - star
+      summary: Unstar the item if stared, 404 if not stared
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+
+components:
+  schemas:
+    MarketplaceItemReq:
+      type: object
+      properties:
+        name:
+          type: string
+        author:
+          type: string
+        category:
+          type: string
+        introduction:
+          type: string
+        description:
+          type: string
+        jobConfig:
+          type: object
+        submits:
+          type: number
+        starNumber:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+    MarketplaceItemRes:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        author:
+          type: string
+        createdAt:
+          type: string
+          format: "date-time"
+        updatedAt:
+          type: string
+          format: "date-time"
+        category:
+          type: string
+        introduction:
+          type: string
+        description:
+          type: string
+        jobConfig:
+          type: object
+        submits:
+          type: number
+        starNumber:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+    Tag:
+      type: object
+      properties:
+        name:
+          type: string
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+
+  responses:
+    404NotFound:
+      description: The specified resource was not found.
+    InvalidInput:
+      description: Invalid input

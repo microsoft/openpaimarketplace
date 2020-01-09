@@ -1,0 +1,12 @@
+{
+  "name": "test",
+  "author": "mintao",
+  "category": ["custom"],
+  "tags": ["tf", "test"],
+  "introduction": "intro",
+  "description": "diesl sldkfj",
+  "jobConfig": {},
+  "submits": 0,
+  "starNumber": 1,
+  "starUsers": ["mintao", "test"]
+}
