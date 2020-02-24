@@ -9,6 +9,18 @@ A marketplace which stores examples and standard jobs of openpai.
 - yarn start
 - refer [openapi spec](./marketplace_api_spec_3.0.yaml) and test the api
 
+## deployment with openpai cluster
+
+TBD
+
+## API Usage
+
+TBD
+
+## Webportal Plugin Usage
+
+TBD
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
