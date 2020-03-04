@@ -14,7 +14,7 @@ import {
   Selection,
 } from 'office-ui-fabric-react';
 import { isNil } from 'lodash';
-import c from 'classNames';
+import c from 'classnames';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 
