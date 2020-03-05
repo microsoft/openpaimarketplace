@@ -1,16 +1,16 @@
 openapi: 3.0.0
 info:
-  version: "1.0.0"
+  version: "2.0.0"
   title: "Marketplace API"
 tags:
-  - name: marketplace
-  - name: tag
-  - name: star
+  - name: Item
+  - name: User
+  - name: Candidate
 paths:
-  /marketplace/items:
+  /items:
     post:
       tags:
-        - marketplace
+        - Item
       summary: Add a new marketplace item
       requestBody:
         required: true
@@ -29,7 +29,7 @@ paths:
           $ref: "#/components/responses/InvalidInput"
     get:
       tags:
-        - marketplace
+        - Item
       summary: List marketplace items
       parameters:
         - in: query
@@ -54,10 +54,10 @@ paths:
                 items:
                   $ref: "#/components/schemas/MarketplaceItemRes"
 
-  /marketplace/items/{itemId}:
+  /items/{itemId}:
     get:
       tags:
-        - marketplace
+        - Item
       summary: Get specific marketplace item info
       parameters:
         - name: itemId
@@ -76,7 +76,7 @@ paths:
           $ref: "#/components/responses/404NotFound"
     put:
       tags:
-        - marketplace
+        - Item
       summary: Update a marketplace item
       parameters:
         - name: itemId
@@ -99,7 +99,7 @@ paths:
           $ref: "#/components/responses/InvalidInput"
     delete:
       tags:
-        - marketplace
+        - Item
       summary: delete a marketplace item
       parameters:
         - name: itemId
@@ -112,75 +112,10 @@ paths:
           description: OK
         404:
           $ref: "#/components/responses/404NotFound"
-  /marketplace/items/{itemId}/tags:
+  /items/{itemId}/starUsers:
     get:
       tags:
-        - tag
-      summary: Get tags of specific marketplace item
-      parameters:
-        - name: itemId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Tag"
-        404:
-          $ref: "#/components/responses/404NotFound"
-  /marketplace/items/{itemId}/tags/{tagName}:
-    parameters:
-      - name: itemId
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: tagName
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - tag
-      summary: Get the tag name of item, 404 if tag not found
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Tag"
-        404:
-          $ref: "#/components/responses/404NotFound"
-    put:
-      tags:
-        - tag
-      summary: Add a tag to item, 409 if item already has this tag
-      responses:
-        200:
-          description: OK
-        409:
-          description: Conflict
-    delete:
-      tags:
-        - tag
-      summary: Unstar the item if stared, 404 if not stared
-      responses:
-        200:
-          description: OK
-        404:
-          $ref: "#/components/responses/404NotFound"
-  /marketplace/items/{itemId}/starUsers:
-    get:
-      tags:
-        - star
+        - Item
       summary: Get star users of specific marketplace item
       parameters:
         - name: itemId
@@ -199,29 +134,42 @@ paths:
                   $ref: "#/components/schemas/User"
         404:
           $ref: "#/components/responses/404NotFound"
-  /marketplace/tags/:
-    get:
+
+  /candidates:
+    post:
       tags:
-        - tag
-      summary: List all tags
+        - Candidate
+      summary: Submit a new marketplace candidate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CandidateReq"
       responses:
-        200:
-          description: OK
+        201:
+          description: Return candidate id if created successfully
           content:
-            application/json:
+            text/plain:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Tag"
-  /marketplace/tags/{tagName}/items:
+                type: string
+        405:
+          $ref: "#/components/responses/InvalidInput"
     get:
       tags:
-        - tag
-      summary: List all items of given tag
+        - Candidate
+      summary: List marketplace candidates
       parameters:
-        - name: tagName
-          in: path
-          required: true
+        - in: query
+          name: author
+          schema:
+            type: string
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: status
           schema:
             type: string
       responses:
@@ -232,11 +180,108 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/MarketplaceItemRes"
-  /user/{username}/starItems:
+                  $ref: "#/components/schemas/CandidateRes"
+  /candidates/{candidateId}:
+    parameters:
+      - name: candidateId
+        in: path
+        required: true
+        schema:
+          type: string
     get:
       tags:
-        - star
+        - Candidate
+      summary: Get specific candidate info
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CandidateRes"
+        404:
+          $ref: "#/components/responses/404NotFound"
+    put:
+      tags:
+        - Candidate
+      summary: Update a marketplace candidate by id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CandidateReq"
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+        405:
+          $ref: "#/components/responses/InvalidInput"
+    post:
+      tags:
+        - Candidate
+      summary: Partially update a marketplace candidate, use this api to approve or reject a candidate by changing the status and result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CandidateReq"
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+        405:
+          $ref: "#/components/responses/InvalidInput"
+    delete:
+      tags:
+        - Candidate
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+
+  /users:
+    post:
+      tags:
+        - User
+      summary: Add a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        201:
+          description: Return item id if created successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        405:
+          $ref: "#/components/responses/InvalidInput"
+    get:
+      tags:
+        - User
+      summary: List marketplace items
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /users/{username}/starItems:
+    get:
+      tags:
+        - User
       summary: list star items of a specific user
       parameters:
         - name: username
@@ -255,7 +300,7 @@ paths:
                   $ref: "#/components/schemas/MarketplaceItemRes"
         404:
           $ref: "#/components/responses/404NotFound"
-  /user/{username}/starItems/{itemId}:
+  /users/{username}/starItems/{itemId}:
     parameters:
       - name: username
         in: path
@@ -269,7 +314,7 @@ paths:
           type: string
     get:
       tags:
-        - star
+        - User
       summary: Get the stared marketplace item info of a user, 404 if user not stared
       responses:
         200:
@@ -282,7 +327,7 @@ paths:
           $ref: "#/components/responses/404NotFound"
     put:
       tags:
-        - star
+        - User
       summary: Star the marketplace item, 409 if already stared
       responses:
         200:
@@ -291,7 +336,7 @@ paths:
           description: Conflict
     delete:
       tags:
-        - star
+        - User
       summary: Unstar the item if stared, 404 if not stared
       responses:
         200:
@@ -355,6 +400,68 @@ components:
           type: array
           items:
             type: string
+    CandidateReq:
+      type: object
+      properties:
+        name:
+          type: string
+        author:
+          type: string
+        category:
+          type: string
+        introduction:
+          type: string
+        description:
+          type: string
+        jobConfig:
+          type: object
+        submits:
+          type: number
+        starNumber:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+    CandidateRes:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        author:
+          type: string
+        createdAt:
+          type: string
+          format: "date-time"
+        updatedAt:
+          type: string
+          format: "date-time"
+        category:
+          type: string
+        introduction:
+          type: string
+        description:
+          type: string
+        jobConfig:
+          type: object
+        submits:
+          type: number
+        starNumber:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          description: pending or close
+        result:
+          type: string
+          description: pending, approved or rejected
+        
+        
     Tag:
       type: object
       properties:
