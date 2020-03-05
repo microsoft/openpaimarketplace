@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize");
 const { DataTypes } = require("sequelize");
-const MarketplaceItem = require("./marketplace-item");
-const Tag = require("./tag");
+const MarketplaceItem = require("./marketplace_item");
 const User = require("./user");
 const dotnev = require("dotenv");
 
@@ -12,7 +11,6 @@ const sequelize = new Sequelize(SQL_CONNECTION_STR);
 
 const models = {
   MarketplaceItem: new MarketplaceItem(sequelize, DataTypes),
-  Tag: new Tag(sequelize, DataTypes),
   User: new User(sequelize, DataTypes)
 };
 

@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const router = require("./router");
-const init = require("./init");
+const dotnev = require("dotenv");
+
+dotnev.config();
 
 app.use(express.json());
 
@@ -11,6 +13,6 @@ app.get("/", function(req, res) {
 
 app.use("/", router);
 
-app.listen(3000, function() {
-  console.log("Example app listening on port 3000!");
+app.listen(process.env.PORT, function() {
+  console.log(`Marketplace service listening on port ${process.env.PORT}!`);
 });

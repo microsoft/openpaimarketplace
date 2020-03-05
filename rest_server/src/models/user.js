@@ -1,5 +1,5 @@
 const { isNil, isEmpty } = require("lodash");
-const modelSyncHandler = require("./modelSyncHandler");
+const modelSyncHandler = require("./model_init_handler");
 
 class User {
   constructor(sequelize, DataTypes) {

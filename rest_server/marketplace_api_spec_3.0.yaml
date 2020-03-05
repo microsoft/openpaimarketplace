@@ -460,13 +460,6 @@ components:
         result:
           type: string
           description: pending, approved or rejected
-        
-        
-    Tag:
-      type: object
-      properties:
-        name:
-          type: string
     User:
       type: object
       properties:

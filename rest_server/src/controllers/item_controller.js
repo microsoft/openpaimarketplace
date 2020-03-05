@@ -1,16 +1,29 @@
 const { Op } = require("sequelize");
 const { isNil } = require("lodash");
-const { MarketplaceItem, Tag } = require("../models");
-const { init } = require("../init.js");
+const { MarketplaceItem } = require("../models");
 const asyncHandler = require("../asyncHandler");
 
 const list = asyncHandler(async (req, res, next) => {
-  const result = await MarketplaceItem.list(
-    req.query.name,
-    req.query.author,
-    req.query.category
-  );
-  res.status(200).json(result);
+  try {
+    const result = await MarketplaceItem.list(
+      req.query.name,
+      req.query.author,
+      req.query.category
+    );
+    res.status(200).json(result);
+  } catch (e) {
+    if (
+      e.name === "SequelizeConnectionRefusedError" ||
+      e.name === "SequelizeConnectionError"
+    ) {
+      res.status(500).send("database connection failed");
+    }
+    if (e.name === "SequelizeDatabaseError") {
+      res.status(500).send("database error");
+    } else {
+      throw e;
+    }
+  }
 });
 
 const create = asyncHandler(async (req, res, next) => {
@@ -42,24 +55,6 @@ const del = asyncHandler(async (req, res, next) => {
     res.status(404).send("item not found");
   } else {
     res.status(200).send("deleted");
-  }
-});
-
-const listTags = asyncHandler(async (req, res, next) => {
-  const tags = await MarketplaceItem.listTags(req.params.itemId);
-  if (isNil(tags)) {
-    res.status(404).send("item not found");
-  } else {
-    res.status(200).json(tags.map(tag => tag.name));
-  }
-});
-
-const updateTags = asyncHandler(async (req, res, next) => {
-  const result = await MarketplaceItem.updateTags(req.params.itemId);
-  if (isNil(result)) {
-    res.status(404).send("item not found");
-  } else {
-    res.status(200).json("updated");
   }
 });
 
