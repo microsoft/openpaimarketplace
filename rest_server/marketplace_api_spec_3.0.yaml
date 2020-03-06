@@ -55,16 +55,16 @@ paths:
                   $ref: "#/components/schemas/MarketplaceItemRes"
 
   /items/{itemId}:
+    parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
     get:
       tags:
         - Item
       summary: Get specific marketplace item info
-      parameters:
-        - name: itemId
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         200:
           description: OK
@@ -78,12 +78,6 @@ paths:
       tags:
         - Item
       summary: Update a marketplace item
-      parameters:
-        - name: itemId
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -101,12 +95,57 @@ paths:
       tags:
         - Item
       summary: delete a marketplace item
-      parameters:
-        - name: itemId
-          in: path
-          required: true
-          schema:
-            type: string
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+  /items/{itemId}/description:
+    parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Item
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          $ref: "#/components/responses/404NotFound"
+    put:
+      tags:
+        - Item
+      summary: Update a marketplace item
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+        405:
+          $ref: "#/components/responses/InvalidInput"
+    post:
+      tags:
+        - Item
+      summary: add marketplace item description
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
       responses:
         200:
           description: OK
@@ -244,6 +283,61 @@ paths:
         404:
           $ref: "#/components/responses/404NotFound"
 
+  /candidates/{candidateId}/description:
+    parameters:
+      - name: candidateId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Candidate
+      summary: Get specific candidate description
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          $ref: "#/components/responses/404NotFound"
+    put:
+      tags:
+        - Candidate
+      summary: Update a marketplace candidate description
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+        405:
+          $ref: "#/components/responses/InvalidInput"
+    post:
+      tags:
+        - Candidate
+      summary: create candidate description
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+        405:
+          $ref: "#/components/responses/InvalidInput"
+
   /users:
     post:
       tags:
@@ -357,8 +451,6 @@ components:
           type: string
         introduction:
           type: string
-        description:
-          type: string
         jobConfig:
           type: object
         submits:
@@ -388,8 +480,6 @@ components:
           type: string
         introduction:
           type: string
-        description:
-          type: string
         jobConfig:
           type: object
         submits:
@@ -410,8 +500,6 @@ components:
         category:
           type: string
         introduction:
-          type: string
-        description:
           type: string
         jobConfig:
           type: object
@@ -441,8 +529,6 @@ components:
         category:
           type: string
         introduction:
-          type: string
-        description:
           type: string
         jobConfig:
           type: object
