@@ -2,13 +2,15 @@ const express = require("express");
 const app = express();
 const router = require("./router");
 const dotnev = require("dotenv");
+const bodyParser = require("body-parser");
 
 dotnev.config();
 
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.text({ type: "text/plain" }));
 
 app.get("/", function(req, res) {
-  res.send("Hello World!");
+  res.send("Welcome to marketplace!");
 });
 
 app.use("/", router);

@@ -16,6 +16,14 @@ router
   .delete(itemController.del);
 
 router
+  .route("/items/:itemId/description")
+  .put(itemController.updateDescription);
+
+router
+  .route("/items/:itemId/status")
+  .put(itemController.updateStatus);
+
+router
   .route("/items/:itemId/starUsers")
   .get(itemController.listStarUsers);
 

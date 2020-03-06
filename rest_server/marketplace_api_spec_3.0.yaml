@@ -44,6 +44,10 @@ paths:
           name: catagory
           schema:
             type: string
+        - in: query
+          name: status
+          schema:
+            type: string
       responses:
         200:
           description: OK
@@ -122,7 +126,7 @@ paths:
     put:
       tags:
         - Item
-      summary: Update a marketplace item
+      summary: Update a marketplace item description
       requestBody:
         required: true
         content:
@@ -136,10 +140,18 @@ paths:
           $ref: "#/components/responses/404NotFound"
         405:
           $ref: "#/components/responses/InvalidInput"
-    post:
+
+  /items/{itemId}/status:
+    parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
       tags:
         - Item
-      summary: add marketplace item description
+      summary: Update a marketplace item status (approved or rejected)
       requestBody:
         required: true
         content:
@@ -151,6 +163,9 @@ paths:
           description: OK
         404:
           $ref: "#/components/responses/404NotFound"
+        405:
+          $ref: "#/components/responses/InvalidInput"
+
   /items/{itemId}/starUsers:
     get:
       tags:
@@ -173,170 +188,6 @@ paths:
                   $ref: "#/components/schemas/User"
         404:
           $ref: "#/components/responses/404NotFound"
-
-  /candidates:
-    post:
-      tags:
-        - Candidate
-      summary: Submit a new marketplace candidate
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CandidateReq"
-      responses:
-        201:
-          description: Return candidate id if created successfully
-          content:
-            text/plain:
-              schema:
-                type: string
-        405:
-          $ref: "#/components/responses/InvalidInput"
-    get:
-      tags:
-        - Candidate
-      summary: List marketplace candidates
-      parameters:
-        - in: query
-          name: author
-          schema:
-            type: string
-        - in: query
-          name: name
-          schema:
-            type: string
-        - in: query
-          name: status
-          schema:
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/CandidateRes"
-  /candidates/{candidateId}:
-    parameters:
-      - name: candidateId
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Candidate
-      summary: Get specific candidate info
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CandidateRes"
-        404:
-          $ref: "#/components/responses/404NotFound"
-    put:
-      tags:
-        - Candidate
-      summary: Update a marketplace candidate by id
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CandidateReq"
-      responses:
-        200:
-          description: OK
-        404:
-          $ref: "#/components/responses/404NotFound"
-        405:
-          $ref: "#/components/responses/InvalidInput"
-    post:
-      tags:
-        - Candidate
-      summary: Partially update a marketplace candidate, use this api to approve or reject a candidate by changing the status and result
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CandidateReq"
-      responses:
-        200:
-          description: OK
-        404:
-          $ref: "#/components/responses/404NotFound"
-        405:
-          $ref: "#/components/responses/InvalidInput"
-    delete:
-      tags:
-        - Candidate
-      responses:
-        200:
-          description: OK
-        404:
-          $ref: "#/components/responses/404NotFound"
-
-  /candidates/{candidateId}/description:
-    parameters:
-      - name: candidateId
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Candidate
-      summary: Get specific candidate description
-      responses:
-        200:
-          description: OK
-          content:
-            text/plain:
-              schema:
-                type: string
-        404:
-          $ref: "#/components/responses/404NotFound"
-    put:
-      tags:
-        - Candidate
-      summary: Update a marketplace candidate description
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              type: string
-      responses:
-        200:
-          description: OK
-        404:
-          $ref: "#/components/responses/404NotFound"
-        405:
-          $ref: "#/components/responses/InvalidInput"
-    post:
-      tags:
-        - Candidate
-      summary: create candidate description
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              type: string
-      responses:
-        200:
-          description: OK
-        404:
-          $ref: "#/components/responses/404NotFound"
-        405:
-          $ref: "#/components/responses/InvalidInput"
 
   /users:
     post:
@@ -451,16 +302,17 @@ components:
           type: string
         introduction:
           type: string
+        description:
+          type: string
         jobConfig:
           type: object
-        submits:
-          type: number
-        starNumber:
-          type: number
         tags:
           type: array
           items:
             type: string
+        status:
+          type: string
+          description: pending, approved or rejected
     MarketplaceItemRes:
       type: object
       properties:
@@ -480,55 +332,7 @@ components:
           type: string
         introduction:
           type: string
-        jobConfig:
-          type: object
-        submits:
-          type: number
-        starNumber:
-          type: number
-        tags:
-          type: array
-          items:
-            type: string
-    CandidateReq:
-      type: object
-      properties:
-        name:
-          type: string
-        author:
-          type: string
-        category:
-          type: string
-        introduction:
-          type: string
-        jobConfig:
-          type: object
-        submits:
-          type: number
-        starNumber:
-          type: number
-        tags:
-          type: array
-          items:
-            type: string
-    CandidateRes:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        author:
-          type: string
-        createdAt:
-          type: string
-          format: "date-time"
-        updatedAt:
-          type: string
-          format: "date-time"
-        category:
-          type: string
-        introduction:
+        description:
           type: string
         jobConfig:
           type: object
@@ -541,9 +345,6 @@ components:
           items:
             type: string
         status:
-          type: string
-          description: pending or close
-        result:
           type: string
           description: pending, approved or rejected
     User:

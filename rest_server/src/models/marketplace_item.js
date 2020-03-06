@@ -6,12 +6,14 @@ class MarketplaceItem {
     this.orm = sequelize.define("MarketplaceItem", {
       name: DataTypes.STRING,
       author: DataTypes.STRING,
-      category: DataTypes.ARRAY(DataTypes.STRING), // eslint-disable-line new-cap
+      category: DataTypes.ARRAY(DataTypes.STRING),
       tags: DataTypes.ARRAY(DataTypes.STRING),
       introduction: DataTypes.STRING,
       description: DataTypes.TEXT,
       jobConfig: DataTypes.JSON, // TODO: protocol validation in the future
-      submits: DataTypes.INTEGER
+      submits: DataTypes.INTEGER,
+      starNumber: DataTypes.INTEGER,
+      status: DataTypes.ENUM("pending", "approved", "rejected")
     });
   }
 
@@ -22,8 +24,8 @@ class MarketplaceItem {
     this.models = models;
   }
 
-  async list(name, author, category) {
-    const handler = modelSyncHandler(async (name, author, category) => {
+  async list(name, author, category, status) {
+    const handler = modelSyncHandler(async (name, author, category, status) => {
       const filterStatement = {};
       if (name) {
         filterStatement.name = name;
@@ -34,18 +36,14 @@ class MarketplaceItem {
       if (category) {
         filterStatement.category = category;
       }
+      if (status) {
+        filterStatement.status = status;
+      }
       const items = await this.orm.findAll({ where: filterStatement });
-      const processItems = await Promise.all(
-        items.map(async item => {
-          const starUsers = await this.listStarUsers(item.id);
-          item.dataValues["starNumber"] = starUsers.length;
-          return item;
-        })
-      );
-      return processItems;
+      return items;
     });
 
-    return await handler(name, author, category, this.models);
+    return await handler(name, author, category, status, this.models);
   }
 
   async create(itemReq) {
@@ -64,8 +62,6 @@ class MarketplaceItem {
       if (isNil(item)) {
         return null;
       } else {
-        const starUsers = await this.listStarUsers(itemId);
-        item.dataValues["starNumber"] = starUsers.length;
         return item;
       }
     });
@@ -88,6 +84,38 @@ class MarketplaceItem {
     });
 
     return await handler(itemId, newItemReq, this.models);
+  }
+
+  async updateDescription(itemId, description) {
+    const handler = modelSyncHandler(async (itemId, description) => {
+      const item = await this.orm.findOne({
+        where: { id: itemId }
+      });
+      if (isNil(item)) {
+        return null;
+      } else {
+        await item.update({ description: description });
+        return item;
+      }
+    });
+
+    return await handler(itemId, description, this.models);
+  }
+
+  async updateStatus(itemId, status) {
+    const handler = modelSyncHandler(async (itemId, status) => {
+      const item = await this.orm.findOne({
+        where: { id: itemId }
+      });
+      if (isNil(item)) {
+        return null;
+      } else {
+        await item.update({ status: status });
+        return item;
+      }
+    });
+
+    return await handler(itemId, status, this.models);
   }
 
   async del(itemId) {

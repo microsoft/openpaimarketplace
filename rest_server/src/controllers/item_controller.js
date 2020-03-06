@@ -9,7 +9,8 @@ const list = asyncHandler(async (req, res, next) => {
     const result = await MarketplaceItem.list(
       req.query.name,
       req.query.author,
-      req.query.category
+      req.query.category,
+      req.query.status
     );
     res.status(200).json(result);
   } catch (e) {
@@ -65,6 +66,43 @@ const del = asyncHandler(async (req, res, next) => {
   }
 });
 
+const updateDescription = asyncHandler(async (req, res, next) => {
+  try {
+    const result = await MarketplaceItem.updateDescription(
+      req.params.itemId,
+      req.body
+    );
+    if (isNil(result)) {
+      res.status(404).send("item not found");
+    } else {
+      res.status(200).send("description updated");
+    }
+  } catch (e) {
+    databaseErrorHandler(e, res);
+  }
+});
+
+const updateStatus = asyncHandler(async (req, res, next) => {
+  try {
+    if (req.body !== "approved" && req.body !== "rejected") {
+      res
+        .status(405)
+        .send("status could only be changed to approved or rejected");
+    }
+    const result = await MarketplaceItem.updateStatus(
+      req.params.itemId,
+      req.body
+    );
+    if (isNil(result)) {
+      res.status(404).send("item not found");
+    } else {
+      res.status(200).send("status updated");
+    }
+  } catch (e) {
+    databaseErrorHandler(e, res);
+  }
+});
+
 const listStarUsers = asyncHandler(async (req, res, next) => {
   try {
     const users = await MarketplaceItem.listStarUsers(req.params.itemId);
@@ -85,5 +123,7 @@ module.exports = {
   get,
   update,
   del,
+  updateDescription,
+  updateStatus,
   listStarUsers
 };

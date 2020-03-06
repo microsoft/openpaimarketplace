@@ -11,7 +11,7 @@ const sequelize = new Sequelize(SQL_CONNECTION_STR);
 
 const models = {
   MarketplaceItem: new MarketplaceItem(sequelize, DataTypes),
-  User: new User(sequelize, DataTypes)
+  User: new User(sequelize, DataTypes),
 };
 
 Object.keys(models).forEach(modelName => {
