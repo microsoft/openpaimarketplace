@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const express = require("express");
 const itemController = require("./controllers/item_controller");
 const userController = require("./controllers/user_controller");

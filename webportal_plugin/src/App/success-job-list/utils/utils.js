@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { isNil } from 'lodash';
 import { DateTime } from 'luxon';
 

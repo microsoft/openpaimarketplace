@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { DockerInfo } from '../models/docker-info';
 
 import { createUniqueName } from './utils';
