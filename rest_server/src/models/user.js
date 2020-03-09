@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const { isNil, isEmpty } = require("lodash");
-const modelSyncHandler = require("./modelSyncHandler");
+const modelSyncHandler = require("./model_init_handler");
 
 class User {
   constructor(sequelize, DataTypes) {
     this.orm = sequelize.define("User", {
       name: { type: DataTypes.STRING, primaryKey: true }
     });
+    this.sequelize = sequelize;
   }
 
   associate(models) {
@@ -15,6 +16,23 @@ class User {
       through: "StarRelation"
     });
     this.models = models;
+  }
+
+  async create(userReq) {
+    const handler = modelSyncHandler(async userReq => {
+      const item = await this.orm.create({ name: userReq });
+    });
+
+    return await handler(userReq, this.models);
+  }
+
+  async list() {
+    const handler = modelSyncHandler(async () => {
+      const users = await this.orm.findAll();
+      return users;
+    });
+
+    return await handler(this.models);
   }
 
   async listItems(username) {
@@ -62,7 +80,15 @@ class User {
           if (isNil(item)) {
             return "item not exists";
           }
-          await user.addMarketplaceItem(item);
+          const t = await this.sequelize.transaction();
+          try {
+            await user.addMarketplaceItem(item, { transaction: t });
+            await item.increment("starNumber", { transaction: t });
+            await t.commit();
+          } catch (e) {
+            await t.rollback();
+            throw e;
+          }
           return true;
         } else {
           return false;
@@ -85,7 +111,18 @@ class User {
         if (isEmpty(items)) {
           return false;
         } else {
-          await user.removeMarketplaceItem(items);
+          const t = await this.sequelize.transaction();
+          try {
+            await user.removeMarketplaceItem(items, { transaction: t });
+            const item = await this.models.MarketplaceItem.orm.findOne({
+              where: { id: itemId }
+            });
+            await item.decrement("starNumber", { transaction: t });
+            await t.commit();
+          } catch (e) {
+            await t.rollback();
+            throw e;
+          }
           return true;
         }
       }

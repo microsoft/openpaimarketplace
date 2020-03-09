@@ -1,0 +1,50 @@
+{
+  "name": "test",
+  "author": "mintao1",
+  "category": ["custom"],
+  "introduction": "intro",
+  "jobConfig": {
+    "protocolVersion": 2,
+    "name": "nni_exp_OAjTcW7F_trial_eKObG",
+    "type": "job",
+    "jobRetryCount": 0,
+    "prerequisites": [
+      {
+        "type": "dockerimage",
+        "uri": "nnidev/nni-it-pai:2003050833",
+        "name": "docker_image_0"
+      }
+    ],
+    "taskRoles": {
+      "taskrole": {
+        "instances": 1,
+        "completion": {
+          "minFailedInstances": 1,
+          "minSucceededInstances": -1
+        },
+        "taskRetryCount": 0,
+        "dockerImage": "docker_image_0",
+        "resourcePerInstance": {
+          "gpu": 1,
+          "cpu": 1,
+          "memoryMB": 8192
+        },
+        "commands": [
+          "export NNI_PLATFORM=pai NNI_SYS_DIR=/data/shinyang/OAjTcW7F/eKObG NNI_OUTPUT_DIR=/data/shinyang/OAjTcW7F/eKObG/nnioutput NNI_TRIAL_JOB_ID=eKObG NNI_EXP_ID=OAjTcW7F NNI_TRIAL_SEQ_ID=3 MULTI_PHASE=false && ls $NNI_SYS_DIR && cd $NNI_SYS_DIR && sh install_nni.sh && python3 -m nni_trial_tool.trial_keeper --trial_command 'python3 multi_thread_trial.py' --nnimanager_ip '10.190.174.128' --nnimanager_port '8081' --nni_manager_version 'v1.4-38-g3190f1b' --log_collection 'http'"
+        ]
+      }
+    },
+    "extras": {
+      "com.microsoft.pai.runtimeplugin": [
+        {
+          "plugin": "teamwise_storage"
+        }
+      ],
+      "submitFrom": "submit-job-v2"
+    }
+  },
+  "submits": 0,
+  "starNumber": 1,
+  "starUsers": ["mintao", "test"],
+  "tags": ["hello", "test"]
+}
