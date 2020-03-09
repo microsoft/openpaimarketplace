@@ -1,7 +1,8 @@
 const fs = require("fs-extra");
 const path = require("path");
+const recursive = require("recursive-readdir");
 
-const DIR = "./test";
+const DIR = "../rest_server/src";
 const HEADER = `// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 `;
@@ -27,15 +28,14 @@ const insertHeader = (filePath, header) => {
   });
 };
 
-fs.readdir(DIR, (err, files) => {
+recursive(DIR, function(err, files) {
   if (err) {
     console.log(err);
   }
   files.forEach(file => {
-    const filePath = path.join(DIR, file);
-    console.log(filePath);
-    if (path.extname(filePath) === ".js") {
-      insertHeader(filePath, HEADER);
+    console.log(`processing ${file}...`);
+    if (path.extname(file) === ".js" || path.extname === '.jsx') {
+      insertHeader(file, HEADER);
     } else {
       console.log("not js file");
     }

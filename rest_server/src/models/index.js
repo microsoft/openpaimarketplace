@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const Sequelize = require("sequelize");
 const { DataTypes } = require("sequelize");
 const MarketplaceItem = require("./marketplace-item");
