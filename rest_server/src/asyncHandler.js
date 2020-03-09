@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const asyncHandler = (middleware) => {
   return (req, res, next) => {
     Promise

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const { Op } = require("sequelize");
 const { isNil } = require("lodash");
 const { MarketplaceItem, Tag } = require("../models");

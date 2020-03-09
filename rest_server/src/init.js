@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const models = require("./models");
 const { User, MarketplaceItem } = require("./models");
 

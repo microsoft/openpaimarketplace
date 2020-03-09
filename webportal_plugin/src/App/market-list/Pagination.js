@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 class Pagination {
   constructor(itemsPerPage = 5, pageIndex = 0) {
     this.itemsPerPage = itemsPerPage;

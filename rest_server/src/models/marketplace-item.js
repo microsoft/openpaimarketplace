@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const { isNil, get } = require("lodash");
 const modelSyncHandler = require("./modelSyncHandler");
 

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { isEmpty, isNil } from 'lodash';
 import { removeEmptyProperties } from '../utils/utils';
 

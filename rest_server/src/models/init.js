@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const init = async models => {
   await models.sequelize.sync();
   await models.User.orm.create({ name: "mintao" });

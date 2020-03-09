@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import uuid4 from 'uuid/v4';
 
 export class MarketItem {
