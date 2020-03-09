@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 const fs = require("fs-extra");
 const path = require("path");
 const recursive = require("recursive-readdir");
