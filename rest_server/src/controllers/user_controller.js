@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const { User } = require("../models");
 const { isEmpty, isNil } = require("lodash");
 const asyncHandler = require("../asyncHandler");

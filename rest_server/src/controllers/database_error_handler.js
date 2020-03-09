@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const databaseErrorHandler = (error, res) => {
   if (
     error.name === "SequelizeConnectionRefusedError" ||
