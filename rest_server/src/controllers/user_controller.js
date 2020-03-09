@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 const { User } = require("../models");
 const { isEmpty, isNil } = require("lodash");
-const asyncHandler = require("../asyncHandler");
+const asyncHandler = require("./asyncHandler");
 const { databaseErrorHandler } = require("./database_error_handler");
 
 const list = asyncHandler(async (req, res, next) => {

@@ -3,7 +3,7 @@
 const { Op } = require("sequelize");
 const { isNil } = require("lodash");
 const { MarketplaceItem } = require("../models");
-const asyncHandler = require("../asyncHandler");
+const asyncHandler = require("./asyncHandler");
 const { databaseErrorHandler } = require("./database_error_handler");
 
 const list = asyncHandler(async (req, res, next) => {
