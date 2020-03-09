@@ -212,7 +212,7 @@ paths:
     get:
       tags:
         - User
-      summary: List marketplace items
+      summary: List users
       responses:
         200:
           description: OK
