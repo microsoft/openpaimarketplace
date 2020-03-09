@@ -27,13 +27,18 @@ router
   .route("/items/:itemId/starUsers")
   .get(itemController.listStarUsers);
 
-router.route("/user/:username/starItems").get(userController.list);
+router
+  .route("/users")
+  .get(userController.list)
+  .post(userController.create);
+
+router.route("/users/:username/starItems").get(userController.listItems);
 
 router
-  .route("/user/:username/starItems/:itemId")
-  .get(userController.get)
-  .put(userController.update)
-  .delete(userController.del);
+  .route("/users/:username/starItems/:itemId")
+  .get(userController.getItem)
+  .put(userController.updateItem)
+  .delete(userController.deleteItem);
 
 // module exports
 module.exports = router;

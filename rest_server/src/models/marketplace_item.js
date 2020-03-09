@@ -11,8 +11,8 @@ class MarketplaceItem {
       introduction: DataTypes.STRING,
       description: DataTypes.TEXT,
       jobConfig: DataTypes.JSON, // TODO: protocol validation in the future
-      submits: DataTypes.INTEGER,
-      starNumber: DataTypes.INTEGER,
+      submits: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
+      starNumber: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
       status: DataTypes.ENUM("pending", "approved", "rejected")
     });
   }
@@ -48,6 +48,8 @@ class MarketplaceItem {
 
   async create(itemReq) {
     const handler = modelSyncHandler(async itemReq => {
+      itemReq.submits = 0;
+      itemReq.starNumber = 0;
       const item = await this.orm.create(itemReq);
     });
 
