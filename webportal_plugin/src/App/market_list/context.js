@@ -18,4 +18,5 @@ export default React.createContext({
   api: null,
   user: null,
   token: null,
+  history: null,
 });

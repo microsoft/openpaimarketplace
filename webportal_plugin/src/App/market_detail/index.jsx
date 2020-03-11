@@ -22,26 +22,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import 'whatwg-fetch';
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+import "whatwg-fetch";
 
-import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
-import {
-  Fabric,
-  FontClassNames,
-  initializeIcons,
-} from 'office-ui-fabric-react';
-import t from '../components/tachyons.scss';
-import Top from './components/top';
-import Summary from './components/summary';
-import Detail from './components/detail';
-import Context from './context';
-import { SpinnerLoading } from '../components/loading';
-import { MarketItem } from '../models/market_item';
-
-initializeIcons();
+import React, { useState, useEffect } from "react";
+import classNames from "classnames";
+import { Fabric, FontClassNames } from "office-ui-fabric-react";
+import t from "../components/tachyons.scss";
+import Top from "./components/top";
+import Summary from "./components/summary";
+import Detail from "./components/detail";
+import Context from "./context";
+import { SpinnerLoading } from "../components/loading";
+import { MarketItem } from "../models/market_item";
+import { MARKETPLACE_API } from "../utils/constants";
 
 const MarketDetail = props => {
   const { api, history } = props;
@@ -58,7 +53,7 @@ const MarketDetail = props => {
       loading: false,
       reloading: false,
       marketItem: null,
-      error: null,
+      error: null
     };
     const loadMarketItem = async () => {
       try {
@@ -76,14 +71,14 @@ const MarketDetail = props => {
   const context = {
     marketItem,
     api,
-    history,
+    history
   };
 
   return (
     <Context.Provider value={context}>
       {loading && <SpinnerLoading />}
       {loading === false && (
-        <Fabric style={{ height: '100%', margin: '0 auto', maxWidth: 1050 }}>
+        <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1050 }}>
           <div className={classNames(t.w100, t.pa4, FontClassNames.medium)}>
             <Top />
             <Summary />
@@ -97,28 +92,29 @@ const MarketDetail = props => {
   async function fetchMarketItem() {
     //const params = new URLSearchParams(window.location.search);
     //const url = `${api}/api/v2/marketplace/items/${params.get('itemId')}`;
-    const itemId = window.localStorage.getItem('itemId');
-    const url = `${api}/api/v2/marketplace/items/${itemId}`;
+    const itemId = window.localStorage.getItem("itemId");
+    const url = `${MARKETPLACE_API}/items/${itemId}`;
     const res = await fetch(url);
-    const json = await res.json();
     if (res.ok) {
-      const marketItem = new MarketItem(
-        json.id,
-        json.name,
-        json.author,
-        json.createAt,
-        json.updateAt,
-        json.category,
-        json.tags,
-        json.introduction,
-        json.description,
-        json.jobConfig,
-        json.submits,
-        json.starNumber,
-      );
+      const result = await res.json();
+      const marketItem = new MarketItem({
+        id: result.id,
+        name: result.name,
+        author: result.author,
+        createdAt: result.createdAt,
+        updatedAt: result.updatedAt,
+        category: result.category,
+        tags: result.tags,
+        introduction: result.introduction,
+        description: result.description,
+        jobConfig: result.jobConfig,
+        submits: result.submits,
+        starNumber: result.starNumber,
+        status: result.status
+      });
       return marketItem;
     } else {
-      throw new Error(json.message);
+      throw new Error(res.statusText);
     }
   }
 };

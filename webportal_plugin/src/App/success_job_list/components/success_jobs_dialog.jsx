@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext } from 'react';
+import React, { useCallback, useState, useContext } from "react";
 import {
   Dialog,
   DialogType,
@@ -7,24 +7,24 @@ import {
   DefaultButton,
   Stack,
   FontClassNames,
-  FontWeights,
-} from 'office-ui-fabric-react';
-import { isNil } from 'lodash';
-import PropTypes from 'prop-types';
-import uuid4 from 'uuid/v4';
-import yaml from 'js-yaml';
-import c from 'classnames';
+  FontWeights
+} from "office-ui-fabric-react";
+import { isNil } from "lodash";
+import PropTypes from "prop-types";
+import uuid4 from "uuid/v4";
+import yaml from "js-yaml";
+import c from "classnames";
 
-import t from '../../components/tachyons.scss';
+import t from "../../components/tachyons.scss";
 
-import SuccessJobList from './success_job_list';
-import { isPublishable } from '../utils/job';
-import Context from '../context';
-import Filter from '../Filter';
-import Pagination from '../Pagination';
-import PublishView from './publish_view';
-import { MarketItem } from '../../models/market_item';
-import ContextMarketList from '../../market_list/context';
+import SuccessJobList from "./success_job_list";
+import { isPublishable } from "../utils/job";
+import Context from "../context";
+import Filter from "../Filter";
+import Pagination from "../Pagination";
+import PublishView from "./publish_view";
+import { MarketItem } from "../../models/market_item";
+import ContextMarketList from "../../market_list/context";
 
 const SuccessJobsDialog = props => {
   const { hideDialog, setHideDialog } = props;
@@ -41,15 +41,15 @@ const SuccessJobsDialog = props => {
   const [openPublish, setOpenPublish] = useState(false);
 
   // published market iten info
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('custom');
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("custom");
   const [tags, setTags] = useState([]);
-  const [introduction, setIntroduction] = useState('');
-  const [description, setDescription] = useState('');
+  const [introduction, setIntroduction] = useState("");
+  const [description, setDescription] = useState("");
 
   // success dialog title
   const [successDialogTitle, setSuccessDialogTitle] = useState(
-    'Publish to Marketplace',
+    "Publish to Marketplace"
   );
 
   const onPublish = useCallback(() => {
@@ -67,7 +67,7 @@ const SuccessJobsDialog = props => {
       // check if this job can be published
       const { legacy, name, namespace, username } = currentJob;
       if (legacy) {
-        alert('This job can not be published because of legacy');
+        alert("This job can not be published because of legacy");
         return;
       }
       // fetch jobConfig
@@ -75,10 +75,10 @@ const SuccessJobsDialog = props => {
       setCurrentJobConfig(jobConfig);
 
       if (!isPublishable(currentJob, jobConfig)) {
-        alert('This job cannot be published because of extras');
+        alert("This job cannot be published because of extras");
       } else {
         setOpenPublish(true);
-        setSuccessDialogTitle('Create a market item');
+        setSuccessDialogTitle("Create a market item");
       }
     };
 
@@ -92,13 +92,13 @@ const SuccessJobsDialog = props => {
     if (openPublish === true) {
       setOpenPublish(false);
     }
-    setName('');
-    setCategory('custom');
+    setName("");
+    setCategory("custom");
     setTags([]);
-    setIntroduction('');
-    setDescription('');
+    setIntroduction("");
+    setDescription("");
 
-    setSuccessDialogTitle('Publish to Marketplace');
+    setSuccessDialogTitle("Publish to Marketplace");
     //setHideDialog(true);
   }, [openPublish]);
 
@@ -114,24 +114,24 @@ const SuccessJobsDialog = props => {
 
   const onBack = useCallback(() => {
     setOpenJobDetail(false);
-    setSuccessDialogTitle('Publish to Marketplace');
+    setSuccessDialogTitle("Publish to Marketplace");
   }, []);
 
   const checkRequired = useCallback(() => {
-    if (name === '') {
-      alert('Title required');
+    if (name === "") {
+      alert("Title required");
       return false;
     }
-    if (introduction === '') {
-      alert('introduction required');
+    if (introduction === "") {
+      alert("introduction required");
       return false;
     }
-    if (description === '') {
-      alert('description required');
+    if (description === "") {
+      alert("description required");
       return false;
     }
     if (isNil(currentJobConfig)) {
-      alert('yaml file required');
+      alert("yaml file required");
       return false;
     }
     return true;
@@ -146,20 +146,15 @@ const SuccessJobsDialog = props => {
     setOpenPublish(false);
 
     // post a marketitem
-    const marketItem = new MarketItem(
-      uuid4(),
-      name,
-      cookies.get('user'),
-      new Date(),
-      new Date(),
-      category,
-      tags,
-      introduction,
-      description,
-      yaml.safeDump(currentJobConfig),
-      0,
-      0,
-    );
+    const marketItem = new MarketItem({
+      name: name,
+      author: cookies.get("user"),
+      category: category,
+      tags: tags,
+      introduction: introduction,
+      description: description,
+      jobConfig: yaml.safeDump(currentJobConfig)
+    });
     const itemId = await createMarketItem(marketItem);
     // refresh market-detail.html
     window.location.href = `/market-detail.html?itemId=${itemId}`;
@@ -168,9 +163,9 @@ const SuccessJobsDialog = props => {
   async function createMarketItem(marketItem) {
     const url = `${api}/api/v2/marketplace/items`;
     const res = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         name: marketItem.name,
@@ -181,8 +176,8 @@ const SuccessJobsDialog = props => {
         jobConfig: marketItem.jobConfig,
         submits: marketItem.submits,
         starNumber: marketItem.stars,
-        tags: marketItem.tags,
-      }),
+        tags: marketItem.tags
+      })
     });
     const json = await res.json();
     if (res.ok) {
@@ -202,7 +197,7 @@ const SuccessJobsDialog = props => {
     if (res.ok) {
       return json;
     } else {
-      if (json.code === 'NoJobConfigError') {
+      if (json.code === "NoJobConfigError") {
         throw new NotFoundError(json.message);
       } else {
         throw new Error(json.message);
@@ -241,7 +236,7 @@ const SuccessJobsDialog = props => {
     setDescription,
 
     // success dialog title
-    setSuccessDialogTitle,
+    setSuccessDialogTitle
   };
 
   return (
@@ -253,49 +248,49 @@ const SuccessJobsDialog = props => {
         maxWidth={2000}
         dialogContentProps={{
           styles: {
-            title: { padding: '20px 36px 12px 20px' },
-            inner: { padding: '0px 40px 20px 20px' },
-            topButton: { padding: '20px 20px 0px 0px' },
+            title: { padding: "20px 36px 12px 20px" },
+            inner: { padding: "0px 40px 20px 20px" },
+            topButton: { padding: "20px 20px 0px 0px" }
           },
           title: (
             <span
               className={c(t.mb2, t.fw6, FontClassNames.semibold)}
               style={{
                 fontSize: 16,
-                fontWeight: FontWeights.semibold,
+                fontWeight: FontWeights.semibold
               }}
             >
               {successDialogTitle}
             </span>
           ),
           type: DialogType.normal,
-          showCloseButton: false,
+          showCloseButton: false
         }}
         modalProps={{
-          isBlocking: true,
+          isBlocking: true
         }}
       >
-        <Stack styles={{ root: { height: '100%', minHeight: 500 } }}>
+        <Stack styles={{ root: { height: "100%", minHeight: 500 } }}>
           {!openJobDetail && !openPublish && <SuccessJobList />}
           {openJobDetail && <JobDetail />}
           {openPublish && <PublishView />}
         </Stack>
         {!openJobDetail && !openPublish && (
           <DialogFooter>
-            <PrimaryButton onClick={onPublish} text='Publish' />
-            <DefaultButton onClick={closeDialog} text='Cancel' />
+            <PrimaryButton onClick={onPublish} text="Publish" />
+            <DefaultButton onClick={closeDialog} text="Cancel" />
           </DialogFooter>
         )}
         {openJobDetail && (
           <DialogFooter>
-            <DefaultButton onClick={onBack} text='Back' />
-            <PrimaryButton onClick={onPublish} text='Publish' />
+            <DefaultButton onClick={onBack} text="Back" />
+            <PrimaryButton onClick={onPublish} text="Publish" />
           </DialogFooter>
         )}
         {openPublish && (
           <DialogFooter>
-            <PrimaryButton onClick={onConfirm} text='Confirm' />
-            <DefaultButton onClick={closePublishView} text='Cancel' />
+            <PrimaryButton onClick={onConfirm} text="Confirm" />
+            <DefaultButton onClick={closePublishView} text="Cancel" />
           </DialogFooter>
         )}
       </Dialog>
@@ -311,7 +306,7 @@ const SuccessJobsDialog = props => {
 
 SuccessJobsDialog.propTypes = {
   hideDialog: PropTypes.bool,
-  setHideDialog: PropTypes.func,
+  setHideDialog: PropTypes.func
 };
 
 export default SuccessJobsDialog;

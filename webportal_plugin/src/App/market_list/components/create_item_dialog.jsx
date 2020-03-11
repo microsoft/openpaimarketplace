@@ -22,6 +22,7 @@ import { TagBar } from "../../components/tag_bar";
 import ImportYamlFile from "./import_yaml_file";
 import Context from "../context";
 import { MARKETPLACE_API } from "../../utils/constants";
+import yaml from "js-yaml";
 
 export default function CreateItemDialog(props) {
   const { hideDialog, setHideDialog } = props;
@@ -53,6 +54,7 @@ export default function CreateItemDialog(props) {
       alert("description required");
       return false;
     }
+    console.log(yamlText);
     if (isNil(yamlText)) {
       alert("yaml file required");
       return false;
@@ -66,18 +68,16 @@ export default function CreateItemDialog(props) {
     }
     setHideDialog(true);
 
-    const marketItem = new MarketItem(
-      uuid4(),
-      name,
-      user,
-      category,
-      tags,
-      introduction,
-      description,
-      yamlText,
-      0,
-      0
-    );
+    const marketItem = new MarketItem({
+      id: uuid4(),
+      name: name,
+      author: user,
+      category: category,
+      tags: tags,
+      introduction: introduction,
+      description: description,
+      jobConfig: yaml.safeLoad(yamlText)
+    });
     const itemId = await createMarketItem(marketItem);
     // refresh market-detail.html
     window.location.href = `/market-detail.html?itemId=${itemId}`;
@@ -175,8 +175,6 @@ export default function CreateItemDialog(props) {
         introduction: marketItem.introduction,
         description: marketItem.description,
         jobConfig: marketItem.jobConfig,
-        submits: marketItem.submits,
-        starNumber: marketItem.stars,
         tags: marketItem.tags,
         status: marketItem.status
       })

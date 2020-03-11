@@ -27,10 +27,9 @@ import "regenerator-runtime/runtime";
 import "whatwg-fetch";
 
 import React, { useState, useEffect } from "react";
-import { initializeIcons, Fabric, Stack } from "office-ui-fabric-react";
+import { Fabric, Stack } from "office-ui-fabric-react";
 import { isNil } from "lodash";
 
-import { initTheme } from "../components/theme";
 import { TopBar } from "./components/top_bar";
 import { CategorySideBar } from "./components/category_side_bar";
 import { FilterBar } from "./components/filter_bar";
@@ -42,11 +41,8 @@ import Paginator from "./components/paginator";
 import Pagination from "./pagination";
 import { MARKETPLACE_API } from "../utils/constants";
 
-initTheme();
-initializeIcons();
-
 const MarketList = props => {
-  const { api, user, token } = props;
+  const { api, user, token, history } = props;
 
   const [itemList, setItemList] = useState([]);
   const [filteredItems, setFilteredItems] = useState(null);
@@ -76,21 +72,21 @@ const MarketList = props => {
     try {
       const items = await fetchMarketItemList();
       items.forEach(item => {
-        const marketItem = new MarketItem(
-          item.id,
-          item.name,
-          item.author,
-          item.createdAt,
-          item.updatedAt,
-          item.category,
-          item.tags,
-          item.introduction,
-          item.description,
-          item.jobConfig,
-          item.submits,
-          item.starNumber,
-          item.status
-        );
+        const marketItem = new MarketItem({
+          id: item.id,
+          name: item.name,
+          author: item.author,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+          category: item.category,
+          tags: item.tags,
+          introduction: item.introduction,
+          description: item.description,
+          jobConfig: item.jobConfig,
+          submits: item.submits,
+          starNumber: item.starNumber,
+          status: item.status
+        });
         nextState.itemList.push(marketItem);
       });
 
@@ -109,19 +105,20 @@ const MarketList = props => {
     setPagination,
     api,
     user,
-    token
+    token,
+    history
   };
 
   return (
     <Context.Provider value={context}>
       <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1200 }}>
         <Stack padding="l1" gap="l1">
-          <TopBar />
+          {/* <TopBar /> */}
           <Stack horizontal gap="l2">
             <CategorySideBar />
             <Stack.Item grow>
               <Stack gap="s" styles={{ root: [{ minWidth: 0 }] }}>
-                <FilterBar />
+                {/* <FilterBar /> */}
                 {/* <ItemListScroller /> */}
                 <ItemList />
               </Stack>

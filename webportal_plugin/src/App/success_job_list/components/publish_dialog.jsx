@@ -14,9 +14,9 @@
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-import uuid4 from 'uuid/v4';
-import PropTypes from 'prop-types';
-import React, { useState, useCallback, useContext } from 'react';
+import uuid4 from "uuid/v4";
+import PropTypes from "prop-types";
+import React, { useState, useCallback, useContext } from "react";
 import {
   DefaultButton,
   PrimaryButton,
@@ -28,53 +28,53 @@ import {
   Stack,
   FontSizes,
   FontWeights,
-  Text,
-} from 'office-ui-fabric-react';
-import { getTheme } from '@uifabric/styling';
-import { isNil } from 'lodash';
-import yaml from 'js-yaml';
+  Text
+} from "office-ui-fabric-react";
+import { getTheme } from "@uifabric/styling";
+import { isNil } from "lodash";
+import yaml from "js-yaml";
 
-import { createMarketItem } from '../utils/conn';
-import { MarketItem } from '../../models/market-item';
-import { TagBar } from '../../components/tag_bar';
-import PreviewYamlFile from '../components/preview-yamlFile';
-import Context from '../context';
+import { createMarketItem } from "../utils/conn";
+import { MarketItem } from "../../models/market-item";
+import { TagBar } from "../../components/tag_bar";
+import PreviewYamlFile from "../components/preview-yamlFile";
+import Context from "../context";
 
 const PublishDialog = props => {
   const { spacing } = getTheme();
 
   const { currentJob, currentJobConfig, setOpenJobDetail } = useContext(
-    Context,
+    Context
   );
 
   const { hideDialog, setHideDialog } = props;
 
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('custom');
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("custom");
   const [tags, setTags] = useState([]);
-  const [introduction, setIntroduction] = useState('');
-  const [description, setDescription] = useState('');
+  const [introduction, setIntroduction] = useState("");
+  const [description, setDescription] = useState("");
 
   const CATEGORY_OPTIONS = [
-    { key: 'custom', text: 'custom' },
-    { key: 'official', text: 'official' },
+    { key: "custom", text: "custom" },
+    { key: "official", text: "official" }
   ];
 
   const checkRequired = () => {
-    if (name === '') {
-      alert('Title required');
+    if (name === "") {
+      alert("Title required");
       return false;
     }
-    if (introduction === '') {
-      alert('introduction required');
+    if (introduction === "") {
+      alert("introduction required");
       return false;
     }
-    if (description === '') {
-      alert('description required');
+    if (description === "") {
+      alert("description required");
       return false;
     }
     if (isNil(currentJobConfig)) {
-      alert('yaml file required');
+      alert("yaml file required");
       return false;
     }
     return true;
@@ -88,20 +88,16 @@ const PublishDialog = props => {
     setHideDialog(true);
 
     // post a marketitem
-    const marketItem = new MarketItem(
-      uuid4(),
-      name,
-      cookies.get('user'),
-      new Date(),
-      new Date(),
-      category,
-      tags,
-      introduction,
-      description,
-      yaml.safeDump(currentJobConfig),
-      0,
-      0,
-    );
+    const marketItem = new MarketItem({
+      id: uuid4(),
+      name: name,
+      author: cookies.get("user"),
+      category: category,
+      tags: tags,
+      introduction: introduction,
+      description: description,
+      jobConfig: yaml.safeDump(currentJobConfig)
+    });
     const itemId = await createMarketItem(marketItem);
     // refresh market-detail.html
     window.location.href = `/market-detail.html?itemId=${itemId}`;
@@ -126,21 +122,21 @@ const PublishDialog = props => {
               root: {
                 fontSize: FontSizes.large,
                 fontWeight: FontWeights.semibold,
-                paddingBottom: spacing.m,
-              },
+                paddingBottom: spacing.m
+              }
             }}
           >
             Publish Job [{!isNil(currentJob) && currentJob.name}] to Marketplace
           </Text>
-        ),
+        )
       }}
       modalProps={{
-        isBlocking: true,
+        isBlocking: true
       }}
     >
-      <Stack gap='m'>
+      <Stack gap="m">
         <TextField
-          label='Name'
+          label="Name"
           value={name}
           onChange={e => {
             setName(e.target.value);
@@ -148,18 +144,18 @@ const PublishDialog = props => {
           required
         />
         <Dropdown
-          label='Category'
+          label="Category"
           options={CATEGORY_OPTIONS}
-          defaultSelectedKey={'custom'}
+          defaultSelectedKey={"custom"}
           onChange={(e, item) => setCategory(item.text)}
           required
         />
-        <Stack gap='s1'>
+        <Stack gap="s1">
           <span>Tags</span>
           <TagBar tags={tags} setTags={setTags} />
         </Stack>
         <TextField
-          label='Introduction'
+          label="Introduction"
           value={introduction}
           onChange={e => {
             setIntroduction(e.target.value);
@@ -167,13 +163,13 @@ const PublishDialog = props => {
           required
         />
         <TextField
-          label='Author'
-          value={cookies.get('user')}
+          label="Author"
+          value={cookies.get("user")}
           disabled
           required
         />
         <TextField
-          label='Description'
+          label="Description"
           value={description}
           multiline
           rows={20}
@@ -185,8 +181,8 @@ const PublishDialog = props => {
         <PreviewYamlFile />
       </Stack>
       <DialogFooter>
-        <PrimaryButton onClick={onConfirm} text='Confirm' />
-        <DefaultButton onClick={closeDialog} text='Cancel' />
+        <PrimaryButton onClick={onConfirm} text="Confirm" />
+        <DefaultButton onClick={closeDialog} text="Cancel" />
       </DialogFooter>
     </Dialog>
   );
@@ -194,7 +190,7 @@ const PublishDialog = props => {
 
 PublishDialog.propTypes = {
   hideDialog: PropTypes.bool.isRequired,
-  setHideDialog: PropTypes.func.isRequired,
+  setHideDialog: PropTypes.func.isRequired
 };
 
 export default PublishDialog;

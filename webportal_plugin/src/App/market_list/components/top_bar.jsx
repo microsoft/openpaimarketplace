@@ -44,12 +44,12 @@ export const TopBar = React.memo(() => {
           }}
         />
       </Stack>
+      {/* <CreateItemDialog hideDialog={hideCreateDialog} setHideDialog={setHideCreateDialog} /> */}
       <SuccessJobsDialog
         hideDialog={hideJobListDialog}
         setHideDialog={setHideJobListDialog}
         api={api}
       />
-      <CreateItemDialog hideDialog={hideCreateDialog} setHideDialog={setHideCreateDialog} />
     </Stack>
   );
 });
