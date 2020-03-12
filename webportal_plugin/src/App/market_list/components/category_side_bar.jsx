@@ -1,12 +1,11 @@
 
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Stack, Text, Checkbox, FontWeights } from 'office-ui-fabric-react';
 
-import Context from '../../context';
-import Filter from '../../filter';
+import Filter from '../../models/filter';
 
-export const CategorySideBar = () => {
-  const { filter, setFilter } = useContext(Context);
+export const CategorySideBar = (props) => {
+  const { filter, setFilter } = props;
 
   const changeCustomCheckbox = useCallback((event, isChecked) => {
     const { keyword, authors, official } = filter;

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Stack,
   Link,
@@ -12,12 +12,11 @@ import { FontClassNames } from '@uifabric/styling';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { isNil } from 'lodash';
 
-import Context from '../../context';
-import Filter from '../../filter';
+import Filter from '../../models/filter';
 import ItemCard from './item_card';
 
-export const ItemList = () => {
-  const { filteredItems, setFilter, pagination } = useContext(Context);
+export const ItemList = (props) => {
+  const { filteredItems, setFilter, pagination } = props;
 
   if (isNil(filteredItems)) {
     return <Stack> </Stack>;

@@ -39,11 +39,10 @@ import { MarketItem } from "../models/market_item";
 import { MARKETPLACE_API } from "../utils/constants";
 
 const MarketDetail = props => {
-  const { api, history } = props;
+  const { api, user, history } = props;
 
   const [loading, setLoading] = useState(true);
   const [marketItem, setMarketItem] = useState(null);
-  // load marketItem, taskRoles, jobConfig, jobDescription
   useEffect(() => {
     reload();
   }, []);
@@ -70,6 +69,7 @@ const MarketDetail = props => {
 
   const context = {
     marketItem,
+    user,
     api,
     history
   };
@@ -81,7 +81,7 @@ const MarketDetail = props => {
         <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1050 }}>
           <div className={classNames(t.w100, t.pa4, FontClassNames.medium)}>
             <Top />
-            <Summary />
+            <Summary marketItem={marketItem}/>
             <Detail />
           </div>
         </Fabric>

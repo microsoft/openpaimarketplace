@@ -1,4 +1,3 @@
-
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import "whatwg-fetch";
@@ -13,9 +12,9 @@ import { FilterBar } from "./components/filter_bar";
 import { ItemList } from "./components/item_list";
 import { MarketItem } from "../models/market_item";
 import Context from "../context";
-import Filter from "../filter";
-import Paginator from "./components/paginator";
-import Pagination from "../pagination";
+import Filter from "../models/filter";
+import Paginator from "../components/paginator";
+import Pagination from "../models/pagination";
 import { MARKETPLACE_API } from "../utils/constants";
 
 const MarketList = props => {
@@ -39,7 +38,7 @@ const MarketList = props => {
   }, []);
 
   async function reload() {
-    let itemList = []
+    let itemList = [];
     try {
       const items = await fetchMarketItemList();
       items.forEach(item => {
@@ -68,12 +67,6 @@ const MarketList = props => {
   }
 
   const context = {
-    itemList,
-    filteredItems, // used in <ItemList>
-    filter, // changed in <SearchBox>
-    setFilter, // used in <SearchBox>
-    pagination,
-    setPagination,
     api,
     user,
     token,
@@ -86,14 +79,27 @@ const MarketList = props => {
         <Stack padding="l1" gap="l1">
           <TopBar />
           <Stack horizontal gap="l2">
-            <CategorySideBar />
+            <CategorySideBar filter={filter} setFilter={setFilter} />
             <Stack.Item grow>
               <Stack gap="s" styles={{ root: [{ minWidth: 0 }] }}>
-                <FilterBar />
-                <ItemList />
+                <FilterBar
+                  itemList={itemList}
+                  filteredItems={filteredItems}
+                  filter={filter}
+                  setFilter={setFilter}
+                />
+                <ItemList
+                  filteredItems={filteredItems}
+                  setFilter={setFilter}
+                  pagination={pagination}
+                />
               </Stack>
               {!isNil(filteredItems) && filteredItems.length > 5 && (
-                <Paginator />
+                <Paginator
+                  items={filteredItems}
+                  pagination={pagination}
+                  setPagination={setPagination}
+                />
               )}
             </Stack.Item>
           </Stack>
@@ -108,9 +114,9 @@ const MarketList = props => {
     if (res.ok) {
       const items = await res.json();
       // order by updateDate
-      // items.sort(function(a, b) {
-      //   return new Date(b.updatedAt) - new Date(a.updatedAt);
-      // });
+      items.sort(function(a, b) {
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+      });
       return items;
     } else {
       throw new Error(res.statusText);

@@ -1,5 +1,5 @@
 import { isNil, isEmpty } from 'lodash';
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import {
   getTheme,
   ColorClassNames,
@@ -10,13 +10,12 @@ import {
 } from 'office-ui-fabric-react';
 
 import FilterButton from './filter_button';
-import Context from '../../context';
-import Filter from '../../filter';
+import Filter from '../../models/filter';
 
-export const FilterBar = () => {
+export const FilterBar = (props) => {
   const { spacing } = getTheme();
 
-  const { itemList, filteredItems, filter, setFilter } = useContext(Context);
+  const { itemList, filteredItems, filter, setFilter } = props;
 
   const changeKeyword = useCallback(keyword => {
     const { authors, custom, official } = filter;

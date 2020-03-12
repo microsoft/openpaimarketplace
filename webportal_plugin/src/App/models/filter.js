@@ -17,11 +17,9 @@ class Filter {
 
   apply(itemList) {
     const { keyword, authors, custom, official } = this;
-    // before useEffect to load data.
     if (isNil(itemList)) {
       return null;
     }
-    // initial state
     if (
       keyword.length === 0 &&
       authors.size === 0 &&

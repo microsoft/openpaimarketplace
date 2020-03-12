@@ -1,29 +1,28 @@
-import React, { useContext, useCallback } from 'react';
-import { CommandBar } from 'office-ui-fabric-react';
-import { isNil } from 'lodash';
+import React, { useCallback } from "react";
+import { CommandBar } from "office-ui-fabric-react";
+import { isNil } from "lodash";
 
-import Pagination from '../../pagination';
-import Context from '../../context';
+import Pagination from "../models/pagination";
 
-export default function Paginator() {
-  const { filteredItems, pagination, setPagination } = useContext(Context);
+export default function Paginator(props) {
+  const { items, pagination, setPagination } = props;
 
   const { itemsPerPage, pageIndex } = pagination;
 
-  const allItemsNum = isNil(filteredItems) ? 0 : filteredItems.length;
+  const itemsCount = isNil(items) ? 0 : items.length;
   const maxPageIndex =
-    allItemsNum % itemsPerPage === 0
-      ? allItemsNum / itemsPerPage - 1
-      : Math.floor(allItemsNum / itemsPerPage);
+    itemsCount % itemsPerPage === 0
+      ? itemsCount / itemsPerPage - 1
+      : Math.floor(itemsCount / itemsPerPage);
 
   const start = itemsPerPage * pageIndex + 1;
-  const end = Math.min(start + itemsPerPage - 1, allItemsNum);
+  const end = Math.min(start + itemsPerPage - 1, itemsCount);
 
   const farItems = [];
 
   const buttonStyles = {
-    root: { backgroundColor: 'white' },
-    rootDisabled: { backgroundColor: 'white' },
+    root: { backgroundColor: "white" },
+    rootDisabled: { backgroundColor: "white" }
   };
 
   const setPage = useCallback(index => {
@@ -35,42 +34,42 @@ export default function Paginator() {
       key: `page-${index}`,
       text: String(index + 1),
       buttonStyles,
-      onClick: () => setPage(index),
+      onClick: () => setPage(index)
     };
   });
 
   // menu: items per page
   farItems.push({
-    key: 'itemsPerPage',
+    key: "itemsPerPage",
     text: `${itemsPerPage} items per page`,
     buttonStyles,
-    menuIconProps: { iconName: 'ChevronUp' },
+    menuIconProps: { iconName: "ChevronUp" },
     subMenuProps: {
       items: [1, 2, 5, 10, 15].map(number => ({
         key: number,
         text: String(number),
         onClick: (event, { key }) => {
           setPagination(new Pagination(key, 0));
-        },
-      })),
-    },
+        }
+      }))
+    }
   });
 
   // page items range
   farItems.push({
-    key: 'range',
-    text: `${start}-${end} of ${allItemsNum}`,
+    key: "range",
+    text: `${start}-${end} of ${itemsCount}`,
     buttonStyles,
-    disabled: true,
+    disabled: true
   });
 
   // ChevronLeft
   if (pageIndex !== 0) {
     farItems.push({
-      key: 'page-previous',
+      key: "page-previous",
       buttonStyles,
-      iconProps: { iconName: 'ChevronLeft' },
-      onClick: () => setPage(pageIndex - 1),
+      iconProps: { iconName: "ChevronLeft" },
+      onClick: () => setPage(pageIndex - 1)
     });
   }
   // previous tabs
@@ -82,10 +81,10 @@ export default function Paginator() {
     farItems.push(getPageButton(0));
     farItems.push(getPageButton(1));
     farItems.push({
-      key: 'page-ellipsis-left',
-      text: '...',
+      key: "page-ellipsis-left",
+      text: "...",
       buttonStyles,
-      disabled: true,
+      disabled: true
     });
     farItems.push(getPageButton(pageIndex - 1));
   }
@@ -96,17 +95,17 @@ export default function Paginator() {
     text: `${pageIndex + 1}`,
     buttonStyles,
     checked: true,
-    onClick: () => () => setPage(pageIndex),
+    onClick: () => () => setPage(pageIndex)
   });
 
   // after pageIndex
   if (maxPageIndex - pageIndex > 3) {
     farItems.push(getPageButton(pageIndex + 1));
     farItems.push({
-      key: 'page-ellipsis-right',
-      text: '...',
+      key: "page-ellipsis-right",
+      text: "...",
       buttonStyles,
-      disabled: true,
+      disabled: true
     });
     farItems.push(getPageButton(maxPageIndex - 1));
     farItems.push(getPageButton(maxPageIndex));
@@ -119,17 +118,17 @@ export default function Paginator() {
   // ChevronRight
   if (pageIndex < maxPageIndex) {
     farItems.push({
-      key: 'page-next',
+      key: "page-next",
       buttonStyles,
-      iconProps: { iconName: 'ChevronRight' },
-      onClick: () => setPage(pageIndex + 1),
+      iconProps: { iconName: "ChevronRight" },
+      onClick: () => setPage(pageIndex + 1)
     });
   }
 
   return (
     <CommandBar
       farItems={farItems}
-      styles={{ root: { backgroundColor: 'white' } }}
+      styles={{ root: { backgroundColor: "white" } }}
     />
   );
 }

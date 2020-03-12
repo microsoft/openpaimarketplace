@@ -15,26 +15,33 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import { FontClassNames, getTheme } from '@uifabric/styling';
-import c from 'classnames';
-import { DefaultButton, PrimaryButton, Stack, FontWeights, Text } from 'office-ui-fabric-react';
-import React, { useState, useEffect, useContext, useCallback } from 'react';
-import t from '../../components/tachyons.scss';
-import Card from './card';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
-import yaml from 'js-yaml';
-import { isNil } from 'lodash';
+import { FontClassNames, getTheme } from "@uifabric/styling";
+import c from "classnames";
+import {
+  DefaultButton,
+  PrimaryButton,
+  Stack,
+  FontWeights,
+  Text
+} from "office-ui-fabric-react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
+import t from "../../components/tachyons.scss";
+import Card from "./card";
+import { Icon } from "office-ui-fabric-react/lib/Icon";
+import { TooltipHost } from "office-ui-fabric-react/lib/Tooltip";
+import yaml from "js-yaml";
+import { isNil } from "lodash";
 
-import EditMarketItem from './edit_market_item';
-import DeleteMarketItem from './delete_market_item';
-import Context from '../context';
-import { TagBar } from '../../components/tag_bar';
+import EditMarketItem from "./edit_market_item";
+import DeleteMarketItem from "./delete_market_item";
+import Context from "../context";
+import { TagBar } from "../../components/tag_bar";
 
 const { spacing } = getTheme();
 
-export default function Summary() {
-  const { marketItem, api } = useContext(Context);
+export default function Summary(props) {
+  const { marketItem } = props;
+  const { api, user } = useContext(Context);
 
   const [hideDialog, setHideDialog] = useState(true);
   const [hideDeleteDialog, setHideDeleteDialog] = useState(true);
@@ -46,7 +53,7 @@ export default function Summary() {
     async function fetchStarRelationWrapper() {
       const status = await fetchStarRelation(
         marketItem.id,
-        cookies.get('user'),
+        user
       );
       if (status) {
         setStared(true);
@@ -61,20 +68,20 @@ export default function Summary() {
     if (stared) {
       setStars(stars - 1);
       setStared(false);
-      deleteStarRelation(marketItem.id, cookies.get('user'));
+      deleteStarRelation(marketItem.id, cookies.get("user"));
       marketItem.stars -= 1;
     } else {
       setStars(stars + 1);
       setStared(true);
-      addStarRelation(marketItem.id, cookies.get('user'));
+      addStarRelation(marketItem.id, cookies.get("user"));
       marketItem.stars += 1;
     }
   });
 
   const clickSubmit = useCallback(e => {
     // save jobConfig to localStorage
-    window.localStorage.removeItem('marketItem');
-    window.localStorage.setItem('marketItem', JSON.stringify(marketItem));
+    window.localStorage.removeItem("marketItem");
+    window.localStorage.setItem("marketItem", JSON.stringify(marketItem));
     cloneJob();
   });
 
@@ -96,34 +103,34 @@ export default function Summary() {
   return (
     <div
       style={{
-        marginTop: spacing.m,
+        marginTop: spacing.m
       }}
     >
       {/* summary */}
       <Card className={c(t.pv4, t.ph5)}>
-        <Stack gap={'l1'}>
+        <Stack gap={"l1"}>
           {/* summary-row-1 */}
           <Text
             styles={{
               root: {
                 fontSize: 16,
-                fontWeight: FontWeights.semibold,
-              },
+                fontWeight: FontWeights.semibold
+              }
             }}
           >
             {marketItem.name}
           </Text>
           {/* summary-row-2 */}
-          <Stack horizontal gap={'m'}>
-            <TooltipHost content='Author'>
-              <Stack horizontal gap='s1'>
-                <Icon iconName='Contact' />
+          <Stack horizontal gap={"m"}>
+            <TooltipHost content="Author">
+              <Stack horizontal gap="s1">
+                <Icon iconName="Contact" />
                 <Text
                   styles={{
                     root: {
                       fontSize: 14,
-                      fontWeight: FontWeights.regular,
-                    },
+                      fontWeight: FontWeights.regular
+                    }
                   }}
                 >
                   {marketItem.author}
@@ -131,42 +138,42 @@ export default function Summary() {
               </Stack>
             </TooltipHost>
             <Stack className={c(t.gray, FontClassNames.medium)}>
-              <TooltipHost content='submits'>
-                <Stack horizontal gap={'s1'}>
-                  <Icon iconName='Copy' />
+              <TooltipHost content="submits">
+                <Stack horizontal gap={"s1"}>
+                  <Icon iconName="Copy" />
                   <Text
                     styles={{
                       root: {
                         fontSize: 14,
-                        fontWeight: FontWeights.regular,
-                      },
+                        fontWeight: FontWeights.regular
+                      }
                     }}
-                  >                    
+                  >
                     {marketItem.submits}
                   </Text>
                 </Stack>
               </TooltipHost>
             </Stack>
             <Stack className={c(t.gray, FontClassNames.medium)}>
-              <TooltipHost content='stars'>
-                <Stack horizontal gap={'s'}>
+              <TooltipHost content="stars">
+                <Stack horizontal gap={"s"}>
                   <button
                     onClick={clickLike}
-                    style={{ backgroundColor: 'Transparent', border: 'none' }}
+                    style={{ backgroundColor: "Transparent", border: "none" }}
                   >
                     {stared && (
-                      <Icon iconName='Like' className={{ color: 'gold' }} />
+                      <Icon iconName="Like" className={{ color: "gold" }} />
                     )}
-                    {!stared && <Icon iconName='Like' />}
+                    {!stared && <Icon iconName="Like" />}
                   </button>
                   <Text
                     styles={{
                       root: {
                         fontSize: 14,
-                        fontWeight: FontWeights.regular,
-                      },
+                        fontWeight: FontWeights.regular
+                      }
                     }}
-                  >              
+                  >
                     {stars}
                   </Text>
                 </Stack>
@@ -178,24 +185,24 @@ export default function Summary() {
           {/* summary-row-4 */}
           <TagBar tags={marketItem.tags} />
           {/* summary-row-5 */}
-          <Stack horizontal gap='m'>
-            <PrimaryButton 
-              text='Submit'
+          <Stack horizontal gap="m">
+            <PrimaryButton
+              text="Submit"
               styles={{
                 root: {
                   fontSize: 14,
-                  fontWeight: FontWeights.regular,
-                },
+                  fontWeight: FontWeights.regular
+                }
               }}
-              onClick={clickSubmit} 
+              onClick={clickSubmit}
             />
             <DefaultButton
-              text='Edit'
+              text="Edit"
               styles={{
                 root: {
                   fontSize: 14,
-                  fontWeight: FontWeights.regular,
-                },
+                  fontWeight: FontWeights.regular
+                }
               }}
               onClick={e => {
                 setHideDialog(false);
@@ -206,12 +213,12 @@ export default function Summary() {
               setHideDialog={setHideDialog}
             />
             <DefaultButton
-              text='Delete'
+              text="Delete"
               styles={{
                 root: {
                   fontSize: 14,
-                  fontWeight: FontWeights.regular,
-                },
+                  fontWeight: FontWeights.regular
+                }
               }}
               onClick={e => {
                 setHideDeleteDialog(false);
@@ -220,6 +227,7 @@ export default function Summary() {
             <DeleteMarketItem
               hideDeleteDialog={hideDeleteDialog}
               setHideDeleteDialog={setHideDeleteDialog}
+              marketItem={marketItem}
             />
           </Stack>
         </Stack>
@@ -231,18 +239,18 @@ export default function Summary() {
     const url = `${api}/api/v2/user/${userName}/starItems/${itemId}`;
     const res = await fetch(url);
     const json = await res.json();
-  
+
     if (res.ok) {
       return json;
     } else {
       throw new Error(json);
     }
   }
-  
+
   async function addStarRelation(itemId, userName) {
     const url = `${api}/api/v2/user/${userName}/starItems/${itemId}`;
     const res = await fetch(url, {
-      method: 'PUT',
+      method: "PUT"
     });
     const text = await res.text();
     if (res.ok) {
@@ -251,11 +259,11 @@ export default function Summary() {
       throw new Error(text);
     }
   }
-  
+
   async function deleteStarRelation(itemId, userName) {
     const url = `${api}/api/v2/user/${userName}/starItems/${itemId}`;
     const res = await fetch(url, {
-      method: 'DELETE',
+      method: "DELETE"
     });
     const text = await res.text();
     if (res.ok) {
@@ -263,5 +271,5 @@ export default function Summary() {
     } else {
       throw new Error(text);
     }
-  }  
+  }
 }

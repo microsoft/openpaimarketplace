@@ -31,8 +31,8 @@ import {
 import Context from '../context';
 
 export default function DeleteMarketItem(props) {
-  const { hideDeleteDialog, setHideDeleteDialog } = props;
-  const { api, marketItem, history } = useContext(Context);
+  const { hideDeleteDialog, setHideDeleteDialog, marketItem } = props;
+  const { api, history } = useContext(Context);
 
   async function onConfirm() {
     setHideDeleteDialog(true);

@@ -20,7 +20,7 @@ const App = props => {
         />
         <Route
           path={`/market_detail`}
-          render={({history}) => <MarketDetail api={api} history={history} />}
+          render={({history}) => <MarketDetail api={api} user={user} history={history} />}
         />
       </Router>
     </Fabric>
