@@ -1,4 +1,3 @@
-import uuid4 from "uuid/v4";
 import PropTypes from "prop-types";
 import React, { useState, useCallback, useContext } from "react";
 import {
@@ -20,13 +19,13 @@ import { isNil } from "lodash";
 import { MarketItem } from "../../models/market_item";
 import { TagBar } from "../../components/tag_bar";
 import ImportYamlFile from "./import_yaml_file";
-import Context from "../context";
+import Context from "../../context";
 import { MARKETPLACE_API } from "../../utils/constants";
 import yaml from "js-yaml";
 
 export default function CreateItemDialog(props) {
   const { hideDialog, setHideDialog } = props;
-  const { user } = useContext(Context);
+  const { user, history } = useContext(Context);
   const { spacing } = getTheme();
 
   const [name, setName] = useState("");
@@ -34,7 +33,7 @@ export default function CreateItemDialog(props) {
   const [tags, setTags] = useState([]);
   const [introduction, setIntroduction] = useState("");
   const [description, setDescription] = useState("");
-  const [yamlText, setYamlText] = useState();
+  const [yamlText, setYamlText] = useState(null);
 
   const CATEGORY_OPTIONS = [
     { key: "custom", text: "custom" },
@@ -54,7 +53,6 @@ export default function CreateItemDialog(props) {
       alert("description required");
       return false;
     }
-    console.log(yamlText);
     if (isNil(yamlText)) {
       alert("yaml file required");
       return false;
@@ -69,7 +67,6 @@ export default function CreateItemDialog(props) {
     setHideDialog(true);
 
     const marketItem = new MarketItem({
-      id: uuid4(),
       name: name,
       author: user,
       category: category,
@@ -79,12 +76,17 @@ export default function CreateItemDialog(props) {
       jobConfig: yaml.safeLoad(yamlText)
     });
     const itemId = await createMarketItem(marketItem);
-    // refresh market-detail.html
-    window.location.href = `/market-detail.html?itemId=${itemId}`;
+    history.push(`/market_detail?itemId=${itemId}`);
   };
 
   const closeDialog = useCallback(() => {
     setHideDialog(true);
+    setName("");
+    setCategory("");
+    setTags([]);
+    setIntroduction("");
+    setDescription("");
+    setYamlText(null);
   });
 
   return (
@@ -181,7 +183,7 @@ export default function CreateItemDialog(props) {
     });
     if (res.ok) {
       const result = await res.json();
-      return result;
+      return result.id;
     } else {
       throw new Error(res.statusText);
     }

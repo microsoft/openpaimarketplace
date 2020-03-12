@@ -12,8 +12,8 @@ import { FontClassNames } from '@uifabric/styling';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { isNil } from 'lodash';
 
-import Context from '../context';
-import Filter from '../filter';
+import Context from '../../context';
+import Filter from '../../filter';
 import ItemCard from './item_card';
 
 export const ItemList = () => {

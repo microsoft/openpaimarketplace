@@ -6,15 +6,24 @@ const modelSyncHandler = require("./model_init_handler");
 class MarketplaceItem {
   constructor(sequelize, DataTypes) {
     this.orm = sequelize.define("MarketplaceItem", {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+      },
       name: DataTypes.STRING,
       author: DataTypes.STRING,
-      category: DataTypes.ARRAY(DataTypes.STRING),
+      category: DataTypes.STRING,
       tags: DataTypes.ARRAY(DataTypes.STRING),
       introduction: DataTypes.STRING,
       description: DataTypes.TEXT,
       jobConfig: DataTypes.JSON, // TODO: protocol validation in the future
-      submits: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
-      starNumber: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
+      submits: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+      starNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
       status: DataTypes.ENUM("pending", "approved", "rejected")
     });
   }
@@ -50,12 +59,11 @@ class MarketplaceItem {
 
   async create(itemReq) {
     const handler = modelSyncHandler(async itemReq => {
-      itemReq.submits = 0;
-      itemReq.starNumber = 0;
       const item = await this.orm.create(itemReq);
+      return item.id
     });
 
-    await handler(itemReq, this.models);
+    return await handler(itemReq, this.models);
   }
 
   async get(itemId) {

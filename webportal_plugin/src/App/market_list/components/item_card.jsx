@@ -14,7 +14,7 @@ import { isNil } from "lodash";
 
 import { TagBar } from "../../components/tag_bar";
 import Card from "./card";
-import Context from "../context";
+import Context from "../../context";
 
 const { spacing } = getTheme();
 

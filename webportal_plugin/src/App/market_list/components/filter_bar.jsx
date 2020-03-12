@@ -10,8 +10,8 @@ import {
 } from 'office-ui-fabric-react';
 
 import FilterButton from './filter_button';
-import Context from '../context';
-import Filter from '../filter';
+import Context from '../../context';
+import Filter from '../../filter';
 
 export const FilterBar = () => {
   const { spacing } = getTheme();

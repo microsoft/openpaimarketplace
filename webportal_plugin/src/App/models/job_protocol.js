@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { jobProtocolSchema } from './protocol-schema';
+import { jobProtocolSchema } from './protocol_schema';
 
 import { get, isEmpty, cloneDeep } from 'lodash';
 import yaml from 'js-yaml';
 import Joi from 'joi-browser';
-import { removeEmptyProperties } from '../utils/utils';
-import { TaskRolesManager } from '../utils/task-roles-manager';
+import { removeEmptyProperties } from '../market_list/utils/utils';
+import { TaskRolesManager } from '../market_list/utils/task-roles-manager';
 
 export class JobProtocol {
   constructor(props) {

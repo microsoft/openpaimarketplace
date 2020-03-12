@@ -1,27 +1,4 @@
-/*
- * Copyright (c) Microsoft Corporation
- * All rights reserved.
- *
- * MIT License
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the 'Software'), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import "whatwg-fetch";
@@ -35,10 +12,10 @@ import { CategorySideBar } from "./components/category_side_bar";
 import { FilterBar } from "./components/filter_bar";
 import { ItemList } from "./components/item_list";
 import { MarketItem } from "../models/market_item";
-import Context from "./context";
-import Filter from "./filter";
+import Context from "../context";
+import Filter from "../filter";
 import Paginator from "./components/paginator";
-import Pagination from "./pagination";
+import Pagination from "../pagination";
 import { MARKETPLACE_API } from "../utils/constants";
 
 const MarketList = props => {
@@ -62,13 +39,7 @@ const MarketList = props => {
   }, []);
 
   async function reload() {
-    const nextState = {
-      loading: false,
-      reloading: false,
-      error: null,
-      itemList: []
-    };
-
+    let itemList = []
     try {
       const items = await fetchMarketItemList();
       items.forEach(item => {
@@ -87,10 +58,10 @@ const MarketList = props => {
           starNumber: item.starNumber,
           status: item.status
         });
-        nextState.itemList.push(marketItem);
+        itemList.push(marketItem);
       });
 
-      setItemList(nextState.itemList);
+      setItemList(itemList);
     } catch (err) {
       alert(err.message);
     }
@@ -113,15 +84,17 @@ const MarketList = props => {
     <Context.Provider value={context}>
       <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1200 }}>
         <Stack padding="l1" gap="l1">
-          {/* <TopBar /> */}
+          <TopBar />
           <Stack horizontal gap="l2">
             <CategorySideBar />
             <Stack.Item grow>
               <Stack gap="s" styles={{ root: [{ minWidth: 0 }] }}>
-                {/* <FilterBar /> */}
-                {/* <ItemListScroller /> */}
+                <FilterBar />
                 <ItemList />
               </Stack>
+              {!isNil(filteredItems) && filteredItems.length > 5 && (
+                <Paginator />
+              )}
             </Stack.Item>
           </Stack>
         </Stack>

@@ -2,8 +2,8 @@ import React, { useContext, useCallback } from 'react';
 import { CommandBar } from 'office-ui-fabric-react';
 import { isNil } from 'lodash';
 
-import Pagination from '../pagination';
-import Context from '../context';
+import Pagination from '../../pagination';
+import Context from '../../context';
 
 export default function Paginator() {
   const { filteredItems, pagination, setPagination } = useContext(Context);

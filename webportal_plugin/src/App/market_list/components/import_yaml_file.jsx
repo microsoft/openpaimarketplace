@@ -4,7 +4,7 @@ import { DefaultButton, Stack, Text } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
 
 
-import { JobProtocol } from '../models/job-protocol';
+import { JobProtocol } from '../../models/job_protocol';
 
 const ImportYamlFile = props => {
   const { setYamlText } = props;

@@ -1,13 +1,9 @@
-
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Stack, CommandButton, FontWeights } from "office-ui-fabric-react";
 
 import CreateItemDialog from "./create_item_dialog";
-import SuccessJobsDialog from "../../success_job_list/components/success_jobs_dialog";
-import Context from "../context";
 
 export const TopBar = React.memo(() => {
-  const { api } = useContext(Context);
   const [hideCreateDialog, setHideCreateDialog] = useState(true);
   const [hideJobListDialog, setHideJobListDialog] = useState(true);
   const menuProps = {
@@ -44,12 +40,15 @@ export const TopBar = React.memo(() => {
           }}
         />
       </Stack>
-      {/* <CreateItemDialog hideDialog={hideCreateDialog} setHideDialog={setHideCreateDialog} /> */}
-      <SuccessJobsDialog
+      <CreateItemDialog
+        hideDialog={hideCreateDialog}
+        setHideDialog={setHideCreateDialog}
+      />
+      {/* <SuccessJobsDialog
         hideDialog={hideJobListDialog}
         setHideDialog={setHideJobListDialog}
         api={api}
-      />
+      /> */}
     </Stack>
   );
 });
