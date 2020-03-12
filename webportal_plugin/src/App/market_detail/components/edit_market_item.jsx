@@ -1,21 +1,5 @@
-// Copyright (c) Microsoft Corporation
-// All rights reserved.
-//
-// MIT License
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-// documentation files (the "Software"), to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
-// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-// BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-import PropTypes from 'prop-types';
-import React, { useState, useContext, useCallback } from 'react';
+import PropTypes from "prop-types";
+import React, { useState, useCallback } from "react";
 import {
   DefaultButton,
   PrimaryButton,
@@ -28,17 +12,16 @@ import {
   FontSizes,
   FontWeights,
   Text,
-  getTheme,
-} from 'office-ui-fabric-react';
+  getTheme
+} from "office-ui-fabric-react";
 
-import Context from '../context';
-import { TagBar } from '../../components/tag_bar';
+import { TagBar } from "../../components/tag_bar";
+import { updateItem } from "../../utils/marketplace_api";
 
 const { spacing } = getTheme();
 
 export default function EditMarketItem(props) {
-  const { hideDialog, setHideDialog } = props;
-  const { marketItem, api, history } = useContext(Context);
+  const { hideDialog, setHideDialog, marketItem } = props;
 
   const [name, setName] = useState(marketItem.name);
   const [category, setCategory] = useState(marketItem.category);
@@ -47,35 +30,34 @@ export default function EditMarketItem(props) {
   const [description, setDescription] = useState(marketItem.description);
 
   const CATEGORY_OPTIONS = [
-    { key: 'custom', text: 'custom' },
-    { key: 'official', text: 'official' },
+    { key: "custom", text: "custom" },
+    { key: "official", text: "official" }
   ];
 
   const checkRequired = () => {
-    if (name === '') {
-      alert('Title required');
+    if (name === "") {
+      alert("Title required");
       return false;
     }
-    if (introduction === '') {
-      alert('introduction required');
+    if (introduction === "") {
+      alert("introduction required");
       return false;
     }
-    if (description === '') {
-      alert('description required');
+    if (description === "") {
+      alert("description required");
       return false;
     }
     return true;
   };
 
   async function onConfirm() {
-    // check required
     if (!checkRequired()) {
       return;
     }
     setHideDialog(true);
 
-    // connect to rest-server confirm edit
-    await updateMarketItem(
+    await updateItem(
+      marketItem.id,
       name,
       marketItem.author,
       category,
@@ -84,54 +66,14 @@ export default function EditMarketItem(props) {
       marketItem.jobConfig,
       marketItem.submits,
       marketItem.stars,
-      tags,
+      tags
     );
-    // refresh market-detail.html
-    //window.location.href = `/market-detail.html?itemId=${marketItem.id}`;
-    //history.push(`/market-detail?itemId=${marketItem.id}`);
     window.location.reload(true);
   }
 
   const closeDialog = useCallback(() => {
     setHideDialog(true);
   });
-
-  async function updateMarketItem(
-    name,
-    author,
-    category,
-    introduction,
-    description,
-    jobConfig,
-    submits,
-    starNumber,
-    tags,
-  ) {
-    const url = `${api}/api/v2/marketplace/items/${marketItem.id}`;
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: name,
-        author: author,
-        category: category,
-        introduction: introduction,
-        description: description,
-        jobConfig: jobConfig,
-        submits: submits,
-        starNumber: starNumber,
-        tags: tags,
-      }),
-    });
-    const text = await res.text();
-    if (res.ok) {
-      return text;
-    } else {
-      throw new Error(text);
-    }
-  }
 
   return (
     <Dialog
@@ -147,21 +89,21 @@ export default function EditMarketItem(props) {
               root: {
                 fontSize: FontSizes.large,
                 fontWeight: FontWeights.semibold,
-                paddingBottom: spacing.m,
-              },
+                paddingBottom: spacing.m
+              }
             }}
           >
             Edit MarketItem
           </Text>
-        ),
+        )
       }}
       modalProps={{
-        isBlocking: true,
+        isBlocking: true
       }}
     >
-      <Stack gap='m'>
+      <Stack gap="m">
         <TextField
-          label='Name'
+          label="Name"
           value={name}
           onChange={e => {
             setName(e.target.value);
@@ -169,7 +111,7 @@ export default function EditMarketItem(props) {
           required
         />
         <Dropdown
-          label='Category'
+          label="Category"
           options={CATEGORY_OPTIONS}
           defaultSelectedKey={category}
           onChange={(e, item) => {
@@ -177,21 +119,21 @@ export default function EditMarketItem(props) {
           }}
           required
         />
-        <Stack gap='s1'>
+        <Stack gap="s1">
           <span>Tags</span>
           <TagBar tags={tags} setTags={setTags} />
         </Stack>
         <TextField
-          label='Introduction'
+          label="Introduction"
           value={introduction}
           onChange={e => {
             setIntroduction(e.target.value);
           }}
           required
         />
-        <TextField label='Author' value={marketItem.author} disabled />
+        <TextField label="Author" value={marketItem.author} disabled />
         <TextField
-          label='Description'
+          label="Description"
           value={description}
           multiline
           rows={20}
@@ -202,8 +144,8 @@ export default function EditMarketItem(props) {
         />
       </Stack>
       <DialogFooter>
-        <PrimaryButton onClick={onConfirm} text='Confirm' />
-        <DefaultButton onClick={closeDialog} text='Cancel' />
+        <PrimaryButton onClick={onConfirm} text="Confirm" />
+        <DefaultButton onClick={closeDialog} text="Cancel" />
       </DialogFooter>
     </Dialog>
   );
@@ -212,4 +154,5 @@ export default function EditMarketItem(props) {
 EditMarketItem.propTypes = {
   hideDialog: PropTypes.bool.isRequired,
   setHideDialog: PropTypes.func.isRequired,
+  marketItem: PropTypes.object
 };

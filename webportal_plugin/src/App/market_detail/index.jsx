@@ -35,8 +35,7 @@ import Summary from "./components/summary";
 import Detail from "./components/detail";
 import Context from "./context";
 import { SpinnerLoading } from "../components/loading";
-import { MarketItem } from "../models/market_item";
-import { MARKETPLACE_API } from "../utils/constants";
+import { getItemById } from "../utils/marketplace_api";
 
 const MarketDetail = props => {
   const { api, user, history } = props;
@@ -48,23 +47,16 @@ const MarketDetail = props => {
   }, []);
 
   async function reload() {
-    const nextState = {
-      loading: false,
-      reloading: false,
-      marketItem: null,
-      error: null
-    };
-    const loadMarketItem = async () => {
-      try {
-        nextState.marketItem = await fetchMarketItem();
-      } catch (err) {
-        alert(err.message);
-      }
-    };
-    await loadMarketItem();
+    let marketItem;
+    try {
+      const itemId = window.localStorage.getItem("itemId");
+      marketItem = await getItemById(itemId);
+    } catch (err) {
+      alert(err.message);
+    }
     // update states
-    setMarketItem(nextState.marketItem);
-    setLoading(nextState.loading);
+    setMarketItem(marketItem);
+    setLoading(false);
   }
 
   const context = {
@@ -81,42 +73,13 @@ const MarketDetail = props => {
         <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1050 }}>
           <div className={classNames(t.w100, t.pa4, FontClassNames.medium)}>
             <Top />
-            <Summary marketItem={marketItem}/>
+            <Summary marketItem={marketItem} />
             <Detail />
           </div>
         </Fabric>
       )}
     </Context.Provider>
   );
-
-  async function fetchMarketItem() {
-    //const params = new URLSearchParams(window.location.search);
-    //const url = `${api}/api/v2/marketplace/items/${params.get('itemId')}`;
-    const itemId = window.localStorage.getItem("itemId");
-    const url = `${MARKETPLACE_API}/items/${itemId}`;
-    const res = await fetch(url);
-    if (res.ok) {
-      const result = await res.json();
-      const marketItem = new MarketItem({
-        id: result.id,
-        name: result.name,
-        author: result.author,
-        createdAt: result.createdAt,
-        updatedAt: result.updatedAt,
-        category: result.category,
-        tags: result.tags,
-        introduction: result.introduction,
-        description: result.description,
-        jobConfig: result.jobConfig,
-        submits: result.submits,
-        starNumber: result.starNumber,
-        status: result.status
-      });
-      return marketItem;
-    } else {
-      throw new Error(res.statusText);
-    }
-  }
 };
 
 export default MarketDetail;

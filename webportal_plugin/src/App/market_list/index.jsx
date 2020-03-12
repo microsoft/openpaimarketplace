@@ -15,7 +15,7 @@ import Context from "../context";
 import Filter from "../models/filter";
 import Paginator from "../components/paginator";
 import Pagination from "../models/pagination";
-import { MARKETPLACE_API } from "../utils/constants";
+import { getItems, ensureUser } from "../utils/marketplace_api";
 
 const MarketList = props => {
   const { api, user, token, history } = props;
@@ -40,7 +40,8 @@ const MarketList = props => {
   async function reload() {
     let itemList = [];
     try {
-      const items = await fetchMarketItemList();
+      await ensureUser(user);
+      const items = await getItems();
       items.forEach(item => {
         const marketItem = new MarketItem({
           id: item.id,
@@ -107,21 +108,6 @@ const MarketList = props => {
       </Fabric>
     </Context.Provider>
   );
-
-  async function fetchMarketItemList() {
-    const url = `${MARKETPLACE_API}/items`;
-    const res = await fetch(url);
-    if (res.ok) {
-      const items = await res.json();
-      // order by updateDate
-      items.sort(function(a, b) {
-        return new Date(b.updatedAt) - new Date(a.updatedAt);
-      });
-      return items;
-    } else {
-      throw new Error(res.statusText);
-    }
-  }
 };
 
 export default MarketList;

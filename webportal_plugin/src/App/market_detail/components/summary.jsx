@@ -36,25 +36,26 @@ import EditMarketItem from "./edit_market_item";
 import DeleteMarketItem from "./delete_market_item";
 import Context from "../context";
 import { TagBar } from "../../components/tag_bar";
+import {
+  getStarStatus,
+  deleteStar,
+  addStar
+} from "../../utils/marketplace_api";
 
 const { spacing } = getTheme();
 
 export default function Summary(props) {
   const { marketItem } = props;
-  const { api, user } = useContext(Context);
+  const { user } = useContext(Context);
 
   const [hideDialog, setHideDialog] = useState(true);
   const [hideDeleteDialog, setHideDeleteDialog] = useState(true);
-  const [stars, setStars] = useState(marketItem.stars);
+  const [starNumber, setStarNumber] = useState(marketItem.starNumber);
   const [stared, setStared] = useState(false);
 
-  // fetch starRelation of marketItem and user
   useEffect(() => {
     async function fetchStarRelationWrapper() {
-      const status = await fetchStarRelation(
-        marketItem.id,
-        user
-      );
+      const status = await getStarStatus(user, marketItem.id);
       if (status) {
         setStared(true);
       } else {
@@ -64,17 +65,15 @@ export default function Summary(props) {
     fetchStarRelationWrapper();
   }, []);
 
-  const clickLike = useCallback(e => {
+  const clickStar = useCallback(async () => {
     if (stared) {
-      setStars(stars - 1);
+      await deleteStar(user, marketItem.id);
       setStared(false);
-      deleteStarRelation(marketItem.id, cookies.get("user"));
-      marketItem.stars -= 1;
+      setStarNumber(starNumber - 1);
     } else {
-      setStars(stars + 1);
+      await addStar(user, marketItem.id);
       setStared(true);
-      addStarRelation(marketItem.id, cookies.get("user"));
-      marketItem.stars += 1;
+      setStarNumber(starNumber + 1);
     }
   });
 
@@ -86,7 +85,7 @@ export default function Summary(props) {
   });
 
   const cloneJob = () => {
-    const jobConfig = yaml.safeLoad(marketItem.jobConfig);
+    const jobConfig = marketItem.jobConfig;
     if (isJobV2(jobConfig)) {
       window.location.href = `/submit.html?op=marketplace_submit&itemId=${marketItem.id}#/general`;
     } else {
@@ -149,7 +148,7 @@ export default function Summary(props) {
                       }
                     }}
                   >
-                    {marketItem.submits}
+                    {String(marketItem.submits)}
                   </Text>
                 </Stack>
               </TooltipHost>
@@ -158,7 +157,9 @@ export default function Summary(props) {
               <TooltipHost content="stars">
                 <Stack horizontal gap={"s"}>
                   <button
-                    onClick={clickLike}
+                    onClick={() => {
+                      clickStar();
+                    }}
                     style={{ backgroundColor: "Transparent", border: "none" }}
                   >
                     {stared && (
@@ -174,7 +175,7 @@ export default function Summary(props) {
                       }
                     }}
                   >
-                    {stars}
+                    {String(starNumber)}
                   </Text>
                 </Stack>
               </TooltipHost>
@@ -211,6 +212,7 @@ export default function Summary(props) {
             <EditMarketItem
               hideDialog={hideDialog}
               setHideDialog={setHideDialog}
+              marketItem={marketItem}
             />
             <DefaultButton
               text="Delete"
@@ -227,49 +229,11 @@ export default function Summary(props) {
             <DeleteMarketItem
               hideDeleteDialog={hideDeleteDialog}
               setHideDeleteDialog={setHideDeleteDialog}
-              marketItem={marketItem}
+              itemId={marketItem.id}
             />
           </Stack>
         </Stack>
       </Card>
     </div>
   );
-
-  async function fetchStarRelation(itemId, userName) {
-    const url = `${api}/api/v2/user/${userName}/starItems/${itemId}`;
-    const res = await fetch(url);
-    const json = await res.json();
-
-    if (res.ok) {
-      return json;
-    } else {
-      throw new Error(json);
-    }
-  }
-
-  async function addStarRelation(itemId, userName) {
-    const url = `${api}/api/v2/user/${userName}/starItems/${itemId}`;
-    const res = await fetch(url, {
-      method: "PUT"
-    });
-    const text = await res.text();
-    if (res.ok) {
-      return text;
-    } else {
-      throw new Error(text);
-    }
-  }
-
-  async function deleteStarRelation(itemId, userName) {
-    const url = `${api}/api/v2/user/${userName}/starItems/${itemId}`;
-    const res = await fetch(url, {
-      method: "DELETE"
-    });
-    const text = await res.text();
-    if (res.ok) {
-      return text;
-    } else {
-      throw new Error(text);
-    }
-  }
 }

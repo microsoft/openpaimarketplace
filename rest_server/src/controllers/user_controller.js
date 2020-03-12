@@ -19,6 +19,22 @@ const create = asyncHandler(async (req, res, next) => {
     await User.create(req.body);
     res.status(201).send("created");
   } catch (e) {
+    if (e.name === "SequelizeUniqueConstraintError") {
+      res.status(409).send("conflict");
+    }
+    databaseErrorHandler(e, res);
+  }
+});
+
+const del = asyncHandler(async (req, res, next) => {
+  try {
+    const result = await User.del(req.params.username);
+    if (isNil(result)) {
+      res.status(404).send("user not found");
+    } else {
+      res.status(200).send("deleted");
+    }
+  } catch (e) {
     databaseErrorHandler(e, res);
   }
 });
@@ -96,5 +112,6 @@ module.exports = {
   listItems,
   getItem,
   updateItem,
-  deleteItem
+  deleteItem,
+  del
 };

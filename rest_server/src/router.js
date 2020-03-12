@@ -32,7 +32,11 @@ router
 router
   .route("/users")
   .get(userController.list)
-  .post(userController.create);
+  .post(userController.create)
+
+router
+  .route("/users/:username")
+  .delete(userController.del);
 
 router.route("/users/:username/starItems").get(userController.listItems);
 

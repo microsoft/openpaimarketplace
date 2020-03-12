@@ -13,7 +13,7 @@ import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { isNil } from "lodash";
 
 import { TagBar } from "../../components/tag_bar";
-import Card from "./card";
+import Card from "../../components/card";
 import Context from "../../context";
 
 const { spacing } = getTheme();

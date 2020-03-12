@@ -14,8 +14,8 @@
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-import PropTypes from 'prop-types';
-import React, { useCallback, useContext } from 'react';
+import PropTypes from "prop-types";
+import React, { useCallback, useContext } from "react";
 import {
   DefaultButton,
   PrimaryButton,
@@ -25,39 +25,23 @@ import {
   FontClassNames,
   FontSizes,
   FontWeights,
-  Text,
-} from 'office-ui-fabric-react';
+  Text
+} from "office-ui-fabric-react";
 
-import Context from '../context';
+import Context from "../context";
+import { deleteItem } from "../../utils/marketplace_api";
 
 export default function DeleteMarketItem(props) {
-  const { hideDeleteDialog, setHideDeleteDialog, marketItem } = props;
-  const { api, history } = useContext(Context);
+  const { hideDeleteDialog, setHideDeleteDialog, itemId } = props;
+  const { history } = useContext(Context);
 
   async function onConfirm() {
     setHideDeleteDialog(true);
-    // connect to db to delete item using name(temporary).
     try {
-      await deleteItem();
-      setHideDeleteDialog(true);
+      await deleteItem(itemId);
+      history.push("/");
     } catch (err) {
-      setHideDeleteDialog(true);
       alert(err);
-    }
-    // window.location.href = `/market-list.html`;
-    history.push('/');
-  }
-
-  async function deleteItem() {
-    const url = `${api}/api/v2/marketplace/items/${marketItem.id}`;
-    const res = await fetch(url, {
-      method: 'DELETE',
-    });
-    const text = await res.text();
-    if (res.ok) {
-      return text;
-    } else {
-      throw new Error(text);
     }
   }
 
@@ -78,27 +62,27 @@ export default function DeleteMarketItem(props) {
             styles={{
               root: {
                 fontSize: FontSizes.large,
-                fontWeight: FontWeights.semibold,
-              },
+                fontWeight: FontWeights.semibold
+              }
             }}
           >
-            Delete Item !
+            Delete Item
           </Text>
         ),
         subText: (
           <span className={FontClassNames.medium}>
             Do you want to delete this market item permanently?
           </span>
-        ),
+        )
       }}
       modalProps={{
         isBlocking: true,
-        styles: { main: { maxWidth: 450 } },
+        styles: { main: { maxWidth: 450 } }
       }}
     >
       <DialogFooter>
-        <PrimaryButton onClick={onConfirm} text='Confirm' />
-        <DefaultButton onClick={closeDialog} text='Cancel' />
+        <PrimaryButton onClick={onConfirm} text="Confirm" />
+        <DefaultButton onClick={closeDialog} text="Cancel" />
       </DialogFooter>
     </Dialog>
   );
@@ -107,4 +91,5 @@ export default function DeleteMarketItem(props) {
 DeleteMarketItem.propTypes = {
   hideDeleteDialog: PropTypes.bool.isRequired,
   setHideDeleteDialog: PropTypes.func.isRequired,
+  itemId: PropTypes.string
 };
