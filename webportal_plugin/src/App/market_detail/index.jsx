@@ -74,7 +74,7 @@ const MarketDetail = props => {
           <div className={classNames(t.w100, t.pa4, FontClassNames.medium)}>
             <Top />
             <Summary marketItem={marketItem} />
-            <Detail />
+            <Detail marketItem={marketItem} />
           </div>
         </Fabric>
       )}

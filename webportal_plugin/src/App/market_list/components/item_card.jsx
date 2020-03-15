@@ -6,7 +6,8 @@ import {
   DefaultButton,
   PrimaryButton,
   TooltipHost,
-  FontWeights
+  FontWeights,
+  Link
 } from "office-ui-fabric-react";
 import { getTheme } from "@uifabric/styling";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
@@ -15,11 +16,12 @@ import { isNil } from "lodash";
 import { TagBar } from "../../components/tag_bar";
 import Card from "../../components/card";
 import Context from "../../context";
+import { approveItem, rejectItem } from "../../utils/marketplace_api";
 
 const { spacing } = getTheme();
 
 const ItemCard = props => {
-  const { item } = props;
+  const { item, status } = props;
 
   const { history } = useContext(Context);
 
@@ -53,21 +55,44 @@ const ItemCard = props => {
       : uploadedTime + (uploadedTime > 1 ? " days ago" : " day ago");
   };
 
+  async function approve(itemId) {
+    try {
+      const result = await approveItem(itemId);
+      window.location.reload(true);
+    } catch (err) {
+      alert(err);
+    }
+  }
+
+  async function reject(itemId) {
+    try {
+      const result = await rejectItem(itemId);
+      window.location.reload(true);
+    } catch (err) {
+      alert(err);
+    }
+  }
+
   return (
     <Card key={item.Id}>
       <Stack>
         <Stack horizontal horizontalAlign="space-between" gap="l2">
           <Stack gap="l1" styles={{ root: [{ width: "80%" }] }}>
-            <Text
+            <Link
               styles={{
                 root: {
                   fontSize: 16,
                   fontWeight: FontWeights.semibold
                 }
               }}
+              onClick={() => {
+                window.localStorage.removeItem("itemId");
+                window.localStorage.setItem("itemId", item.id);
+                history.push(`/market_detail?itemId=${item.id}`);
+              }}
             >
               {item.name}
-            </Text>
+            </Link>
             <Text
               styles={{
                 root: {
@@ -132,32 +157,66 @@ const ItemCard = props => {
             </Stack>
 
             <Stack gap="m" styles={{ root: [{ paddingRight: spacing.l2 }] }}>
-              <PrimaryButton
-                styles={{
-                  root: {
-                    fontSize: 14,
-                    fontWeight: FontWeights.regular
-                  }
-                }}
-                onClick={clickSubmit}
-              >
-                Submit
-              </PrimaryButton>
-              <DefaultButton
-                styles={{
-                  root: {
-                    fontSize: 14,
-                    fontWeight: FontWeights.regular
-                  }
-                }}
-                onClick={() => {
-                  window.localStorage.removeItem("itemId");
-                  window.localStorage.setItem("itemId", item.id);
-                  history.push(`/market_detail?itemId=${item.id}`);
-                }}
-              >
-                View
-              </DefaultButton>
+              {status === "approved" && (
+                <PrimaryButton
+                  styles={{
+                    root: {
+                      fontSize: 14,
+                      fontWeight: FontWeights.regular
+                    }
+                  }}
+                  onClick={clickSubmit}
+                >
+                  Submit
+                </PrimaryButton>
+              )}
+              {status === "pending" && (
+                <PrimaryButton
+                  styles={{
+                    root: {
+                      fontSize: 14,
+                      fontWeight: FontWeights.regular
+                    }
+                  }}
+                  onClick={async () => {
+                    await approve(item.id);
+                  }}
+                >
+                  Approve
+                </PrimaryButton>
+              )}
+              {status === "approved" && (
+                <DefaultButton
+                  styles={{
+                    root: {
+                      fontSize: 14,
+                      fontWeight: FontWeights.regular
+                    }
+                  }}
+                  onClick={() => {
+                    window.localStorage.removeItem("itemId");
+                    window.localStorage.setItem("itemId", item.id);
+                    history.push(`/market_detail?itemId=${item.id}`);
+                  }}
+                >
+                  View
+                </DefaultButton>
+              )}
+              {status === "pending" && (
+                <DefaultButton
+                  styles={{
+                    root: {
+                      fontSize: 14,
+                      fontWeight: FontWeights.regular
+                    }
+                  }}
+                  onClick={async () => {
+                    await reject(item.id);
+                  }}
+                >
+                  Reject
+                </DefaultButton>
+              )}
             </Stack>
           </Stack>
         </Stack>

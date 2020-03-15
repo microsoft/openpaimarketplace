@@ -1,8 +1,23 @@
 import { MARKETPLACE_API } from "./constants";
 import { MarketItem } from "../models/market_item";
 
-export async function getItems() {
-  const url = `${MARKETPLACE_API}/items`;
+export async function getApprovedItems() {
+  const url = `${MARKETPLACE_API}/items?status=approved`;
+  const res = await fetch(url);
+  if (res.ok) {
+    const items = await res.json();
+    // order by updateDate
+    items.sort(function(a, b) {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    return items;
+  } else {
+    throw new Error(res.statusText);
+  }
+}
+
+export async function getPendingItems() {
+  const url = `${MARKETPLACE_API}/items?status=pending`;
   const res = await fetch(url);
   if (res.ok) {
     const items = await res.json();
@@ -19,7 +34,7 @@ export async function getItems() {
 export async function deleteItem(itemId) {
   const url = `${MARKETPLACE_API}/items/${itemId}`;
   const res = await fetch(url, {
-    method: 'DELETE',
+    method: "DELETE"
   });
   if (res.ok) {
     return true;
@@ -38,13 +53,13 @@ export async function updateItem(
   jobConfig,
   submits,
   starNumber,
-  tags,
+  tags
 ) {
   const url = `${MARKETPLACE_API}/items/${itemId}`;
   const res = await fetch(url, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       name: name,
@@ -55,8 +70,8 @@ export async function updateItem(
       jobConfig: jobConfig,
       submits: submits,
       starNumber: starNumber,
-      tags: tags,
-    }),
+      tags: tags
+    })
   });
   const text = await res.text();
   if (res.ok) {
@@ -92,6 +107,39 @@ export async function getItemById(itemId) {
   }
 }
 
+export async function approveItem(itemId) {
+  const url = `${MARKETPLACE_API}/items/${itemId}/status`;
+  const res = await fetch(url, {
+    method: "Put",
+    headers: {
+      "Content-Type": "text/plain"
+    },
+    body: "approved"
+  });
+  if (res.ok) {
+    return true;
+  } else {
+    throw new Error(res.statusText);
+  }
+}
+
+export async function rejectItem(itemId) {
+  const url = `${MARKETPLACE_API}/items/${itemId}/status`;
+  const res = await fetch(url, {
+    method: "Put",
+    headers: {
+      "Content-Type": "text/plain"
+    },
+    body: "rejected"
+  });
+  console.log(res)
+  if (res.ok) {
+    return true;
+  } else {
+    throw new Error(res.statusText);
+  }
+}
+
 // create if user not exist
 export async function ensureUser(user) {
   const url = `${MARKETPLACE_API}/users`;
@@ -103,7 +151,6 @@ export async function ensureUser(user) {
     body: user
   });
   if (res.ok) {
-    const items = await res.json();
     return true;
   } else if (res.status === 409) {
     return false;

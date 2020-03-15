@@ -29,7 +29,6 @@ import t from "../../components/tachyons.scss";
 import Card from "./card";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { TooltipHost } from "office-ui-fabric-react/lib/Tooltip";
-import yaml from "js-yaml";
 import { isNil } from "lodash";
 
 import EditMarketItem from "./edit_market_item";
@@ -39,14 +38,16 @@ import { TagBar } from "../../components/tag_bar";
 import {
   getStarStatus,
   deleteStar,
-  addStar
+  addStar,
+  approveItem,
+  rejectItem
 } from "../../utils/marketplace_api";
 
 const { spacing } = getTheme();
 
 export default function Summary(props) {
   const { marketItem } = props;
-  const { user } = useContext(Context);
+  const { user, history } = useContext(Context);
 
   const [hideDialog, setHideDialog] = useState(true);
   const [hideDeleteDialog, setHideDeleteDialog] = useState(true);
@@ -98,6 +99,24 @@ export default function Summary(props) {
       !isNil(jobConfig.protocol_version) || !isNil(jobConfig.protocolVersion)
     );
   };
+
+  async function approve(itemId) {
+    try {
+      const result = await approveItem(itemId);
+      history.push('/')
+    } catch (err) {
+      alert(err);
+    }
+  }
+
+  async function reject(itemId) {
+    try {
+      const result = await rejectItem(itemId);
+      history.push('/')
+    } catch (err) {
+      alert(err);
+    }
+  }
 
   return (
     <div
@@ -186,52 +205,78 @@ export default function Summary(props) {
           {/* summary-row-4 */}
           <TagBar tags={marketItem.tags} />
           {/* summary-row-5 */}
-          <Stack horizontal gap="m">
-            <PrimaryButton
-              text="Submit"
-              styles={{
-                root: {
-                  fontSize: 14,
-                  fontWeight: FontWeights.regular
-                }
-              }}
-              onClick={clickSubmit}
-            />
-            <DefaultButton
-              text="Edit"
-              styles={{
-                root: {
-                  fontSize: 14,
-                  fontWeight: FontWeights.regular
-                }
-              }}
-              onClick={e => {
-                setHideDialog(false);
-              }}
-            />
-            <EditMarketItem
-              hideDialog={hideDialog}
-              setHideDialog={setHideDialog}
-              marketItem={marketItem}
-            />
-            <DefaultButton
-              text="Delete"
-              styles={{
-                root: {
-                  fontSize: 14,
-                  fontWeight: FontWeights.regular
-                }
-              }}
-              onClick={e => {
-                setHideDeleteDialog(false);
-              }}
-            />
-            <DeleteMarketItem
-              hideDeleteDialog={hideDeleteDialog}
-              setHideDeleteDialog={setHideDeleteDialog}
-              itemId={marketItem.id}
-            />
-          </Stack>
+          {marketItem.status === "approved" && (
+            <Stack horizontal gap="m">
+              <PrimaryButton
+                text="Submit"
+                styles={{
+                  root: {
+                    fontSize: 14,
+                    fontWeight: FontWeights.regular
+                  }
+                }}
+                onClick={clickSubmit}
+              />
+              <DefaultButton
+                text="Edit"
+                styles={{
+                  root: {
+                    fontSize: 14,
+                    fontWeight: FontWeights.regular
+                  }
+                }}
+                onClick={e => {
+                  setHideDialog(false);
+                }}
+              />
+              <EditMarketItem
+                hideDialog={hideDialog}
+                setHideDialog={setHideDialog}
+                marketItem={marketItem}
+              />
+              <DefaultButton
+                text="Delete"
+                styles={{
+                  root: {
+                    fontSize: 14,
+                    fontWeight: FontWeights.regular
+                  }
+                }}
+                onClick={e => {
+                  setHideDeleteDialog(false);
+                }}
+              />
+              <DeleteMarketItem
+                hideDeleteDialog={hideDeleteDialog}
+                setHideDeleteDialog={setHideDeleteDialog}
+                itemId={marketItem.id}
+              />
+            </Stack>
+          )}
+          {marketItem.status === "pending" && (
+            <Stack horizontal gap="m">
+              <PrimaryButton
+                text="Approve"
+                styles={{
+                  root: {
+                    fontSize: 14,
+                    fontWeight: FontWeights.regular
+                  }
+                }}
+                onClick={approve(marketItem.id)}
+              />
+              <DefaultButton
+                text="Reject"
+                styles={{
+                  root: {
+                    fontSize: 14,
+                    fontWeight: FontWeights.regular
+                  }
+                }}
+                onClick={reject(marketItem.id)}
+              />
+            </Stack>
+          )}
         </Stack>
       </Card>
     </div>

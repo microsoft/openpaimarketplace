@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 import {
   Stack,
   Link,
   ColorClassNames,
   FontWeights,
-  FontSizes,
-} from 'office-ui-fabric-react';
-import c from 'classnames';
-import t from '../../components/tachyons.scss';
-import { FontClassNames } from '@uifabric/styling';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { isNil } from 'lodash';
+  FontSizes
+} from "office-ui-fabric-react";
+import c from "classnames";
+import t from "../../components/tachyons.scss";
+import { FontClassNames } from "@uifabric/styling";
+import { Icon } from "office-ui-fabric-react/lib/Icon";
+import { isNil } from "lodash";
 
-import Filter from '../../models/filter';
-import ItemCard from './item_card';
+import Filter from "../../models/filter";
+import ItemCard from "./item_card";
 
-export const ItemList = (props) => {
-  const { filteredItems, setFilter, pagination } = props;
+export const ItemList = props => {
+  const { filteredItems, setFilter, pagination, status } = props;
 
   if (isNil(filteredItems)) {
     return <Stack> </Stack>;
@@ -28,7 +28,7 @@ export const ItemList = (props) => {
             <Icon
               className={c(ColorClassNames.themePrimary)}
               style={{ fontSize: FontSizes.xxLarge }}
-              iconName='Error'
+              iconName="Error"
             />
           </div>
           <div
@@ -38,10 +38,10 @@ export const ItemList = (props) => {
             No results matched your search.
           </div>
           <div className={c(t.mt4, FontClassNames.mediumPlus)}>
-            You could search{' '}
+            You could search{" "}
             <Link onClick={() => setFilter(new Filter())}>
               all the marketItems
-            </Link>{' '}
+            </Link>{" "}
             or try advanced search with Filters.
           </div>
         </div>
@@ -52,7 +52,7 @@ export const ItemList = (props) => {
     return (
       <Stack>
         {items.map(item => (
-          <ItemCard key={item.id} item={item} />
+          <ItemCard key={item.id} item={item} status={status} />
         ))}
       </Stack>
     );

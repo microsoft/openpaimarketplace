@@ -24,7 +24,7 @@
     "compression": "~1.7.1",
     "cookie-parser": "~1.4.3",
     "copy-to-clipboard": "^3.2.0",
-    "core-js": "^3.0.1",
+    "core-js": "^3.6.4",
     "github-markdown-css": "^3.0.1",
     "joi-browser": "^13.4.0",
     "js-cookie": "^2.2.0",
@@ -39,7 +39,7 @@
     "react-monaco-editor": "^0.25.1",
     "react-router-dom": "^5.1.2",
     "regenerator-runtime": "^0.13.2",
-    "styled-components": "^4.2.0",
+    "styled-components": "^5.0.1",
     "tachyons-sass": "^4.9.5",
     "whatwg-fetch": "^3.0.0"
   },

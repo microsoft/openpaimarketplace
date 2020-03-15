@@ -15,7 +15,11 @@ import Context from "../context";
 import Filter from "../models/filter";
 import Paginator from "../components/paginator";
 import Pagination from "../models/pagination";
-import { getItems, ensureUser } from "../utils/marketplace_api";
+import {
+  getApprovedItems,
+  ensureUser,
+  getPendingItems
+} from "../utils/marketplace_api";
 
 const MarketList = props => {
   const { api, user, token, history } = props;
@@ -24,6 +28,7 @@ const MarketList = props => {
   const [filteredItems, setFilteredItems] = useState(null);
   const [filter, setFilter] = useState(new Filter());
   const [pagination, setPagination] = useState(new Pagination());
+  const [status, setStatus] = useState("approved");
 
   useEffect(() => {
     setFilteredItems(filter.apply(itemList));
@@ -35,13 +40,18 @@ const MarketList = props => {
 
   useEffect(() => {
     reload();
-  }, []);
+  }, [status]);
 
   async function reload() {
     let itemList = [];
     try {
       await ensureUser(user);
-      const items = await getItems();
+      let items;
+      if (status === "approved") {
+        items = await getApprovedItems();
+      } else {
+        items = await getPendingItems();
+      }
       items.forEach(item => {
         const marketItem = new MarketItem({
           id: item.id,
@@ -78,7 +88,10 @@ const MarketList = props => {
     <Context.Provider value={context}>
       <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1200 }}>
         <Stack padding="l1" gap="l1">
-          <TopBar />
+          <TopBar
+            status={status}
+            setStatus={setStatus}
+          />
           <Stack horizontal gap="l2">
             <CategorySideBar filter={filter} setFilter={setFilter} />
             <Stack.Item grow>
@@ -93,6 +106,7 @@ const MarketList = props => {
                   filteredItems={filteredItems}
                   setFilter={setFilter}
                   pagination={pagination}
+                  status={status}
                 />
               </Stack>
               {!isNil(filteredItems) && filteredItems.length > 5 && (

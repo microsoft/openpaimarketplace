@@ -15,55 +15,57 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import c from 'classnames';
+import c from "classnames";
 
-import { Pivot, PivotItem, FontWeights } from 'office-ui-fabric-react';
-import React from 'react';
-import t from '../../components/tachyons.scss';
+import { Pivot, PivotItem, FontWeights } from "office-ui-fabric-react";
+import React from "react";
+import t from "../../components/tachyons.scss";
 
-import Card from './card';
-import Description from './description';
-import TaskRoles from './taskRoles';
-import YamlFile from './yamlFile';
+import Card from "./card";
+import Description from "./description";
+import TaskRoles from "./taskRoles";
+import YamlFile from "./yamlFile";
 
-export default function Detail() {
+export default function Detail(props) {
+  const { marketItem } = props;
+
   return (
     <div className={c(t.bgWhite, t.mt3)}>
       {/* summary */}
       <Card className={c(t.pv4, t.ph5)}>
         <Pivot>
-          <PivotItem 
-            headerText='Description'
+          <PivotItem
+            headerText="Description"
             styles={{
               root: {
                 fontSize: 14,
-                fontWeight: FontWeights.regular,
-              },
-            }}  
+                fontWeight: FontWeights.regular
+              }
+            }}
           >
-            <Description />
+            <Description marketItem={marketItem} />
           </PivotItem>
           <PivotItem
-            headerText='Task Roles'
+            headerText="Task Roles"
             styles={{
               root: {
                 fontSize: 14,
-                fontWeight: FontWeights.regular,
-              },
-            }}  
+                fontWeight: FontWeights.regular
+              }
+            }}
           >
-            <TaskRoles />
+            <TaskRoles marketItem={marketItem} />
           </PivotItem>
           <PivotItem
-            headerText='Yaml File'
+            headerText="Yaml File"
             styles={{
               root: {
                 fontSize: 14,
-                fontWeight: FontWeights.regular,
-              },
-            }}  
+                fontWeight: FontWeights.regular
+              }
+            }}
           >
-            <YamlFile />
+            <YamlFile marketItem={marketItem} />
           </PivotItem>
         </Pivot>
       </Card>
