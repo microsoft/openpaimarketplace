@@ -35,12 +35,11 @@ import EditMarketItem from "./edit_market_item";
 import DeleteMarketItem from "./delete_market_item";
 import Context from "../context";
 import { TagBar } from "../../components/tag_bar";
+import ConfirmDialog from "../../components/confirm_dialog";
 import {
   getStarStatus,
   deleteStar,
-  addStar,
-  approveItem,
-  rejectItem
+  addStar
 } from "../../utils/marketplace_api";
 
 const { spacing } = getTheme();
@@ -50,6 +49,8 @@ export default function Summary(props) {
   const { user, history } = useContext(Context);
 
   const [hideDialog, setHideDialog] = useState(true);
+  const [hideApproveDialog, setHideApproveDialog] = useState(true);
+  const [hideRejectDialog, setHideRejectDialog] = useState(true);
   const [hideDeleteDialog, setHideDeleteDialog] = useState(true);
   const [starNumber, setStarNumber] = useState(marketItem.starNumber);
   const [stared, setStared] = useState(false);
@@ -99,24 +100,6 @@ export default function Summary(props) {
       !isNil(jobConfig.protocol_version) || !isNil(jobConfig.protocolVersion)
     );
   };
-
-  async function approve(itemId) {
-    try {
-      const result = await approveItem(itemId);
-      history.push('/')
-    } catch (err) {
-      alert(err);
-    }
-  }
-
-  async function reject(itemId) {
-    try {
-      const result = await rejectItem(itemId);
-      history.push('/')
-    } catch (err) {
-      alert(err);
-    }
-  }
 
   return (
     <div
@@ -263,7 +246,16 @@ export default function Summary(props) {
                     fontWeight: FontWeights.regular
                   }
                 }}
-                onClick={approve(marketItem.id)}
+                onClick={async () => {
+                  setHideApproveDialog(false);
+                }}
+              />
+              <ConfirmDialog
+                hideDialog={hideApproveDialog}
+                setHideDialog={setHideApproveDialog}
+                action="approve"
+                inDetail={true}
+                itemId={marketItem.id}
               />
               <DefaultButton
                 text="Reject"
@@ -273,7 +265,16 @@ export default function Summary(props) {
                     fontWeight: FontWeights.regular
                   }
                 }}
-                onClick={reject(marketItem.id)}
+                onClick={async () => {
+                  setHideRejectDialog(false);
+                }}
+              />
+              <ConfirmDialog
+                hideDialog={hideRejectDialog}
+                setHideDialog={setHideRejectDialog}
+                action="reject"
+                inDetail={true}
+                itemId={marketItem.id}
               />
             </Stack>
           )}

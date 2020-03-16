@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import {
   Text,
   Stack,
@@ -14,6 +14,7 @@ import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { isNil } from "lodash";
 
 import { TagBar } from "../../components/tag_bar";
+import ConfirmDialog from "../../components/confirm_dialog";
 import Card from "../../components/card";
 import Context from "../../context";
 import { approveItem, rejectItem } from "../../utils/marketplace_api";
@@ -24,6 +25,8 @@ const ItemCard = props => {
   const { item, status } = props;
 
   const { history } = useContext(Context);
+  const [hideApproveDialog, setHideApproveDialog] = useState(true);
+  const [hideRejectDialog, setHideRejectDialog] = useState(true);
 
   const clickSubmit = useCallback(() => {
     // save jobConfig to localStorage
@@ -185,6 +188,13 @@ const ItemCard = props => {
                   Approve
                 </PrimaryButton>
               )}
+              <ConfirmDialog
+                hideDialog={hideApproveDialog}
+                setHideDialog={setHideApproveDialog}
+                action="approve"
+                inDetail={true}
+                itemId={item.id}
+              />
               {status === "approved" && (
                 <DefaultButton
                   styles={{
@@ -217,6 +227,13 @@ const ItemCard = props => {
                   Reject
                 </DefaultButton>
               )}
+              <ConfirmDialog
+                hideDialog={hideRejectDialog}
+                setHideDialog={setHideRejectDialog}
+                action="reject"
+                inDetail={true}
+                itemId={item.id}
+              />
             </Stack>
           </Stack>
         </Stack>

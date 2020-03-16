@@ -132,7 +132,6 @@ export async function rejectItem(itemId) {
     },
     body: "rejected"
   });
-  console.log(res)
   if (res.ok) {
     return true;
   } else {
