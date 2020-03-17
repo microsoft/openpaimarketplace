@@ -11,8 +11,8 @@ import {
   Text
 } from "office-ui-fabric-react";
 
-import { approveItem, rejectItem } from "../utils/marketplace_api";
-import Context from "../market_detail/context";
+import { approveItem, rejectItem } from "App/utils/marketplace_api";
+import Context from "App/market_detail/context";
 
 const ConfirmDialog = props => {
   const { hideDialog, setHideDialog, action, inDetail, itemId } = props;

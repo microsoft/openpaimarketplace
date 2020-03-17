@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import { Fabric, Stack } from "office-ui-fabric-react";
 import { isNil } from "lodash";
 
-import { TopBar } from "./components/top_bar";
+import { TopBar } from "../components/top_bar";
 import { CategorySideBar } from "./components/category_side_bar";
 import { FilterBar } from "./components/filter_bar";
 import { ItemList } from "./components/item_list";

@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { CommandBar } from "office-ui-fabric-react";
 import { isNil } from "lodash";
 
-import Pagination from "../models/pagination";
+import Pagination from "App/models/pagination";
 
 export default function Paginator(props) {
   const { items, pagination, setPagination } = props;

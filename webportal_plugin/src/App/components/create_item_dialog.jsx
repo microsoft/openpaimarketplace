@@ -16,13 +16,13 @@ import {
 } from "office-ui-fabric-react";
 import { getTheme } from "@uifabric/styling";
 import { isNil } from "lodash";
-
-import { MarketItem } from "../../models/market_item";
-import { TagBar } from "../../components/tag_bar";
-import ImportYamlFile from "./import_yaml_file";
-import Context from "../../context";
-import { MARKETPLACE_API } from "../../utils/constants";
 import yaml from "js-yaml";
+
+import { MarketItem } from "App/models/market_item";
+import { TagBar } from "App/components/tag_bar";
+import ImportYamlFile from "App/market_list/components/import_yaml_file";
+import Context from "App/context";
+import { MARKETPLACE_API } from "App/utils/constants";
 
 export default function CreateItemDialog(props) {
   const { hideDialog, setHideDialog } = props;

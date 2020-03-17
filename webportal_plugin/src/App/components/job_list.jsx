@@ -11,7 +11,7 @@ import {
 } from "office-ui-fabric-react";
 import c from "classnames";
 
-import t from "../../components/tachyons.scss";
+import t from "App/components/tachyons.scss";
 
 const JobList = props => {
   const { hideDialog, setHideDialog } = props;

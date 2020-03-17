@@ -15,16 +15,15 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import { FontClassNames, FontSizes } from '@uifabric/styling';
-import c from 'classnames';
-import { isEmpty } from 'lodash';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { FontClassNames, FontSizes } from "@uifabric/styling";
+import c from "classnames";
+import { isEmpty } from "lodash";
+import { Icon } from "office-ui-fabric-react/lib/Icon";
+import PropTypes from "prop-types";
+import React from "react";
 
-import t from './tachyons.scss';
-
-import { statusColor } from './theme';
+import t from "App/components/tachyons.scss";
+import { statusColor } from "App/components/theme";
 
 export const Badge = ({ children, className }) => (
   <div className={c(FontClassNames.mediumPlus, className)}>{children}</div>
@@ -33,7 +32,7 @@ export const Badge = ({ children, className }) => (
 Badge.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  icons: PropTypes.array,
+  icons: PropTypes.array
 };
 
 export const IconBadge = ({ children, className, icons, outerColor }) => (
@@ -48,9 +47,9 @@ export const IconBadge = ({ children, className, icons, outerColor }) => (
               styles={{
                 root: {
                   color:
-                    idx === 0 ? outerColor || statusColor.unknown : 'white',
-                  fontSize: FontSizes.mediumPlus,
-                },
+                    idx === 0 ? outerColor || statusColor.unknown : "white",
+                  fontSize: FontSizes.mediumPlus
+                }
               }}
               iconName={iconName}
             />
@@ -70,12 +69,12 @@ IconBadge.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   icons: PropTypes.array,
-  outerColor: PropTypes.string,
+  outerColor: PropTypes.string
 };
 
 export const SucceededBadge = ({ children }) => (
   <IconBadge
-    icons={['StatusCircleOuter', 'StatusCircleCheckmark']}
+    icons={["StatusCircleOuter", "StatusCircleCheckmark"]}
     outerColor={statusColor.succeeded}
   >
     {children}
@@ -83,12 +82,12 @@ export const SucceededBadge = ({ children }) => (
 );
 
 SucceededBadge.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export const PrimaryBadge = ({ children }) => (
   <IconBadge
-    icons={['StatusCircleOuter', 'StatusCircleCheckmark']}
+    icons={["StatusCircleOuter", "StatusCircleCheckmark"]}
     outerColor={statusColor.running}
   >
     {children}
@@ -96,22 +95,22 @@ export const PrimaryBadge = ({ children }) => (
 );
 
 PrimaryBadge.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export const WaitingBadge = ({ children }) => (
-  <IconBadge icons={['SkypeCircleClock']} outerColor={statusColor.waiting}>
+  <IconBadge icons={["SkypeCircleClock"]} outerColor={statusColor.waiting}>
     {children}
   </IconBadge>
 );
 
 WaitingBadge.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export const FailedBadge = ({ children }) => (
   <IconBadge
-    icons={['StatusCircleOuter', 'StatusCircleErrorX']}
+    icons={["StatusCircleOuter", "StatusCircleErrorX"]}
     outerColor={statusColor.failed}
   >
     {children}
@@ -119,12 +118,12 @@ export const FailedBadge = ({ children }) => (
 );
 
 FailedBadge.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export const StoppedBadge = ({ children }) => (
   <IconBadge
-    icons={['StatusCircleOuter', 'StatusCircleBlock2']}
+    icons={["StatusCircleOuter", "StatusCircleBlock2"]}
     outerColor={statusColor.stopped}
   >
     {children}
@@ -132,36 +131,36 @@ export const StoppedBadge = ({ children }) => (
 );
 
 StoppedBadge.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export const UnknownBadge = ({ children }) => (
   <IconBadge
-    icons={['StatusCircleOuter', 'StatusCircleQuestionMark']}
+    icons={["StatusCircleOuter", "StatusCircleQuestionMark"]}
     outerColor={statusColor.unknown}
   >
-    {children || 'Unknown'}
+    {children || "Unknown"}
   </IconBadge>
 );
 
 UnknownBadge.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export const StatusBadge = ({ status }) => {
   switch (status) {
-    case 'Running':
+    case "Running":
       return <PrimaryBadge>{status}</PrimaryBadge>;
-    case 'Stopping':
-    case 'Waiting':
+    case "Stopping":
+    case "Waiting":
       return <WaitingBadge>{status}</WaitingBadge>;
-    case 'Failed':
+    case "Failed":
       return <FailedBadge>{status}</FailedBadge>;
-    case 'Succeeded':
+    case "Succeeded":
       return <SucceededBadge>{status}</SucceededBadge>;
-    case 'Stopped':
+    case "Stopped":
       return <StoppedBadge>{status}</StoppedBadge>;
-    case 'Unknown':
+    case "Unknown":
       return <UnknownBadge>{status}</UnknownBadge>;
     default:
       return <UnknownBadge>{status}</UnknownBadge>;
@@ -170,14 +169,14 @@ export const StatusBadge = ({ status }) => {
 
 StatusBadge.propTypes = {
   status: PropTypes.oneOf([
-    'Running',
-    'Stopping',
-    'Waiting',
-    'Failed',
-    'Succeeded',
-    'Stopped',
-    'Unknown',
-  ]),
+    "Running",
+    "Stopping",
+    "Waiting",
+    "Failed",
+    "Succeeded",
+    "Stopped",
+    "Unknown"
+  ])
 };
 
 export default StatusBadge;
