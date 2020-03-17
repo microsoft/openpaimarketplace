@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { FontClassNames } from "@uifabric/styling";
-import Context from "../context";
+import Context from "App/context";
 import Card from "./card";
 import yaml from "js-yaml";
 
-const YamlFile = () => {
-  const { marketItem } = useContext(Context);
+const YamlFile = (props) => {
+  const { marketItem } = props;
   return (
     <Card
       style={{

@@ -9,7 +9,6 @@ import {
   DialogType,
   TextField,
   Stack,
-  FontClassNames,
   FontSizes,
   FontWeights,
   Text

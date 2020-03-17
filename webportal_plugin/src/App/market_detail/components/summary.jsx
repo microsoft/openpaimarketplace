@@ -33,14 +33,10 @@ import { isNil } from "lodash";
 
 import EditMarketItem from "./edit_market_item";
 import DeleteMarketItem from "./delete_market_item";
-import Context from "../context";
+import Context from "App/context";
 import { TagBar } from "../../components/tag_bar";
 import ConfirmDialog from "../../components/confirm_dialog";
-import {
-  getStarStatus,
-  deleteStar,
-  addStar
-} from "../../utils/marketplace_api";
+import { getStarStatus, deleteStar, addStar } from "App/utils/marketplace_api";
 
 const { spacing } = getTheme();
 

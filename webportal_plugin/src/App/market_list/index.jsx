@@ -80,7 +80,6 @@ const MarketList = props => {
   const context = {
     api,
     user,
-    token,
     history
   };
 

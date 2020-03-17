@@ -18,7 +18,7 @@
 import React, { useContext } from 'react';
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 
-import Context from '../context';
+import Context from 'App/context';
 
 const Top = () => {
   const { history } = useContext(Context);

@@ -28,7 +28,7 @@ import {
   Text
 } from "office-ui-fabric-react";
 
-import Context from "../context";
+import Context from "App/context";
 import { deleteItem } from "../../utils/marketplace_api";
 
 export default function DeleteMarketItem(props) {

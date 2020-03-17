@@ -33,9 +33,9 @@ import t from "../components/tachyons.scss";
 import Top from "./components/top";
 import Summary from "./components/summary";
 import Detail from "./components/detail";
-import Context from "./context";
-import { SpinnerLoading } from "../components/loading";
-import { getItemById } from "../utils/marketplace_api";
+import Context from "App/context";
+import { SpinnerLoading } from "App/components/loading";
+import { getItemById } from "App/utils/marketplace_api";
 
 const MarketDetail = props => {
   const { api, user, history } = props;
@@ -60,7 +60,6 @@ const MarketDetail = props => {
   }
 
   const context = {
-    marketItem,
     user,
     api,
     history
