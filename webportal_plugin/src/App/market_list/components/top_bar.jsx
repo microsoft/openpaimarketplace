@@ -8,6 +8,7 @@ import {
 } from "office-ui-fabric-react";
 
 import CreateItemDialog from "./create_item_dialog";
+import JobList from "./job_list";
 
 export const TopBar = React.memo(props => {
   const { spacing, palette } = getTheme();
@@ -73,11 +74,10 @@ export const TopBar = React.memo(props => {
         hideDialog={hideCreateDialog}
         setHideDialog={setHideCreateDialog}
       />
-      {/* <SuccessJobsDialog
+      <JobList
         hideDialog={hideJobListDialog}
         setHideDialog={setHideJobListDialog}
-        api={api}
-      /> */}
+      />
     </Stack>
   );
 });

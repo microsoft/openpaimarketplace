@@ -81,6 +81,32 @@ export async function updateItem(
   }
 }
 
+export async function createMarketItem(marketItem) {
+  const url = `${MARKETPLACE_API}/items`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: marketItem.name,
+      author: marketItem.author,
+      category: marketItem.category,
+      introduction: marketItem.introduction,
+      description: marketItem.description,
+      jobConfig: marketItem.jobConfig,
+      tags: marketItem.tags,
+      status: marketItem.status
+    })
+  });
+  if (res.ok) {
+    const result = await res.json();
+    return result.id;
+  } else {
+    throw new Error(res.statusText);
+  }
+}
+
 export async function getItemById(itemId) {
   const url = `${MARKETPLACE_API}/items/${itemId}`;
   const res = await fetch(url);

@@ -9,6 +9,7 @@ import {
   DialogType,
   TextField,
   Stack,
+  FontClassNames,
   FontSizes,
   FontWeights,
   Text
@@ -34,6 +35,7 @@ export default function CreateItemDialog(props) {
   const [introduction, setIntroduction] = useState("");
   const [description, setDescription] = useState("");
   const [yamlText, setYamlText] = useState(null);
+  const [hideSuccessDialog, setHideSuccessDialog] = useState(true);
 
   const CATEGORY_OPTIONS = [
     { key: "custom", text: "custom" },
@@ -65,6 +67,7 @@ export default function CreateItemDialog(props) {
       return;
     }
     setHideDialog(true);
+    setHideSuccessDialog(false);
 
     const marketItem = new MarketItem({
       name: name,
@@ -90,78 +93,84 @@ export default function CreateItemDialog(props) {
   });
 
   return (
-    <Dialog
-      hidden={hideDialog}
-      onDismiss={closeDialog}
-      minWidth={800}
-      dialogContentProps={{
-        type: DialogType.normal,
-        showCloseButton: false,
-        title: (
-          <Text
-            styles={{
-              root: {
-                fontSize: FontSizes.large,
-                fontWeight: FontWeights.semibold,
-                paddingBottom: spacing.m
-              }
+    <div>
+      <Dialog
+        hidden={hideDialog}
+        onDismiss={closeDialog}
+        minWidth={800}
+        dialogContentProps={{
+          type: DialogType.normal,
+          showCloseButton: false,
+          title: (
+            <Text
+              styles={{
+                root: {
+                  fontSize: FontSizes.large,
+                  fontWeight: FontWeights.semibold,
+                  paddingBottom: spacing.m
+                }
+              }}
+            >
+              Create Market Item
+            </Text>
+          )
+        }}
+        modalProps={{
+          isBlocking: true
+        }}
+      >
+        <Stack gap="m">
+          <TextField
+            label="Name"
+            value={name}
+            onChange={e => {
+              setName(e.target.value);
             }}
-          >
-            Create Market Item
-          </Text>
-        )
-      }}
-      modalProps={{
-        isBlocking: true
-      }}
-    >
-      <Stack gap="m">
-        <TextField
-          label="Name"
-          value={name}
-          onChange={e => {
-            setName(e.target.value);
-          }}
-          required
-        />
-        <Dropdown
-          label="Category"
-          options={CATEGORY_OPTIONS}
-          defaultSelectedKey={"custom"}
-          onChange={(e, item) => setCategory(item.text)}
-          required
-        />
-        <Stack gap="s1">
-          <span>Tags</span>
-          <TagBar tags={tags} setTags={setTags} />
+            required
+          />
+          <Dropdown
+            label="Category"
+            options={CATEGORY_OPTIONS}
+            defaultSelectedKey={"custom"}
+            onChange={(e, item) => setCategory(item.text)}
+            required
+          />
+          <Stack gap="s1">
+            <span>Tags</span>
+            <TagBar tags={tags} setTags={setTags} />
+          </Stack>
+          <TextField
+            label="Introduction"
+            value={introduction}
+            onChange={e => {
+              setIntroduction(e.target.value);
+            }}
+            required
+          />
+          <TextField label="Author" value={user} disabled />
+          <TextField
+            label="Description"
+            value={description}
+            multiline
+            rows={20}
+            onChange={e => {
+              setDescription(e.target.value);
+            }}
+            required
+          />
+          <ImportYamlFile setYamlText={setYamlText} />
         </Stack>
-        <TextField
-          label="Introduction"
-          value={introduction}
-          onChange={e => {
-            setIntroduction(e.target.value);
-          }}
-          required
-        />
-        <TextField label="Author" value={user} disabled />
-        <TextField
-          label="Description"
-          value={description}
-          multiline
-          rows={20}
-          onChange={e => {
-            setDescription(e.target.value);
-          }}
-          required
-        />
-        <ImportYamlFile setYamlText={setYamlText} />
-      </Stack>
-      <DialogFooter>
-        <PrimaryButton onClick={onConfirm} text="Confirm" />
-        <DefaultButton onClick={closeDialog} text="Cancel" />
-      </DialogFooter>
-    </Dialog>
+        <DialogFooter>
+          <PrimaryButton onClick={onConfirm} text="Confirm" />
+          <DefaultButton onClick={closeDialog} text="Cancel" />
+        </DialogFooter>
+      </Dialog>
+    </div>
   );
+
+  function closeSuccessDialog() {
+    setHideSuccessDialog(true);
+  }
 
   async function createMarketItem(marketItem) {
     const url = `${MARKETPLACE_API}/items`;
