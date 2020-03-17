@@ -93,7 +93,6 @@ const MarketList = props => {
             setStatus={setStatus}
           />
           <Stack horizontal gap="l2">
-            <CategorySideBar filter={filter} setFilter={setFilter} />
             <Stack.Item grow>
               <Stack gap="s" styles={{ root: [{ minWidth: 0 }] }}>
                 <FilterBar
