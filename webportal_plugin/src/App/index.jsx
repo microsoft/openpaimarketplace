@@ -14,13 +14,15 @@ const App = props => {
         <Route
           path="/"
           exact
-          render={({history}) => (
-            <MarketList api={api} user={user} token={token} history={history} />
+          render={props => (
+            <MarketList api={api} user={user} routeProps={props} />
           )}
         />
         <Route
           path={`/market_detail`}
-          render={({history}) => <MarketDetail api={api} user={user} history={history} />}
+          render={props => (
+            <MarketDetail api={api} user={user} routeProps={props} />
+          )}
         />
       </Router>
     </Fabric>

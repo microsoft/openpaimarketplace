@@ -3,119 +3,86 @@ import "regenerator-runtime/runtime";
 import "whatwg-fetch";
 
 import React, { useState, useEffect } from "react";
-import { Fabric, Stack } from "office-ui-fabric-react";
+import { Fabric, Stack, Pivot, PivotItem } from "office-ui-fabric-react";
 import { isNil } from "lodash";
+import qs from "query-string";
 
-import { TopBar } from "../components/top_bar";
-import { CategorySideBar } from "./components/category_side_bar";
-import { FilterBar } from "./components/filter_bar";
-import { ItemList } from "./components/item_list";
-import { MarketItem } from "../models/market_item";
+import { TopBar } from "App/components/top_bar";
 import Context from "../context";
-import Filter from "../models/filter";
-import Paginator from "../components/paginator";
-import Pagination from "../models/pagination";
-import {
-  getApprovedItems,
-  ensureUser,
-  getPendingItems
-} from "../utils/marketplace_api";
+import ListView from "./list_view";
+
+import { getPendingItems, ensureUser } from "App/utils/marketplace_api";
 
 const MarketList = props => {
-  const { api, user, token, history } = props;
+  const { api, user, routeProps } = props;
 
-  const [itemList, setItemList] = useState([]);
-  const [filteredItems, setFilteredItems] = useState(null);
-  const [filter, setFilter] = useState(new Filter());
-  const [pagination, setPagination] = useState(new Pagination());
-  const [status, setStatus] = useState("approved");
+  const [status, setStatus] = useState(initStatus());
+  const [pendingListNumber, setPendingListNumber] = useState(0);
 
-  useEffect(() => {
-    setFilteredItems(filter.apply(itemList));
-  }, [itemList, filter]);
-
-  useEffect(() => {
-    setPagination(new Pagination(pagination.itemsPerPage, 0));
-  }, [filteredItems]);
-
-  useEffect(() => {
-    reload();
-  }, [status]);
-
-  async function reload() {
-    let itemList = [];
-    try {
-      await ensureUser(user);
-      let items;
-      if (status === "approved") {
-        items = await getApprovedItems();
-      } else {
-        items = await getPendingItems();
-      }
-      items.forEach(item => {
-        const marketItem = new MarketItem({
-          id: item.id,
-          name: item.name,
-          author: item.author,
-          createdAt: item.createdAt,
-          updatedAt: item.updatedAt,
-          category: item.category,
-          tags: item.tags,
-          introduction: item.introduction,
-          description: item.description,
-          jobConfig: item.jobConfig,
-          submits: item.submits,
-          starNumber: item.starNumber,
-          status: item.status
-        });
-        itemList.push(marketItem);
-      });
-
-      setItemList(itemList);
-    } catch (err) {
-      alert(err.message);
+  function initStatus() {
+    const status = qs.parse(routeProps.location.search).status;
+    if (isNil(status)) {
+      return "approved";
+    } else if (status === "pending") {
+      return "pending";
+    } else {
+      return "approved";
     }
   }
 
   const context = {
     api,
     user,
-    history
+    history: routeProps.history
   };
+
+  useEffect(() => {
+    ensureUser(user);
+  }, []);
+
+  useEffect(() => {
+    countPending();
+  }, [status]);
+
+  async function countPending() {
+    try {
+      const items = await getPendingItems();
+      setPendingListNumber(items.length);
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  function clickPivot(item) {
+    if (item.props.headerText === "Market list") {
+      setStatus("approved");
+    } else {
+      setStatus("pending");
+    }
+  }
 
   return (
     <Context.Provider value={context}>
-      <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1200 }}>
-        <Stack padding="l1" gap="l1">
-          <TopBar
-            status={status}
-            setStatus={setStatus}
-          />
-          <Stack horizontal gap="l2">
-            <Stack.Item grow>
-              <Stack gap="s" styles={{ root: [{ minWidth: 0 }] }}>
-                <FilterBar
-                  itemList={itemList}
-                  filteredItems={filteredItems}
-                  filter={filter}
-                  setFilter={setFilter}
-                />
-                <ItemList
-                  filteredItems={filteredItems}
-                  setFilter={setFilter}
-                  pagination={pagination}
-                  status={status}
-                />
-              </Stack>
-              {!isNil(filteredItems) && filteredItems.length > 5 && (
-                <Paginator
-                  items={filteredItems}
-                  pagination={pagination}
-                  setPagination={setPagination}
-                />
-              )}
-            </Stack.Item>
-          </Stack>
+      <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1050 }}>
+        <Stack padding="l1" gap="m">
+          <TopBar pageType="list" status={status} />
+          <Pivot onLinkClick={clickPivot} selectedKey={status}>
+            <PivotItem
+              itemKey="approved"
+              headerText="Market list"
+              itemIcon="Bank"
+            >
+              <ListView status={status} />
+            </PivotItem>
+            <PivotItem
+              itemKey="pending"
+              headerText="Pending list"
+              itemIcon="IssueTrackingMirrored"
+              itemCount={pendingListNumber}
+            >
+              <ListView status={status} />
+            </PivotItem>
+          </Pivot>
         </Stack>
       </Fabric>
     </Context.Provider>

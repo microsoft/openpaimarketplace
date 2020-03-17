@@ -13,16 +13,15 @@ import { getTheme } from "@uifabric/styling";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { isNil } from "lodash";
 
-import { TagBar } from "../../components/tag_bar";
-import ConfirmDialog from "../../components/confirm_dialog";
-import Card from "../../components/card";
-import Context from "../../context";
-import { approveItem, rejectItem } from "../../utils/marketplace_api";
-
-const { spacing } = getTheme();
+import { TagBar } from "App/components/tag_bar";
+import ConfirmDialog from "App/components/confirm_dialog";
+import Card from "App/components/card";
+import Context from "App/context";
+import { approveItem, rejectItem } from "App/utils/marketplace_api";
 
 const ItemCard = props => {
   const { item, status } = props;
+  const { spacing } = getTheme();
 
   const { history } = useContext(Context);
   const [hideApproveDialog, setHideApproveDialog] = useState(true);
@@ -49,9 +48,9 @@ const ItemCard = props => {
     );
   };
 
-  const populateUpdatedTime = () => {
+  const populateCreatedTime = () => {
     const uploadedTime = Math.floor(
-      Math.abs(new Date() - new Date(item.updatedAt)) / 1000 / 3600 / 24
+      Math.abs(new Date() - new Date(item.createdAt)) / 1000 / 3600 / 24
     );
     return uploadedTime === 0
       ? "not long ago"
@@ -126,12 +125,19 @@ const ItemCard = props => {
                 }
               }}
             >
-              updated {populateUpdatedTime()}
+              created {populateCreatedTime()}
             </Stack>
           </Stack>
           <Stack gap="l2">
             <Stack horizontal gap="l2">
-              <TooltipHost content="submits">
+              <TooltipHost
+                content="submits"
+                styles={{
+                  root: {
+                    display: status === "pending" ? "none " : "inline-block"
+                  }
+                }}
+              >
                 <Stack horizontal gap="s1">
                   <Icon iconName="Copy" />
                   <div
@@ -144,7 +150,14 @@ const ItemCard = props => {
                   </div>
                 </Stack>
               </TooltipHost>
-              <TooltipHost content="stars">
+              <TooltipHost
+                content="stars"
+                styles={{
+                  root: {
+                    display: status === "pending" ? "none " : "inline-block"
+                  }
+                }}
+              >
                 <Stack horizontal gap="s1">
                   <Icon iconName="Like" />
                   <div
@@ -158,7 +171,6 @@ const ItemCard = props => {
                 </Stack>
               </TooltipHost>
             </Stack>
-
             <Stack gap="m" styles={{ root: [{ paddingRight: spacing.l2 }] }}>
               {status === "approved" && (
                 <PrimaryButton
@@ -181,8 +193,8 @@ const ItemCard = props => {
                       fontWeight: FontWeights.regular
                     }
                   }}
-                  onClick={async () => {
-                    await approve(item.id);
+                  onClick={e => {
+                    setHideApproveDialog(false);
                   }}
                 >
                   Approve
@@ -220,8 +232,8 @@ const ItemCard = props => {
                       fontWeight: FontWeights.regular
                     }
                   }}
-                  onClick={async () => {
-                    await reject(item.id);
+                  onClick={e => {
+                    setHideRejectDialog(false);
                   }}
                 >
                   Reject
@@ -231,7 +243,7 @@ const ItemCard = props => {
                 hideDialog={hideRejectDialog}
                 setHideDialog={setHideRejectDialog}
                 action="reject"
-                inDetail={true}
+                pageType="list"
                 itemId={item.id}
               />
             </Stack>

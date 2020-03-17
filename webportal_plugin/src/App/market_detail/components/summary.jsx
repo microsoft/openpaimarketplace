@@ -250,7 +250,7 @@ export default function Summary(props) {
                 hideDialog={hideApproveDialog}
                 setHideDialog={setHideApproveDialog}
                 action="approve"
-                inDetail={true}
+                pageType="detail"
                 itemId={marketItem.id}
               />
               <DefaultButton
@@ -269,7 +269,7 @@ export default function Summary(props) {
                 hideDialog={hideRejectDialog}
                 setHideDialog={setHideRejectDialog}
                 action="reject"
-                inDetail={true}
+                pageType="detail"
                 itemId={marketItem.id}
               />
             </Stack>

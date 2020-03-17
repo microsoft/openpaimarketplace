@@ -30,7 +30,7 @@ import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import { Fabric, FontClassNames } from "office-ui-fabric-react";
 import t from "../components/tachyons.scss";
-import Top from "./components/top";
+import { TopBar } from "App/components/top_bar";
 import Summary from "./components/summary";
 import Detail from "./components/detail";
 import Context from "App/context";
@@ -38,7 +38,7 @@ import { SpinnerLoading } from "App/components/loading";
 import { getItemById } from "App/utils/marketplace_api";
 
 const MarketDetail = props => {
-  const { api, user, history } = props;
+  const { api, user, routeProps } = props;
 
   const [loading, setLoading] = useState(true);
   const [marketItem, setMarketItem] = useState(null);
@@ -62,7 +62,7 @@ const MarketDetail = props => {
   const context = {
     user,
     api,
-    history
+    history: routeProps.history
   };
 
   return (
@@ -71,7 +71,7 @@ const MarketDetail = props => {
       {loading === false && (
         <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1050 }}>
           <div className={classNames(t.w100, t.pa4, FontClassNames.medium)}>
-            <Top />
+            <TopBar pageType="detail" status={marketItem.status} />
             <Summary marketItem={marketItem} />
             <Detail marketItem={marketItem} />
           </div>

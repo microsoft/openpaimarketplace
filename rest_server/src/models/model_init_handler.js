@@ -20,13 +20,13 @@ const createTemplates = async models => {
         name: template.name,
         author: template.contributor,
         category: "OpenPAI Official",
-        tags: [],
+        tags: ['official example'],
         introduction: template.name,
         description: template.description,
         jobConfig: template, // TODO: protocol validation in the future
         submits: 0,
         starNumber: 0,
-        status: "approved"
+        status: "pending"
       });
     })
   );

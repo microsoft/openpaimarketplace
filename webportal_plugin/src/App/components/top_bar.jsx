@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Stack,
   CommandButton,
   DefaultButton,
+  ActionButton,
   FontWeights,
   getTheme
 } from "office-ui-fabric-react";
 
 import CreateItemDialog from "./create_item_dialog";
 import JobList from "./job_list";
+import Context from "App/context";
 
 export const TopBar = React.memo(props => {
   const { spacing, palette } = getTheme();
-  const { status, setStatus } = props;
+  const { pageType, status } = props;
+  const { history } = useContext(Context);
   const [hideCreateDialog, setHideCreateDialog] = useState(true);
   const [hideJobListDialog, setHideJobListDialog] = useState(true);
   const menuProps = {
@@ -37,6 +40,26 @@ export const TopBar = React.memo(props => {
   return (
     <Stack>
       <Stack horizontal horizontalAlign="begin" verticalAlign="baseline">
+        {pageType === "detail" && status === "approved" && (
+          <ActionButton
+            iconProps={{ iconName: "revToggleKey" }}
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            Back to market list
+          </ActionButton>
+        )}
+        {pageType === "detail" && status === "pending" && (
+          <ActionButton
+            iconProps={{ iconName: "revToggleKey" }}
+            onClick={() => {
+              history.push("/?status=pending");
+            }}
+          >
+            Back to pending list
+          </ActionButton>
+        )}
         <CommandButton
           text="Create"
           iconProps={{ iconName: "Add" }}
@@ -46,27 +69,6 @@ export const TopBar = React.memo(props => {
               fontSize: 14,
               fontWeight: FontWeights.regular
             }
-          }}
-        />
-        <DefaultButton
-          text={"Pending approvals"}
-          iconProps={
-            status === "pending"
-              ? { iconName: "BulletedList" }
-              : { iconName: "checkList" }
-          }
-          styles={{
-            root: {
-              fontSize: 14,
-              fontWeight: FontWeights.regular,
-              backgroundColor:
-                status === "pending"
-                  ? `${palette.neutralQuaternary}`
-                  : `${palette.neutralLighter}`
-            }
-          }}
-          onClick={() => {
-            status === "pending" ? setStatus("approved") : setStatus("pending");
           }}
         />
       </Stack>

@@ -15,14 +15,14 @@ import { approveItem, rejectItem } from "App/utils/marketplace_api";
 import Context from "App/context";
 
 const ConfirmDialog = props => {
-  const { hideDialog, setHideDialog, action, inDetail, itemId } = props;
+  const { hideDialog, setHideDialog, action, pageType, itemId } = props;
   const { history } = useContext(Context);
 
   async function approve(itemId) {
     try {
       setHideDialog(true);
       const result = await approveItem(itemId);
-      if (inDetail) {
+      if (pageType === "detail") {
         history.push("/");
       } else {
         window.location.reload(true);
@@ -36,7 +36,7 @@ const ConfirmDialog = props => {
     try {
       setHideDialog(true);
       const result = await rejectItem(itemId);
-      if (inDetail) {
+      if (pageType === "detail") {
         history.push("/");
       } else {
         window.location.reload(true);

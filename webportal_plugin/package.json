@@ -30,8 +30,8 @@
     "js-cookie": "^2.2.0",
     "js-yaml": "^3.13.1",
     "luxon": "^1.11.3",
-    "monaco-editor": "^0.17.0",
-    "office-ui-fabric-react": "^6.162.1",
+    "office-ui-fabric-react": "^6.189.0",
+    "query-string": "^6.11.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-infinite-scroller": "^1.2.4",
@@ -63,7 +63,6 @@
     "raw-loader": "~0.5.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "typescript": "^3.3.3333",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
