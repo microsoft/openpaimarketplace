@@ -3,11 +3,9 @@ import "regenerator-runtime/runtime";
 import "whatwg-fetch";
 
 import React, { useState, useEffect, useContext } from "react";
-import { Fabric, Stack, getTheme } from "office-ui-fabric-react";
+import { Stack, getTheme } from "office-ui-fabric-react";
 import { isNil } from "lodash";
 
-import { TopBar } from "../components/top_bar";
-import { CategorySideBar } from "./components/category_side_bar";
 import { FilterBar } from "./components/filter_bar";
 import { ItemList } from "./components/item_list";
 import { MarketItem } from "../models/market_item";
@@ -46,7 +44,6 @@ const ListView = props => {
   async function reload() {
     let itemList = [];
     try {
-      await ensureUser(user);
       let items;
       if (status === "approved") {
         items = await getApprovedItems();

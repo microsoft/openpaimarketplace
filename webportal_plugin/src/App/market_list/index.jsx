@@ -15,12 +15,16 @@ import { getPendingItems, ensureUser } from "App/utils/marketplace_api";
 
 const MarketList = props => {
   const { api, user, routeProps } = props;
+  const admin = cookies.get("admin");
 
   const [status, setStatus] = useState(initStatus());
   const [pendingListNumber, setPendingListNumber] = useState(0);
 
   function initStatus() {
     const status = qs.parse(routeProps.location.search).status;
+    if (!admin) {
+      return "approved";
+    }
     if (isNil(status)) {
       return "approved";
     } else if (status === "pending") {
@@ -74,14 +78,16 @@ const MarketList = props => {
             >
               <ListView status={status} />
             </PivotItem>
-            <PivotItem
-              itemKey="pending"
-              headerText="Pending list"
-              itemIcon="IssueTrackingMirrored"
-              itemCount={pendingListNumber}
-            >
-              <ListView status={status} />
-            </PivotItem>
+            {admin && (
+              <PivotItem
+                itemKey="pending"
+                headerText="Pending list"
+                itemIcon="IssueTrackingMirrored"
+                itemCount={pendingListNumber}
+              >
+                <ListView status={status} />
+              </PivotItem>
+            )}
           </Pivot>
         </Stack>
       </Fabric>

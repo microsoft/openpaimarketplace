@@ -130,6 +130,22 @@ class MarketplaceItem {
     return await handler(itemId, status, this.models);
   }
 
+  async updateSubmits(itemId) {
+    const handler = modelSyncHandler(async (itemId) => {
+      const item = await this.orm.findOne({
+        where: { id: itemId }
+      });
+      if (isNil(item)) {
+        return null;
+      } else {
+        await item.increment("submits");
+        return item;
+      }
+    });
+
+    return await handler(itemId, this.models);
+  }
+
   async del(itemId) {
     const handler = modelSyncHandler(async itemId => {
       const item = await this.orm.findOne({

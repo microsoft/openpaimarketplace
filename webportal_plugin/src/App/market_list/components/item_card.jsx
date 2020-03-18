@@ -17,7 +17,7 @@ import { TagBar } from "App/components/tag_bar";
 import ConfirmDialog from "App/components/confirm_dialog";
 import Card from "App/components/card";
 import Context from "App/context";
-import { approveItem, rejectItem } from "App/utils/marketplace_api";
+import { increaseSubmits } from "App/utils/marketplace_api";
 
 const ItemCard = props => {
   const { item, status } = props;
@@ -27,16 +27,13 @@ const ItemCard = props => {
   const [hideApproveDialog, setHideApproveDialog] = useState(true);
   const [hideRejectDialog, setHideRejectDialog] = useState(true);
 
-  const clickSubmit = useCallback(() => {
+  const clickSubmit = async () => {
     // save jobConfig to localStorage
     window.localStorage.removeItem("marketItem");
-    window.localStorage.setItem("marketItem", JSON.stringify(item));
-    cloneJob(item.id, item.jobConfig);
-  });
-
-  const cloneJob = (id, jobConfig) => {
-    if (isJobV2(jobConfig)) {
-      window.location.href = `/submit.html?op=marketplace_submit&itemId=${id}#/general`;
+    window.localStorage.setItem("marketItem", JSON.stringify(item.jobConfig));
+    await increaseSubmits(item.id);
+    if (isJobV2(item.jobConfig)) {
+      window.location.href = `/submit.html`;
     } else {
       window.location.href = `/submit_v1.html`;
     }
@@ -56,24 +53,6 @@ const ItemCard = props => {
       ? "not long ago"
       : uploadedTime + (uploadedTime > 1 ? " days ago" : " day ago");
   };
-
-  async function approve(itemId) {
-    try {
-      const result = await approveItem(itemId);
-      window.location.reload(true);
-    } catch (err) {
-      alert(err);
-    }
-  }
-
-  async function reject(itemId) {
-    try {
-      const result = await rejectItem(itemId);
-      window.location.reload(true);
-    } catch (err) {
-      alert(err);
-    }
-  }
 
   return (
     <Card key={item.Id}>

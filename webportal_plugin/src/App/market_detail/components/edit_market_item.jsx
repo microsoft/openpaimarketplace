@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
   DefaultButton,
   PrimaryButton,
@@ -15,6 +15,7 @@ import {
   getTheme
 } from "office-ui-fabric-react";
 
+import Context from "App/context";
 import { TagBar } from "../../components/tag_bar";
 import { updateItem } from "../../utils/marketplace_api";
 
@@ -22,6 +23,7 @@ const { spacing } = getTheme();
 
 export default function EditMarketItem(props) {
   const { hideDialog, setHideDialog, marketItem } = props;
+  const { history } = useContext(Context);
 
   const [name, setName] = useState(marketItem.name);
   const [category, setCategory] = useState(marketItem.category);
@@ -68,7 +70,8 @@ export default function EditMarketItem(props) {
       marketItem.stars,
       tags
     );
-    window.location.reload(true);
+    history.push("/empty");
+    history.replace(`/market_detail?itemId=${marketItem.id}`);
   }
 
   const closeDialog = useCallback(() => {
@@ -107,15 +110,6 @@ export default function EditMarketItem(props) {
           value={name}
           onChange={e => {
             setName(e.target.value);
-          }}
-          required
-        />
-        <Dropdown
-          label="Category"
-          options={CATEGORY_OPTIONS}
-          defaultSelectedKey={category}
-          onChange={(e, item) => {
-            setCategory(item.text);
           }}
           required
         />

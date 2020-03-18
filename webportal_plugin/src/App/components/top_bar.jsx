@@ -2,10 +2,11 @@ import React, { useState, useContext } from "react";
 import {
   Stack,
   CommandButton,
-  DefaultButton,
   ActionButton,
   FontWeights,
-  getTheme
+  getTheme,
+  MessageBar,
+  MessageBarType
 } from "office-ui-fabric-react";
 
 import CreateItemDialog from "./create_item_dialog";
@@ -13,11 +14,12 @@ import JobList from "./job_list";
 import Context from "App/context";
 
 export const TopBar = React.memo(props => {
-  const { spacing, palette } = getTheme();
   const { pageType, status } = props;
   const { history } = useContext(Context);
   const [hideCreateDialog, setHideCreateDialog] = useState(true);
   const [hideJobListDialog, setHideJobListDialog] = useState(true);
+  const [itemCreated, setItemCreated] = useState(false);
+
   const menuProps = {
     items: [
       {
@@ -72,13 +74,28 @@ export const TopBar = React.memo(props => {
           }}
         />
       </Stack>
+      {itemCreated && (
+        <MessageBar
+          onDismiss={() => {
+            setItemCreated(false);
+          }}
+          dismissButtonAriaLabel="Close"
+          messageBarType={MessageBarType.success}
+          isMultiline={false}
+        >
+          You have successfully submitted a marketplace item. Please wait for
+          admin to review.
+        </MessageBar>
+      )}
       <CreateItemDialog
         hideDialog={hideCreateDialog}
         setHideDialog={setHideCreateDialog}
+        setItemCreated={setItemCreated}
       />
       <JobList
         hideDialog={hideJobListDialog}
         setHideDialog={setHideJobListDialog}
+        setItemCreated={setItemCreated}
       />
     </Stack>
   );

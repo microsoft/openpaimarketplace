@@ -26,6 +26,10 @@ router
   .put(itemController.updateStatus);
 
 router
+  .route("/items/:itemId/submits")
+  .put(itemController.updateSubmits);
+
+router
   .route("/items/:itemId/starUsers")
   .get(itemController.listStarUsers);
 

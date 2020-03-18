@@ -5,13 +5,12 @@ import {
   PrimaryButton,
   Dialog,
   DialogFooter,
-  Dropdown,
   DialogType,
   TextField,
   Stack,
   FontSizes,
   FontWeights,
-  Text
+  Text,
 } from "office-ui-fabric-react";
 import { getTheme } from "@uifabric/styling";
 import { isNil } from "lodash";
@@ -24,7 +23,7 @@ import Context from "App/context";
 import { MARKETPLACE_API } from "App/utils/constants";
 
 export default function CreateItemDialog(props) {
-  const { hideDialog, setHideDialog } = props;
+  const { hideDialog, setHideDialog, setItemCreated } = props;
   const { user, history } = useContext(Context);
   const { spacing } = getTheme();
 
@@ -34,7 +33,6 @@ export default function CreateItemDialog(props) {
   const [introduction, setIntroduction] = useState("");
   const [description, setDescription] = useState("");
   const [yamlText, setYamlText] = useState(null);
-  const [hideSuccessDialog, setHideSuccessDialog] = useState(true);
 
   const CATEGORY_OPTIONS = [
     { key: "custom", text: "custom" },
@@ -66,7 +64,6 @@ export default function CreateItemDialog(props) {
       return;
     }
     setHideDialog(true);
-    setHideSuccessDialog(false);
 
     const marketItem = new MarketItem({
       name: name,
@@ -78,7 +75,7 @@ export default function CreateItemDialog(props) {
       jobConfig: yaml.safeLoad(yamlText)
     });
     const itemId = await createMarketItem(marketItem);
-    history.push(`/market_detail?itemId=${itemId}`);
+    setItemCreated(true)
   };
 
   const closeDialog = useCallback(() => {
@@ -127,13 +124,6 @@ export default function CreateItemDialog(props) {
             }}
             required
           />
-          <Dropdown
-            label="Category"
-            options={CATEGORY_OPTIONS}
-            defaultSelectedKey={"custom"}
-            onChange={(e, item) => setCategory(item.text)}
-            required
-          />
           <Stack gap="s1">
             <span>Tags</span>
             <TagBar tags={tags} setTags={setTags} />
@@ -166,10 +156,6 @@ export default function CreateItemDialog(props) {
       </Dialog>
     </div>
   );
-
-  function closeSuccessDialog() {
-    setHideSuccessDialog(true);
-  }
 
   async function createMarketItem(marketItem) {
     const url = `${MARKETPLACE_API}/items`;

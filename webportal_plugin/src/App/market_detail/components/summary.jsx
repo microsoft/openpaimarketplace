@@ -36,13 +36,19 @@ import DeleteMarketItem from "./delete_market_item";
 import Context from "App/context";
 import { TagBar } from "../../components/tag_bar";
 import ConfirmDialog from "../../components/confirm_dialog";
-import { getStarStatus, deleteStar, addStar } from "App/utils/marketplace_api";
+import {
+  getStarStatus,
+  deleteStar,
+  addStar,
+  increaseSubmits
+} from "App/utils/marketplace_api";
 
 const { spacing } = getTheme();
 
 export default function Summary(props) {
   const { marketItem } = props;
   const { user, history } = useContext(Context);
+  const admin = cookies.get("admin");
 
   const [hideDialog, setHideDialog] = useState(true);
   const [hideApproveDialog, setHideApproveDialog] = useState(true);
@@ -75,17 +81,15 @@ export default function Summary(props) {
     }
   });
 
-  const clickSubmit = useCallback(e => {
-    // save jobConfig to localStorage
+  const clickSubmit = async () => {
     window.localStorage.removeItem("marketItem");
-    window.localStorage.setItem("marketItem", JSON.stringify(marketItem));
-    cloneJob();
-  });
-
-  const cloneJob = () => {
-    const jobConfig = marketItem.jobConfig;
-    if (isJobV2(jobConfig)) {
-      window.location.href = `/submit.html?op=marketplace_submit&itemId=${marketItem.id}#/general`;
+    window.localStorage.setItem(
+      "marketItem",
+      JSON.stringify(marketItem.jobConfig)
+    );
+    await increaseSubmits(marketItem.id);
+    if (isJobV2(marketItem.jobConfig)) {
+      window.location.href = `/submit.html`;
     } else {
       window.location.href = `/submit_v1.html`;
     }
@@ -213,23 +217,27 @@ export default function Summary(props) {
                 setHideDialog={setHideDialog}
                 marketItem={marketItem}
               />
-              <DefaultButton
-                text="Delete"
-                styles={{
-                  root: {
-                    fontSize: 14,
-                    fontWeight: FontWeights.regular
-                  }
-                }}
-                onClick={e => {
-                  setHideDeleteDialog(false);
-                }}
-              />
-              <DeleteMarketItem
-                hideDeleteDialog={hideDeleteDialog}
-                setHideDeleteDialog={setHideDeleteDialog}
-                itemId={marketItem.id}
-              />
+              {admin && (
+                <Stack>
+                  <DefaultButton
+                    text="Delete"
+                    styles={{
+                      root: {
+                        fontSize: 14,
+                        fontWeight: FontWeights.regular
+                      }
+                    }}
+                    onClick={e => {
+                      setHideDeleteDialog(false);
+                    }}
+                  />
+                  <DeleteMarketItem
+                    hideDeleteDialog={hideDeleteDialog}
+                    setHideDeleteDialog={setHideDeleteDialog}
+                    itemId={marketItem.id}
+                  />
+                </Stack>
+              )}
             </Stack>
           )}
           {marketItem.status === "pending" && (

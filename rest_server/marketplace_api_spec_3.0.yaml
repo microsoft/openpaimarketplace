@@ -166,6 +166,23 @@ paths:
         405:
           $ref: "#/components/responses/InvalidInput"
 
+  /items/{itemId}/submits:
+    parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+        - Item
+      summary: Increase submits of a marketplace item 
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
+
   /items/{itemId}/starUsers:
     get:
       tags:

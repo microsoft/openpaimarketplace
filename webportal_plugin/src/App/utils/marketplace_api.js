@@ -165,6 +165,18 @@ export async function rejectItem(itemId) {
   }
 }
 
+export async function increaseSubmits(itemId) {
+  const url = `${MARKETPLACE_API}/items/${itemId}/submits`;
+  const res = await fetch(url, {
+    method: "Put"
+  });
+  if (res.ok) {
+    return true;
+  } else {
+    throw new Error(res.statusText);
+  }
+}
+
 // create if user not exist
 export async function ensureUser(user) {
   const url = `${MARKETPLACE_API}/users`;

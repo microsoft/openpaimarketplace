@@ -106,6 +106,19 @@ const updateStatus = asyncHandler(async (req, res, next) => {
   }
 });
 
+const updateSubmits = asyncHandler(async (req, res, next) => {
+  try {
+    const result = await MarketplaceItem.updateSubmits(req.params.itemId);
+    if (isNil(result)) {
+      res.status(404).send("item not found");
+    } else {
+      res.status(200).send("ok");
+    }
+  } catch (e) {
+    databaseErrorHandler(e, res);
+  }
+});
+
 const listStarUsers = asyncHandler(async (req, res, next) => {
   try {
     const users = await MarketplaceItem.listStarUsers(req.params.itemId);
@@ -128,5 +141,6 @@ module.exports = {
   del,
   updateDescription,
   updateStatus,
-  listStarUsers
+  listStarUsers,
+  updateSubmits
 };

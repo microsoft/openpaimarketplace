@@ -25,7 +25,8 @@ const ConfirmDialog = props => {
       if (pageType === "detail") {
         history.push("/");
       } else {
-        window.location.reload(true);
+        history.push("/empty");
+        history.replace("/");
       }
     } catch (err) {
       alert(err);
@@ -37,9 +38,10 @@ const ConfirmDialog = props => {
       setHideDialog(true);
       const result = await rejectItem(itemId);
       if (pageType === "detail") {
-        history.push("/");
+        history.push("/?status=pending");
       } else {
-        window.location.reload(true);
+        history.push("/empty");
+        history.replace("/?status=pending");
       }
     } catch (err) {
       alert(err);
