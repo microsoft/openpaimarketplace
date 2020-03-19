@@ -5,6 +5,7 @@ info:
 tags:
   - name: Item
   - name: User
+  - name: Candidate
 paths:
   /items:
     post:
@@ -40,7 +41,7 @@ paths:
           schema:
             type: string
         - in: query
-          name: catagory
+          name: category
           schema:
             type: string
         - in: query
@@ -164,6 +165,23 @@ paths:
           $ref: "#/components/responses/404NotFound"
         405:
           $ref: "#/components/responses/InvalidInput"
+
+  /items/{itemId}/submits:
+    parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      tags:
+        - Item
+      summary: Increase submits of a marketplace item 
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/components/responses/404NotFound"
 
   /items/{itemId}/starUsers:
     get:

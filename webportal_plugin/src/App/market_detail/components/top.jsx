@@ -15,25 +15,24 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import { FontClassNames, ColorClassNames } from "@uifabric/styling";
-import c from "classnames";
-import { Spinner, SpinnerSize } from "office-ui-fabric-react/lib/Spinner";
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from 'react';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 
-import t from "App/components/tachyons.scss";
+import Context from 'App/context';
 
-export const SpinnerLoading = ({ label = "Loading..." }) => {
+const Top = () => {
+  const { history } = useContext(Context);
+  
   return (
-    <div className={c(t.flex, t.itemsCenter, t.justifyCenter, t.h100)}>
-      <div className={c(t.flex, t.itemsCenter)}>
-        <Spinner size={SpinnerSize.large} />
-        <div className={c(t.ml4, FontClassNames.xLarge)}>{label}</div>
-      </div>
-    </div>
+    <ActionButton
+      iconProps={{ iconName: 'revToggleKey' }}
+      onClick={() => {
+        history.push('/');
+      }}
+    >
+      Back to Marketplace
+    </ActionButton>
   );
 };
 
-SpinnerLoading.propTypes = {
-  label: PropTypes.string
-};
+export default Top;

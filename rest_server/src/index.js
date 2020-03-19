@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const router = require("./router");
 const dotnev = require("dotenv");
@@ -10,6 +11,7 @@ dotnev.config();
 
 app.use(bodyParser.json());
 app.use(bodyParser.text({ type: "text/plain" }));
+app.use(cors());
 
 app.get("/", function(req, res) {
   res.send("Welcome to marketplace!");

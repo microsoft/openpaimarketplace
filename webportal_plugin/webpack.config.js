@@ -15,20 +15,20 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-const { resolve } = require("path");
+const path = require("path");
 const webpack = require("webpack");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 const configuration = {
-  context: resolve(__dirname, "src"),
+  context: path.resolve(__dirname, "src"),
   entry: {
-    plugin: "./index.js",
+    plugin: "./index.js"
   },
   output: {
-    path: resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
     chunkFilename: "[id].chunk.js",
-    globalObject: "this",
+    globalObject: "this"
   },
   module: {
     rules: [
@@ -36,25 +36,25 @@ const configuration = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            plugins: ['lodash', '@babel/plugin-syntax-dynamic-import'],
+            plugins: ["lodash", "@babel/plugin-syntax-dynamic-import"],
             presets: [
-              '@babel/preset-react',
+              "@babel/preset-react",
               [
-                '@babel/preset-env',
+                "@babel/preset-env",
                 {
-                  useBuiltIns: 'entry',
-                  corejs: 3,
-                },
-              ],
-            ],
-          },
-        },
+                  useBuiltIns: "entry",
+                  corejs: 3
+                }
+              ]
+            ]
+          }
+        }
       },
       {
         test: /\.(css|scss)$/,
-        include: resolve(__dirname, "src"),
+        include: path.resolve(__dirname, "src"),
         use: [
           "style-loader",
           {
@@ -64,48 +64,51 @@ const configuration = {
               modules: true,
               sourceMap: true,
               camelCase: true,
-              localIdentName: "[name]-[local]--[hash:base64:6]",
-            },
+              localIdentName: "[name]-[local]--[hash:base64:6]"
+            }
           },
-          "sass-loader",
-        ],
+          "sass-loader"
+        ]
       },
       {
         test: /\.(css|scss)$/,
-        exclude: resolve(__dirname, "src"),
-        use: ["style-loader", "css-loader", "sass-loader"],
+        exclude: path.resolve(__dirname, "src"),
+        use: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         test: /\.(jpg|png|gif|ico)$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: '[name].[ext]',
-              publicPath: '/assets/img/',
-              outputPath: 'assets/img/',
-            },
-          },
-        ],
-      },
-    ],
+              name: "[name].[ext]",
+              publicPath: "/assets/img/",
+              outputPath: "assets/img/"
+            }
+          }
+        ]
+      }
+    ]
   },
   resolve: {
     extensions: [".jsx", ".js", "json"],
+    alias: {
+      App: path.resolve(__dirname, "src/app")
+    }
   },
   plugins: [
     new webpack.IgnorePlugin({
       resourceRegExp: /^esprima$/,
-      contextRegExp: /js-yaml/,
+      contextRegExp: /js-yaml/
     }),
     new MonacoWebpackPlugin({
       languages: ["yaml"],
-      features: ["folding"],
+      features: ["folding"]
     }),
     new webpack.ProvidePlugin({
-      cookies: 'js-cookie',
-      'window.cookies': 'js-cookie',
-    }),
+      cookies: "js-cookie",
+      "window.cookies": "js-cookie"
+    })
   ],
   devServer: {
     host: "127.0.0.1",
@@ -113,9 +116,9 @@ const configuration = {
     contentBase: false,
     disableHostCheck: true,
     watchOptions: {
-      ignored: /node_modules/,
-    },
-  },
+      ignored: /node_modules/
+    }
+  }
 };
 
 module.exports = configuration;

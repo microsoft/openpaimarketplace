@@ -26,13 +26,21 @@ router
   .put(itemController.updateStatus);
 
 router
+  .route("/items/:itemId/submits")
+  .put(itemController.updateSubmits);
+
+router
   .route("/items/:itemId/starUsers")
   .get(itemController.listStarUsers);
 
 router
   .route("/users")
   .get(userController.list)
-  .post(userController.create);
+  .post(userController.create)
+
+router
+  .route("/users/:username")
+  .delete(userController.del);
 
 router.route("/users/:username/starItems").get(userController.listItems);
 

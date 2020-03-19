@@ -20,7 +20,7 @@ class User {
 
   async create(userReq) {
     const handler = modelSyncHandler(async userReq => {
-      const item = await this.orm.create({ name: userReq });
+      await this.orm.create({ name: userReq });
     });
 
     return await handler(userReq, this.models);
@@ -33,6 +33,21 @@ class User {
     });
 
     return await handler(this.models);
+  }
+
+  async del(username) {
+    const handler = modelSyncHandler(async username => {
+      const user = await this.orm.findOne({
+        where: { name: username }
+      });
+      if (isNil(user)) {
+        return null;
+      } else {
+        return await user.destroy();
+      }
+    });
+
+    return await handler(username, this.models);
   }
 
   async listItems(username) {
