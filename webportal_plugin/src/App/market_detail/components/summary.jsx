@@ -121,7 +121,6 @@ export default function Summary(props) {
           >
             {marketItem.name}
           </Text>
-          {/* summary-row-2 */}
           <Stack horizontal gap={"m"}>
             <TooltipHost content="Author">
               <Stack horizontal gap="s1">
@@ -138,50 +137,54 @@ export default function Summary(props) {
                 </Text>
               </Stack>
             </TooltipHost>
-            <Stack className={c(t.gray, FontClassNames.medium)}>
-              <TooltipHost content="submits">
-                <Stack horizontal gap={"s1"}>
-                  <Icon iconName="Copy" />
-                  <Text
-                    styles={{
-                      root: {
-                        fontSize: 14,
-                        fontWeight: FontWeights.regular
-                      }
-                    }}
-                  >
-                    {String(marketItem.submits)}
-                  </Text>
-                </Stack>
-              </TooltipHost>
-            </Stack>
-            <Stack className={c(t.gray, FontClassNames.medium)}>
-              <TooltipHost content="stars">
-                <Stack horizontal gap={"s"}>
-                  <button
-                    onClick={() => {
-                      clickStar();
-                    }}
-                    style={{ backgroundColor: "Transparent", border: "none" }}
-                  >
-                    {stared && (
-                      <Icon iconName="Like" className={{ color: "gold" }} />
-                    )}
-                    {!stared && <Icon iconName="Like" />}
-                  </button>
-                  <Text
-                    styles={{
-                      root: {
-                        fontSize: 14,
-                        fontWeight: FontWeights.regular
-                      }
-                    }}
-                  >
-                    {String(starNumber)}
-                  </Text>
-                </Stack>
-              </TooltipHost>
-            </Stack>
+            {marketItem.status === "approved" && (
+              <Stack className={c(t.gray, FontClassNames.medium)}>
+                <TooltipHost content="submits">
+                  <Stack horizontal gap={"s1"}>
+                    <Icon iconName="Copy" />
+                    <Text
+                      styles={{
+                        root: {
+                          fontSize: 14,
+                          fontWeight: FontWeights.regular
+                        }
+                      }}
+                    >
+                      {String(marketItem.submits)}
+                    </Text>
+                  </Stack>
+                </TooltipHost>
+              </Stack>
+            )}
+            {marketItem.status === "approved" && (
+              <Stack className={c(t.gray, FontClassNames.medium)}>
+                <TooltipHost content="stars">
+                  <Stack horizontal gap={"s"}>
+                    <button
+                      onClick={() => {
+                        clickStar();
+                      }}
+                      style={{ backgroundColor: "Transparent", border: "none" }}
+                    >
+                      {stared && (
+                        <Icon iconName="Like" className={{ color: "gold" }} />
+                      )}
+                      {!stared && <Icon iconName="Like" />}
+                    </button>
+                    <Text
+                      styles={{
+                        root: {
+                          fontSize: 14,
+                          fontWeight: FontWeights.regular
+                        }
+                      }}
+                    >
+                      {String(starNumber)}
+                    </Text>
+                  </Stack>
+                </TooltipHost>
+              </Stack>
+            )}
           </Stack>
           {/* summary-row-3 */}
           <div className={c(t.gray)}>{marketItem.introduction}</div>
