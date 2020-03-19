@@ -3,7 +3,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import 'github-markdown-css';
 
-import Card from './card';
+import Card from "./card";
 
 const Description = (props) => {
   const { marketItem } = props;

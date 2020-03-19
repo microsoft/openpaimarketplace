@@ -26,11 +26,11 @@ import {
 } from "office-ui-fabric-react";
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import t from "../../components/tachyons.scss";
-import Card from "./card";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { TooltipHost } from "office-ui-fabric-react/lib/Tooltip";
 import { isNil } from "lodash";
 
+import Card from "./card";
 import EditMarketItem from "./edit_market_item";
 import DeleteMarketItem from "./delete_market_item";
 import Context from "App/context";

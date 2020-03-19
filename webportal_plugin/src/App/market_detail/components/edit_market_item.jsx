@@ -5,7 +5,6 @@ import {
   PrimaryButton,
   Dialog,
   DialogFooter,
-  Dropdown,
   DialogType,
   TextField,
   Stack,

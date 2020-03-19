@@ -4,8 +4,8 @@ import Context from "App/context";
 import Card from "./card";
 import yaml from "js-yaml";
 
-const YamlFile = (props) => {
-  const { marketItem } = props;
+const YamlFileRender = props => {
+  const { yamlConfig } = props;
   return (
     <Card
       style={{
@@ -16,9 +16,9 @@ const YamlFile = (props) => {
       }}
       className={FontClassNames.mediumPlus}
     >
-      <div>{yaml.safeDump(marketItem.jobConfig)}</div>
+      <div>{yaml.safeDump(yamlConfig)}</div>
     </Card>
   );
 };
 
-export default YamlFile;
+export default YamlFileRender;

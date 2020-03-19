@@ -24,7 +24,7 @@ import t from "../../components/tachyons.scss";
 import Card from "./card";
 import Description from "./description";
 import TaskRoles from "./taskRoles";
-import YamlFile from "./yamlFile";
+import YamlFileRender from "App/components/yaml_file_render";
 
 export default function Detail(props) {
   const { marketItem } = props;
@@ -65,7 +65,7 @@ export default function Detail(props) {
               }
             }}
           >
-            <YamlFile marketItem={marketItem} />
+            <YamlFileRender yamlConfig={marketItem.jobConfig} />
           </PivotItem>
         </Pivot>
       </Card>

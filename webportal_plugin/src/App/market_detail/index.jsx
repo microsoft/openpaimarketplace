@@ -30,7 +30,7 @@ import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import { Fabric, FontClassNames } from "office-ui-fabric-react";
 import t from "../components/tachyons.scss";
-import { TopBar } from "App/components/top_bar";
+import { TopBar } from "App/top_bar";
 import Summary from "./components/summary";
 import Detail from "./components/detail";
 import Context from "App/context";

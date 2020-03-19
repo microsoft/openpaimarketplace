@@ -7,7 +7,7 @@ import { Fabric, Stack, Pivot, PivotItem } from "office-ui-fabric-react";
 import { isNil } from "lodash";
 import qs from "query-string";
 
-import { TopBar } from "App/components/top_bar";
+import { TopBar } from "App/top_bar";
 import Context from "../context";
 import ListView from "./list_view";
 

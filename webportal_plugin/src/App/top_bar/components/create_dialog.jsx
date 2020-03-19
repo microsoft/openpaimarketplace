@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import {
   DefaultButton,
   PrimaryButton,
+  IconButton,
   Dialog,
   DialogFooter,
   DialogType,
@@ -10,7 +11,7 @@ import {
   Stack,
   FontSizes,
   FontWeights,
-  Text,
+  Text
 } from "office-ui-fabric-react";
 import { getTheme } from "@uifabric/styling";
 import { isNil } from "lodash";
@@ -18,26 +19,23 @@ import yaml from "js-yaml";
 
 import { MarketItem } from "App/models/market_item";
 import { TagBar } from "App/components/tag_bar";
-import ImportYamlFile from "App/market_list/components/import_yaml_file";
+import ImportYamlFile from "./import_yaml_file";
 import Context from "App/context";
-import { MARKETPLACE_API } from "App/utils/constants";
+import { createMarketItem } from "App/utils/marketplace_api";
+import YamlFileRender from "App/components/yaml_file_render";
 
 export default function CreateItemDialog(props) {
-  const { hideDialog, setHideDialog, setItemCreated } = props;
-  const { user, history } = useContext(Context);
+  const { setHideCreateDialog, setItemCreated, initJobConfig } = props;
+  const { user } = useContext(Context);
   const { spacing } = getTheme();
 
+  const [jobConfigExpanded, setJobConfigExpanded] = useState(false);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("custom");
   const [tags, setTags] = useState([]);
   const [introduction, setIntroduction] = useState("");
   const [description, setDescription] = useState("");
-  const [yamlText, setYamlText] = useState(null);
-
-  const CATEGORY_OPTIONS = [
-    { key: "custom", text: "custom" },
-    { key: "official", text: "official" }
-  ];
+  const [jobConfig, setJobConfig] = useState(initJobConfig);
 
   const checkRequired = () => {
     if (name === "") {
@@ -52,10 +50,11 @@ export default function CreateItemDialog(props) {
       alert("description required");
       return false;
     }
-    if (isNil(yamlText)) {
-      alert("yaml file required");
+    if (isNil(jobConfig)) {
+      alert("job config required");
       return false;
     }
+
     return true;
   };
 
@@ -63,7 +62,6 @@ export default function CreateItemDialog(props) {
     if (!checkRequired()) {
       return;
     }
-    setHideDialog(true);
 
     const marketItem = new MarketItem({
       name: name,
@@ -72,26 +70,22 @@ export default function CreateItemDialog(props) {
       tags: tags,
       introduction: introduction,
       description: description,
-      jobConfig: yaml.safeLoad(yamlText)
+      jobConfig: jobConfig
     });
-    const itemId = await createMarketItem(marketItem);
-    setItemCreated(true)
+
+    await createMarketItem(marketItem);
+    setItemCreated(true);
+    setHideCreateDialog(true);
   };
 
   const closeDialog = useCallback(() => {
-    setHideDialog(true);
-    setName("");
-    setCategory("");
-    setTags([]);
-    setIntroduction("");
-    setDescription("");
-    setYamlText(null);
+    setHideCreateDialog(true);
   });
 
   return (
     <div>
       <Dialog
-        hidden={hideDialog}
+        hidden={false}
         onDismiss={closeDialog}
         minWidth={800}
         dialogContentProps={{
@@ -147,7 +141,36 @@ export default function CreateItemDialog(props) {
             }}
             required
           />
-          <ImportYamlFile setYamlText={setYamlText} />
+          <Stack gap="s1">
+            {isNil(initJobConfig) && (
+              <ImportYamlFile setJobConfig={setJobConfig} />
+            )}
+            <Stack
+              verticalAlign="center"
+              horizontal
+              gap="s1"
+              styles={{ root: { paddingLeft: spacing.s1 } }}
+            >
+              <div>yaml config</div>
+              <div>
+                {jobConfigExpanded && (
+                  <IconButton
+                    iconProps={{ iconName: "ChevronDown" }}
+                    onClick={() => setJobConfigExpanded(false)}
+                  />
+                )}
+                {!jobConfigExpanded && (
+                  <IconButton
+                    iconProps={{ iconName: "ChevronRight" }}
+                    onClick={() => setJobConfigExpanded(true)}
+                  />
+                )}
+              </div>
+            </Stack>
+            {jobConfigExpanded && !isNil(jobConfig) && (
+              <YamlFileRender yamlConfig={jobConfig} />
+            )}
+          </Stack>
         </Stack>
         <DialogFooter>
           <PrimaryButton onClick={onConfirm} text="Confirm" />
@@ -156,35 +179,8 @@ export default function CreateItemDialog(props) {
       </Dialog>
     </div>
   );
-
-  async function createMarketItem(marketItem) {
-    const url = `${MARKETPLACE_API}/items`;
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: marketItem.name,
-        author: marketItem.author,
-        category: marketItem.category,
-        introduction: marketItem.introduction,
-        description: marketItem.description,
-        jobConfig: marketItem.jobConfig,
-        tags: marketItem.tags,
-        status: marketItem.status
-      })
-    });
-    if (res.ok) {
-      const result = await res.json();
-      return result.id;
-    } else {
-      throw new Error(res.statusText);
-    }
-  }
 }
 
 CreateItemDialog.propTypes = {
-  hideDialog: PropTypes.bool.isRequired,
-  setHideDialog: PropTypes.func.isRequired
+  setHideCreateDialog: PropTypes.func.isRequired
 };

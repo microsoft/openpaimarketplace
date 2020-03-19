@@ -1,16 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Stack,
   CommandButton,
   ActionButton,
   FontWeights,
-  getTheme,
   MessageBar,
   MessageBarType
 } from "office-ui-fabric-react";
 
-import CreateItemDialog from "./create_item_dialog";
-import JobList from "./job_list";
+import CreateDialog from "./components/create_dialog";
+import JobListDialog from "./components/job_list_dialog";
 import Context from "App/context";
 
 export const TopBar = React.memo(props => {
@@ -19,6 +18,13 @@ export const TopBar = React.memo(props => {
   const [hideCreateDialog, setHideCreateDialog] = useState(true);
   const [hideJobListDialog, setHideJobListDialog] = useState(true);
   const [itemCreated, setItemCreated] = useState(false);
+  const [jobConfig, setJobConfig] = useState(null);
+
+  useEffect(() => {
+    if (hideCreateDialog) {
+      setJobConfig(null);
+    }
+  }, [hideCreateDialog]);
 
   const menuProps = {
     items: [
@@ -87,16 +93,21 @@ export const TopBar = React.memo(props => {
           admin to review.
         </MessageBar>
       )}
-      <CreateItemDialog
-        hideDialog={hideCreateDialog}
-        setHideDialog={setHideCreateDialog}
-        setItemCreated={setItemCreated}
-      />
-      <JobList
-        hideDialog={hideJobListDialog}
-        setHideDialog={setHideJobListDialog}
-        setItemCreated={setItemCreated}
-      />
+      {!hideCreateDialog && (
+        <CreateDialog
+          setHideCreateDialog={setHideCreateDialog}
+          setItemCreated={setItemCreated}
+          initJobConfig={jobConfig}
+        />
+      )}
+      {!hideJobListDialog && (
+        <JobListDialog
+          setHideListDialog={setHideJobListDialog}
+          setHideCreateDialog={setHideCreateDialog}
+          setItemCreated={setItemCreated}
+          setJobConfig={setJobConfig}
+        />
+      )}
     </Stack>
   );
 });
