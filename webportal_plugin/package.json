@@ -11,7 +11,7 @@
   },
   "author": "Microsoft Corporation",
   "engines": {
-    "node": "^8.9.0 || ^10"
+    "node": "^8.10.0 || ^10"
   },
   "license": "MIT",
   "dependencies": {

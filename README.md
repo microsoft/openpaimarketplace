@@ -1,5 +1,7 @@
 # openpaimarketplace
 
+![Webportal Plugin CI](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin%20CI/badge.svg?branch=master)
+
 A marketplace which stores examples and standard jobs of openpai.
 
 ## get started
