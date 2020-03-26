@@ -15,40 +15,41 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import { FontClassNames, getTheme } from "@uifabric/styling";
-import c from "classnames";
+import { FontClassNames, getTheme } from '@uifabric/styling';
+import c from 'classnames';
 import {
   DefaultButton,
   PrimaryButton,
   Stack,
   FontWeights,
-  Text
-} from "office-ui-fabric-react";
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import t from "../../components/tachyons.scss";
-import { Icon } from "office-ui-fabric-react/lib/Icon";
-import { TooltipHost } from "office-ui-fabric-react/lib/Tooltip";
-import { isNil } from "lodash";
+  Text,
+} from 'office-ui-fabric-react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import t from '../../components/tachyons.scss';
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
+import { isNil } from 'lodash';
+import PropTypes from 'prop-types';
 
-import Card from "./card";
-import EditMarketItem from "./edit_market_item";
-import DeleteMarketItem from "./delete_market_item";
-import Context from "App/context";
-import { TagBar } from "../../components/tag_bar";
-import ConfirmDialog from "../../components/confirm_dialog";
+import Card from './card';
+import EditMarketItem from './edit_market_item';
+import DeleteMarketItem from './delete_market_item';
+import Context from 'App/context';
+import { TagBar } from '../../components/tag_bar';
+import ConfirmDialog from '../../components/confirm_dialog';
 import {
   getStarStatus,
   deleteStar,
   addStar,
-  increaseSubmits
-} from "App/utils/marketplace_api";
+  increaseSubmits,
+} from 'App/utils/marketplace_api';
 
 const { spacing } = getTheme();
 
 export default function Summary(props) {
   const { marketItem } = props;
-  const { user, history } = useContext(Context);
-  const admin = cookies.get("admin");
+  const { user } = useContext(Context);
+  const admin = cookies.get('admin');
 
   const [hideDialog, setHideDialog] = useState(true);
   const [hideApproveDialog, setHideApproveDialog] = useState(true);
@@ -82,10 +83,10 @@ export default function Summary(props) {
   });
 
   const clickSubmit = async () => {
-    window.localStorage.removeItem("marketItem");
+    window.localStorage.removeItem('marketItem');
     window.localStorage.setItem(
-      "marketItem",
-      JSON.stringify(marketItem.jobConfig)
+      'marketItem',
+      JSON.stringify(marketItem.jobConfig),
     );
     await increaseSubmits(marketItem.id);
     if (isJobV2(marketItem.jobConfig)) {
@@ -104,50 +105,50 @@ export default function Summary(props) {
   return (
     <div
       style={{
-        marginTop: spacing.m
+        marginTop: spacing.m,
       }}
     >
       {/* summary */}
       <Card className={c(t.pv4, t.ph5)}>
-        <Stack gap={"l1"}>
+        <Stack gap={'l1'}>
           {/* summary-row-1 */}
           <Text
             styles={{
               root: {
                 fontSize: 16,
-                fontWeight: FontWeights.semibold
-              }
+                fontWeight: FontWeights.semibold,
+              },
             }}
           >
             {marketItem.name}
           </Text>
-          <Stack horizontal gap={"m"}>
-            <TooltipHost content="Author">
-              <Stack horizontal gap="s1">
-                <Icon iconName="Contact" />
+          <Stack horizontal gap={'m'}>
+            <TooltipHost content='Author'>
+              <Stack horizontal gap='s1'>
+                <Icon iconName='Contact' />
                 <Text
                   styles={{
                     root: {
                       fontSize: 14,
-                      fontWeight: FontWeights.regular
-                    }
+                      fontWeight: FontWeights.regular,
+                    },
                   }}
                 >
                   {marketItem.author}
                 </Text>
               </Stack>
             </TooltipHost>
-            {marketItem.status === "approved" && (
+            {marketItem.status === 'approved' && (
               <Stack className={c(t.gray, FontClassNames.medium)}>
-                <TooltipHost content="submits">
-                  <Stack horizontal gap={"s1"}>
-                    <Icon iconName="Copy" />
+                <TooltipHost content='submits'>
+                  <Stack horizontal gap={'s1'}>
+                    <Icon iconName='Copy' />
                     <Text
                       styles={{
                         root: {
                           fontSize: 14,
-                          fontWeight: FontWeights.regular
-                        }
+                          fontWeight: FontWeights.regular,
+                        },
                       }}
                     >
                       {String(marketItem.submits)}
@@ -156,27 +157,27 @@ export default function Summary(props) {
                 </TooltipHost>
               </Stack>
             )}
-            {marketItem.status === "approved" && (
+            {marketItem.status === 'approved' && (
               <Stack className={c(t.gray, FontClassNames.medium)}>
-                <TooltipHost content="stars">
-                  <Stack horizontal gap={"s"}>
+                <TooltipHost content='stars'>
+                  <Stack horizontal gap={'s'}>
                     <button
                       onClick={() => {
                         clickStar();
                       }}
-                      style={{ backgroundColor: "Transparent", border: "none" }}
+                      style={{ backgroundColor: 'Transparent', border: 'none' }}
                     >
                       {stared && (
-                        <Icon iconName="Like" className={{ color: "gold" }} />
+                        <Icon iconName='Like' className={{ color: 'gold' }} />
                       )}
-                      {!stared && <Icon iconName="Like" />}
+                      {!stared && <Icon iconName='Like' />}
                     </button>
                     <Text
                       styles={{
                         root: {
                           fontSize: 14,
-                          fontWeight: FontWeights.regular
-                        }
+                          fontWeight: FontWeights.regular,
+                        },
                       }}
                     >
                       {String(starNumber)}
@@ -191,25 +192,25 @@ export default function Summary(props) {
           {/* summary-row-4 */}
           <TagBar tags={marketItem.tags} />
           {/* summary-row-5 */}
-          {marketItem.status === "approved" && (
-            <Stack horizontal gap="m">
+          {marketItem.status === 'approved' && (
+            <Stack horizontal gap='m'>
               <PrimaryButton
-                text="Submit"
+                text='Submit'
                 styles={{
                   root: {
                     fontSize: 14,
-                    fontWeight: FontWeights.regular
-                  }
+                    fontWeight: FontWeights.regular,
+                  },
                 }}
                 onClick={clickSubmit}
               />
               <DefaultButton
-                text="Edit"
+                text='Edit'
                 styles={{
                   root: {
                     fontSize: 14,
-                    fontWeight: FontWeights.regular
-                  }
+                    fontWeight: FontWeights.regular,
+                  },
                 }}
                 onClick={e => {
                   setHideDialog(false);
@@ -223,12 +224,12 @@ export default function Summary(props) {
               {admin && (
                 <Stack>
                   <DefaultButton
-                    text="Delete"
+                    text='Delete'
                     styles={{
                       root: {
                         fontSize: 14,
-                        fontWeight: FontWeights.regular
-                      }
+                        fontWeight: FontWeights.regular,
+                      },
                     }}
                     onClick={e => {
                       setHideDeleteDialog(false);
@@ -243,15 +244,15 @@ export default function Summary(props) {
               )}
             </Stack>
           )}
-          {marketItem.status === "pending" && (
-            <Stack horizontal gap="m">
+          {marketItem.status === 'pending' && (
+            <Stack horizontal gap='m'>
               <PrimaryButton
-                text="Approve"
+                text='Approve'
                 styles={{
                   root: {
                     fontSize: 14,
-                    fontWeight: FontWeights.regular
-                  }
+                    fontWeight: FontWeights.regular,
+                  },
                 }}
                 onClick={async () => {
                   setHideApproveDialog(false);
@@ -260,17 +261,17 @@ export default function Summary(props) {
               <ConfirmDialog
                 hideDialog={hideApproveDialog}
                 setHideDialog={setHideApproveDialog}
-                action="approve"
-                pageType="detail"
+                action='approve'
+                pageType='detail'
                 itemId={marketItem.id}
               />
               <DefaultButton
-                text="Reject"
+                text='Reject'
                 styles={{
                   root: {
                     fontSize: 14,
-                    fontWeight: FontWeights.regular
-                  }
+                    fontWeight: FontWeights.regular,
+                  },
                 }}
                 onClick={async () => {
                   setHideRejectDialog(false);
@@ -279,8 +280,8 @@ export default function Summary(props) {
               <ConfirmDialog
                 hideDialog={hideRejectDialog}
                 setHideDialog={setHideRejectDialog}
-                action="reject"
-                pageType="detail"
+                action='reject'
+                pageType='detail'
                 itemId={marketItem.id}
               />
             </Stack>
@@ -290,3 +291,7 @@ export default function Summary(props) {
     </div>
   );
 }
+
+Summary.propTypes = {
+  marketItem: PropTypes.object,
+};

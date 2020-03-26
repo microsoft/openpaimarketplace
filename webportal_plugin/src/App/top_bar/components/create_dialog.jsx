@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import React, { useState, useCallback, useContext, useEffect } from "react";
+import PropTypes from 'prop-types';
+import React, { useState, useCallback, useContext } from 'react';
 import {
   DefaultButton,
   PrimaryButton,
@@ -11,18 +11,17 @@ import {
   Stack,
   FontSizes,
   FontWeights,
-  Text
-} from "office-ui-fabric-react";
-import { getTheme } from "@uifabric/styling";
-import { isNil } from "lodash";
-import yaml from "js-yaml";
+  Text,
+} from 'office-ui-fabric-react';
+import { getTheme } from '@uifabric/styling';
+import { isNil } from 'lodash';
 
-import { MarketItem } from "App/models/market_item";
-import { TagBar } from "App/components/tag_bar";
-import ImportYamlFile from "./import_yaml_file";
-import Context from "App/context";
-import { createMarketItem } from "App/utils/marketplace_api";
-import YamlFileRender from "App/components/yaml_file_render";
+import { MarketItem } from 'App/models/market_item';
+import { TagBar } from 'App/components/tag_bar';
+import ImportYamlFile from './import_yaml_file';
+import Context from 'App/context';
+import { createMarketItem } from 'App/utils/marketplace_api';
+import YamlFileRender from 'App/components/yaml_file_render';
 
 export default function CreateItemDialog(props) {
   const { setHideCreateDialog, setItemCreated, initJobConfig } = props;
@@ -30,28 +29,28 @@ export default function CreateItemDialog(props) {
   const { spacing } = getTheme();
 
   const [jobConfigExpanded, setJobConfigExpanded] = useState(false);
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("custom");
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('custom'); // eslint-disable-line no-unused-vars
   const [tags, setTags] = useState([]);
-  const [introduction, setIntroduction] = useState("");
-  const [description, setDescription] = useState("");
+  const [introduction, setIntroduction] = useState('');
+  const [description, setDescription] = useState('');
   const [jobConfig, setJobConfig] = useState(initJobConfig);
 
   const checkRequired = () => {
-    if (name === "") {
-      alert("name required");
+    if (name === '') {
+      alert('name required');
       return false;
     }
-    if (introduction === "") {
-      alert("introduction required");
+    if (introduction === '') {
+      alert('introduction required');
       return false;
     }
-    if (description === "") {
-      alert("description required");
+    if (description === '') {
+      alert('description required');
       return false;
     }
     if (isNil(jobConfig)) {
-      alert("job config required");
+      alert('job config required');
       return false;
     }
 
@@ -70,7 +69,7 @@ export default function CreateItemDialog(props) {
       tags: tags,
       introduction: introduction,
       description: description,
-      jobConfig: jobConfig
+      jobConfig: jobConfig,
     });
 
     await createMarketItem(marketItem);
@@ -97,42 +96,42 @@ export default function CreateItemDialog(props) {
                 root: {
                   fontSize: FontSizes.large,
                   fontWeight: FontWeights.semibold,
-                  paddingBottom: spacing.m
-                }
+                  paddingBottom: spacing.m,
+                },
               }}
             >
               Create Market Item
             </Text>
-          )
+          ),
         }}
         modalProps={{
-          isBlocking: true
+          isBlocking: true,
         }}
       >
-        <Stack gap="m">
+        <Stack gap='m'>
           <TextField
-            label="Name"
+            label='Name'
             value={name}
             onChange={e => {
               setName(e.target.value);
             }}
             required
           />
-          <Stack gap="s1">
+          <Stack gap='s1'>
             <span>Tags</span>
             <TagBar tags={tags} setTags={setTags} />
           </Stack>
           <TextField
-            label="Introduction"
+            label='Introduction'
             value={introduction}
             onChange={e => {
               setIntroduction(e.target.value);
             }}
             required
           />
-          <TextField label="Author" value={user} disabled />
+          <TextField label='Author' value={user} disabled />
           <TextField
-            label="Description"
+            label='Description'
             value={description}
             multiline
             rows={20}
@@ -141,27 +140,27 @@ export default function CreateItemDialog(props) {
             }}
             required
           />
-          <Stack gap="s1">
+          <Stack gap='s1'>
             {isNil(initJobConfig) && (
               <ImportYamlFile setJobConfig={setJobConfig} />
             )}
             <Stack
-              verticalAlign="center"
+              verticalAlign='center'
               horizontal
-              gap="s1"
+              gap='s1'
               styles={{ root: { paddingLeft: spacing.s1 } }}
             >
               <div>yaml config</div>
               <div>
                 {jobConfigExpanded && (
                   <IconButton
-                    iconProps={{ iconName: "ChevronDown" }}
+                    iconProps={{ iconName: 'ChevronDown' }}
                     onClick={() => setJobConfigExpanded(false)}
                   />
                 )}
                 {!jobConfigExpanded && (
                   <IconButton
-                    iconProps={{ iconName: "ChevronRight" }}
+                    iconProps={{ iconName: 'ChevronRight' }}
                     onClick={() => setJobConfigExpanded(true)}
                   />
                 )}
@@ -173,8 +172,8 @@ export default function CreateItemDialog(props) {
           </Stack>
         </Stack>
         <DialogFooter>
-          <PrimaryButton onClick={onConfirm} text="Confirm" />
-          <DefaultButton onClick={closeDialog} text="Cancel" />
+          <PrimaryButton onClick={onConfirm} text='Confirm' />
+          <DefaultButton onClick={closeDialog} text='Cancel' />
         </DialogFooter>
       </Dialog>
     </div>
@@ -182,5 +181,7 @@ export default function CreateItemDialog(props) {
 }
 
 CreateItemDialog.propTypes = {
-  setHideCreateDialog: PropTypes.func.isRequired
+  setHideCreateDialog: PropTypes.func.isRequired,
+  setItemCreated: PropTypes.func,
+  initJobConfig: PropTypes.object,
 };

@@ -1,5 +1,5 @@
-import { MARKETPLACE_API } from "./constants";
-import { MarketItem } from "../models/market_item";
+import { MARKETPLACE_API } from './constants';
+import { MarketItem } from '../models/market_item';
 
 export async function getApprovedItems() {
   const url = `${MARKETPLACE_API}/items?status=approved`;
@@ -34,12 +34,12 @@ export async function getPendingItems() {
 export async function deleteItem(itemId) {
   const url = `${MARKETPLACE_API}/items/${itemId}`;
   const res = await fetch(url, {
-    method: "DELETE"
+    method: 'DELETE',
   });
   if (res.ok) {
     return true;
   } else {
-    throw new Error(text);
+    throw new Error(res.statusText);
   }
 }
 
@@ -53,13 +53,13 @@ export async function updateItem(
   jobConfig,
   submits,
   starNumber,
-  tags
+  tags,
 ) {
   const url = `${MARKETPLACE_API}/items/${itemId}`;
   const res = await fetch(url, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       name: name,
@@ -70,8 +70,8 @@ export async function updateItem(
       jobConfig: jobConfig,
       submits: submits,
       starNumber: starNumber,
-      tags: tags
-    })
+      tags: tags,
+    }),
   });
   const text = await res.text();
   if (res.ok) {
@@ -84,9 +84,9 @@ export async function updateItem(
 export async function createMarketItem(marketItem) {
   const url = `${MARKETPLACE_API}/items`;
   const res = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       name: marketItem.name,
@@ -96,8 +96,8 @@ export async function createMarketItem(marketItem) {
       description: marketItem.description,
       jobConfig: marketItem.jobConfig,
       tags: marketItem.tags,
-      status: marketItem.status
-    })
+      status: marketItem.status,
+    }),
   });
   if (res.ok) {
     const result = await res.json();
@@ -125,7 +125,7 @@ export async function getItemById(itemId) {
       jobConfig: result.jobConfig,
       submits: result.submits,
       starNumber: result.starNumber,
-      status: result.status
+      status: result.status,
     });
     return marketItem;
   } else {
@@ -136,11 +136,11 @@ export async function getItemById(itemId) {
 export async function approveItem(itemId) {
   const url = `${MARKETPLACE_API}/items/${itemId}/status`;
   const res = await fetch(url, {
-    method: "Put",
+    method: 'Put',
     headers: {
-      "Content-Type": "text/plain"
+      'Content-Type': 'text/plain',
     },
-    body: "approved"
+    body: 'approved',
   });
   if (res.ok) {
     return true;
@@ -152,11 +152,11 @@ export async function approveItem(itemId) {
 export async function rejectItem(itemId) {
   const url = `${MARKETPLACE_API}/items/${itemId}/status`;
   const res = await fetch(url, {
-    method: "Put",
+    method: 'Put',
     headers: {
-      "Content-Type": "text/plain"
+      'Content-Type': 'text/plain',
     },
-    body: "rejected"
+    body: 'rejected',
   });
   if (res.ok) {
     return true;
@@ -168,7 +168,7 @@ export async function rejectItem(itemId) {
 export async function increaseSubmits(itemId) {
   const url = `${MARKETPLACE_API}/items/${itemId}/submits`;
   const res = await fetch(url, {
-    method: "Put"
+    method: 'Put',
   });
   if (res.ok) {
     return true;
@@ -181,11 +181,11 @@ export async function increaseSubmits(itemId) {
 export async function ensureUser(user) {
   const url = `${MARKETPLACE_API}/users`;
   const res = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "text/plain"
+      'Content-Type': 'text/plain',
     },
-    body: user
+    body: user,
   });
   if (res.ok) {
     return true;
@@ -211,7 +211,7 @@ export async function getStarStatus(username, itemId) {
 export async function addStar(username, itemId) {
   const url = `${MARKETPLACE_API}/users/${username}/starItems/${itemId}`;
   const res = await fetch(url, {
-    method: "PUT"
+    method: 'PUT',
   });
   if (res.ok) {
     return true;
@@ -225,7 +225,7 @@ export async function addStar(username, itemId) {
 export async function deleteStar(username, itemId) {
   const url = `${MARKETPLACE_API}/users/${username}/starItems/${itemId}`;
   const res = await fetch(url, {
-    method: "DELETE"
+    method: 'DELETE',
   });
   if (res.ok) {
     return true;

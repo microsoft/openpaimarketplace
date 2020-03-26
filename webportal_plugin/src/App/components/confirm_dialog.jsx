@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 import {
   DefaultButton,
   PrimaryButton,
@@ -8,11 +8,12 @@ import {
   FontClassNames,
   FontSizes,
   FontWeights,
-  Text
-} from "office-ui-fabric-react";
+  Text,
+} from 'office-ui-fabric-react';
+import PropTypes from 'prop-types';
 
-import { approveItem, rejectItem } from "App/utils/marketplace_api";
-import Context from "App/context";
+import { approveItem, rejectItem } from 'App/utils/marketplace_api';
+import Context from 'App/context';
 
 const ConfirmDialog = props => {
   const { hideDialog, setHideDialog, action, pageType, itemId } = props;
@@ -21,12 +22,12 @@ const ConfirmDialog = props => {
   async function approve(itemId) {
     try {
       setHideDialog(true);
-      const result = await approveItem(itemId);
-      if (pageType === "detail") {
-        history.push("/");
+      await approveItem(itemId);
+      if (pageType === 'detail') {
+        history.push('/');
       } else {
-        history.push("/empty");
-        history.replace("/");
+        history.push('/empty');
+        history.replace('/');
       }
     } catch (err) {
       alert(err);
@@ -36,12 +37,12 @@ const ConfirmDialog = props => {
   async function reject(itemId) {
     try {
       setHideDialog(true);
-      const result = await rejectItem(itemId);
-      if (pageType === "detail") {
-        history.push("/?status=pending");
+      await rejectItem(itemId);
+      if (pageType === 'detail') {
+        history.push('/?status=pending');
       } else {
-        history.push("/empty");
-        history.replace("/?status=pending");
+        history.push('/empty');
+        history.replace('/?status=pending');
       }
     } catch (err) {
       alert(err);
@@ -65,8 +66,8 @@ const ConfirmDialog = props => {
             styles={{
               root: {
                 fontSize: FontSizes.large,
-                fontWeight: FontWeights.semibold
-              }
+                fontWeight: FontWeights.semibold,
+              },
             }}
           >
             {`${action} Item`}
@@ -76,28 +77,36 @@ const ConfirmDialog = props => {
           <span className={FontClassNames.medium}>
             {`Do you want to ${action} this market item?`}
           </span>
-        )
+        ),
       }}
       modalProps={{
         isBlocking: true,
-        styles: { main: { maxWidth: 450 } }
+        styles: { main: { maxWidth: 450 } },
       }}
     >
       <DialogFooter>
         <PrimaryButton
           onClick={async () => {
-            if (action === "approve") {
+            if (action === 'approve') {
               approve(itemId);
             } else {
               reject(itemId);
             }
           }}
-          text="Confirm"
+          text='Confirm'
         />
-        <DefaultButton onClick={closeDialog} text="Cancel" />
+        <DefaultButton onClick={closeDialog} text='Cancel' />
       </DialogFooter>
     </Dialog>
   );
+};
+
+ConfirmDialog.propTypes = {
+  hideDialog: PropTypes.bool,
+  setHideDialog: PropTypes.func,
+  action: PropTypes.string,
+  pageType: PropTypes.string,
+  itemId: PropTypes.string,
 };
 
 export default ConfirmDialog;

@@ -1,21 +1,22 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import "whatwg-fetch";
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import 'whatwg-fetch';
 
-import React, { useState, useEffect } from "react";
-import { Fabric, Stack, Pivot, PivotItem } from "office-ui-fabric-react";
-import { isNil } from "lodash";
-import qs from "query-string";
+import React, { useState, useEffect } from 'react';
+import { Fabric, Stack, Pivot, PivotItem } from 'office-ui-fabric-react';
+import { isNil } from 'lodash';
+import qs from 'query-string';
+import PropTypes from 'prop-types';
 
-import { TopBar } from "App/top_bar";
-import Context from "../context";
-import ListView from "./list_view";
+import { TopBar } from 'App/top_bar';
+import Context from '../context';
+import ListView from './list_view';
 
-import { getPendingItems, ensureUser } from "App/utils/marketplace_api";
+import { getPendingItems, ensureUser } from 'App/utils/marketplace_api';
 
 const MarketList = props => {
   const { api, user, routeProps } = props;
-  const admin = cookies.get("admin");
+  const admin = cookies.get('admin');
 
   const [status, setStatus] = useState(initStatus());
   const [pendingListNumber, setPendingListNumber] = useState(0);
@@ -23,21 +24,21 @@ const MarketList = props => {
   function initStatus() {
     const status = qs.parse(routeProps.location.search).status;
     if (!admin) {
-      return "approved";
+      return 'approved';
     }
     if (isNil(status)) {
-      return "approved";
-    } else if (status === "pending") {
-      return "pending";
+      return 'approved';
+    } else if (status === 'pending') {
+      return 'pending';
     } else {
-      return "approved";
+      return 'approved';
     }
   }
 
   const context = {
     api,
     user,
-    history: routeProps.history
+    history: routeProps.history,
   };
 
   useEffect(() => {
@@ -58,31 +59,31 @@ const MarketList = props => {
   }
 
   function clickPivot(item) {
-    if (item.props.headerText === "Market list") {
-      setStatus("approved");
+    if (item.props.headerText === 'Market list') {
+      setStatus('approved');
     } else {
-      setStatus("pending");
+      setStatus('pending');
     }
   }
 
   return (
     <Context.Provider value={context}>
-      <Fabric style={{ height: "100%", margin: "0 auto", maxWidth: 1050 }}>
-        <Stack padding="l1" gap="m">
-          <TopBar pageType="list" status={status} />
+      <Fabric style={{ height: '100%', margin: '0 auto', maxWidth: 1050 }}>
+        <Stack padding='l1' gap='m'>
+          <TopBar pageType='list' status={status} />
           <Pivot onLinkClick={clickPivot} selectedKey={status}>
             <PivotItem
-              itemKey="approved"
-              headerText="Market list"
-              itemIcon="Bank"
+              itemKey='approved'
+              headerText='Market list'
+              itemIcon='Bank'
             >
               <ListView status={status} />
             </PivotItem>
             {admin && (
               <PivotItem
-                itemKey="pending"
-                headerText="Pending list"
-                itemIcon="IssueTrackingMirrored"
+                itemKey='pending'
+                headerText='Pending list'
+                itemIcon='IssueTrackingMirrored'
                 itemCount={pendingListNumber}
               >
                 <ListView status={status} />
@@ -93,6 +94,12 @@ const MarketList = props => {
       </Fabric>
     </Context.Provider>
   );
+};
+
+MarketList.propTypes = {
+  api: PropTypes.string,
+  user: PropTypes.string,
+  routeProps: PropTypes.object,
 };
 
 export default MarketList;

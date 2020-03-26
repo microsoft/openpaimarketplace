@@ -1,5 +1,5 @@
-import c from "classnames";
-import React, { useState, useContext, useMemo, useLayoutEffect } from "react";
+import c from 'classnames';
+import React, { useMemo, useLayoutEffect } from 'react';
 import {
   FontClassNames,
   Link,
@@ -8,19 +8,19 @@ import {
   Icon,
   ColorClassNames,
   FontSizes,
-  FontWeights
-} from "office-ui-fabric-react";
-import { isNil } from "lodash";
-import { DateTime } from "luxon";
+  FontWeights,
+} from 'office-ui-fabric-react';
+import { isNil } from 'lodash';
+import { DateTime } from 'luxon';
 
-import StatusBadge from "App/components/status-badge";
+import StatusBadge from 'App/components/status-badge';
 import {
   getJobDuration,
   getDurationString,
   getModified,
-  getStatusText
-} from "App/utils/job";
-import t from "App/components/tachyons.scss";
+  getStatusText,
+} from 'App/utils/job';
+import t from 'App/components/tachyons.scss';
 
 const JobTable = props => {
   const { jobs, setSelectedJob } = props;
@@ -28,7 +28,7 @@ const JobTable = props => {
   // workaround for fabric's bug
   // https://github.com/OfficeDev/office-ui-fabric-react/issues/5280#issuecomment-489619108
   useLayoutEffect(() => {
-    window.dispatchEvent(new Event("resize"));
+    window.dispatchEvent(new Event('resize'));
   });
 
   /**
@@ -38,15 +38,15 @@ const JobTable = props => {
     return new Selection({
       onSelectionChanged() {
         setSelectedJob(selection.getSelection());
-      }
+      },
     });
   }, []);
 
   const nameColumn = {
-    key: "name",
+    key: 'name',
     minWidth: 200,
-    name: "Name",
-    fieldName: "name",
+    name: 'Name',
+    fieldName: 'name',
     className: FontClassNames.mediumPlus,
     headerClassName: FontClassNames.medium,
     isResizable: true,
@@ -56,88 +56,88 @@ const JobTable = props => {
         ? `/job-detail.html?jobName=${name}`
         : `/job-detail.html?username=${namespace || username}&jobName=${name}`;
       return <Link href={href}>{name}</Link>;
-    }
+    },
   };
   const modifiedColumn = {
-    key: "modified",
+    key: 'modified',
     minWidth: 150,
-    name: "Date Modified",
+    name: 'Date Modified',
     className: FontClassNames.mediumPlus,
     headerClassName: FontClassNames.medium,
     isResizable: true,
     onRender(job) {
       return DateTime.fromJSDate(getModified(job)).toLocaleString(
-        DateTime.DATETIME_SHORT_WITH_SECONDS
+        DateTime.DATETIME_SHORT_WITH_SECONDS,
       );
-    }
+    },
   };
   const durationColumn = {
-    key: "duration",
+    key: 'duration',
     minWidth: 60,
-    name: "Duration",
+    name: 'Duration',
     className: FontClassNames.mediumPlus,
     headerClassName: FontClassNames.medium,
     isResizable: true,
     onRender(job) {
       return getDurationString(getJobDuration(job));
-    }
+    },
   };
   const virtualClusterColumn = {
-    key: "virtualCluster",
+    key: 'virtualCluster',
     minWidth: 100,
-    name: "Virtual Cluster",
-    fieldName: "virtualCluster",
+    name: 'Virtual Cluster',
+    fieldName: 'virtualCluster',
     className: FontClassNames.mediumPlus,
     headerClassName: FontClassNames.medium,
-    isResizable: true
+    isResizable: true,
   };
   const retriesColumn = {
-    key: "retries",
+    key: 'retries',
     minWidth: 60,
-    name: "Retries",
-    fieldName: "retries",
+    name: 'Retries',
+    fieldName: 'retries',
     className: FontClassNames.mediumPlus,
     headerClassName: FontClassNames.medium,
-    isResizable: true
+    isResizable: true,
   };
   const taskCountColumn = {
-    key: "taskCount",
+    key: 'taskCount',
     minWidth: 60,
-    name: "Tasks",
-    fieldName: "totalTaskNumber",
+    name: 'Tasks',
+    fieldName: 'totalTaskNumber',
     className: FontClassNames.mediumPlus,
     headerClassName: FontClassNames.medium,
-    isResizable: true
+    isResizable: true,
   };
   const gpuCountColumn = {
-    key: "gpuCount",
+    key: 'gpuCount',
     minWidth: 60,
-    name: "GPUs",
-    fieldName: "totalGpuNumber",
+    name: 'GPUs',
+    fieldName: 'totalGpuNumber',
     className: FontClassNames.mediumPlus,
     headerClassName: FontClassNames.medium,
-    isResizable: true
+    isResizable: true,
   };
   const statusColumn = {
-    key: "status",
+    key: 'status',
     minWidth: 100,
-    name: "Status",
+    name: 'Status',
     headerClassName: FontClassNames.medium,
     isResizable: true,
     onRender(job) {
       return (
         <div
           style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "start"
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'start',
           }}
         >
           <StatusBadge status={getStatusText(job)} />
         </div>
       );
-    }
+    },
   };
 
   const columns = [
@@ -148,7 +148,7 @@ const JobTable = props => {
     retriesColumn,
     taskCountColumn,
     gpuCountColumn,
-    statusColumn
+    statusColumn,
   ];
 
   if (!isNil(jobs) && jobs.length === 0) {
@@ -159,7 +159,7 @@ const JobTable = props => {
             <Icon
               className={c(ColorClassNames.themePrimary)}
               style={{ fontSize: FontSizes.xxLarge }}
-              iconName="Error"
+              iconName='Error'
             />
           </div>
           <div
@@ -176,11 +176,11 @@ const JobTable = props => {
       <div>
         <ShimmeredDetailsList
           items={jobs}
-          setKey="key"
+          setKey='key'
           columns={columns}
           enableShimmer={isNil(jobs)}
           selection={selection}
-          selectionMode="single"
+          selectionMode='single'
         />
       </div>
     );

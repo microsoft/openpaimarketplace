@@ -15,16 +15,17 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import c from "classnames";
+import c from 'classnames';
 
-import { Pivot, PivotItem, FontWeights } from "office-ui-fabric-react";
-import React from "react";
-import t from "../../components/tachyons.scss";
+import { Pivot, PivotItem, FontWeights } from 'office-ui-fabric-react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Card from "./card";
-import Description from "./description";
-import TaskRoles from "./taskRoles";
-import YamlFileRender from "App/components/yaml_file_render";
+import t from '../../components/tachyons.scss';
+import Card from './card';
+import Description from './description';
+import TaskRoles from './taskRoles';
+import YamlFileRender from 'App/components/yaml_file_render';
 
 export default function Detail(props) {
   const { marketItem } = props;
@@ -35,34 +36,34 @@ export default function Detail(props) {
       <Card className={c(t.pv4, t.ph5)}>
         <Pivot>
           <PivotItem
-            headerText="Description"
+            headerText='Description'
             styles={{
               root: {
                 fontSize: 14,
-                fontWeight: FontWeights.regular
-              }
+                fontWeight: FontWeights.regular,
+              },
             }}
           >
-            <Description marketItem={marketItem} />
+            <Description content={marketItem.description} />
           </PivotItem>
           <PivotItem
-            headerText="Task Roles"
+            headerText='Task Roles'
             styles={{
               root: {
                 fontSize: 14,
-                fontWeight: FontWeights.regular
-              }
+                fontWeight: FontWeights.regular,
+              },
             }}
           >
             <TaskRoles marketItem={marketItem} />
           </PivotItem>
           <PivotItem
-            headerText="Yaml File"
+            headerText='Yaml File'
             styles={{
               root: {
                 fontSize: 14,
-                fontWeight: FontWeights.regular
-              }
+                fontWeight: FontWeights.regular,
+              },
             }}
           >
             <YamlFileRender yamlConfig={marketItem.jobConfig} />
@@ -72,3 +73,7 @@ export default function Detail(props) {
     </div>
   );
 }
+
+Detail.propTypes = {
+  marketItem: PropTypes.object,
+};

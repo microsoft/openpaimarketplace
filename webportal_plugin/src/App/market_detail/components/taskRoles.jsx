@@ -1,14 +1,15 @@
-import { isNil } from "lodash";
-import { FontClassNames } from "@uifabric/styling";
-import { Stack } from "office-ui-fabric-react";
+import { isNil } from 'lodash';
+import { FontClassNames } from '@uifabric/styling';
+import { Stack } from 'office-ui-fabric-react';
 import {
   DetailsList,
   SelectionMode,
-  DetailsListLayoutMode
-} from "office-ui-fabric-react/lib/DetailsList";
-import React from "react";
+  DetailsListLayoutMode,
+} from 'office-ui-fabric-react/lib/DetailsList';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Card from "./card";
+import Card from './card';
 
 const TaskRoles = props => {
   const { marketItem } = props;
@@ -17,7 +18,7 @@ const TaskRoles = props => {
     const items = [];
     const taskRoles = marketItem.jobConfig.taskRoles;
     for (const taskRole in taskRoles) {
-      let item = {};
+      const item = {};
       item.name = taskRole;
       item.instances = taskRoles[taskRole].instances;
       item.dockerImage = taskRoles[taskRole].dockerImage;
@@ -31,8 +32,8 @@ const TaskRoles = props => {
   function getColumns() {
     const columns = [
       {
-        key: "number",
-        name: "No.",
+        key: 'number',
+        name: 'No.',
         headerClassName: FontClassNames.medium,
         minWidth: 50,
         maxWidth: 50,
@@ -43,42 +44,42 @@ const TaskRoles = props => {
               <div className={FontClassNames.mediumPlus}>{idx}</div>
             )
           );
-        }
+        },
       },
       {
-        key: "name",
-        name: "name",
-        fieldName: "name",
+        key: 'name',
+        name: 'name',
+        fieldName: 'name',
         className: FontClassNames.mediumPlus,
         headerClassName: FontClassNames.mediumPlus,
         minWidth: 50,
         maxWidth: 70,
-        isResizable: true
+        isResizable: true,
       },
       {
-        key: "instances",
-        name: "instances",
-        fieldName: "instances",
+        key: 'instances',
+        name: 'instances',
+        fieldName: 'instances',
         className: FontClassNames.mediumPlus,
         headerClassName: FontClassNames.mediumPlus,
         minWidth: 50,
         maxWidth: 70,
-        isResizable: true
+        isResizable: true,
       },
       {
-        key: "dockerImage",
-        name: "dockerImage",
-        fieldName: "dockerImage",
+        key: 'dockerImage',
+        name: 'dockerImage',
+        fieldName: 'dockerImage',
         className: FontClassNames.mediumPlus,
         headerClassName: FontClassNames.mediumPlus,
         minWidth: 100,
         maxWidth: 120,
-        isResizable: true
+        isResizable: true,
       },
       {
-        key: "resourcePerInstance",
-        name: "resourcePerInstance",
-        fieldName: "resourcePerInstance",
+        key: 'resourcePerInstance',
+        name: 'resourcePerInstance',
+        fieldName: 'resourcePerInstance',
         className: FontClassNames.mediumPlus,
         headerClassName: FontClassNames.mediumPlus,
         minWidth: 100,
@@ -92,12 +93,12 @@ const TaskRoles = props => {
             stacks.push(
               <Stack key={key}>
                 {key}: {resources[key]}
-              </Stack>
+              </Stack>,
             );
           }
           return <Stack>{stacks}</Stack>;
-        }
-      }
+        },
+      },
     ];
 
     return columns;
@@ -114,6 +115,10 @@ const TaskRoles = props => {
       />
     </Card>
   );
+};
+
+TaskRoles.propTypes = {
+  marketItem: PropTypes.object,
 };
 
 export default TaskRoles;

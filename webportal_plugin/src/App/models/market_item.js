@@ -15,7 +15,7 @@ export class MarketItem {
     jobConfig = null,
     submits = 0,
     starNumber = 0,
-    status = "pending"
+    status = 'pending',
   }) {
     this.id = id;
     this.name = name;

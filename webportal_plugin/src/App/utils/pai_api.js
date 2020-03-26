@@ -1,16 +1,16 @@
-import querystring from "query-string";
-import yaml from "js-yaml";
+import querystring from 'query-string';
+import yaml from 'js-yaml';
 
 export async function fetchSucessJobs(api, username) {
   const res = await fetch(
     `${api}/api/v1/jobs?${querystring.stringify({
-      username
-    })}`
+      username,
+    })}`,
   );
 
   if (res.ok) {
     const jobs = await res.json();
-    const successJobs = jobs.filter(job => job.state === "SUCCEEDED");
+    const successJobs = jobs.filter(job => job.state === 'SUCCEEDED');
     return successJobs;
   } else {
     throw new Error(res.statusText);
@@ -27,8 +27,8 @@ export async function fetchJobConfig(api, userName, jobName) {
   if (res.ok) {
     return json;
   } else {
-    if (json.code === "NoJobConfigError") {
-      throw new NotFoundError(json.message);
+    if (json.code === 'NoJobConfigError') {
+      throw new Error(json.message);
     } else {
       throw new Error(json.message);
     }

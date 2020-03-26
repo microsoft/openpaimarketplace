@@ -15,15 +15,15 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import { FontClassNames, ColorClassNames } from "@uifabric/styling";
-import c from "classnames";
-import { Spinner, SpinnerSize } from "office-ui-fabric-react/lib/Spinner";
-import React from "react";
-import PropTypes from "prop-types";
+import { FontClassNames } from '@uifabric/styling';
+import c from 'classnames';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import t from "App/components/tachyons.scss";
+import t from 'App/components/tachyons.scss';
 
-export const SpinnerLoading = ({ label = "Loading..." }) => {
+export const SpinnerLoading = ({ label = 'Loading...' }) => {
   return (
     <div className={c(t.flex, t.itemsCenter, t.justifyCenter, t.h100)}>
       <div className={c(t.flex, t.itemsCenter)}>
@@ -35,5 +35,5 @@ export const SpinnerLoading = ({ label = "Loading..." }) => {
 };
 
 SpinnerLoading.propTypes = {
-  label: PropTypes.string
+  label: PropTypes.string,
 };
