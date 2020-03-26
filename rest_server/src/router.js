@@ -1,51 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const express = require("express");
-const itemController = require("./controllers/item_controller");
-const userController = require("./controllers/user_controller");
+const express = require('express');
+const itemController = require('./controllers/item_controller');
+const userController = require('./controllers/user_controller');
 
 const router = new express.Router();
 
 router
-  .route("/items")
+  .route('/items')
   .get(itemController.list)
   .post(itemController.create);
 
 router
-  .route("/items/:itemId")
+  .route('/items/:itemId')
   .get(itemController.get)
   .put(itemController.update)
   .delete(itemController.del);
 
 router
-  .route("/items/:itemId/description")
+  .route('/items/:itemId/description')
   .put(itemController.updateDescription);
 
-router
-  .route("/items/:itemId/status")
-  .put(itemController.updateStatus);
+router.route('/items/:itemId/status').put(itemController.updateStatus);
+
+router.route('/items/:itemId/submits').put(itemController.updateSubmits);
+
+router.route('/items/:itemId/starUsers').get(itemController.listStarUsers);
 
 router
-  .route("/items/:itemId/submits")
-  .put(itemController.updateSubmits);
-
-router
-  .route("/items/:itemId/starUsers")
-  .get(itemController.listStarUsers);
-
-router
-  .route("/users")
+  .route('/users')
   .get(userController.list)
-  .post(userController.create)
+  .post(userController.create);
+
+router.route('/users/:username').delete(userController.del);
+
+router.route('/users/:username/starItems').get(userController.listItems);
 
 router
-  .route("/users/:username")
-  .delete(userController.del);
-
-router.route("/users/:username/starItems").get(userController.listItems);
-
-router
-  .route("/users/:username/starItems/:itemId")
+  .route('/users/:username/starItems/:itemId')
   .get(userController.getItem)
   .put(userController.updateItem)
   .delete(userController.deleteItem);

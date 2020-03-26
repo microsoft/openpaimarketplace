@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { isNil, isEmpty } = require("lodash");
-const modelSyncHandler = require("./model_init_handler");
+const { isNil, isEmpty } = require('lodash');
+const modelSyncHandler = require('./model_init_handler');
 
 class User {
   constructor(sequelize, DataTypes) {
-    this.orm = sequelize.define("User", {
-      name: { type: DataTypes.STRING, primaryKey: true }
+    this.orm = sequelize.define('User', {
+      name: { type: DataTypes.STRING, primaryKey: true },
     });
     this.sequelize = sequelize;
   }
 
   associate(models) {
     this.orm.belongsToMany(models.MarketplaceItem.orm, {
-      through: "StarRelation"
+      through: 'StarRelation',
     });
     this.models = models;
   }
@@ -38,7 +38,7 @@ class User {
   async del(username) {
     const handler = modelSyncHandler(async username => {
       const user = await this.orm.findOne({
-        where: { name: username }
+        where: { name: username },
       });
       if (isNil(user)) {
         return null;
@@ -70,7 +70,7 @@ class User {
         return null;
       } else {
         const items = await user.getMarketplaceItems({
-          where: { id: itemId }
+          where: { id: itemId },
         });
         return items;
       }
@@ -86,19 +86,19 @@ class User {
         return null;
       } else {
         const items = await user.getMarketplaceItems({
-          where: { id: itemId }
+          where: { id: itemId },
         });
         if (isEmpty(items)) {
           const item = await this.models.MarketplaceItem.orm.findOne({
-            where: { id: itemId }
+            where: { id: itemId },
           });
           if (isNil(item)) {
-            return "item not exists";
+            return 'item not exists';
           }
           const t = await this.sequelize.transaction();
           try {
             await user.addMarketplaceItem(item, { transaction: t });
-            await item.increment("starNumber", { transaction: t });
+            await item.increment('starNumber', { transaction: t });
             await t.commit();
           } catch (e) {
             await t.rollback();
@@ -121,7 +121,7 @@ class User {
         return null;
       } else {
         const items = await user.getMarketplaceItems({
-          where: { id: itemId }
+          where: { id: itemId },
         });
         if (isEmpty(items)) {
           return false;
@@ -130,9 +130,9 @@ class User {
           try {
             await user.removeMarketplaceItem(items, { transaction: t });
             const item = await this.models.MarketplaceItem.orm.findOne({
-              where: { id: itemId }
+              where: { id: itemId },
             });
-            await item.decrement("starNumber", { transaction: t });
+            await item.decrement('starNumber', { transaction: t });
             await t.commit();
           } catch (e) {
             await t.rollback();

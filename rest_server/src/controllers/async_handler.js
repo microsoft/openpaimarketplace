@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const asyncHandler = (middleware) => {
+const asyncHandler = middleware => {
   return (req, res, next) => {
-    Promise
-      .resolve(middleware(req, res, next))
-      .catch(next);
+    Promise.resolve(middleware(req, res, next)).catch(next);
   };
 };
 

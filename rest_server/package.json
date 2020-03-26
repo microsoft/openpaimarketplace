@@ -1,9 +1,11 @@
 {
   "name": "marketplace-rest-server",
   "version": "1.0.0",
+  "description": "The rest server of openpai marketplace.",
   "author": "Microsoft",
   "license": "MIT",
   "scripts": {
+    "lint": "eslint --ext .js --ext .jsx .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
@@ -17,5 +19,16 @@
     "js-yaml": "^3.13.1",
     "pg": "^7.14.0",
     "sequelize": "^5.21.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "1.18.2"
   }
 }

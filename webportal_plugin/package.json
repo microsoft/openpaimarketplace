@@ -2,18 +2,17 @@
   "name": "openpai-marketplace",
   "version": "1.0.0",
   "description": "A web portal plugin for openpai marketplace.",
+  "author": "Microsoft",
+  "license": "MIT",
   "main": "src/index.js",
-  "scripts": {
-    "lint": "eslint --ext .js --ext .jsx .",
-    "start": "webpack-dev-server --mode=development",
-    "prebild": "npm run clean",
-    "build": "webpack --mode=production"
-  },
-  "author": "Microsoft Corporation",
   "engines": {
     "node": "^8.10.0 || ^10"
   },
-  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --ext .js --ext .jsx .",
+    "start": "webpack-dev-server --mode=development",
+    "build": "webpack --mode=production"
+  },
   "dependencies": {
     "@loadable/component": "^5.10.3",
     "classnames": "^2.2.6",

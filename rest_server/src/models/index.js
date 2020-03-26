@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const Sequelize = require("sequelize");
-const { DataTypes } = require("sequelize");
-const MarketplaceItem = require("./marketplace_item");
-const User = require("./user");
-const dotnev = require("dotenv");
+const Sequelize = require('sequelize');
+const { DataTypes } = require('sequelize');
+const MarketplaceItem = require('./marketplace_item');
+const User = require('./user');
+const dotnev = require('dotenv');
 
 dotnev.config();
 
