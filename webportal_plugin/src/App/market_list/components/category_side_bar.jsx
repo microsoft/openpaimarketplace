@@ -1,10 +1,10 @@
-
 import React, { useCallback } from 'react';
 import { Stack, Text, Checkbox, FontWeights } from 'office-ui-fabric-react';
 
 import Filter from '../../models/filter';
 
-export const CategorySideBar = (props) => {
+/* eslint-disable*/
+export const CategorySideBar = props => {
   const { filter, setFilter } = props;
 
   const changeCustomCheckbox = useCallback((event, isChecked) => {
@@ -44,7 +44,10 @@ export const CategorySideBar = (props) => {
             fontWeight: FontWeights.regular,
           },
         }}
-      > Categories </Text>
+      >
+        {' '}
+        Categories{' '}
+      </Text>
       <Checkbox
         label='Custom'
         styles={{

@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from 'react';
 import {
   Stack,
   CommandButton,
   ActionButton,
   FontWeights,
   MessageBar,
-  MessageBarType
-} from "office-ui-fabric-react";
+  MessageBarType,
+} from 'office-ui-fabric-react';
+import PropTypes from 'prop-types';
 
-import CreateDialog from "./components/create_dialog";
-import JobListDialog from "./components/job_list_dialog";
-import Context from "App/context";
+import CreateDialog from './components/create_dialog';
+import JobListDialog from './components/job_list_dialog';
+import Context from 'App/context';
 
 export const TopBar = React.memo(props => {
   const { pageType, status } = props;
@@ -29,54 +30,54 @@ export const TopBar = React.memo(props => {
   const menuProps = {
     items: [
       {
-        key: "new",
-        text: "New",
+        key: 'new',
+        text: 'New',
         onClick() {
           setHideCreateDialog(false);
-        }
+        },
       },
       {
-        key: "myJob",
-        text: "From my jobs",
+        key: 'myJob',
+        text: 'From my jobs',
         onClick() {
           setHideJobListDialog(false);
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
 
   return (
     <Stack>
-      <Stack horizontal horizontalAlign="begin" verticalAlign="baseline">
-        {pageType === "detail" && status === "approved" && (
+      <Stack horizontal horizontalAlign='begin' verticalAlign='baseline'>
+        {pageType === 'detail' && status === 'approved' && (
           <ActionButton
-            iconProps={{ iconName: "revToggleKey" }}
+            iconProps={{ iconName: 'revToggleKey' }}
             onClick={() => {
-              history.push("/");
+              history.push('/');
             }}
           >
             Back to market list
           </ActionButton>
         )}
-        {pageType === "detail" && status === "pending" && (
+        {pageType === 'detail' && status === 'pending' && (
           <ActionButton
-            iconProps={{ iconName: "revToggleKey" }}
+            iconProps={{ iconName: 'revToggleKey' }}
             onClick={() => {
-              history.push("/?status=pending");
+              history.push('/?status=pending');
             }}
           >
             Back to pending list
           </ActionButton>
         )}
         <CommandButton
-          text="Create"
-          iconProps={{ iconName: "Add" }}
+          text='Create'
+          iconProps={{ iconName: 'Add' }}
           menuProps={menuProps}
           styles={{
             root: {
               fontSize: 14,
-              fontWeight: FontWeights.regular
-            }
+              fontWeight: FontWeights.regular,
+            },
           }}
         />
       </Stack>
@@ -85,7 +86,7 @@ export const TopBar = React.memo(props => {
           onDismiss={() => {
             setItemCreated(false);
           }}
-          dismissButtonAriaLabel="Close"
+          dismissButtonAriaLabel='Close'
           messageBarType={MessageBarType.success}
           isMultiline={false}
         >
@@ -111,3 +112,8 @@ export const TopBar = React.memo(props => {
     </Stack>
   );
 });
+
+TopBar.propTypes = {
+  pageType: PropTypes.string,
+  status: PropTypes.string,
+};

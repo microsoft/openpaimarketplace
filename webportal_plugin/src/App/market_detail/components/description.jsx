@@ -3,14 +3,14 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import 'github-markdown-css';
 
-import Card from "./card";
+import Card from './card';
 
-const Description = (props) => {
-  const { marketItem } = props;
+const Description = props => {
+  const { content } = props;
 
   return (
     <Card className='markdown-body' style={{ paddingTop: 15, paddingLeft: 10 }}>
-      <ReactMarkdown source={marketItem.description} />
+      <ReactMarkdown source={content} />
     </Card>
   );
 };

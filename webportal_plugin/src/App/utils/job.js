@@ -190,4 +190,3 @@ export function getStatusIndex(job) {
   }
   return job._statusIndex;
 }
-

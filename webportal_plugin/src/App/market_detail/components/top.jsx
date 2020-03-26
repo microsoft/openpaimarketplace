@@ -22,7 +22,7 @@ import Context from 'App/context';
 
 const Top = () => {
   const { history } = useContext(Context);
-  
+
   return (
     <ActionButton
       iconProps={{ iconName: 'revToggleKey' }}

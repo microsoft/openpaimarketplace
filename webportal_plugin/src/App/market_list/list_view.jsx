@@ -1,27 +1,22 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import "whatwg-fetch";
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import 'whatwg-fetch';
 
-import React, { useState, useEffect, useContext } from "react";
-import { Stack, getTheme } from "office-ui-fabric-react";
-import { isNil } from "lodash";
+import React, { useState, useEffect } from 'react';
+import { Stack, getTheme } from 'office-ui-fabric-react';
+import { isNil } from 'lodash';
+import PropTypes from 'prop-types';
 
-import { FilterBar } from "./components/filter_bar";
-import { ItemList } from "./components/item_list";
-import { MarketItem } from "../models/market_item";
-import Context from "App/context";
-import Filter from "../models/filter";
-import Paginator from "../components/paginator";
-import Pagination from "../models/pagination";
-import {
-  getApprovedItems,
-  ensureUser,
-  getPendingItems
-} from "App/utils/marketplace_api";
+import { FilterBar } from './components/filter_bar';
+import { ItemList } from './components/item_list';
+import { MarketItem } from '../models/market_item';
+import Filter from '../models/filter';
+import Paginator from '../components/paginator';
+import Pagination from '../models/pagination';
+import { getApprovedItems, getPendingItems } from 'App/utils/marketplace_api';
 
 const ListView = props => {
   const { status } = props;
-  const { user } = useContext(Context);
   const { spacing } = getTheme();
 
   const [itemList, setItemList] = useState([]);
@@ -42,10 +37,10 @@ const ListView = props => {
   }, []);
 
   async function reload() {
-    let itemList = [];
+    const itemList = [];
     try {
       let items;
-      if (status === "approved") {
+      if (status === 'approved') {
         items = await getApprovedItems();
       } else {
         items = await getPendingItems();
@@ -64,7 +59,7 @@ const ListView = props => {
           jobConfig: item.jobConfig,
           submits: item.submits,
           starNumber: item.starNumber,
-          status: item.status
+          status: item.status,
         });
         itemList.push(marketItem);
       });
@@ -76,8 +71,8 @@ const ListView = props => {
   }
 
   return (
-    <Stack styles={{ root: { paddingTop: spacing.l1 } }} gap="l1">
-      <Stack gap="s" styles={{ root: [{ minWidth: 0 }] }}>
+    <Stack styles={{ root: { paddingTop: spacing.l1 } }} gap='l1'>
+      <Stack gap='s' styles={{ root: [{ minWidth: 0 }] }}>
         <FilterBar
           itemList={itemList}
           filteredItems={filteredItems}
@@ -100,6 +95,10 @@ const ListView = props => {
       )}
     </Stack>
   );
+};
+
+ListView.propTypes = {
+  status: PropTypes.string,
 };
 
 export default ListView;

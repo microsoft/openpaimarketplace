@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import React, { useState, useCallback, useContext } from "react";
+import PropTypes from 'prop-types';
+import React, { useState, useCallback, useContext } from 'react';
 import {
   DefaultButton,
   PrimaryButton,
@@ -11,12 +11,12 @@ import {
   FontSizes,
   FontWeights,
   Text,
-  getTheme
-} from "office-ui-fabric-react";
+  getTheme,
+} from 'office-ui-fabric-react';
 
-import Context from "App/context";
-import { TagBar } from "../../components/tag_bar";
-import { updateItem } from "../../utils/marketplace_api";
+import Context from 'App/context';
+import { TagBar } from '../../components/tag_bar';
+import { updateItem } from '../../utils/marketplace_api';
 
 const { spacing } = getTheme();
 
@@ -25,27 +25,28 @@ export default function EditMarketItem(props) {
   const { history } = useContext(Context);
 
   const [name, setName] = useState(marketItem.name);
-  const [category, setCategory] = useState(marketItem.category);
+  const [category, setCategory] = useState(marketItem.category); // eslint-disable-line no-unused-vars
   const [tags, setTags] = useState(marketItem.tags);
   const [introduction, setIntroduction] = useState(marketItem.introduction);
   const [description, setDescription] = useState(marketItem.description);
 
+  // eslint-disable-next-line no-unused-vars
   const CATEGORY_OPTIONS = [
-    { key: "custom", text: "custom" },
-    { key: "official", text: "official" }
+    { key: 'custom', text: 'custom' },
+    { key: 'official', text: 'official' },
   ];
 
   const checkRequired = () => {
-    if (name === "") {
-      alert("Title required");
+    if (name === '') {
+      alert('Title required');
       return false;
     }
-    if (introduction === "") {
-      alert("introduction required");
+    if (introduction === '') {
+      alert('introduction required');
       return false;
     }
-    if (description === "") {
-      alert("description required");
+    if (description === '') {
+      alert('description required');
       return false;
     }
     return true;
@@ -67,9 +68,9 @@ export default function EditMarketItem(props) {
       marketItem.jobConfig,
       marketItem.submits,
       marketItem.stars,
-      tags
+      tags,
     );
-    history.push("/empty");
+    history.push('/empty');
     history.replace(`/market_detail?itemId=${marketItem.id}`);
   }
 
@@ -91,42 +92,42 @@ export default function EditMarketItem(props) {
               root: {
                 fontSize: FontSizes.large,
                 fontWeight: FontWeights.semibold,
-                paddingBottom: spacing.m
-              }
+                paddingBottom: spacing.m,
+              },
             }}
           >
             Edit MarketItem
           </Text>
-        )
+        ),
       }}
       modalProps={{
-        isBlocking: true
+        isBlocking: true,
       }}
     >
-      <Stack gap="m">
+      <Stack gap='m'>
         <TextField
-          label="Name"
+          label='Name'
           value={name}
           onChange={e => {
             setName(e.target.value);
           }}
           required
         />
-        <Stack gap="s1">
+        <Stack gap='s1'>
           <span>Tags</span>
           <TagBar tags={tags} setTags={setTags} />
         </Stack>
         <TextField
-          label="Introduction"
+          label='Introduction'
           value={introduction}
           onChange={e => {
             setIntroduction(e.target.value);
           }}
           required
         />
-        <TextField label="Author" value={marketItem.author} disabled />
+        <TextField label='Author' value={marketItem.author} disabled />
         <TextField
-          label="Description"
+          label='Description'
           value={description}
           multiline
           rows={20}
@@ -137,8 +138,8 @@ export default function EditMarketItem(props) {
         />
       </Stack>
       <DialogFooter>
-        <PrimaryButton onClick={onConfirm} text="Confirm" />
-        <DefaultButton onClick={closeDialog} text="Cancel" />
+        <PrimaryButton onClick={onConfirm} text='Confirm' />
+        <DefaultButton onClick={closeDialog} text='Cancel' />
       </DialogFooter>
     </Dialog>
   );
@@ -147,5 +148,5 @@ export default function EditMarketItem(props) {
 EditMarketItem.propTypes = {
   hideDialog: PropTypes.bool.isRequired,
   setHideDialog: PropTypes.func.isRequired,
-  marketItem: PropTypes.object
+  marketItem: PropTypes.object,
 };

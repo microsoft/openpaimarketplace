@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import React, { useCallback, useContext, useState } from "react";
+import PropTypes from 'prop-types';
+import React, { useContext, useState } from 'react';
 import {
   Text,
   Stack,
@@ -7,17 +7,17 @@ import {
   PrimaryButton,
   TooltipHost,
   FontWeights,
-  Link
-} from "office-ui-fabric-react";
-import { getTheme } from "@uifabric/styling";
-import { Icon } from "office-ui-fabric-react/lib/Icon";
-import { isNil } from "lodash";
+  Link,
+} from 'office-ui-fabric-react';
+import { getTheme } from '@uifabric/styling';
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import { isNil } from 'lodash';
 
-import { TagBar } from "App/components/tag_bar";
-import ConfirmDialog from "App/components/confirm_dialog";
-import Card from "App/components/card";
-import Context from "App/context";
-import { increaseSubmits } from "App/utils/marketplace_api";
+import { TagBar } from 'App/components/tag_bar';
+import ConfirmDialog from 'App/components/confirm_dialog';
+import Card from 'App/components/card';
+import Context from 'App/context';
+import { increaseSubmits } from 'App/utils/marketplace_api';
 
 const ItemCard = props => {
   const { item, status } = props;
@@ -29,8 +29,8 @@ const ItemCard = props => {
 
   const clickSubmit = async () => {
     // save jobConfig to localStorage
-    window.localStorage.removeItem("marketItem");
-    window.localStorage.setItem("marketItem", JSON.stringify(item.jobConfig));
+    window.localStorage.removeItem('marketItem');
+    window.localStorage.setItem('marketItem', JSON.stringify(item.jobConfig));
     await increaseSubmits(item.id);
     if (isJobV2(item.jobConfig)) {
       window.location.href = `/submit.html`;
@@ -47,28 +47,28 @@ const ItemCard = props => {
 
   const populateCreatedTime = () => {
     const uploadedTime = Math.floor(
-      Math.abs(new Date() - new Date(item.createdAt)) / 1000 / 3600 / 24
+      Math.abs(new Date() - new Date(item.createdAt)) / 1000 / 3600 / 24,
     );
     return uploadedTime === 0
-      ? "not long ago"
-      : uploadedTime + (uploadedTime > 1 ? " days ago" : " day ago");
+      ? 'not long ago'
+      : uploadedTime + (uploadedTime > 1 ? ' days ago' : ' day ago');
   };
 
   return (
     <Card key={item.Id}>
       <Stack>
-        <Stack horizontal horizontalAlign="space-between" gap="l2">
-          <Stack gap="l1" styles={{ root: [{ width: "80%" }] }}>
+        <Stack horizontal horizontalAlign='space-between' gap='l2'>
+          <Stack gap='l1' styles={{ root: [{ width: '80%' }] }}>
             <Link
               styles={{
                 root: {
                   fontSize: 16,
-                  fontWeight: FontWeights.semibold
-                }
+                  fontWeight: FontWeights.semibold,
+                },
               }}
               onClick={() => {
-                window.localStorage.removeItem("itemId");
-                window.localStorage.setItem("itemId", item.id);
+                window.localStorage.removeItem('itemId');
+                window.localStorage.setItem('itemId', item.id);
                 history.push(`/market_detail?itemId=${item.id}`);
               }}
             >
@@ -78,8 +78,8 @@ const ItemCard = props => {
               styles={{
                 root: {
                   fontSize: 14,
-                  fontWeight: FontWeights.regular
-                }
+                  fontWeight: FontWeights.regular,
+                },
               }}
             >
               Author: {item.author}
@@ -89,8 +89,8 @@ const ItemCard = props => {
               styles={{
                 root: {
                   fontSize: 14,
-                  fontWeight: FontWeights.regular
-                }
+                  fontWeight: FontWeights.regular,
+                },
               }}
             >
               {item.introduction}
@@ -100,29 +100,29 @@ const ItemCard = props => {
               styles={{
                 root: {
                   fontSize: 12,
-                  fontWeight: FontWeights.regular
-                }
+                  fontWeight: FontWeights.regular,
+                },
               }}
             >
               created {populateCreatedTime()}
             </Stack>
           </Stack>
-          <Stack gap="l2">
-            <Stack horizontal gap="l2">
+          <Stack gap='l2'>
+            <Stack horizontal gap='l2'>
               <TooltipHost
-                content="submits"
+                content='submits'
                 styles={{
                   root: {
-                    display: status === "pending" ? "none " : "inline-block"
-                  }
+                    display: status === 'pending' ? 'none ' : 'inline-block',
+                  },
                 }}
               >
-                <Stack horizontal gap="s1">
-                  <Icon iconName="Copy" />
+                <Stack horizontal gap='s1'>
+                  <Icon iconName='Copy' />
                   <div
                     style={{
                       fontSize: 12,
-                      fontWeight: FontWeights.regular
+                      fontWeight: FontWeights.regular,
                     }}
                   >
                     {item.submits}
@@ -130,19 +130,19 @@ const ItemCard = props => {
                 </Stack>
               </TooltipHost>
               <TooltipHost
-                content="stars"
+                content='stars'
                 styles={{
                   root: {
-                    display: status === "pending" ? "none " : "inline-block"
-                  }
+                    display: status === 'pending' ? 'none ' : 'inline-block',
+                  },
                 }}
               >
-                <Stack horizontal gap="s1">
-                  <Icon iconName="Like" />
+                <Stack horizontal gap='s1'>
+                  <Icon iconName='Like' />
                   <div
                     style={{
                       fontSize: 12,
-                      FontWeights: FontWeights.regular
+                      FontWeights: FontWeights.regular,
                     }}
                   >
                     {item.starNumber}
@@ -150,27 +150,27 @@ const ItemCard = props => {
                 </Stack>
               </TooltipHost>
             </Stack>
-            <Stack gap="m" styles={{ root: [{ paddingRight: spacing.l2 }] }}>
-              {status === "approved" && (
+            <Stack gap='m' styles={{ root: [{ paddingRight: spacing.l2 }] }}>
+              {status === 'approved' && (
                 <PrimaryButton
                   styles={{
                     root: {
                       fontSize: 14,
-                      fontWeight: FontWeights.regular
-                    }
+                      fontWeight: FontWeights.regular,
+                    },
                   }}
                   onClick={clickSubmit}
                 >
                   Submit
                 </PrimaryButton>
               )}
-              {status === "pending" && (
+              {status === 'pending' && (
                 <PrimaryButton
                   styles={{
                     root: {
                       fontSize: 14,
-                      fontWeight: FontWeights.regular
-                    }
+                      fontWeight: FontWeights.regular,
+                    },
                   }}
                   onClick={e => {
                     setHideApproveDialog(false);
@@ -182,34 +182,34 @@ const ItemCard = props => {
               <ConfirmDialog
                 hideDialog={hideApproveDialog}
                 setHideDialog={setHideApproveDialog}
-                action="approve"
+                action='approve'
                 inDetail={true}
                 itemId={item.id}
               />
-              {status === "approved" && (
+              {status === 'approved' && (
                 <DefaultButton
                   styles={{
                     root: {
                       fontSize: 14,
-                      fontWeight: FontWeights.regular
-                    }
+                      fontWeight: FontWeights.regular,
+                    },
                   }}
                   onClick={() => {
-                    window.localStorage.removeItem("itemId");
-                    window.localStorage.setItem("itemId", item.id);
+                    window.localStorage.removeItem('itemId');
+                    window.localStorage.setItem('itemId', item.id);
                     history.push(`/market_detail?itemId=${item.id}`);
                   }}
                 >
                   View
                 </DefaultButton>
               )}
-              {status === "pending" && (
+              {status === 'pending' && (
                 <DefaultButton
                   styles={{
                     root: {
                       fontSize: 14,
-                      fontWeight: FontWeights.regular
-                    }
+                      fontWeight: FontWeights.regular,
+                    },
                   }}
                   onClick={e => {
                     setHideRejectDialog(false);
@@ -221,8 +221,8 @@ const ItemCard = props => {
               <ConfirmDialog
                 hideDialog={hideRejectDialog}
                 setHideDialog={setHideRejectDialog}
-                action="reject"
-                pageType="list"
+                action='reject'
+                pageType='list'
                 itemId={item.id}
               />
             </Stack>
@@ -234,7 +234,8 @@ const ItemCard = props => {
 };
 
 ItemCard.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  status: PropTypes.string,
 };
 
 export default ItemCard;

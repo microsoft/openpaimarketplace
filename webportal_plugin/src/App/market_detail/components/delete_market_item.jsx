@@ -14,8 +14,8 @@
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-import PropTypes from "prop-types";
-import React, { useCallback, useContext } from "react";
+import PropTypes from 'prop-types';
+import React, { useCallback, useContext } from 'react';
 import {
   DefaultButton,
   PrimaryButton,
@@ -25,11 +25,11 @@ import {
   FontClassNames,
   FontSizes,
   FontWeights,
-  Text
-} from "office-ui-fabric-react";
+  Text,
+} from 'office-ui-fabric-react';
 
-import Context from "App/context";
-import { deleteItem } from "../../utils/marketplace_api";
+import Context from 'App/context';
+import { deleteItem } from '../../utils/marketplace_api';
 
 export default function DeleteMarketItem(props) {
   const { hideDeleteDialog, setHideDeleteDialog, itemId } = props;
@@ -39,7 +39,7 @@ export default function DeleteMarketItem(props) {
     setHideDeleteDialog(true);
     try {
       await deleteItem(itemId);
-      history.push("/");
+      history.push('/');
     } catch (err) {
       alert(err);
     }
@@ -62,8 +62,8 @@ export default function DeleteMarketItem(props) {
             styles={{
               root: {
                 fontSize: FontSizes.large,
-                fontWeight: FontWeights.semibold
-              }
+                fontWeight: FontWeights.semibold,
+              },
             }}
           >
             Delete Item
@@ -73,16 +73,16 @@ export default function DeleteMarketItem(props) {
           <span className={FontClassNames.medium}>
             Do you want to delete this market item permanently?
           </span>
-        )
+        ),
       }}
       modalProps={{
         isBlocking: true,
-        styles: { main: { maxWidth: 450 } }
+        styles: { main: { maxWidth: 450 } },
       }}
     >
       <DialogFooter>
-        <PrimaryButton onClick={onConfirm} text="Confirm" />
-        <DefaultButton onClick={closeDialog} text="Cancel" />
+        <PrimaryButton onClick={onConfirm} text='Confirm' />
+        <DefaultButton onClick={closeDialog} text='Cancel' />
       </DialogFooter>
     </Dialog>
   );
@@ -91,5 +91,5 @@ export default function DeleteMarketItem(props) {
 DeleteMarketItem.propTypes = {
   hideDeleteDialog: PropTypes.bool.isRequired,
   setHideDeleteDialog: PropTypes.func.isRequired,
-  itemId: PropTypes.string
+  itemId: PropTypes.string,
 };

@@ -1,13 +1,13 @@
-import React, { useState, useCallback } from "react";
-import { DefaultButton, Stack, Text } from "office-ui-fabric-react";
-import PropTypes from "prop-types";
-import yaml from "js-yaml";
+import React, { useState, useCallback } from 'react';
+import { DefaultButton, Stack, Text } from 'office-ui-fabric-react';
+import PropTypes from 'prop-types';
+import yaml from 'js-yaml';
 
-import { JobProtocol } from "App/models/job_protocol";
+import { JobProtocol } from 'App/models/job_protocol';
 
 const ImportYamlFile = props => {
   const { setJobConfig } = props;
-  const [yamlFileName, setYamlFileName] = useState("");
+  const [yamlFileName, setYamlFileName] = useState('');
   const uploadFile = React.createRef();
 
   const importFile = useCallback(event => {
@@ -17,7 +17,7 @@ const ImportYamlFile = props => {
       return;
     }
     const fileReader = new FileReader();
-    fileReader.addEventListener("load", () => {
+    fileReader.addEventListener('load', () => {
       const text = String(fileReader.result);
       const valid = JobProtocol.validateFromYaml(text);
       if (valid) {
@@ -33,9 +33,9 @@ const ImportYamlFile = props => {
 
   return (
     <div>
-      <Stack horizontal verticalAlign="baseline" gap="m">
+      <Stack horizontal verticalAlign='baseline' gap='m'>
         <DefaultButton
-          text="Upload yaml file"
+          text='Upload yaml file'
           onClick={() => {
             uploadFile.current.click();
           }}
@@ -43,10 +43,10 @@ const ImportYamlFile = props => {
         <Text>{yamlFileName}</Text>
       </Stack>
       <input
-        type="file"
+        type='file'
         ref={uploadFile}
-        accept=".yml,.yaml"
-        style={{ display: "none" }}
+        accept='.yml,.yaml'
+        style={{ display: 'none' }}
         onChange={importFile}
       />
     </div>
@@ -54,7 +54,7 @@ const ImportYamlFile = props => {
 };
 
 ImportYamlFile.propTypes = {
-  setYamlText: PropTypes.func
+  setJobConfig: PropTypes.func,
 };
 
 export default ImportYamlFile;
