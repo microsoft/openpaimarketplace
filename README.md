@@ -3,26 +3,17 @@
 ![Webportal Plugin CI](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin%20CI/badge.svg?branch=master)
 ![Rest Server CI](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server%20CI/badge.svg?branch=master)
 
-A marketplace which stores examples and standard jobs of openpai.
+A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
 ## get started
 
-- add a .env file with `SQL_CONNECTION_STR=xxx`
-- yarn install
-- yarn start
-- refer [openapi spec](./marketplace_api_spec_3.0.yaml) and test the api
+1. [start rest server](./rest_server/README.md)
 
-## deployment with openpai cluster
+2. [start webportal plugin](./webportal_plugin/README.md)
 
-TBD
+3. configure in pai webportal and use
 
-## API Usage
-
-TBD
-
-## Webportal Plugin Usage
-
-TBD
+When deploy pai webportal, configure marketplace webportal plugin in advance, then the marketplace could be used through pai webportal. For more detail, please refer to [webportal configuration doc](https://github.com/microsoft/pai/blob/master/docs/webportal/PLUGINS.md)
 
 ## Contributing
 
