@@ -1,7 +1,7 @@
 # openpaimarketplace
 
-![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin%20CI/badge.svg?branch=master)
-![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server%20CI/badge.svg?branch=master)
+![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master)
+![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
 [![Release](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
 
 A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
