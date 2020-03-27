@@ -2,7 +2,7 @@
 
 The rest server of openpai-marketplace. It is the main entrance for pai user to use openpai marketplace.
 
-## get started
+## Get started
 
 The deployment of webportal plugin used webpack-dev-server to hold static plugin.js file by default. However you could use webpack to build plugin.js file and render it by your own service.
 

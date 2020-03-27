@@ -5,19 +5,33 @@
 
 A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
-## get started
+## Components
 
-1. [start rest server](./rest_server/README.md)
+There are two components of openpaimarketplace, [rest server](./rest_server/README.md) and [webportal plugin](./webportal_plugin/README.md), which are responsible for backend service and frontend usage seperately. Please could check the two folders for more detail.
 
-2. [start webportal plugin](./webportal_plugin/README.md)
+## Get started
 
-3. configure in pai webportal and use
+- [start rest server](./rest_server/README.md)
 
-When deploy pai webportal, configure marketplace webportal plugin in advance, then the marketplace could be used through pai webportal. For more detail, please refer to [webportal configuration doc](https://github.com/microsoft/pai/blob/master/docs/webportal/PLUGINS.md)
+- [start webportal plugin](./webportal_plugin/README.md)
+
+- configure in pai webportal
+
+  When deploy pai webportal, configure marketplace webportal plugin in advance, then the marketplace could be used through pai webportal. For more detail, please refer to [webportal configuration doc](https://github.com/microsoft/pai/blob/master/docs/webportal/PLUGINS.md)
+
+## Code style check of webportal
+
+This project use eslint with standard config as linter and prettier as code formatter.
+
+Pleae refer to eslint config file and prettier config file for details. Make sure to run yarn lint command every time before you push your code, and resolve all the errors and warnings. Otherwise it will break the CI check when you submit your pull request.
+
+If you use modern editors like VS Code. It is highly recommends to install eslint and prettier extensions.
+
+    How to do code format with prettier? You could use cli like prettier --write 'src/**/*.js' 'src/**/*.jsx' or use prettier extension in vscode.
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit <https://cla.opensource.microsoft.com>.
 
