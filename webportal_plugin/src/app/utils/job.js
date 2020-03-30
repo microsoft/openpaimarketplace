@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { get, isNil, cloneDeep } from 'lodash';
 import { Interval, DateTime } from 'luxon';
 

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { isNil, isEmpty } from 'lodash';
 import React, { useCallback } from 'react';
 import {

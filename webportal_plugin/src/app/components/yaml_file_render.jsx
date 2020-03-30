@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React from 'react';
 import { FontClassNames } from '@uifabric/styling';
 import Card from './card';

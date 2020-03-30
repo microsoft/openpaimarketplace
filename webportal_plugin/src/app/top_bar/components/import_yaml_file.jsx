@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React, { useState, useCallback } from 'react';
 import { DefaultButton, Stack, Text } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
