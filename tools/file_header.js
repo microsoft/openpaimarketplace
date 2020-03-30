@@ -5,7 +5,8 @@ const fs = require("fs-extra");
 const path = require("path");
 const recursive = require("recursive-readdir");
 
-const DIR = "../rest_server/src";
+const ROOT_PATH = path.join(__dirname, "..");
+const TARGET_PATH = path.join(ROOT_PATH, "webportal_plugin/src")
 const HEADER = `// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 `;
@@ -31,13 +32,13 @@ const insertHeader = (filePath, header) => {
   });
 };
 
-recursive(DIR, function(err, files) {
+recursive(TARGET_PATH, function(err, files) {
   if (err) {
     console.log(err);
   }
   files.forEach(file => {
     console.log(`processing ${file}...`);
-    if (path.extname(file) === ".js" || path.extname === '.jsx') {
+    if (path.extname(file) === ".js" || path.extname(file) === ".jsx") {
       insertHeader(file, HEADER);
     } else {
       console.log("not js file");

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { getTheme } from '@uifabric/styling';
 import styled from 'styled-components';
 

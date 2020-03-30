@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { MARKETPLACE_API } from './constants';
 import { MarketItem } from '../models/market_item';
 

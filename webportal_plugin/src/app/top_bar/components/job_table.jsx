@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import c from 'classnames';
 import React, { useMemo, useLayoutEffect } from 'react';
 import {

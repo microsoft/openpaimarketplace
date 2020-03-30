@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import PropTypes from 'prop-types';
 import React, { useCallback, useContext } from 'react';
 import {

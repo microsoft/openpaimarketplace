@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React, { useState, useContext, useEffect } from 'react';
 import {
   Dialog,

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React, { useCallback } from 'react';
 import { Stack, Text, Checkbox, FontWeights } from 'office-ui-fabric-react';
 

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import React, { useCallback } from 'react';
 import { CommandBar } from 'office-ui-fabric-react';
 import { isNil } from 'lodash';
