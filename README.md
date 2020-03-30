@@ -20,7 +20,7 @@ There are two components of openpaimarketplace, [rest server](./rest_server/READ
 
   When deploy pai webportal, configure marketplace webportal plugin in advance, then the marketplace could be used through pai webportal. For more detail, please refer to [webportal configuration doc](https://github.com/microsoft/pai/blob/master/docs/webportal/PLUGINS.md)
 
-## Code style check of webportal
+## Code style check
 
 This project use eslint with standard config as linter and prettier as code formatter.
 
