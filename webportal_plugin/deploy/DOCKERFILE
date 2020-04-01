@@ -9,6 +9,9 @@ ENV NODE_ENV=production \
     SERVER_PORT=8080
 
 git clone https://github.com/microsoft/openpaimarketplace.git
+git checkout v1.0.0
+
+
 
 # Install dev-dependencies when building image
 RUN yarn install --production=false

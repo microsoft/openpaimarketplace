@@ -1,0 +1,21 @@
+{"level":"info","message":"config: %j"}
+{"level":"info","message":"Webportal server starts on port %d"}
+{"message":"config: [object Object]","level":"info"}
+{"message":"Webportal server starts on port 8080","level":"info"}
+{"level":"warn","message":"%s"}
+{"message":"\u001b[0mGET / \u001b[33m404\u001b[0m 7.084 ms - -\u001b[0m","level":"info"}
+{"message":"\u001b[0mGET /plugin.js \u001b[32m200\u001b[0m 2.391 ms - -\u001b[0m","level":"info"}
+{"level":"warn","message":"%s"}
+{"message":"\u001b[0mGET /favicon.ico \u001b[33m404\u001b[0m 1.707 ms - -\u001b[0m","level":"info"}
+{"message":"config: [object Object]","level":"info"}
+{"message":"Webportal server starts on port 8080","level":"info"}
+{"message":"config: [object Object]","level":"info"}
+{"message":"Webportal server starts on port 9292","level":"info"}
+{"message":"\u001b[0mGET /plugin.js \u001b[32m200\u001b[0m 5.406 ms - -\u001b[0m","level":"info"}
+{"message":"config: [object Object]","level":"info"}
+{"message":"Webportal server starts on port 9292","level":"info"}
+{"message":"\u001b[0mGET /plugin.js \u001b[36m304\u001b[0m 5.247 ms - -\u001b[0m","level":"info"}
+{"message":"config: [object Object]","level":"\u001b[32minfo\u001b[39m"}
+{"message":"Webportal server starts on port 9292","level":"\u001b[32minfo\u001b[39m"}
+{"message":"config: [object Object]","level":"\u001b[32minfo\u001b[39m"}
+{"message":"Webportal server starts on port 9292","level":"\u001b[32minfo\u001b[39m"}

@@ -17,7 +17,6 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const configuration = {
   context: path.resolve(__dirname, 'src'),
@@ -100,10 +99,6 @@ const configuration = {
     new webpack.IgnorePlugin({
       resourceRegExp: /^esprima$/,
       contextRegExp: /js-yaml/,
-    }),
-    new MonacoWebpackPlugin({
-      languages: ['yaml'],
-      features: ['folding'],
     }),
     new webpack.ProvidePlugin({
       cookies: 'js-cookie',
