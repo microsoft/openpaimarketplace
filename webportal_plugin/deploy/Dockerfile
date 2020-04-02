@@ -18,8 +18,7 @@ RUN git clone https://github.com/microsoft/openpaimarketplace.git && \
     cd openpaimarketplace && \
     git checkout ${VERSION} && \
     cd webportal_plugin && \
-    yarn install --production=false && \
-    yarn build
+    yarn install --production=false
 
 EXPOSE ${SERVER_PORT}
 

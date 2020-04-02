@@ -103,7 +103,7 @@ module.exports = env => {
     plugins: [
       new webpack.DefinePlugin({
         'process.env.MARKETPLACE_API_URL': JSON.stringify(
-          lodash.isNil(localEnv || localEnv.MARKETPLACE_API_URL)
+          lodash.isNil(localEnv) || lodash.isNil(localEnv.MARKETPLACE_API_URL)
             ? env.MARKETPLACE_API_URL
             : localEnv.MARKETPLACE_API_URL,
         ),
