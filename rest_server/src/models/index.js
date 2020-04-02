@@ -8,8 +8,16 @@ const dotnev = require('dotenv');
 
 dotnev.config();
 
-const SQL_CONNECTION_STR = process.env.SQL_CONNECTION_STR;
-const sequelize = new Sequelize(SQL_CONNECTION_STR);
+const DATABASE = process.env.DATABASE;
+const DB_USERNAME = process.env.DB_USERNAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_HOST = process.env.DB_HOST;
+const DB_PORT = process.env.DB_PORT;
+const sequelize = new Sequelize(DATABASE, DB_USERNAME, DB_PASSWORD, {
+  dialect: 'postgres',
+  host: DB_HOST,
+  port: DB_PORT,
+});
 
 const models = {
   MarketplaceItem: new MarketplaceItem(sequelize, DataTypes),

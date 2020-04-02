@@ -1,0 +1,30 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      args:
+        VERSION: deploy
+    depends_on:
+      - postgres
+    environment:
+      USERNAME: user
+      DATABASE: marketplace
+      PASSWORD: postgre
+      DB_HOST: postgre
+      DB_PORT: 5432
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:11.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: postgre
+      POSTGRES_DB: marketplace
