@@ -6,17 +6,18 @@ FROM node:carbon
 WORKDIR /usr/src/app
 
 ENV NODE_ENV=production \
-    SERVER_PORT=8080
+    SERVER_PORT=8080 \
+    LOG_LEVEL=info
 
-git clone https://github.com/microsoft/openpaimarketplace.git
-git checkout v1.0.0
-
-
-
-# Install dev-dependencies when building image
-RUN yarn install --production=false
-RUN npm run build
+RUN git clone https://github.com/microsoft/openpaimarketplace.git && \
+    cd openpaimarketplace && \
+    git checkout v1.0.0 && \
+    cd webportal_plugin && \
+    yarn install --production=false && \
+    yarn build
 
 EXPOSE ${SERVER_PORT}
 
-CMD ["npm", "start"]
+WORKDIR /usr/src/app/openpaimarketplace/webportal_plugin
+
+CMD ["yarn", "start"]
