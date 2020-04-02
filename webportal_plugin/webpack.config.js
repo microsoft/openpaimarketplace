@@ -21,7 +21,9 @@ const dotenv = require('dotenv');
 const lodash = require('lodash');
 
 module.exports = env => {
+  console.log(env)
   const localEnv = dotenv.config().parsed;
+  console.log(localEnv)
 
   return {
     context: path.resolve(__dirname, 'src'),
