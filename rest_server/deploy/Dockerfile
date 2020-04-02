@@ -18,5 +18,3 @@ EXPOSE ${PORT}
 WORKDIR /usr/src/app/openpaimarketplace/rest_server
 
 CMD ["yarn", "start"]
-
-
