@@ -15,7 +15,7 @@ import {
 } from 'office-ui-fabric-react';
 
 import Context from '../../context';
-import { MARKETPLACE_API } from '../../utils/constants';
+import { MARKETPLACE_API_URL } from '../../utils/constants';
 
 export default function CreateItemDialog(props) {
   const { hideDialog, setHideDialog, marketItem } = props;
@@ -72,7 +72,7 @@ export default function CreateItemDialog(props) {
   );
 
   async function createMarketItem(marketItem) {
-    const url = `${MARKETPLACE_API}/items`;
+    const url = `${MARKETPLACE_API_URL}/items`;
     const res = await fetch(url, {
       method: 'POST',
       headers: {

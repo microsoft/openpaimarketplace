@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MARKETPLACE_API } from './constants';
+import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 
 export async function getApprovedItems() {
-  const url = `${MARKETPLACE_API}/items?status=approved`;
+  const url = `${MARKETPLACE_API_URL}/items?status=approved`;
   const res = await fetch(url);
   if (res.ok) {
     const items = await res.json();
@@ -19,7 +19,7 @@ export async function getApprovedItems() {
 }
 
 export async function getPendingItems() {
-  const url = `${MARKETPLACE_API}/items?status=pending`;
+  const url = `${MARKETPLACE_API_URL}/items?status=pending`;
   const res = await fetch(url);
   if (res.ok) {
     const items = await res.json();
@@ -34,7 +34,7 @@ export async function getPendingItems() {
 }
 
 export async function deleteItem(itemId) {
-  const url = `${MARKETPLACE_API}/items/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
   const res = await fetch(url, {
     method: 'DELETE',
   });
@@ -57,7 +57,7 @@ export async function updateItem(
   starNumber,
   tags,
 ) {
-  const url = `${MARKETPLACE_API}/items/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
   const res = await fetch(url, {
     method: 'PUT',
     headers: {
@@ -84,7 +84,7 @@ export async function updateItem(
 }
 
 export async function createMarketItem(marketItem) {
-  const url = `${MARKETPLACE_API}/items`;
+  const url = `${MARKETPLACE_API_URL}/items`;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -110,7 +110,7 @@ export async function createMarketItem(marketItem) {
 }
 
 export async function getItemById(itemId) {
-  const url = `${MARKETPLACE_API}/items/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
   const res = await fetch(url);
   if (res.ok) {
     const result = await res.json();
@@ -136,7 +136,7 @@ export async function getItemById(itemId) {
 }
 
 export async function approveItem(itemId) {
-  const url = `${MARKETPLACE_API}/items/${itemId}/status`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}/status`;
   const res = await fetch(url, {
     method: 'Put',
     headers: {
@@ -152,7 +152,7 @@ export async function approveItem(itemId) {
 }
 
 export async function rejectItem(itemId) {
-  const url = `${MARKETPLACE_API}/items/${itemId}/status`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}/status`;
   const res = await fetch(url, {
     method: 'Put',
     headers: {
@@ -168,7 +168,7 @@ export async function rejectItem(itemId) {
 }
 
 export async function increaseSubmits(itemId) {
-  const url = `${MARKETPLACE_API}/items/${itemId}/submits`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}/submits`;
   const res = await fetch(url, {
     method: 'Put',
   });
@@ -181,7 +181,7 @@ export async function increaseSubmits(itemId) {
 
 // create if user not exist
 export async function ensureUser(user) {
-  const url = `${MARKETPLACE_API}/users`;
+  const url = `${MARKETPLACE_API_URL}/users`;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -199,7 +199,7 @@ export async function ensureUser(user) {
 }
 
 export async function getStarStatus(username, itemId) {
-  const url = `${MARKETPLACE_API}/users/${username}/starItems/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/users/${username}/starItems/${itemId}`;
   const res = await fetch(url);
   if (res.ok) {
     return true;
@@ -211,7 +211,7 @@ export async function getStarStatus(username, itemId) {
 }
 
 export async function addStar(username, itemId) {
-  const url = `${MARKETPLACE_API}/users/${username}/starItems/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/users/${username}/starItems/${itemId}`;
   const res = await fetch(url, {
     method: 'PUT',
   });
@@ -225,7 +225,7 @@ export async function addStar(username, itemId) {
 }
 
 export async function deleteStar(username, itemId) {
-  const url = `${MARKETPLACE_API}/users/${username}/starItems/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/users/${username}/starItems/${itemId}`;
   const res = await fetch(url, {
     method: 'DELETE',
   });
