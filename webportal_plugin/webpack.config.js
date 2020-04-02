@@ -18,7 +18,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
-const lodash = require('lodash');
 
 module.exports = () => {
   dotenv.config();
