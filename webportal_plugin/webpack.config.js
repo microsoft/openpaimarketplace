@@ -22,6 +22,7 @@ const lodash = require('lodash');
 
 module.exports = env => {
   console.log(env)
+  console.log(process.env)
   const localEnv = dotenv.config().parsed;
   console.log(localEnv)
 
