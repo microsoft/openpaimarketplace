@@ -19,8 +19,8 @@ const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 
-module.exports = () => {
-  const env = dotenv.config().parsed;
+module.exports = env => {
+  const localEnv = dotenv.config().parsed;
 
   return {
     context: path.resolve(__dirname, 'src'),
@@ -102,7 +102,9 @@ module.exports = () => {
     plugins: [
       new webpack.DefinePlugin({
         'process.env.MARKETPLACE_API_URL': JSON.stringify(
-          env.MARKETPLACE_API_URL,
+          isNil(localEnv || localEnv.MARKETPLACE_API_URL)
+            ? env.MARKETPLACE_API_URL
+            : localEnv.MARKETPLACE_API_URL,
         ),
       }),
       new webpack.IgnorePlugin({

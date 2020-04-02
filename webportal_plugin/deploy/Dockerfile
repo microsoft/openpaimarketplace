@@ -5,10 +5,14 @@ FROM node:carbon
 
 WORKDIR /usr/src/app
 
+ARG VERSION=v1.1.0
+ARG API_URL=http://localhost:3000
+ARG PORT=9292
+
 ENV NODE_ENV=production \
-    SERVER_PORT=8080 \
-    LOG_LEVEL=info
-ARG VERSION
+    SERVER_PORT=${PORT} \
+    LOG_LEVEL=info \
+    MARKETPLACE_API_URL=${API_URL}
 
 RUN git clone https://github.com/microsoft/openpaimarketplace.git && \
     cd openpaimarketplace && \
