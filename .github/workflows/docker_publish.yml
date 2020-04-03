@@ -39,12 +39,13 @@ jobs:
           docker-compose up -d
           sleep 5
           curl http://localhost:3000
+          curl http://localhost:3000/items
 
       - name: Test webportal image
         run: |
           cd webportal_plugin/deploy
           docker build . --tag debuggy/image --build-arg VERSION=${VERSION}
-          docker run -p 9292:9292 debuggy/image
+          docker run -d -p 9292:9292 debuggy/image
           sleep 5
           curl http://localhost:9292/plugin.js
 
