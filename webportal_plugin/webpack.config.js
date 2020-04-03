@@ -17,108 +17,111 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const dotenv = require('dotenv');
 
-const configuration = {
-  context: path.resolve(__dirname, 'src'),
-  entry: {
-    plugin: './index.js',
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    chunkFilename: '[id].chunk.js',
-    globalObject: 'this',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: ['lodash', '@babel/plugin-syntax-dynamic-import'],
-            presets: [
-              '@babel/preset-react',
-              [
-                '@babel/preset-env',
-                {
-                  useBuiltIns: 'entry',
-                  corejs: 3,
-                },
+module.exports = () => {
+  dotenv.config();
+
+  return {
+    context: path.resolve(__dirname, 'src'),
+    entry: {
+      plugin: './index.js',
+    },
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: '[name].js',
+      chunkFilename: '[id].chunk.js',
+      globalObject: 'this',
+    },
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              plugins: ['lodash', '@babel/plugin-syntax-dynamic-import'],
+              presets: [
+                '@babel/preset-react',
+                [
+                  '@babel/preset-env',
+                  {
+                    useBuiltIns: 'entry',
+                    corejs: 3,
+                  },
+                ],
               ],
-            ],
+            },
           },
         },
-      },
-      {
-        test: /\.(css|scss)$/,
-        include: path.resolve(__dirname, 'src'),
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              url: true,
-              modules: true,
-              sourceMap: true,
-              camelCase: true,
-              localIdentName: '[name]-[local]--[hash:base64:6]',
+        {
+          test: /\.(css|scss)$/,
+          include: path.resolve(__dirname, 'src'),
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                url: true,
+                modules: true,
+                sourceMap: true,
+                camelCase: true,
+                localIdentName: '[name]-[local]--[hash:base64:6]',
+              },
             },
-          },
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.(css|scss)$/,
-        exclude: path.resolve(__dirname, 'src'),
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.(jpg|png|gif|ico)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              publicPath: '/assets/img/',
-              outputPath: 'assets/img/',
+            'sass-loader',
+          ],
+        },
+        {
+          test: /\.(css|scss)$/,
+          exclude: path.resolve(__dirname, 'src'),
+          use: ['style-loader', 'css-loader', 'sass-loader'],
+        },
+        {
+          test: /\.(jpg|png|gif|ico)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                publicPath: '/assets/img/',
+                outputPath: 'assets/img/',
+              },
             },
-          },
-        ],
+          ],
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['.jsx', '.js', 'json'],
+      alias: {
+        App: path.resolve(__dirname, 'src/app'),
       },
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env.MARKETPLACE_API_URL': JSON.stringify(
+          process.env.MARKETPLACE_API_URL,
+        ),
+      }),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^esprima$/,
+        contextRegExp: /js-yaml/,
+      }),
+      new webpack.ProvidePlugin({
+        cookies: 'js-cookie',
+        'window.cookies': 'js-cookie',
+      }),
     ],
-  },
-  resolve: {
-    extensions: ['.jsx', '.js', 'json'],
-    alias: {
-      App: path.resolve(__dirname, 'src/app'),
+    devServer: {
+      host: '0.0.0.0',
+      port: 9292,
+      contentBase: false,
+      disableHostCheck: true,
+      watchOptions: {
+        ignored: /node_modules/,
+      },
     },
-  },
-  plugins: [
-    new webpack.IgnorePlugin({
-      resourceRegExp: /^esprima$/,
-      contextRegExp: /js-yaml/,
-    }),
-    new MonacoWebpackPlugin({
-      languages: ['yaml'],
-      features: ['folding'],
-    }),
-    new webpack.ProvidePlugin({
-      cookies: 'js-cookie',
-      'window.cookies': 'js-cookie',
-    }),
-  ],
-  devServer: {
-    host: '0.0.0.0',
-    port: 9292,
-    contentBase: false,
-    disableHostCheck: true,
-    watchOptions: {
-      ignored: /node_modules/,
-    },
-  },
+  };
 };
-
-module.exports = configuration;
