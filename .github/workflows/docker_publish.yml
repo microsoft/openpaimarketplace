@@ -36,6 +36,7 @@ jobs:
           echo ${VERSION}
           cd rest_server/deploy
           docker-compose up -d
+          sleep 5
           curl http://localhost:3000
 
       - name: Test webportal image
