@@ -31,9 +31,6 @@ jobs:
           # Strip git ref prefix from version
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           echo ${VERSION}
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          echo ${VERSION}
           cd rest_server/deploy
           docker-compose config
           docker-compose up -d
@@ -65,11 +62,7 @@ jobs:
       - name: Build image
         run: |
           # Strip git ref prefix from version
-          echo "${{ github.ref }}"
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          echo ${VERSION}
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           echo ${VERSION}
           cd webportal_plugin/deploy
           docker build . --file Dockerfile --tag image --build-arg VERSION=${VERSION}
@@ -86,9 +79,6 @@ jobs:
 
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
