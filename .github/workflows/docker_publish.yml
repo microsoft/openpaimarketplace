@@ -28,6 +28,12 @@ jobs:
 
       - name: Test rest server compose
         run: |
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          echo ${VERSION}
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          echo ${VERSION}
           cd rest_server/deploy
           docker-compose up -d
           curl http://localhost:3000
@@ -38,7 +44,7 @@ jobs:
           docker build . --tag debuggy/image
           docker run -p 9292:9292 debuggy/image
           curl http://localhost:9292/plugin.js
-    
+
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
@@ -61,7 +67,7 @@ jobs:
       - name: Push image
         run: |
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-          
+
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
