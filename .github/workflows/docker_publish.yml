@@ -29,12 +29,13 @@ jobs:
       - name: Test rest server compose
         run: |
           # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           echo ${VERSION}
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           echo ${VERSION}
           cd rest_server/deploy
+          docker-compose config
           docker-compose up -d
           sleep 5
           curl http://localhost:3000
@@ -42,8 +43,9 @@ jobs:
       - name: Test webportal image
         run: |
           cd webportal_plugin/deploy
-          docker build . --tag debuggy/image
+          docker build . --tag debuggy/image --build-arg VERSION=${VERSION}
           docker run -p 9292:9292 debuggy/image
+          sleep 5
           curl http://localhost:9292/plugin.js
 
 

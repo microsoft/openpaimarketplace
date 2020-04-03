@@ -5,7 +5,7 @@ FROM node:carbon
 
 WORKDIR /usr/src/app
 
-ARG VERSION=v1.1.0
+ARG VERSION
 ARG API_URL=http://localhost:3000
 ARG PORT=9292
 
