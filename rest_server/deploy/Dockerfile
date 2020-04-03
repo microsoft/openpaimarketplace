@@ -9,7 +9,7 @@ ARG VERSION
 
 RUN git clone https://github.com/microsoft/openpaimarketplace.git && \
     cd openpaimarketplace && \
-    git checkout VERSION && \
+    git checkout ${VERSION} && \
     cd rest_server && \
     yarn install
 

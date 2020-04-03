@@ -6,7 +6,7 @@ services:
     build:
       context: .
       args:
-        VERSION: master
+        VERSION: ${VERSION}
     depends_on:
       - postgres
     environment:
