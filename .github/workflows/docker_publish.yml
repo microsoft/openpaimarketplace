@@ -42,8 +42,8 @@ jobs:
 
       - name: Test rest server compose
         run: |
-          [ "${{github.event_name}}" == "pull_request" ] && export VERSION="github.head_ref"
-          [ "${{github.event_name}}" != "pull_request" ] && export VERSION="github.ref"
+          [ "${{github.event_name}}" == "pull_request" ] && export VERSION="${{github.head_ref}}"
+          [ "${{github.event_name}}" != "pull_request" ] && export VERSION="${{github.ref}}"
           echo ${VERSION}
           cd rest_server/deploy
           docker-compose config
