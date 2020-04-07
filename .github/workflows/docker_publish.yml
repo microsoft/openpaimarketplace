@@ -31,7 +31,7 @@ jobs:
           echo "Branch is: ${BRANCH}"
         env:
           BRANCH: ${{ github.ref }}
-        if: github.event_name !== 'pull_request'
+        if: github.event_name != 'pull_request'
 
       - name: Set branch name in pull request
         run: |
