@@ -3,17 +3,17 @@
 ![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master)
 ![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
 [![Release](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
-[![Release](https://img.shields.io/badge/docker--image-v1.0.0-success)](https://github.com/microsoft/openpaimarketplace/packages/171126)
+[![Dokcer](https://img.shields.io/badge/docker--image-v1.0.0-success)](https://github.com/microsoft/openpaimarketplace/packages/171126)
 
 A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
 ## Components
 
-There are two components of openpaimarketplace, [rest server](./rest_server/README.md) and [webportal plugin](./webportal_plugin/README.md), which are responsible for backend service and frontend usage seperately. Please could check the two folders for more detail.
+There are two components of openpaimarketplace, [rest server](./rest_server/README.md) and [webportal plugin](./webportal_plugin/README.md), which are responsible for backend service and frontend usage seperately. Please check the two folders for more detail.
 
 ## Deployment
 
-- [Deploy rest server](./rest_server/README.md)
+- [Deploy database and rest server](./rest_server/README.md)
 
 - [Deploy webportal plugin](./webportal_plugin/README.md)
 

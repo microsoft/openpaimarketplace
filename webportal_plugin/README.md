@@ -2,26 +2,48 @@
 
 The rest server of openpai-marketplace. It is the main entrance for pai user to use openpai marketplace.
 
-## Get started
+## Deployment
 
-The deployment of webportal plugin used webpack-dev-server to hold static plugin.js file by default. However you could use webpack to build plugin.js file and render it by your own service.
+If you deploy without docker, you need to create a .env file in the webportal plugin root path with some configurations:
 
-- To start by webpack-dev-server
-
-```sh
-- git clone https://github.com/microsoft/openpaimarketplace.git
-- cd webportal_plugin
-- yarn install
-- yarn start // go to <root_url>/plugin.js to check the bundle file
+```shell
+LOG_LEVEL=<error, warn, info, verbose, debug or silly>
+SERVER_PORT=<expose_port>
+MARKETPLACE_API_URL=<marketplace_api_url>
 ```
 
-- To build by webpack
+- Deploy for developing
 
-```sh
-- git clone https://github.com/microsoft/openpaimarketplace.git
-- cd webportal_plugin
-- yarn install
-- yarn build // the output plugin.js file is in /dist folder
-```
+  Webportal plugin used webpack-dev-server to hold static plugin.js file when developing.
 
-After the service started, configure pai webportal .env file with the service uri. See [web portal plugin doc](https://github.com/microsoft/pai/blob/master/docs/webportal/PLUGINS.md) for more detail of configuring webportal plugin.
+  ```sh
+  - git clone https://github.com/microsoft/openpaimarketplace.git
+  - git checkout xxx // checkout to the version you needed
+  - cd webportal_plugin
+  - yarn install
+  - yarn dev // go to <host_url>:<expose_port>/plugin.js to check the bundle file
+  ```
+
+- Deploy with docker
+
+  You could use prebuilt [docker image](https://github.com/microsoft/openpaimarketplace/packages/171126) in github packages to deploy plugin easily.
+
+  ```sh
+  - docker pull docker.pkg.github.com/microsoft/openpaimarketplace/webportal_plugin:<tag> // choose the version you need
+  - docker run -d -p <expose_port>:9292 docker.pkg.github.com/microsoft/openpaimarketplace/webportal_plugin:<tag>
+  - curl http://localhost:<expose_port>/plugin.js // check out plugin file when service up
+  ```
+
+- Deploy by your own
+
+  ```sh
+  - git clone https://github.com/microsoft/openpaimarketplace.git
+  - cd webportal_plugin
+  - yarn install
+  - yarn build
+  - yarn start
+  ```
+
+## Configure pai webportal
+
+If you want to check the plugin in pai webportal, you should configure pai webportal .env file with the plugin service uri. See [web portal plugin doc](https://github.com/microsoft/pai/blob/master/docs/webportal/PLUGINS.md) for more detail of configuring webportal plugin.
