@@ -29,7 +29,7 @@ jobs:
       - name: Test rest server compose
         run: |
           [ "${{github.event_name}}" == "pull_request" ] && export VERSION="${{github.head_ref}}"
-          [ "${{github.event_name}}" != "pull_request" ] && export VERSION="${{github.ref}}"
+          [ "${{github.event_name}}" != "pull_request" ] && export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           echo "branch name: ${VERSION}"
           cd rest_server/deploy
           docker-compose config
@@ -41,7 +41,7 @@ jobs:
       - name: Test webportal image
         run: |
           [ "${{github.event_name}}" == "pull_request" ] && export VERSION="${{github.head_ref}}"
-          [ "${{github.event_name}}" != "pull_request" ] && export VERSION="${{github.ref}}"
+          [ "${{github.event_name}}" != "pull_request" ] && export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           echo "branch name: ${VERSION}"
           cd webportal_plugin/deploy
           docker build . --tag debuggy/image --build-arg VERSION=${BRANCH}
@@ -63,7 +63,6 @@ jobs:
       - name: Build image
         run: |
           # Strip git ref prefix from version
-          echo "${{ github.ref }}"
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           echo "branch name: ${VERSION}"
           cd webportal_plugin/deploy
