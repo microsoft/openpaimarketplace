@@ -29,7 +29,11 @@ jobs:
       - name: Test rest server compose
         run: |
           # Strip git ref prefix from version
-          export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          if: ${{ github.event_name }} == 'pull_request'; then
+            export VERSION=${{github.base_ref}}
+          else
+            export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          fi
           echo ${VERSION}
           cd rest_server/deploy
           docker-compose config
@@ -82,7 +86,12 @@ jobs:
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
           # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip git ref prefix from version
+          if: ${{ github.event_name }} == 'pull_request'; then
+            VERSION=${{github.base_ref}}
+          else
+            VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          fi
 
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
