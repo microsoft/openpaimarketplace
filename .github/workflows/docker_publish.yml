@@ -62,7 +62,11 @@ jobs:
       - name: Build image
         run: |
           # Strip git ref prefix from version
-          export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          if: ${{ github.event_name }} == 'pull_request'; then
+            export VERSION=${{github.base_ref}}
+          else
+            export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          fi
           echo ${VERSION}
           cd webportal_plugin/deploy
           docker build . --file Dockerfile --tag image --build-arg VERSION=${VERSION}
