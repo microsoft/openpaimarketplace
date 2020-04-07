@@ -29,11 +29,7 @@ jobs:
       - name: Test rest server compose
         run: |
           # Strip git ref prefix from version
-          if ["${{ github.event_name }}" == 'pull_request']; then
-            export VERSION="${{github.base_ref}}"
-          else
-            export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          fi
+          export VERSION="${{github.base_ref}}"
           echo ${VERSION}
           cd rest_server/deploy
           docker-compose config
@@ -49,7 +45,6 @@ jobs:
           docker run -d -p 9292:9292 debuggy/image
           sleep 5
           curl http://localhost:9292/plugin.js
-
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
