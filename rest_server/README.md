@@ -1,21 +1,44 @@
 # Openpaimarketplace Rest Server
 
-The rest server of openpai-marketplace. It is the api service to use openpai marketplace.
+The rest server of openpaimarketplace. It is the api service to use openpai marketplace.
 
-## Get started
+## Deployment
 
-- deployment
+There are two ways to deploy rest server. The recommended way is to use docker compose to deploy rest server with one command. Or you could prepare environment and deploy by your own.
 
-The rest server uses PostgreSQL database as storage. So you should firstly ensure a working PostgreSQL database and set the connection string in rest server .env file. For install and start postgre database, please refer to [official doc](https://www.postgresql.org/download/)
+- Deploy with docker compose (Recommendation)
 
-```shell
-- git clone https://github.com/microsoft/openpaimarketplace.git
-- cd rest_server
-- add a .env file with `sql_connection_str=xxx`
-- yarn install
-- yarn start
-```
+  ```shell
+  $ cd rest_server/deploy
+  $ docker compose up -d
+  $ curl http://localhost:3000 // test when service up
+  ```
+  
+  You could check and edit [config file](./deploy/docker-compose.yml) to customize the deployment.
 
-- api specification
+- Deploy by your own
+
+  The rest server uses PostgreSQL database as storage. So you should firstly ensure a working [PostgreSQL database](https://www.postgresql.org/download/) and create a .env file in rest server root path.
+
+  ```shell
+  DB_USERNAME=<user_name>
+  DATABASE=<database_name>
+  DB_PASSWORD=<password>
+  DB_HOST=<database_host>
+  DB_PORT=<database_port_number>
+  PORT=<api_service_port>
+  ```
+
+  Then git clone the source code and start the rest server.
+
+  ```shell
+  $ git clone https://github.com/microsoft/openpaimarketplace.git
+  $ cd rest_server
+  $ // add a .env file
+  $ yarn install
+  $ yarn start
+  ```
+
+## Api specification
 
 Please refer to [openapi spec](./marketplace_api_spec_3.0.yaml) for marketplace api.

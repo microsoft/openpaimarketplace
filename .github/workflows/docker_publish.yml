@@ -28,12 +28,9 @@ jobs:
 
       - name: Test rest server compose
         run: |
-          # Strip git ref prefix from version
-          export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          echo ${VERSION}
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          echo ${VERSION}
+          [ "${{github.event_name}}" == "pull_request" ] && export VERSION="${{github.head_ref}}"
+          [ "${{github.event_name}}" != "pull_request" ] && export VERSION="${{github.ref}}"
+          echo "branch name: ${VERSION}"
           cd rest_server/deploy
           docker-compose config
           docker-compose up -d
@@ -43,15 +40,16 @@ jobs:
 
       - name: Test webportal image
         run: |
+          [ "${{github.event_name}}" == "pull_request" ] && export VERSION="${{github.head_ref}}"
+          [ "${{github.event_name}}" != "pull_request" ] && export VERSION="${{github.ref}}"
+          echo "branch name: ${VERSION}"
           cd webportal_plugin/deploy
-          docker build . --tag debuggy/image --build-arg VERSION=${VERSION}
+          docker build . --tag debuggy/image --build-arg VERSION=${BRANCH}
           docker run -d -p 9292:9292 debuggy/image
           sleep 5
           curl http://localhost:9292/plugin.js
 
-
   # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
   push:
     # Ensure test job passes before pushing image.
     needs: test
@@ -67,12 +65,9 @@ jobs:
           # Strip git ref prefix from version
           echo "${{ github.ref }}"
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          echo ${VERSION}
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          echo ${VERSION}
+          echo "branch name: ${VERSION}"
           cd webportal_plugin/deploy
-          docker build . --file Dockerfile --tag image --build-arg VERSION=${VERSION}
+          docker build . --file Dockerfile --tag image --build-arg VERSION=${BRANCH}
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
@@ -86,9 +81,6 @@ jobs:
 
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
