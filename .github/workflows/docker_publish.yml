@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "Pull request's head branch is: ${BRANCH}"
         env:
-          BRANCH: ${{ github.head_ref:11 }}
+          BRANCH: ${{ github.head_ref }}
         if: github.event_name == 'pull_request'
 
       - name: Test rest server compose
