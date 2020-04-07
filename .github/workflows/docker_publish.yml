@@ -26,25 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set branch name
-        run: |
-          echo "Branch is: ${BRANCH}"
-        env:
-          BRANCH: ${{ github.ref }}
-        if: github.event_name != 'pull_request'
-
-      - name: Set branch name in pull request
-        run: |
-          echo "Pull request's head branch is: ${BRANCH}"
-        env:
-          BRANCH: ${{ github.head_ref }}
-        if: github.event_name == 'pull_request'
-
       - name: Test rest server compose
         run: |
           [ "${{github.event_name}}" == "pull_request" ] && export VERSION="${{github.head_ref}}"
           [ "${{github.event_name}}" != "pull_request" ] && export VERSION="${{github.ref}}"
-          echo ${VERSION}
+          echo "branch name: ${VERSION}"
           cd rest_server/deploy
           docker-compose config
           docker-compose up -d
@@ -54,15 +40,16 @@ jobs:
 
       - name: Test webportal image
         run: |
+          [ "${{github.event_name}}" == "pull_request" ] && export VERSION="${{github.head_ref}}"
+          [ "${{github.event_name}}" != "pull_request" ] && export VERSION="${{github.ref}}"
+          echo "branch name: ${VERSION}"
           cd webportal_plugin/deploy
           docker build . --tag debuggy/image --build-arg VERSION=${BRANCH}
           docker run -d -p 9292:9292 debuggy/image
           sleep 5
           curl http://localhost:9292/plugin.js
 
-
   # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
   push:
     # Ensure test job passes before pushing image.
     needs: test
@@ -75,6 +62,10 @@ jobs:
 
       - name: Build image
         run: |
+          # Strip git ref prefix from version
+          echo "${{ github.ref }}"
+          export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          echo "branch name: ${VERSION}"
           cd webportal_plugin/deploy
           docker build . --file Dockerfile --tag image --build-arg VERSION=${BRANCH}
 
@@ -88,7 +79,8 @@ jobs:
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
-          VERSION=${BRANCH}
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
