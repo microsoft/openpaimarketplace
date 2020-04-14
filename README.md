@@ -2,7 +2,7 @@
 
 ![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master)
 ![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
-[![Release](https://img.shields.io/github/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
+[![Release](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
 [![Dokcer](https://img.shields.io/badge/docker--image-v1.1.0-success)](https://github.com/microsoft/openpaimarketplace/packages/171126?version=v1.1.0)
 
 A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
