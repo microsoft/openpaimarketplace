@@ -4,19 +4,19 @@ The rest server of openpaimarketplace. It is the api service to use openpai mark
 
 ## Deployment
 
-There are two ways to deploy rest server. The recommended way is to use docker compose to deploy rest server with one command. Or you could prepare environment and deploy by your own.
+There are two ways to deploy rest server. The recommended way is to use docker compose to deploy rest server with one command. Or if you have network problem or other issues with docker, you could prepare environment and deploy by your own.
 
-- Deploy with docker compose (Recommendation)
+### Deploy with docker compose (Recommendation)
 
   ```shell
   $ cd rest_server/deploy
-  $ docker compose up -d
+  $ docker-compose up -d
   $ curl http://localhost:3000 // test when service up
   ```
-  
+
   You could check and edit [config file](./deploy/docker-compose.yml) to customize the deployment.
 
-- Deploy by your own
+### Deploy by your own
 
   The rest server uses PostgreSQL database as storage. So you should firstly ensure a working [PostgreSQL database](https://www.postgresql.org/download/) and create a .env file in rest server root path.
 
@@ -33,9 +33,10 @@ There are two ways to deploy rest server. The recommended way is to use docker c
 
   ```shell
   $ git clone https://github.com/microsoft/openpaimarketplace.git
+  $ git checkout xxx // checkout to the version you needed
   $ cd rest_server
   $ // add a .env file
-  $ yarn install
+  $ yarn install // recommended nodejs version: ^8.10.0 || ^10
   $ yarn start
   ```
 
