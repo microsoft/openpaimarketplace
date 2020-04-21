@@ -4,6 +4,19 @@ The rest server of openpai-marketplace. It is the main entrance for pai user to 
 
 ## Deployment
 
+### Deploy with docker
+
+You could use prebuilt [docker image](https://github.com/microsoft/openpaimarketplace/packages/171126) in github packages to deploy plugin easily.
+
+```sh
+- // login github packages with docker
+- docker pull docker.pkg.github.com/microsoft/openpaimarketplace/webportal_plugin:<tag> // choose the version you need
+- docker run -d -p <expose_port>:9292 docker.pkg.github.com/microsoft/openpaimarketplace/webportal_plugin:<tag>
+- curl http://localhost:<expose_port>/plugin.js // check out plugin file when service up
+```
+
+### Deploy by your own
+
 If you deploy without docker, you need to create a .env file in the webportal plugin root path with some configurations:
 
 ```shell
@@ -12,7 +25,7 @@ SERVER_PORT=<expose_port>
 MARKETPLACE_API_URL=<marketplace_api_url>
 ```
 
-- Deploy for developing
+- For developing
 
   Webportal plugin used webpack-dev-server to hold static plugin.js file when developing.
 
@@ -20,25 +33,17 @@ MARKETPLACE_API_URL=<marketplace_api_url>
   - git clone https://github.com/microsoft/openpaimarketplace.git
   - git checkout xxx // checkout to the version you needed
   - cd webportal_plugin
+  - // add .env file
   - yarn install
   - yarn dev // go to <host_url>:<expose_port>/plugin.js to check the bundle file
   ```
 
-- Deploy with docker
-
-  You could use prebuilt [docker image](https://github.com/microsoft/openpaimarketplace/packages/171126) in github packages to deploy plugin easily.
-
-  ```sh
-  - docker pull docker.pkg.github.com/microsoft/openpaimarketplace/webportal_plugin:<tag> // choose the version you need
-  - docker run -d -p <expose_port>:9292 docker.pkg.github.com/microsoft/openpaimarketplace/webportal_plugin:<tag>
-  - curl http://localhost:<expose_port>/plugin.js // check out plugin file when service up
-  ```
-
-- Deploy by your own
+- For production
 
   ```sh
   - git clone https://github.com/microsoft/openpaimarketplace.git
   - cd webportal_plugin
+  - // add .env file
   - yarn install
   - yarn build
   - yarn start
