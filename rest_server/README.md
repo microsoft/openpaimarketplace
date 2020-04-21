@@ -36,7 +36,7 @@ There are two ways to deploy rest server. The recommended way is to use docker c
   $ git checkout xxx // checkout to the version you needed
   $ cd rest_server
   $ // add a .env file
-  $ yarn install // recommend nodejs version: ^8.10.0 || ^10
+  $ yarn install // recommended nodejs version: ^8.10.0 || ^10
   $ yarn start
   ```
 

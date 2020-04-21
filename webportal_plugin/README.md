@@ -34,7 +34,7 @@ MARKETPLACE_API_URL=<marketplace_api_url>
   $ git checkout xxx // checkout to the version you needed
   $ cd webportal_plugin
   $ // add .env file
-  $ yarn install
+  $ yarn install // recommend nodejs version: ^8.10.0 || ^10
   $ yarn dev // go to <host_url>:<expose_port>/plugin.js to check the bundle file
   ```
 
@@ -45,7 +45,7 @@ MARKETPLACE_API_URL=<marketplace_api_url>
   $ git checkout xxx // checkout to the version you needed
   $ cd webportal_plugin
   $ // add .env file
-  $ yarn install
+  $ yarn install // recommend nodejs version: ^8.10.0 || ^10
   $ yarn build
   $ yarn start
   ```
