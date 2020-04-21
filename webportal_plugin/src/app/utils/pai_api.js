@@ -3,11 +3,16 @@
 import querystring from 'query-string';
 import yaml from 'js-yaml';
 
-export async function fetchSucessJobs(api, username) {
+export async function fetchSucessJobs(api, username, token) {
   const res = await fetch(
     `${api}/api/v1/jobs?${querystring.stringify({
       username,
     })}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
 
   if (res.ok) {
@@ -19,11 +24,15 @@ export async function fetchSucessJobs(api, username) {
   }
 }
 
-export async function fetchJobConfig(api, userName, jobName) {
+export async function fetchJobConfig(api, userName, jobName, token) {
   const url = userName
     ? `${api}/api/v1/jobs/${userName}~${jobName}/config`
     : `${api}/api/v1/jobs/${jobName}/config`;
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const text = await res.text();
   const json = yaml.safeLoad(text);
   if (res.ok) {

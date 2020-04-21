@@ -21,14 +21,14 @@ import JobTable from './job_table';
 
 const JobListDialog = props => {
   const { setHideListDialog, setHideCreateDialog, setJobConfig } = props;
-  const { api, user } = useContext(Context);
+  const { api, user, token } = useContext(Context);
 
   const [jobs, setJobs] = useState(null);
   const [selectedJob, setSelectedJob] = useState();
 
   function getSucessJobs() {
     setJobs(null);
-    fetchSucessJobs(api, user)
+    fetchSucessJobs(api, user, token)
       .then(jobs => {
         setJobs(jobs);
       })
@@ -48,6 +48,7 @@ const JobListDialog = props => {
         api,
         selectedJob[0].username,
         selectedJob[0].name,
+        token,
       );
       setJobConfig(config);
       setHideCreateDialog(false);

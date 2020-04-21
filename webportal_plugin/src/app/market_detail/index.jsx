@@ -19,7 +19,7 @@ import { SpinnerLoading } from 'App/components/loading';
 import { getItemById } from 'App/utils/marketplace_api';
 
 const MarketDetail = props => {
-  const { api, user, routeProps } = props;
+  const { api, user, token, routeProps } = props;
 
   const [loading, setLoading] = useState(true);
   const [marketItem, setMarketItem] = useState(null);
@@ -43,6 +43,7 @@ const MarketDetail = props => {
   const context = {
     user,
     api,
+    token,
     history: routeProps.history,
   };
 
@@ -65,6 +66,7 @@ const MarketDetail = props => {
 MarketDetail.propTypes = {
   api: PropTypes.string,
   user: PropTypes.string,
+  token: PropTypes.string,
   routeProps: PropTypes.object,
 };
 

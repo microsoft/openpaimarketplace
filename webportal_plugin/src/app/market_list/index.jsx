@@ -17,7 +17,7 @@ import ListView from './list_view';
 import { getPendingItems, ensureUser } from 'App/utils/marketplace_api';
 
 const MarketList = props => {
-  const { api, user, routeProps } = props;
+  const { api, user, token, routeProps } = props;
   const admin = cookies.get('admin');
 
   const [status, setStatus] = useState(initStatus());
@@ -40,6 +40,7 @@ const MarketList = props => {
   const context = {
     api,
     user,
+    token,
     history: routeProps.history,
   };
 
@@ -101,6 +102,7 @@ const MarketList = props => {
 MarketList.propTypes = {
   api: PropTypes.string,
   user: PropTypes.string,
+  token: PropTypes.string,
   routeProps: PropTypes.object,
 };
 
