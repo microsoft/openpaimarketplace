@@ -7,6 +7,7 @@ import {
   Link,
   Selection,
   ShimmeredDetailsList,
+  SelectionMode,
   Icon,
   ColorClassNames,
   FontSizes,
@@ -182,7 +183,7 @@ const JobTable = props => {
           columns={columns}
           enableShimmer={isNil(jobs)}
           selection={selection}
-          selectionMode='single'
+          selectionMode={SelectionMode.single}
         />
       </div>
     );
