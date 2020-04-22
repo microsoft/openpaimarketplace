@@ -2,24 +2,22 @@
 
 ![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master)
 ![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
-[![Release](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
-[![Dokcer](https://img.shields.io/badge/docker--image-v1.1.0-success)](https://github.com/microsoft/openpaimarketplace/packages/171126?version=v1.1.0)
+[![Documentation Status](https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest)](https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest)
+[![Release Version](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
+[![Docker Image](https://img.shields.io/badge/docker--image-v1.1.0-success)](https://github.com/microsoft/openpaimarketplace/packages/171126?version=v1.1.0)
 
 A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
 ## Components
 
-There are two components of openpaimarketplace, [rest server](./rest_server/README.md) and [webportal plugin](./webportal_plugin/README.md), which are responsible for backend service and frontend usage seperately. Please check the two folders for more detail.
+There are two components of openpaimarketplace, [rest server](https://github.com/microsoft/openpaimarketplace/tree/master/rest_server) and [webportal plugin](https://github.com/microsoft/openpaimarketplace/tree/master/webportal_plugin), which are responsible for backend service and frontend usage seperately. Please check the two folders for more detail.
 
-## Deployment
+## Documentation
 
-- [Deploy database and rest server](./rest_server/README.md)
+The documentation is put in [docs directory](./docs) and hosted at [readthedocs](https://openpaimarketplace.readthedocs.io/en/latest/):
 
-- [Deploy webportal plugin](./webportal_plugin/README.md)
-
-- configure in pai webportal
-
-  When deploy pai webportal, configure marketplace webportal plugin in advance, then the marketplace could be used through pai webportal. For more detail, please refer to [webportal configuration doc](https://github.com/microsoft/pai/blob/master/docs/webportal/PLUGINS.md)
+* [Deployment](./docs/deployment.md)
+* [Getting started](./docs/getting_started.md)
 
 ## Code style check
 
