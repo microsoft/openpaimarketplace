@@ -1,0 +1,8 @@
+site_name: openpaimarketplace
+repo_url: https://github.com/microsoft/openpaimarketplace
+repo_name: openpaimarketplace
+nav:
+    - Home: index.md
+    - Deployment: deployment.md
+    - Getting Started: getting_started.md
+theme: readthedocs
