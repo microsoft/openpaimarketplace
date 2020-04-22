@@ -65,6 +65,8 @@ SERVER_PORT=<expose_port>
 MARKETPLACE_API_URL=<marketplace_api_url>
 ```
 
+> Remind: <marketplace_api_url> should use host ip instead of localhost when deloyment in the same machine, or it will cause some issues.
+
 ```sh
 $ git clone https://github.com/microsoft/openpaimarketplace.git
 $ git checkout xxx // checkout to the version you needed
@@ -77,7 +79,7 @@ $ yarn start
 
 ## Configure in pai webportal
 
-After you deploy rest server and webportal plugin successfully, you will have a url of webportal plugin. To use it in pai, you should add this url and a name (e.g. new marketplace) in pai ```service-configurationi.yaml``` and restart pai webportal service. Then the marketplace should be shown as a submenu in the `Plugin` section on webportal, like:
+After you deploy rest server and webportal plugin successfully, you will have a url like `http://<ip>:<SERVER_PORT>/plugin.js` of webportal plugin. To use it in pai, you should add this url and a name (e.g. new marketplace) in pai `service-configuration.yaml` and restart pai webportal service. Then the marketplace should be shown as a submenu in the `Plugin` section on webportal, like:
 
 ![plugin](images/marketplace-plugin.png)
 
