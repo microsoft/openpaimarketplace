@@ -63,8 +63,7 @@ const JobListDialog = props => {
     <Dialog
       hidden={false}
       onDismiss={closeDialog}
-      minWidth={800}
-      maxWidth={2000}
+      minWidth={1000}
       dialogContentProps={{
         styles: {
           title: { padding: '20px 36px 12px 20px' },
