@@ -11,11 +11,15 @@ class PAIMarketplacePluginElement extends HTMLElement {
     const api = this.getAttribute('pai-rest-server-uri');
     const user = this.getAttribute('pai-user');
     const token = this.getAttribute('pai-rest-server-token');
+    const isAdmin = cookies.get('admin') === 'true';
     if (user === null || token === null) {
       window.location.href = '/login.html';
       return;
     }
-    ReactDOM.render(React.createElement(App, { api, user, token }), this);
+    ReactDOM.render(
+      React.createElement(App, { api, user, token, isAdmin }),
+      this,
+    );
   }
 
   disconnectedCallback() {

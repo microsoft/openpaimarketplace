@@ -6,5 +6,6 @@ export default React.createContext({
   api: null,
   user: null,
   token: null,
+  isAdmin: false,
   history: null,
 });
