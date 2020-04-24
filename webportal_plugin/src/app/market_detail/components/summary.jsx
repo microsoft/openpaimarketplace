@@ -34,8 +34,7 @@ const { spacing } = getTheme();
 
 export default function Summary(props) {
   const { marketItem } = props;
-  const { user } = useContext(Context);
-  const admin = cookies.get('admin');
+  const { user, isAdmin } = useContext(Context);
 
   const [hideDialog, setHideDialog] = useState(true);
   const [hideApproveDialog, setHideApproveDialog] = useState(true);
@@ -55,6 +54,10 @@ export default function Summary(props) {
     }
     fetchStarRelationWrapper();
   }, []);
+
+  const checkAuthorAdmin = useCallback(() => {
+    return isAdmin || user === marketItem.author;
+  });
 
   const clickStar = useCallback(async () => {
     if (stared) {
@@ -190,24 +193,28 @@ export default function Summary(props) {
                 }}
                 onClick={clickSubmit}
               />
-              <DefaultButton
-                text='Edit'
-                styles={{
-                  root: {
-                    fontSize: 14,
-                    fontWeight: FontWeights.regular,
-                  },
-                }}
-                onClick={e => {
-                  setHideDialog(false);
-                }}
-              />
-              <EditMarketItem
-                hideDialog={hideDialog}
-                setHideDialog={setHideDialog}
-                marketItem={marketItem}
-              />
-              {admin && (
+              {checkAuthorAdmin() && (
+                <Stack>
+                  <DefaultButton
+                    text='Edit'
+                    styles={{
+                      root: {
+                        fontSize: 14,
+                        fontWeight: FontWeights.regular,
+                      },
+                    }}
+                    onClick={e => {
+                      setHideDialog(false);
+                    }}
+                  />
+                  <EditMarketItem
+                    hideDialog={hideDialog}
+                    setHideDialog={setHideDialog}
+                    marketItem={marketItem}
+                  />
+                </Stack>
+              )}
+              {checkAuthorAdmin() && (
                 <Stack>
                   <DefaultButton
                     text='Delete'

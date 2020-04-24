@@ -9,7 +9,7 @@ import MarketList from '../app/market_list';
 import MarketDetail from '../app/market_detail';
 
 const App = props => {
-  const { api, user, token } = props;
+  const { api, user, token, isAdmin } = props;
 
   return (
     <Fabric style={{ height: '100%' }}>
@@ -22,6 +22,7 @@ const App = props => {
               api={api}
               user={user}
               token={token}
+              isAdmin={isAdmin}
               routeProps={props}
             />
           )}
@@ -33,6 +34,7 @@ const App = props => {
               api={api}
               user={user}
               token={token}
+              isAdmin={isAdmin}
               routeProps={props}
             />
           )}
@@ -46,6 +48,7 @@ App.propTypes = {
   api: PropTypes.string,
   user: PropTypes.string,
   token: PropTypes.string,
+  isAdmin: PropTypes.bool,
 };
 
 export default App;

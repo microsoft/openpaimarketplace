@@ -17,15 +17,14 @@ import ListView from './list_view';
 import { getPendingItems, ensureUser } from 'App/utils/marketplace_api';
 
 const MarketList = props => {
-  const { api, user, token, routeProps } = props;
-  const admin = cookies.get('admin');
+  const { api, user, token, isAdmin, routeProps } = props;
 
   const [status, setStatus] = useState(initStatus());
   const [pendingListNumber, setPendingListNumber] = useState(0);
 
   function initStatus() {
     const status = qs.parse(routeProps.location.search).status;
-    if (!admin) {
+    if (!isAdmin) {
       return 'approved';
     }
     if (isNil(status)) {
@@ -41,6 +40,7 @@ const MarketList = props => {
     api,
     user,
     token,
+    isAdmin,
     history: routeProps.history,
   };
 
@@ -82,7 +82,7 @@ const MarketList = props => {
             >
               <ListView status={status} />
             </PivotItem>
-            {admin && (
+            {isAdmin && (
               <PivotItem
                 itemKey='pending'
                 headerText='Pending list'
@@ -103,6 +103,7 @@ MarketList.propTypes = {
   api: PropTypes.string,
   user: PropTypes.string,
   token: PropTypes.string,
+  isAdmin: PropTypes.bool,
   routeProps: PropTypes.object,
 };
 
