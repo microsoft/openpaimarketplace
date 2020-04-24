@@ -26,7 +26,7 @@ const createTemplates = async models => {
         jobConfig: template, // TODO: protocol validation in the future
         submits: 0,
         starNumber: 0,
-        status: 'pending',
+        status: 'approved',
       });
     }),
   );
