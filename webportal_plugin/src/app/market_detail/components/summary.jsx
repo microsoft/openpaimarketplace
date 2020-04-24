@@ -91,8 +91,6 @@ export default function Summary(props) {
     );
   };
 
-  console.log(checkAuthorAdmin());
-
   return (
     <div
       style={{
