@@ -4,7 +4,7 @@
 ![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest)](https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest)
 [![Release Version](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
-[![Docker Image](https://img.shields.io/badge/docker--image-v1.1.0-success)](https://github.com/microsoft/openpaimarketplace/packages/171126?version=v1.1.0)
+[![Docker Image](https://img.shields.io/badge/docker--image-latest-blue)](https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest)
 
 A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
