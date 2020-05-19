@@ -2,7 +2,7 @@
   <img src="./docs/images/marketplace.svg" width="160" alt="Marketplace Logo" /></a>
 </p>
 
-<h2 align="center">Openpaimarketplace</h2>
+<h2>Openpaimarketplace</h2>
 
 ![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master)
 ![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
