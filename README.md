@@ -2,13 +2,10 @@
   <img src="./docs/images/marketplace.svg" width="160" alt="Marketplace Logo" /></a>
 </p>
 
-<h2>Openpaimarketplace</h2>
+<h2 align="center">Openpaimarketplace</h2>
 
-![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master)
-![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
-[![Documentation Status](https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest)](https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest)
-[![Release Version](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
-[![Docker Image](https://img.shields.io/badge/docker--image-latest-blue)](https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest)
+<p align="center"><a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Webportal+Plugin%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master" alt="Webportal Plugin CI"></a> <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Rest+Server%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master" alt="Rest Server CI"></a><a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3ADocker"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Docker/badge.svg" alt="Docker Image"></a> <a href="https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest" alt="Doc"></a> <a href="https://github.com/microsoft/openpaimarketplace/releases"><img src="https://img.shields.io/github/v/release/Microsoft/openpaimarketplace" alt="Release Version"></a> <a href="https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest"><img src="https://img.shields.io/badge/docker--image-latest-blue" alt="Docker Image"></a>
+</p>
 
 ---
 
