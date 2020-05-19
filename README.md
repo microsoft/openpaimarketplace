@@ -4,7 +4,13 @@
 
 <h2 align="center">Openpaimarketplace</h2>
 
-<p align="center"><a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Webportal+Plugin%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master" alt="Webportal Plugin CI"></a> <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Rest+Server%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master" alt="Rest Server CI"></a><a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Docker+Build%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Docker%20Build/badge.svg" alt="Docker Build"></a> <a href="https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest" alt="Doc"></a> <a href="https://github.com/microsoft/openpaimarketplace/releases"><img src="https://img.shields.io/github/v/release/Microsoft/openpaimarketplace" alt="Release"></a> <a href="https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest"><img src="https://img.shields.io/badge/docker--image-latest-blue" alt="Docker Image"></a>
+<p align="center">
+  <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Webportal+Plugin%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master" alt="Webportal Plugin CI"></a>
+  <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Rest+Server%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master" alt="Rest Server CI"></a>
+  <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Docker+Build%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Docker%20Build/badge.svg" alt="Docker Build"></a>
+   <a href="https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest" alt="Doc"></a>
+   <a href="https://github.com/microsoft/openpaimarketplace/releases"><img src="https://img.shields.io/github/v/release/Microsoft/openpaimarketplace" alt="Release"></a>
+   <a href="https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest"><img src="https://img.shields.io/badge/docker--image-latest-blue" alt="Docker Image"></a>
 </p>
 
 ---
