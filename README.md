@@ -1,10 +1,13 @@
-# openpaimarketplace
+<p align="center">
+  <img src="./docs/images/marketplace.svg" width="160" alt="Marketplace Logo" /></a>
+</p>
 
-![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master)
-![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
-[![Documentation Status](https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest)](https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest)
-[![Release Version](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
-[![Docker Image](https://img.shields.io/badge/docker--image-latest-blue)](https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest)
+<h2 align="center">Openpaimarketplace</h2>
+
+<p align="center"><a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Webportal+Plugin%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master" alt="Webportal Plugin CI"></a> <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Rest+Server%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master" alt="Rest Server CI"></a><a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3ADocker"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Docker/badge.svg" alt="Docker Image"></a> <a href="https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest" alt="Doc"></a> <a href="https://github.com/microsoft/openpaimarketplace/releases"><img src="https://img.shields.io/github/v/release/Microsoft/openpaimarketplace" alt="Release Version"></a> <a href="https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest"><img src="https://img.shields.io/badge/docker--image-latest-blue" alt="Docker Image"></a>
+</p>
+
+---
 
 A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
@@ -16,8 +19,8 @@ There are two components of openpaimarketplace, [rest server](https://github.com
 
 The documentation is put in [docs directory](./docs) and hosted at [readthedocs](https://openpaimarketplace.readthedocs.io/en/latest/):
 
-* [Deployment](./docs/deployment.md)
-* [Getting started](./docs/getting_started.md)
+- [Deployment](./docs/deployment.md)
+- [Getting started](./docs/getting_started.md)
 
 ## Code style check
 
