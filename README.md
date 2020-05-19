@@ -1,10 +1,16 @@
-# openpaimarketplace
+<p align="center">
+  <img src="./docs/images/marketplace.svg" width="160" alt="Marketplace Logo" /></a>
+</p>
+
+<h2 align="center">Openpaimarketplace</h2>
 
 ![Webportal Plugin](https://github.com/microsoft/openpaimarketplace/workflows/Webportal%20Plugin/badge.svg?branch=master)
 ![Rest Server](https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest)](https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest)
 [![Release Version](https://img.shields.io/github/v/release/Microsoft/openpaimarketplace)](https://github.com/microsoft/openpaimarketplace/releases)
 [![Docker Image](https://img.shields.io/badge/docker--image-latest-blue)](https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest)
+
+---
 
 A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
@@ -16,8 +22,8 @@ There are two components of openpaimarketplace, [rest server](https://github.com
 
 The documentation is put in [docs directory](./docs) and hosted at [readthedocs](https://openpaimarketplace.readthedocs.io/en/latest/):
 
-* [Deployment](./docs/deployment.md)
-* [Getting started](./docs/getting_started.md)
+- [Deployment](./docs/deployment.md)
+- [Getting started](./docs/getting_started.md)
 
 ## Code style check
 
