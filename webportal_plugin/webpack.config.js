@@ -18,6 +18,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = () => {
   dotenv.config();
@@ -25,13 +26,13 @@ module.exports = () => {
   return {
     context: path.resolve(__dirname, 'src'),
     entry: {
-      plugin: './index.js',
+      index: './index.jsx',
+      plugin: './plugin.js',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].js',
-      chunkFilename: '[id].chunk.js',
-      globalObject: 'this',
+      chunkFilename: '[name].chunk.js',
     },
     module: {
       rules: [
@@ -100,6 +101,10 @@ module.exports = () => {
       },
     },
     plugins: [
+      new HtmlWebpackPlugin({
+        chunks: ['index'],
+        template: './index.html',
+      }),
       new webpack.DefinePlugin({
         'process.env.MARKETPLACE_API_URL': JSON.stringify(
           process.env.MARKETPLACE_API_URL,
