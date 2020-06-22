@@ -16,7 +16,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/MarketplaceItemReq"
+              $ref: "#/components/schemas/MarketplaceItem"
       responses:
         201:
           description: Return item id if created successfully
@@ -55,7 +55,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/MarketplaceItemRes"
+                  $ref: "#/components/schemas/MarketplaceItem"
 
   /items/{itemId}:
     parameters:
@@ -74,7 +74,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MarketplaceItemRes"
+                $ref: "#/components/schemas/MarketplaceItem"
         404:
           $ref: "#/components/responses/404NotFound"
     put:
@@ -86,7 +86,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/MarketplaceItemReq"
+              $ref: "#/components/schemas/MarketplaceItem"
       responses:
         200:
           description: OK
@@ -258,7 +258,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/MarketplaceItemRes"
+                  $ref: "#/components/schemas/MarketplaceItem"
         404:
           $ref: "#/components/responses/404NotFound"
   /users/{username}/starItems/{itemId}:
@@ -283,7 +283,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MarketplaceItemRes"
+                $ref: "#/components/schemas/MarketplaceItem"
         404:
           $ref: "#/components/responses/404NotFound"
     put:
@@ -398,10 +398,6 @@ components:
       properties:
         name:
           type: string
-        paiGroups:
-          type: array
-          items:
-            type: string
         groups:
           type: array
           items:
