@@ -1,7 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { isNil } from 'lodash';
 import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
+import { MARKET_ITEM_LIST } from 'App/utils/constants';
+import { isElementVisible } from 'office-ui-fabric-react';
+
+export async function getItems(type) {
+  if (isNil(type) || type === 'all') {
+    return MARKET_ITEM_LIST;
+  }
+  return MARKET_ITEM_LIST.filter(item => {
+    return item.type === type;
+  });
+}
 
 export async function getApprovedItems() {
   const url = `${MARKETPLACE_API_URL}/items?status=approved`;

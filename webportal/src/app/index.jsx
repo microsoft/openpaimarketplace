@@ -5,42 +5,41 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 import { Fabric } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
 
-import MarketList from '../app/market_list';
-import MarketDetail from '../app/market_detail';
+import MarketList from './market_list/market_list';
+import MarketDetail from './market_detail/market_detail';
 
 const App = props => {
   const { api, user, token, isAdmin } = props;
 
   return (
-    <Fabric style={{ height: '100%' }}>
-      <Router>
-        <Route
-          path='/'
-          exact
-          render={props => (
-            <MarketList
-              api={api}
-              user={user}
-              token={token}
-              isAdmin={isAdmin}
-              routeProps={props}
-            />
-          )}
-        />
-        <Route
-          path={`/market_detail`}
-          render={props => (
-            <MarketDetail
-              api={api}
-              user={user}
-              token={token}
-              isAdmin={isAdmin}
-              routeProps={props}
-            />
-          )}
-        />
-      </Router>
-    </Fabric>
+    <Router>
+      <Route
+        path='/'
+        exact
+        render={props => (
+          <MarketList
+            api={api}
+            user={user}
+            token={token}
+            isAdmin={isAdmin}
+            routeProps={props}
+          />
+        )}
+      />
+      <Route
+        path={`/market_detail`}
+        exact
+        render={props => (
+          <MarketDetail
+            api={api}
+            user={user}
+            token={token}
+            isAdmin={isAdmin}
+            routeProps={props}
+          />
+        )}
+      />
+    </Router>
   );
 };
 

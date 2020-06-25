@@ -6,36 +6,23 @@ import 'whatwg-fetch';
 
 import React, { useState, useEffect } from 'react';
 import {
-  Fabric,
   Stack,
   StackItem,
-  Pivot,
-  PivotItem,
   getTheme,
 } from 'office-ui-fabric-react';
-import { isNil } from 'lodash';
 import qs from 'query-string';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
-import { TopBar } from 'App/top_bar';
 import Context from '../context';
 import SideBar from './components/side_bar';
 
-import { getPendingItems, ensureUser } from 'App/utils/marketplace_api';
-import { MARKET_ITEM_LIST } from 'App/utils/constants';
-import { ItemList } from './components/item_list';
+import ItemList from './components/item_list';
+import Page from 'App/components/page';
 
-const Wrapper = styled.div`
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 20px;
-`;
+const { spacing } = getTheme();
 
 const MarketList = props => {
-  const {spacing} = getTheme()
   const { api, user, token, isAdmin, routeProps } = props;
-  const [itemList, setItemList] = useState(MARKET_ITEM_LIST);
 
   const context = {
     api,
@@ -47,26 +34,26 @@ const MarketList = props => {
 
   return (
     <Context.Provider value={context}>
-      <Wrapper>
+      <Page>
         <Stack horizontal horizontalAlign='center' gap={spacing.l1}>
           <StackItem>
-            <SideBar></SideBar>
+            <SideBar type={qs.parse(routeProps.location.search).type} />
           </StackItem>
           <StackItem grow={1}>
-            <ItemList itemList={itemList} />
+            <ItemList type={qs.parse(routeProps.location.search).type} />
           </StackItem>
         </Stack>
-      </Wrapper>
+      </Page>
     </Context.Provider>
   );
 };
 
 MarketList.propTypes = {
-  api: PropTypes.string,
-  user: PropTypes.string,
-  token: PropTypes.string,
-  isAdmin: PropTypes.bool,
-  routeProps: PropTypes.object,
+  api: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  routeProps: PropTypes.object.isRequired,
 };
 
 export default MarketList;

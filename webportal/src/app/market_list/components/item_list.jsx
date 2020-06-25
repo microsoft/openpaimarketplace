@@ -1,37 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import React from 'react';
-import {
-  Stack,
-  Link,
-  ColorClassNames,
-  FontWeights,
-  FontSizes,
-} from 'office-ui-fabric-react';
-import c from 'classnames';
-import t from '../../components/tachyons.scss';
-import { FontClassNames } from '@uifabric/styling';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { isNil } from 'lodash';
+import React, { useState, useEffect } from 'react';
+import { Stack, Text, getTheme } from 'office-ui-fabric-react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { capitalize, isNil } from 'lodash';
 
-import Filter from '../../models/filter';
 import ItemCard from './item_card';
+import Line from 'App/components/line';
+import { getItems } from 'App/utils/marketplace_api';
+
+const { spacing } = getTheme();
 
 const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: ${spacing.m};
 `;
 
-export const ItemList = props => {
-  const { itemList } = props;
+const ItemList = props => {
+  const { type } = props;
+  const [itemList, setItemList] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      const items = await getItems(type);
+      setItemList(items);
+    }
+    fetchData();
+  }, [type]);
 
   return (
-    <GridWrapper>
-      {itemList.map(item => (
-        <ItemCard key={item.id} item={item} status={status} />
-      ))}
-    </GridWrapper>
+    <Stack gap={spacing.m}>
+      <Text variant={'xxLarge'}>{isNil(type) ? 'All' : capitalize(type)}</Text>
+      <Line />
+      <GridWrapper>
+        {itemList.map(item => (
+          <ItemCard key={item.id} item={item} status={status} />
+        ))}
+      </GridWrapper>
+    </Stack>
   );
 };
+
+ItemList.propTypes = {
+  type: PropTypes.string,
+};
+
+export default ItemList;

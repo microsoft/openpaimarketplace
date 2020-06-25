@@ -1,0 +1,46 @@
+protocolVersion: 2
+name: admin_32131537
+type: job
+jobRetryCount: 0
+prerequisites:
+  - type: dockerimage
+    uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
+    name: docker_image_0
+parameters:
+  PREPROCESSED_DATA_DIR: /mnt/confignfs/couplet/processed_data
+  MODEL_SAVE_DIR: /mnt/confignfs/couplet/saved_model
+taskRoles:
+  taskrole:
+    instances: 1
+    completion:
+      minFailedInstances: 1
+      minSucceededInstances: -1
+    taskRetryCount: 0
+    dockerImage: docker_image_0
+    resourcePerInstance:
+      gpu: 4
+      cpu: 16
+      memoryMB: 32768
+    commands:
+      - pip install fairseq
+      - fairseq-train /mnt/confignfs/couplet/processed_data \
+      - '--log-interval 100 \'
+      - '--lr 0.25 \'
+      - '--clip-norm 0.1 \'
+      - '--dropout 0.2  \'
+      - '--criterion label_smoothed_cross_entropy \'
+      - '--save-dir /mnt/confignfs/couplet/saved_model \'
+      - '-a lstm \'
+      - '--max-tokens 4000 \'
+      - '--max-epoch 100'
+defaults:
+  virtualCluster: default
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: ssh
+      parameters:
+        jobssh: true
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs
