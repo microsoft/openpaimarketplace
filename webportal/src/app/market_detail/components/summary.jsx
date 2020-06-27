@@ -41,19 +41,6 @@ const Wrapper = styled.div`
 
 export default function Summary(props) {
   const { marketItem } = props;
-  const { user, isAdmin } = useContext(Context);
-
-  useEffect(() => {
-    async function fetchStarRelationWrapper() {
-      const status = await getStarStatus(user, marketItem.id);
-      if (status) {
-        setStared(true);
-      } else {
-        setStared(false);
-      }
-    }
-    fetchStarRelationWrapper();
-  }, []);
 
   return (
     <Wrapper>

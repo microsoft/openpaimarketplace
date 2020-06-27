@@ -4,7 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './app';
+import App from './app/app';
 
 const api = 'https://10.151.40.234/rest_server';
 const user = 'admin';

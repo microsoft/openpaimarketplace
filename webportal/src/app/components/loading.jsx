@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 import t from 'App/components/tachyons.scss';
 
-export const SpinnerLoading = ({ label = 'Loading...' }) => {
+const Loading = ({ label = 'Loading...' }) => {
   return (
     <div className={c(t.flex, t.itemsCenter, t.justifyCenter, t.h100)}>
       <div className={c(t.flex, t.itemsCenter)}>
@@ -20,6 +20,8 @@ export const SpinnerLoading = ({ label = 'Loading...' }) => {
   );
 };
 
-SpinnerLoading.propTypes = {
+Loading.propTypes = {
   label: PropTypes.string,
 };
+
+export default Loading

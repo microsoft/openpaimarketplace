@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 import MarketList from './market_list/market_list';
 import MarketDetail from './market_detail/market_detail';
+import CheckList from './check_list/check_list';
 
 const App = props => {
   const { api, user, token, isAdmin } = props;
@@ -31,6 +32,19 @@ const App = props => {
         exact
         render={props => (
           <MarketDetail
+            api={api}
+            user={user}
+            token={token}
+            isAdmin={isAdmin}
+            routeProps={props}
+          />
+        )}
+      />
+      <Route
+        path={`/check_list`}
+        exact
+        render={props => (
+          <CheckList
             api={api}
             user={user}
             token={token}

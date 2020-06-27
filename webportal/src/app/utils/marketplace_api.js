@@ -4,15 +4,21 @@ import { isNil } from 'lodash';
 import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 import { MARKET_ITEM_LIST } from 'App/utils/constants';
-import { isElementVisible } from 'office-ui-fabric-react';
 
-export async function getItems(type) {
+export async function listItems(type) {
   if (isNil(type) || type === 'all') {
     return MARKET_ITEM_LIST;
   }
   return MARKET_ITEM_LIST.filter(item => {
     return item.type === type;
   });
+}
+
+export async function getItem(itemId) {
+  const item = MARKET_ITEM_LIST.find(item => {
+    return item.id === itemId;
+  });
+  return item;
 }
 
 export async function getApprovedItems() {
