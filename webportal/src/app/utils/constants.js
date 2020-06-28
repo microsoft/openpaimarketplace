@@ -19,7 +19,7 @@ export const MARKET_ITEM_LIST = [
         groups: ['default'],
         storageName: 'confignfs',
         serverPath: '10.151.40.235:/data/',
-        subPath: 'couplet',
+        subPath: 'couplet_data',
         containerPath: '/mnt/confignfs/',
       },
     },
@@ -47,14 +47,14 @@ export const MARKET_ITEM_LIST = [
         groups: ['default'],
         storageName: 'confignfs',
         serverPath: '10.151.40.235:/data/',
-        subPaths: 'output',
+        subPath: 'output',
         containerPath: '/mnt/confignfs/',
       },
-      environmentVariables: [
-        { name: 'RAW_DATA_DIR', type: 'data', value: null },
-        { name: 'PREPROCESSED_DATA_DIR', type: 'local_storage', value: null },
-        { name: 'MODEL_SAVE_DIR', type: 'output_storage', value: null },
-      ],
+      environmentVariables: {
+        RAW_DATA_DIR: { type: 'data', value: null },
+        PREPROCESSED_DATA_DIR: { type: 'local', value: './processed_data' },
+        MODEL_SAVE_DIR: { type: 'output', value: null },
+      },
       commands: [
         'pip install fairseq',
         'fairseq-preprocess \\',
@@ -110,9 +110,9 @@ export const MARKET_ITEM_LIST = [
         subPaths: 'output',
         containerPath: '/mnt/confignfs/',
       },
-      environmentVariables: [
-        { name: 'FLASK_RUN_PORT', type: 'port', value: null },
-      ],
+      environmentVariables: {
+        FLASK_RUN_PORT: { type: 'port', value: null },
+      },
       commands: [
         ' pip install fairseq',
         ' pip install flask',

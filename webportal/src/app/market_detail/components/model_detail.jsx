@@ -36,11 +36,13 @@ const ModelDetail = props => {
       </Stack>
       <Stack horizontal verticalAlign='center' gap='l1'>
         <Text variant='large'>Environment Variables:</Text>
-        {marketItem.content.environmentVariables.map(env => (
-          <Text key={env.name} styles={{ root: { color: `${palette.blue}` } }}>
-            {env.name}
-          </Text>
-        ))}
+        {Object.keys(marketItem.content.environmentVariables).map(
+          (key, index) => (
+            <Text key={key} styles={{ root: { color: `${palette.blue}` } }}>
+              {key}
+            </Text>
+          ),
+        )}
       </Stack>
       <Stack gap='m'>
         <Text variant='large'>Commands:</Text>

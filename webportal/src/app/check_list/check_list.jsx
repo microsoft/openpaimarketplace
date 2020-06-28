@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Stack, Text, getTheme } from 'office-ui-fabric-react';
+import { cloneDeep, isNil } from 'lodash';
 
 import Page from 'App/components/page';
 import Context from 'App/context';
@@ -14,6 +15,34 @@ import { TopBar } from 'App/top_bar';
 
 const CheckList = props => {
   const { api, user, token, isAdmin, routeProps } = props;
+  const [dataItem, setDataItem] = useState(null);
+  const [modelItem, setModelItem] = useState(null);
+
+  useEffect(() => {
+    const model = JSON.parse(window.localStorage.getItem('modelItem'));
+    setModelItem(model);
+  }, []);
+
+  useEffect(() => {
+    const data = JSON.parse(window.localStorage.getItem('dataItem'));
+    setDataItem(data);
+  }, []);
+
+  useEffect(() => {
+    if (isNil(modelItem)) {
+      return;
+    }
+    const newModel = cloneDeep(modelItem);
+    const envs = newModel.content.environmentVariables;
+    Object.keys(envs).map(key => {
+      if (envs[key].type === 'data') {
+        envs[key].value = isNil(dataItem)
+          ? ''
+          : `${dataItem.content.dataStorage.containerPath}${dataItem.content.dataStorage.subPath}`;
+      }
+    });
+    setModelItem(newModel);
+  }, [dataItem]);
 
   const context = {
     user,
@@ -28,9 +57,13 @@ const CheckList = props => {
       <Page>
         <Stack gap='l2'>
           <TopBar />
-          <DataSection />
-          <ModelSection />
-          <ConfirmSection />
+          <DataSection dataItem={dataItem} setDataItem={setDataItem} />
+          <ModelSection
+            dataItem={dataItem}
+            modelItem={modelItem}
+            setModelItem={setModelItem}
+          />
+          <ConfirmSection dataItem={dataItem} modelItem={modelItem} />
         </Stack>
       </Page>
     </Context.Provider>

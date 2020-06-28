@@ -7,6 +7,7 @@ import {
   DefaultButton,
   PrimaryButton,
   Stack,
+  StackItem,
   FontWeights,
   Text,
   Link,
@@ -41,6 +42,19 @@ const Wrapper = styled.div`
 
 export default function Summary(props) {
   const { marketItem } = props;
+  const { history } = useContext(Context);
+
+  const clickUse = () => {
+    if (marketItem.type === 'data') {
+      window.localStorage.removeItem('dataItem');
+      window.localStorage.setItem('dataItem', JSON.stringify(marketItem));
+    }
+    if (marketItem.type === 'model') {
+      window.localStorage.removeItem('modelItem');
+      window.localStorage.setItem('modelItem', JSON.stringify(marketItem));
+    }
+    history.push('/check_list');
+  };
 
   return (
     <Wrapper>
@@ -53,25 +67,28 @@ export default function Summary(props) {
             <Text>{marketItem.summary}</Text>
           </Stack>
         </Stack>
-        <Stack horizontal gap='l1'>
-          <TooltipHost content='Author'>
-            <Stack horizontal gap='s1'>
-              <Icon iconName='Contact' />
-              <Text>{marketItem.author}</Text>
-            </Stack>
-          </TooltipHost>
-          <TooltipHost content='Type'>
-            <Stack horizontal gap='s1'>
-              <Icon iconName='BulletedList' />
-              <Text>{marketItem.type}</Text>
-            </Stack>
-          </TooltipHost>
-          <TooltipHost content='Stars'>
-            <Stack horizontal gap='s1'>
-              <Icon iconName='FavoriteStar' />
-              <Text>{String(marketItem.starNumber)}</Text>
-            </Stack>
-          </TooltipHost>
+        <Stack horizontal horizontalAlign='space-between'>
+          <Stack horizontal gap='l1'>
+            <TooltipHost content='Author'>
+              <Stack horizontal gap='s1'>
+                <Icon iconName='Contact' />
+                <Text>{marketItem.author}</Text>
+              </Stack>
+            </TooltipHost>
+            <TooltipHost content='Type'>
+              <Stack horizontal gap='s1'>
+                <Icon iconName='BulletedList' />
+                <Text>{marketItem.type}</Text>
+              </Stack>
+            </TooltipHost>
+            <TooltipHost content='Stars'>
+              <Stack horizontal gap='s1'>
+                <Icon iconName='FavoriteStar' />
+                <Text>{String(marketItem.starNumber)}</Text>
+              </Stack>
+            </TooltipHost>
+          </Stack>
+          <PrimaryButton text='use' onClick={clickUse} />
         </Stack>
       </Stack>
     </Wrapper>
