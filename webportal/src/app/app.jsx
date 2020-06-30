@@ -40,19 +40,6 @@ const App = props => {
           />
         )}
       />
-      <Route
-        path={`/check_list`}
-        exact
-        render={props => (
-          <CheckList
-            api={api}
-            user={user}
-            token={token}
-            isAdmin={isAdmin}
-            routeProps={props}
-          />
-        )}
-      />
     </Router>
   );
 };

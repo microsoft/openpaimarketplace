@@ -5,22 +5,13 @@ import React, { useContext, useState } from 'react';
 import {
   Text,
   Stack,
-  DefaultButton,
-  PrimaryButton,
-  TooltipHost,
-  FontWeights,
-  Link,
-  FontIcon,
 } from 'office-ui-fabric-react';
 import { getTheme } from '@uifabric/styling';
 import styled from 'styled-components';
 
-import { TagBar } from 'App/components/tag_bar';
-import ConfirmDialog from 'App/components/confirm_dialog';
 import Card from 'App/components/card';
 import CircleIcon from 'App/components/circle_icon';
 import Context from 'App/context';
-import { increaseSubmits } from 'App/utils/marketplace_api';
 
 const { palette } = getTheme();
 

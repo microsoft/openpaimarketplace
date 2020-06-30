@@ -13,25 +13,17 @@ import {
   Link,
 } from 'office-ui-fabric-react';
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import t from '../../components/tachyons.scss';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 import { isNil } from 'lodash';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import EditMarketItem from './edit_market_item';
-import DeleteMarketItem from './delete_market_item';
-import Context from 'App/context';
-import { TagBar } from '../../components/tag_bar';
-import ConfirmDialog from '../../components/confirm_dialog';
-import {
-  getStarStatus,
-  deleteStar,
-  addStar,
-  increaseSubmits,
-} from 'App/utils/marketplace_api';
 import CircleIcon from 'App/components/circle_icon';
+import Context from 'App/context';
+import {
+  GenerateJobProtocol,
+  generateJobProtocol,
+} from '../utils/generate_job_protocol';
 
 const { spacing, palette } = getTheme();
 
@@ -46,14 +38,15 @@ export default function Summary(props) {
 
   const clickUse = () => {
     if (marketItem.type === 'data') {
-      window.localStorage.removeItem('dataItem');
-      window.localStorage.setItem('dataItem', JSON.stringify(marketItem));
+      const jobProtocol = generateJobProtocol(marketItem);
+      window.localStorage.removeItem('marketItem');
+      window.localStorage.setItem('marketItem', JSON.stringify(jobProtocol));
+      window.location.href = `/submit.html`;
     }
     if (marketItem.type === 'model') {
       window.localStorage.removeItem('modelItem');
       window.localStorage.setItem('modelItem', JSON.stringify(marketItem));
     }
-    history.push('/check_list');
   };
 
   return (

@@ -31,7 +31,7 @@ const ModelDetail = props => {
         <StorageCard storage={marketItem.content.codeStorage} />
       </Stack>
       <Stack gap='m'>
-        <Text variant='large'>Ouput Storage:</Text>
+        <Text variant='large'>Output Storage:</Text>
         <StorageCard storage={marketItem.content.outputStorage} />
       </Stack>
       <Stack horizontal verticalAlign='center' gap='l1'>

@@ -40,6 +40,11 @@ const CheckList = props => {
           ? ''
           : `${dataItem.content.dataStorage.containerPath}${dataItem.content.dataStorage.subPath}`;
       }
+      if (envs[key].type === 'output') {
+        envs[key].value = isNil(get(modelItem, ['content', 'outputStorage']))
+          ? ''
+          : `${modelItem.content.outputStorage.containerPath}${modelItem.content.outputStorage.subPath}`;
+      }
     });
     setModelItem(newModel);
   }, [dataItem]);

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Stack,
   Text,
@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { capitalize, isNil, cloneDeep, assign } from 'lodash';
 
+import Context from 'App/context';
 import Line from 'App/components/line';
 import { listItems } from 'App/utils/marketplace_api';
 import Loading from 'App/components/loading';
@@ -39,6 +40,7 @@ const GridWrapper = styled.div`
 
 const ModelSection = props => {
   const { dataItem, modelItem, setModelItem } = props;
+  const { history } = useContext(Context);
 
   const clickDelete = () => {
     setModelItem(null);

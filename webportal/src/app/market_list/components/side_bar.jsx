@@ -42,21 +42,16 @@ const SideBar = props => {
           onChange={changeFilter('data')}
         />
         <FilterItem
-          text='Model'
-          selected={type === 'model'}
-          onChange={changeFilter('model')}
-        />
-        <FilterItem
           text='Job Template'
           selected={type === 'template'}
           onChange={changeFilter('template')}
         />
       </Stack>
-      <Text variant={'large'}>Categories</Text>
+      {/* <Text variant={'large'}>Categories</Text>
       <Stack>
         <FilterItem text='Tensorflow' />
         <FilterItem text='Pytorch' />
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 };

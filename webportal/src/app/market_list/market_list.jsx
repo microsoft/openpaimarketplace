@@ -4,14 +4,17 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import 'whatwg-fetch';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Stack,
   StackItem,
   getTheme,
+  CommandButton,
+  ActionButton,
 } from 'office-ui-fabric-react';
 import qs from 'query-string';
 import PropTypes from 'prop-types';
+import { isNil } from 'lodash';
 
 import Context from '../context';
 import SideBar from './components/side_bar';
@@ -35,13 +38,38 @@ const MarketList = props => {
   return (
     <Context.Provider value={context}>
       <Page>
-        <Stack horizontal horizontalAlign='center' gap={spacing.l1}>
-          <StackItem>
-            <SideBar type={qs.parse(routeProps.location.search).type} />
-          </StackItem>
-          <StackItem grow={1}>
-            <ItemList type={qs.parse(routeProps.location.search).type} />
-          </StackItem>
+        <Stack gap='l1'>
+          <Stack horizontal horizontalAlign='space-between'>
+            <CommandButton text='Create' iconProps={{ iconName: 'Add' }} />
+            <ActionButton
+              iconProps={{ iconName: 'ShoppingCart' }}
+              onClick={() => {
+                routeProps.history.push('/check_list');
+              }}
+            >
+              go to check list
+            </ActionButton>
+          </Stack>
+          <Stack horizontal horizontalAlign='center' gap={spacing.l1}>
+            <StackItem>
+              <SideBar
+                type={
+                  isNil(qs.parse(routeProps.location.search).type)
+                    ? 'all'
+                    : qs.parse(routeProps.location.search).type
+                }
+              />
+            </StackItem>
+            <StackItem grow={1}>
+              <ItemList
+                type={
+                  isNil(qs.parse(routeProps.location.search).type)
+                    ? 'all'
+                    : qs.parse(routeProps.location.search).type
+                }
+              />
+            </StackItem>
+          </Stack>
         </Stack>
       </Page>
     </Context.Provider>
