@@ -1,7 +1,7 @@
-import { get, assign, isNil } from 'lodash';
+import { assign, isNil } from 'lodash';
 
 export function generateJobProtocol(item) {
-  let defaultJobProtocol = {
+  const defaultJobProtocol = {
     protocolVersion: 2,
     name: 'marketplace_job',
     type: 'job',
@@ -28,58 +28,14 @@ export function generateJobProtocol(item) {
   if (item.type === 'data') {
     return generateJobProtocolFromData(defaultJobProtocol, item);
   }
-  if (item.type === 'model') {
-    if (!isNil(get(item, 'content.outputStorage'))) {
-      // if (containsTeamStorageConfig(defaultJobProtocol)) {
-      //   // const plugins = get(defaultJobProtocol, [
-      //   //   extras,
-      //   //   'com.microsoft.pai.runtimeplugin',
-      //   // ]);
-      //   // plugins.map(plugin => {
-      //   //   if (plugin.plugin === 'teamwise_storage') {
-      //   //     plugin.parameters.storageConfigNames.push(
-      //   //       `${item.content.outputStorage.storageName}`,
-      //   //     );
-      //   //   }
-      //   // });
-      // } else {
-      // }
-    }
-    // Image
-    const imageConfig = {
-      prerequisites: [
-        {
-          type: 'dockerimage',
-          uri: `${item.content.dockerImage}`,
-          name: 'docker_image_0',
-        },
-      ],
-    };
-    assign(defaultJobProtocol, imageConfig);
-    // Commands
-    let commands = [];
-    if (!isNil(item.content.environmentVariables)) {
-      Object.keys(item.content.environmentVariables).map(key => {
-        commands.push(
-          `export ${key}=${item.content.environmentVariables[key].value}`,
-        );
-      });
-    }
-    commands.push(...item.content.commands);
-    defaultJobProtocol.taskRoles.taskrole.commands.push(...commands);
+  if (item.type === 'template') {
+    return generateJobProtocolFromTemplate(defaultJobProtocol, item);
   }
-  return defaultJobProtocol;
 }
 
 function generateJobProtocolFromData(protocol, dataItem) {
   const storageConfig = {
     extras: {
-      marketplace: {
-        data: {
-          name: dataItem.name,
-          data_dir: `${dataItem.content.dataStorage.containerPath}${dataItem.content.dataStorage.subpath}`,
-        },
-      },
       'com.microsoft.pai.runtimeplugin': [
         {
           plugin: 'teamwise_storage',
@@ -91,33 +47,83 @@ function generateJobProtocolFromData(protocol, dataItem) {
     },
   };
   assign(protocol, storageConfig);
+  protocol.taskRoles.taskrole.commands.push(
+    '# The data stored in environment variable DATA_DIR, you could use it in commands by $DATA_DIR',
+  );
+  protocol.taskRoles.taskrole.commands.push(
+    `export DATA_DIR=${dataItem.content.dataStorage.containerPath}`,
+  );
 
   return protocol;
 }
 
-function addCommandsToProtocol(protocol, commands) {
-  if (!isNil(item.content.environmentVariables)) {
-    Object.keys(item.content.environmentVariables).map(key => {
-      commands.push(
-        `export ${key}=${item.content.environmentVariables[key].value}`,
-      );
-    });
-  }
-  commands.push(...item.content.commands);
-}
+function generateJobProtocolFromTemplate(protocol, templateItem) {
+  // add image
+  const imageConfig = {
+    prerequisites: [
+      {
+        type: 'dockerimage',
+        uri: `${templateItem.content.dockerImage}`,
+        name: 'docker_image_0',
+      },
+    ],
+  };
+  assign(protocol, imageConfig);
 
-function containsTeamStorageConfig(protocol) {
-  const plugins = get(defaultJobProtocol, [
-    'extras',
-    'com.microsoft.pai.runtimeplugin',
-  ]);
-  if (isNil(plugins)) {
-    return false;
+  // add team storage config
+  const storageConfigNames = [];
+  if (!isNil(templateItem.content.dataStorage)) {
+    storageConfigNames.push(templateItem.content.dataStorage.storageName);
   }
-  plugins.map(plugin => {
-    if (plugin.plugin === 'teamwise_storage') {
-      return true;
+  if (!isNil(templateItem.content.codeStorage)) {
+    if (
+      storageConfigNames.indexOf(
+        templateItem.content.codeStorage.storageName,
+      ) === -1
+    ) {
+      storageConfigNames.push(templateItem.content.codeStorage.storageName);
     }
-  });
-  return false;
+  }
+  if (!isNil(templateItem.content.outputStorage)) {
+    if (
+      storageConfigNames.indexOf(
+        templateItem.content.outputStorage.storageName,
+      ) === -1
+    ) {
+      storageConfigNames.push(templateItem.content.outputStorage.storageName);
+    }
+  }
+  const storageConfig = {
+    extras: {
+      'com.microsoft.pai.runtimeplugin': [
+        {
+          plugin: 'teamwise_storage',
+          parameters: {
+            storageConfigNames: storageConfigNames,
+          },
+        },
+      ],
+    },
+  };
+  assign(protocol, storageConfig);
+
+  // add commands
+  if (!isNil(templateItem.content.dataStorage)) {
+    protocol.taskRoles.taskrole.commands.push(
+      `export DATA_DIR=${templateItem.content.dataStorage.containerPath}`,
+    );
+  }
+  if (!isNil(templateItem.content.codeStorage)) {
+    protocol.taskRoles.taskrole.commands.push(
+      `export CODE_DIR=${templateItem.content.codeStorage.containerPath}`,
+    );
+  }
+  if (!isNil(templateItem.content.outputStorage)) {
+    protocol.taskRoles.taskrole.commands.push(
+      `export OUTPUT_DIR=${templateItem.content.outputStorage.containerPath}`,
+    );
+  }
+  protocol.taskRoles.taskrole.commands.push(...templateItem.content.commands);
+
+  return protocol;
 }

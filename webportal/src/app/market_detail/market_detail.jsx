@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import 'whatwg-fetch';
-
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import qs from 'query-string';
 
 import Page from 'App/components/page';
-import { TopBar } from 'App/top_bar';
+import TopBar from './components/top_bar';
 import Summary from './components/summary';
 import PivotCard from './components/pivot_card';
 import Context from 'App/context';

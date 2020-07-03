@@ -34,7 +34,11 @@ const ItemList = props => {
 
   return (
     <div>
-      {loading && <Loading />}
+      {loading && (
+        <div style={{ height: '400px' }}>
+          <Loading />
+        </div>
+      )}
       {!loading && (
         <Stack gap={spacing.m}>
           <Text variant={'xxLarge'}>
@@ -43,7 +47,7 @@ const ItemList = props => {
           <Line />
           <GridWrapper>
             {itemList.map(item => (
-              <ItemCard key={item.id} item={item} status={status} />
+              <ItemCard key={item.id} item={item} />
             ))}
           </GridWrapper>
         </Stack>

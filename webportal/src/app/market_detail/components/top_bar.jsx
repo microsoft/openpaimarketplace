@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import React, { useEffect, useState, useContext } from 'react';
-import {
-  Stack,
-  ActionButton,
-} from 'office-ui-fabric-react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import { Stack, ActionButton } from 'office-ui-fabric-react';
 import Context from 'App/context';
 
-export const TopBar = React.memo(props => {
+const TopBar = React.memo(props => {
   const { history } = useContext(Context);
 
   return (
@@ -27,7 +23,6 @@ export const TopBar = React.memo(props => {
   );
 });
 
-TopBar.propTypes = {
-  pageType: PropTypes.string,
-  status: PropTypes.string,
-};
+TopBar.propTypes = {};
+
+export default TopBar;

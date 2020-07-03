@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import c from 'classnames';
-import { getTheme, Stack, Text } from 'office-ui-fabric-react';
+import { Stack, Text } from 'office-ui-fabric-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import StorageCard from './storage_card';
-import styled from 'styled-components';
-
-const { palette } = getTheme();
 
 const DataDetail = props => {
   const { marketItem } = props;
@@ -22,7 +18,7 @@ const DataDetail = props => {
 };
 
 DataDetail.propTypes = {
-  marketItem: PropTypes.object,
+  marketItem: PropTypes.object.isRequired,
 };
 
 export default DataDetail;

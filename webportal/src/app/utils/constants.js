@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+/* eslint-disable no-template-curly-in-string */
+
 export const MARKETPLACE_API_URL = process.env.MARKETPLACE_API_URL;
 
 export const MARKET_ITEM_LIST = [
@@ -18,9 +21,8 @@ export const MARKET_ITEM_LIST = [
         storageType: 'nfs',
         groups: ['default'],
         storageName: 'confignfs',
-        serverPath: '10.151.40.235:/data/',
-        subPath: 'couplet_data',
-        containerPath: '/mnt/confignfs/',
+        serverPath: '10.151.40.235:/data/couplet_data',
+        containerPath: '/mnt/confignfs/couplet_data',
       },
     },
     useNumber: 0,
@@ -41,28 +43,30 @@ export const MARKET_ITEM_LIST = [
       '# Couplet Training Model\n\nThis is a model training process. After training, this model will give a down part with an upper part of couplet. Please refer to [Microsoft AI Edu Project](https://github.com/microsoft/ai-edu/blob/master/B-%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B/B13-AI%E5%AF%B9%E8%81%94%E7%94%9F%E6%88%90%E6%A1%88%E4%BE%8B/docs/fairseq.md) for more details.\n\n## Training Data\n\nYou could use ```Couplet Dataset``` data component as training data, or any dataset follows ```fairseq``` model requirements.\n\n## How to use\n\nWhen use this module, you should set three environment variables:\n\n- ```RAW_DATA_DIR```: the training data path in container, if you use ```Couplet Dataset``` data component, this value will be auto filled.\n\n- ```PREPROCESSED_DATA_DIR```: the path to store intermediate result\n\n- ```MODEL_SAVE_DIR```: the path to store output result, i.e. the training model. You could use the predefined output storage, then you could get the results outside container.',
     content: {
       dockerImage: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu',
+      dataStorage: {
+        storageType: 'nfs',
+        groups: ['default'],
+        storageName: 'confignfs',
+        serverPath: '10.151.40.235:/data/couplet_data',
+        containerPath: '/mnt/confignfs/couplet_data',
+      },
       codeStorage: null,
       outputStorage: {
         storageType: 'nfs',
         groups: ['default'],
         storageName: 'confignfs',
-        serverPath: '10.151.40.235:/data/',
-        subPath: 'output',
-        containerPath: '/mnt/confignfs/',
-      },
-      environmentVariables: {
-        RAW_DATA_DIR: { type: 'data', value: null },
-        PREPROCESSED_DATA_DIR: { type: 'local', value: './processed_data' },
-        MODEL_SAVE_DIR: { type: 'output', value: null },
+        serverPath: '10.151.40.235:/data/output',
+        containerPath: '/mnt/confignfs/output',
       },
       commands: [
+        'export PREPROCESSED_DATA_DIR=./preprocessed_data',
         'pip install fairseq',
         'fairseq-preprocess \\',
         '--source-lang up \\',
         '--target-lang down \\',
-        '--trainpref ${RAW_DATA_DIR}/train \\',
-        '--validpref ${RAW_DATA_DIR}/valid \\',
-        '--testpref ${RAW_DATA_DIR}/test \\',
+        '--trainpref ${DATA_DIR}/train \\',
+        '--validpref ${DATA_DIR}/valid \\',
+        '--testpref ${DATA_DIR}/test \\',
         '--destdir ${PREPROCESSED_DATA_DIR}',
         'fairseq-train ${PREPROCESSED_DATA_DIR} \\',
         '--log-interval 100 \\',
@@ -70,7 +74,7 @@ export const MARKET_ITEM_LIST = [
         '--clip-norm 0.1 \\',
         '--dropout 0.2  \\',
         '--criterion label_smoothed_cross_entropy \\',
-        '--save-dir ${MODEL_SAVE_DIR} \\',
+        '--save-dir ${OUTPUT_DIR} \\',
         '-a lstm \\',
         '--max-tokens 4000 \\',
         '--max-epoch 100',

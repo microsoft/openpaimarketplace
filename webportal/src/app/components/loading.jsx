@@ -1,22 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FontClassNames } from '@uifabric/styling';
-import c from 'classnames';
+import { Text, Stack } from 'office-ui-fabric-react';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-import t from 'App/components/tachyons.scss';
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
 
 const Loading = ({ label = 'Loading...' }) => {
   return (
-    <div className={c(t.flex, t.itemsCenter, t.justifyCenter, t.h100)}>
-      <div className={c(t.flex, t.itemsCenter)}>
+    <Wrapper>
+      <Stack>
         <Spinner size={SpinnerSize.large} />
-        <div className={c(t.ml4, FontClassNames.xLarge)}>{label}</div>
-      </div>
-    </div>
+        <Text variant='large'>{label}</Text>
+      </Stack>
+    </Wrapper>
   );
 };
 
@@ -24,4 +29,4 @@ Loading.propTypes = {
   label: PropTypes.string,
 };
 
-export default Loading
+export default Loading;

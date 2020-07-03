@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import c from 'classnames';
 import { getTheme, Stack, Text } from 'office-ui-fabric-react';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -15,7 +14,7 @@ const Wrapper = styled.div`
   padding: ${spacing.m};
 `;
 
-const ModelDetail = props => {
+const TemplateDetail = props => {
   const { marketItem } = props;
 
   return (
@@ -27,22 +26,16 @@ const ModelDetail = props => {
         </Text>
       </Stack>
       <Stack gap='m'>
+        <Text variant='large'>Data Storage:</Text>
+        <StorageCard storage={marketItem.content.dataStorage} />
+      </Stack>
+      <Stack gap='m'>
         <Text variant='large'>Code Storage:</Text>
         <StorageCard storage={marketItem.content.codeStorage} />
       </Stack>
       <Stack gap='m'>
         <Text variant='large'>Output Storage:</Text>
         <StorageCard storage={marketItem.content.outputStorage} />
-      </Stack>
-      <Stack horizontal verticalAlign='center' gap='l1'>
-        <Text variant='large'>Environment Variables:</Text>
-        {Object.keys(marketItem.content.environmentVariables).map(
-          (key, index) => (
-            <Text key={key} styles={{ root: { color: `${palette.blue}` } }}>
-              {key}
-            </Text>
-          ),
-        )}
       </Stack>
       <Stack gap='m'>
         <Text variant='large'>Commands:</Text>
@@ -63,8 +56,8 @@ const ModelDetail = props => {
   );
 };
 
-ModelDetail.propTypes = {
+TemplateDetail.propTypes = {
   marketItem: PropTypes.object,
 };
 
-export default ModelDetail;
+export default TemplateDetail;

@@ -46,20 +46,6 @@ const StorageCard = props => {
               {storage.subPath}
             </Text>
           </Stack>
-          {/* <Stack horizontal verticalAlign='center' gap='l1'>
-        <Text variant='large'>Shared Groups:</Text>
-        <Text variant='large' styles={{ root: { color: `${palette.blue}` } }}>
-          {marketItem.content.groups.map(group => {
-            return <div key={group}>{group}</div>;
-          })}
-        </Text>
-      </Stack> */}
-          {/* <Stack horizontal verticalAlign='center' gap='l1'>
-        <Text variant='large'>Storage Name:</Text>
-        <Text variant='large' styles={{ root: { color: `${palette.blue}` } }}>
-          {marketItem.content.storageName}
-        </Text>
-      </Stack> */}
         </Stack>
       )}
     </Wrapper>

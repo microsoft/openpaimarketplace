@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import React from 'react';
-import { getTheme, Text, Icon, isElementVisible } from 'office-ui-fabric-react';
+import { getTheme, Text, Icon } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { isNil } from 'lodash';

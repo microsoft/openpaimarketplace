@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import React, { useContext } from 'react';
-import {
-  getTheme,
-  SearchBox,
-  Stack,
-  Text,
-} from 'office-ui-fabric-react';
+import { getTheme, Stack, Text } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
 import FilterItem from './filter_item';
 import Context from 'App/context';
@@ -27,8 +22,10 @@ const SideBar = props => {
   };
 
   return (
-    <Stack styles={{ root: { width: 200 } }} gap={spacing.l1}>
-      <SearchBox placeholder='search' />
+    <Stack
+      styles={{ root: { width: 200, padding: `${spacing.s1}` } }}
+      gap={spacing.l1}
+    >
       <Text variant={'large'}>Types</Text>
       <Stack>
         <FilterItem
@@ -47,11 +44,6 @@ const SideBar = props => {
           onChange={changeFilter('template')}
         />
       </Stack>
-      {/* <Text variant={'large'}>Categories</Text>
-      <Stack>
-        <FilterItem text='Tensorflow' />
-        <FilterItem text='Pytorch' />
-      </Stack> */}
     </Stack>
   );
 };

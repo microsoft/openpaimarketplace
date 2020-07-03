@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 import React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import { Fabric } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
 
 import MarketList from './market_list/market_list';
 import MarketDetail from './market_detail/market_detail';
-import CheckList from './check_list/check_list';
 
 const App = props => {
   const { api, user, token, isAdmin } = props;

@@ -1,21 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import c from 'classnames';
-import {
-  Pivot,
-  PivotItem,
-  FontWeights,
-  getTheme,
-  Stack,
-  Text,
-} from 'office-ui-fabric-react';
+import { Pivot, PivotItem, getTheme } from 'office-ui-fabric-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import DataDetail from './data_detail';
-import ModelDetail from './model_detail';
+import TemplateDetail from './template_detail';
 import ReactMarkdown from 'react-markdown';
 import 'github-markdown-css';
 
@@ -24,7 +16,8 @@ const { spacing, palette } = getTheme();
 const Wrapper = styled.div`
   background-color: ${palette.white};
   padding: ${spacing.l2};
-  min-height: 700px;
+  height: 700px;
+  overflow-y: auto;
 `;
 
 const PivotItemWrapper = styled.div`
@@ -50,8 +43,8 @@ const PivotCard = props => {
             {marketItem.type === 'data' && (
               <DataDetail marketItem={marketItem} />
             )}
-            {marketItem.type === 'model' && (
-              <ModelDetail marketItem={marketItem} />
+            {marketItem.type === 'template' && (
+              <TemplateDetail marketItem={marketItem} />
             )}
           </PivotItemWrapper>
         </PivotItem>

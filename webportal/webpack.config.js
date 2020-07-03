@@ -58,39 +58,7 @@ module.exports = () => {
         },
         {
           test: /\.(css|scss)$/,
-          include: path.resolve(__dirname, 'src'),
-          use: [
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                url: true,
-                modules: true,
-                sourceMap: true,
-                camelCase: true,
-                localIdentName: '[name]-[local]--[hash:base64:6]',
-              },
-            },
-            'sass-loader',
-          ],
-        },
-        {
-          test: /\.(css|scss)$/,
-          exclude: path.resolve(__dirname, 'src'),
-          use: ['style-loader', 'css-loader', 'sass-loader'],
-        },
-        {
-          test: /\.(jpg|png|gif|ico)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-                publicPath: '/assets/img/',
-                outputPath: 'assets/img/',
-              },
-            },
-          ],
+          use: ['style-loader', 'css-loader'],
         },
       ],
     },
