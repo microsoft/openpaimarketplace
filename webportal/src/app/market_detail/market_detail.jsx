@@ -10,7 +10,7 @@ import TopBar from './components/top_bar';
 import Summary from './components/summary';
 import PivotCard from './components/pivot_card';
 import Context from 'App/context';
-import Line from 'App/components/line';
+import HorizontalLine from 'App/components/horizontal_line';
 import { getItem } from 'App/utils/marketplace_api';
 import Loading from 'App/components/loading';
 
@@ -44,7 +44,7 @@ const MarketDetail = props => {
         <Page>
           <TopBar pageType='detail' status={marketItem.status} />
           <Summary marketItem={marketItem} />
-          <Line />
+          <HorizontalLine />
           <PivotCard marketItem={marketItem} />
         </Page>
       )}

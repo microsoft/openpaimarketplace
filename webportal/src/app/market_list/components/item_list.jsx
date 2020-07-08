@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { capitalize, isNil } from 'lodash';
 
 import ItemCard from './item_card';
-import Line from 'App/components/line';
+import HorizontalLine from 'App/components/horizontal_line';
 import { listItems } from 'App/utils/marketplace_api';
 import Loading from 'App/components/loading';
 
@@ -44,7 +44,7 @@ const ItemList = props => {
           <Text variant={'xxLarge'}>
             {isNil(type) ? 'All' : capitalize(type)}
           </Text>
-          <Line />
+          <HorizontalLine />
           <GridWrapper>
             {itemList.map(item => (
               <ItemCard key={item.id} item={item} />

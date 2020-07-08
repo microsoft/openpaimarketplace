@@ -10,7 +10,7 @@ import styled from 'styled-components';
 const { spacing, palette } = getTheme();
 
 const Wrapper = styled.div`
-  background-color: ${palette.neutralLight};
+  background-color: ${palette.neutralLighterAlt};
   padding: ${spacing.m};
 `;
 
@@ -19,39 +19,28 @@ const TemplateDetail = props => {
 
   return (
     <Stack gap='m'>
-      <Stack horizontal verticalAlign='center' gap='l1'>
-        <Text variant='large'>Docker Image:</Text>
+      <Text variant='xLarge'>Docker Image:</Text>
+      <Wrapper>
         <Text variant='large' styles={{ root: { color: `${palette.blue}` } }}>
           {marketItem.content.dockerImage}
         </Text>
-      </Stack>
-      <Stack gap='m'>
-        <Text variant='large'>Data Storage:</Text>
-        <StorageCard storage={marketItem.content.dataStorage} />
-      </Stack>
-      <Stack gap='m'>
-        <Text variant='large'>Code Storage:</Text>
-        <StorageCard storage={marketItem.content.codeStorage} />
-      </Stack>
-      <Stack gap='m'>
-        <Text variant='large'>Output Storage:</Text>
-        <StorageCard storage={marketItem.content.outputStorage} />
-      </Stack>
-      <Stack gap='m'>
-        <Text variant='large'>Commands:</Text>
-        <Wrapper>
-          <Stack gap='s2'>
-            {marketItem.content.commands.map(command => (
-              <Text
-                key={command}
-                styles={{ root: { color: `${palette.blue}` } }}
-              >
-                {command}
-              </Text>
-            ))}
-          </Stack>
-        </Wrapper>
-      </Stack>
+      </Wrapper>
+      <Text variant='xLarge'>Data Storage:</Text>
+      <StorageCard storage={marketItem.content.dataStorage} />
+      <Text variant='xLarge'>Code Storage:</Text>
+      <StorageCard storage={marketItem.content.codeStorage} />
+      <Text variant='xLarge'>Output Storage:</Text>
+      <StorageCard storage={marketItem.content.outputStorage} />
+      <Text variant='xLarge'>Commands:</Text>
+      <Wrapper>
+        <Stack gap='s2'>
+          {marketItem.content.commands.map(command => (
+            <Text key={command} styles={{ root: { color: `${palette.blue}` } }}>
+              {command}
+            </Text>
+          ))}
+        </Stack>
+      </Wrapper>
     </Stack>
   );
 };

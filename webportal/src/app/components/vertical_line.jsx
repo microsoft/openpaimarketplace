@@ -5,13 +5,13 @@ import styled from 'styled-components';
 
 const { spacing, palette } = getTheme();
 
-const Line = styled.hr`
+const VerticalLine = styled.div`
   display: block;
-  height: 1px;
+  width: 2px;
+  background-color: ${palette.neutralSecondary};
   border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1px 0;
+  margin: 0 1px;
   padding: 0;
 `;
 
-export default Line;
+export default VerticalLine;

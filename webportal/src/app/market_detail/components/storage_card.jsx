@@ -11,7 +11,7 @@ import { isNil } from 'lodash';
 const { palette, spacing } = getTheme();
 
 const Wrapper = styled.div`
-  background-color: ${palette.neutralLight};
+  background-color: ${palette.neutralLighterAlt};
   padding: ${spacing.m};
 `;
 
