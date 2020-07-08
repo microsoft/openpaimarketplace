@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import c from 'classnames';
 import { getTheme, Stack, Text } from 'office-ui-fabric-react';
 import React from 'react';
 import PropTypes from 'prop-types';

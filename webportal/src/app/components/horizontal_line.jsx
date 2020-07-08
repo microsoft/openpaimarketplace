@@ -3,7 +3,7 @@
 import { getTheme } from '@uifabric/styling';
 import styled from 'styled-components';
 
-const { spacing, palette } = getTheme();
+const { palette } = getTheme();
 
 const HorizontalLine = styled.hr`
   display: block;
