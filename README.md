@@ -7,9 +7,8 @@
 <p align="center">
   <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3AWebportal"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Webportal/badge.svg?branch=master" alt="Webportal CI"></a>
   <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Rest+Server%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master" alt="Rest Server CI"></a>
-   <a href="https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest" alt="Doc"></a>
-   <a href="https://github.com/microsoft/openpaimarketplace/releases"><img src="https://img.shields.io/github/v/release/Microsoft/openpaimarketplace" alt="Release"></a>
-   <a href="https://github.com/microsoft/openpaimarketplace/packages/171126?version=latest"><img src="https://img.shields.io/badge/docker--image-latest-blue" alt="Docker Image"></a>
+  <a href="https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest" alt="Doc"></a>
+  <a href="https://github.com/microsoft/openpaimarketplace/releases"><img src="https://img.shields.io/github/v/release/Microsoft/openpaimarketplace" alt="Release"></a>
 </p>
 
 ---

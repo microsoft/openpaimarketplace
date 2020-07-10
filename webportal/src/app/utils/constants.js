@@ -43,6 +43,7 @@ export const MARKET_ITEM_LIST = [
       '# Couplet Training Model\n\nThis is a model training process. After training, this model will give a down part with an upper part of couplet. Please refer to Microsoft AI Edu Project for more details.\n\n## Training Data\n\nYou could use Couplet Dataset data component as training data, or any dataset follows fairseq model requirements.\n\n## How to use\n\nWhen use this module, you should set three environment variables:\n\n- ```DATA_DIR```: the training data path in container, by default it uses Couplet Dataset data component. If you want to use your own datasets. First make sure mount your data into container, and then change the ```$DATA_DIR``` with the path.\n\n- PREPROCESSED_DATA_DIR: the path to store intermediate result, by default it is ./processed_data.\n\n- ```OUTPUT_DIR```: the path to store output result, i.e. the training model files. By default it will mount a nfs storage, and you could change it with other mounted storage.\n\n## How to check the result\n\nAfter job finished successfully, you could check the output model files in the output storage. The storage server url is in details page.\n',
     content: {
       dockerImage: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu',
+      ports: [],
       dataStorage: {
         storageType: 'nfs',
         groups: ['default'],
@@ -98,6 +99,7 @@ export const MARKET_ITEM_LIST = [
       '# Couplet Training Job Template\n\nThis is a model inference process. The input data is the trainning models trained by ```couplet training job```, and the this job will produce a url for user to ask for down part for a upper part of couplet.\n\n## How to use\n\nWhen use this module, you should set three environment variables:\n\n- ```DATA_DIR```: the training model path in container, by default it uses the output of couplet training job. If you want to use your own models. First make sure mount your models into container, and then change the ```$DATA_DIR``` with the path.\n\n- ```CODE_DIR```: the service code, it will start a server at the given port.\n\n- ```FLASK_RUN_PORT```: the service port container will output.\n\n## How to check the result\n\nAfter job finished successfully, you could check the job detail to get the container ip and ```flask_port``` number, then go to http://<ip>:<flask_port>/upper=<input> to test the result.\n',
     content: {
       dockerImage: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu',
+      ports: ['FLASK_PORT'],
       dataStorage: {
         storageType: 'nfs',
         groups: ['default'],
@@ -113,7 +115,6 @@ export const MARKET_ITEM_LIST = [
         containerPath: '/mnt/confignfs/couplet',
       },
       commands: [
-        'export FLASK_PORT=$PAI_PORT_LIST_taskrole_0_flask_port',
         'pip install fairseq',
         'pip install flask',
         'pip install gunicorn',
