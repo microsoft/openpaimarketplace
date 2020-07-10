@@ -15,7 +15,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: webportal_plugin
+  IMAGE_NAME: webportal
 
 jobs:
   # Run tests.
@@ -43,7 +43,7 @@ jobs:
           [ "${{github.event_name}}" == "pull_request" ] && export VERSION="${{github.head_ref}}"
           [ "${{github.event_name}}" != "pull_request" ] && export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           echo "branch name: ${VERSION}"
-          cd webportal_plugin/deploy
+          cd webportal/deploy
           docker build . --tag debuggy/image --build-arg VERSION=${BRANCH}
           docker run -d -p 9292:9292 debuggy/image
           sleep 5
@@ -65,7 +65,7 @@ jobs:
           # Strip git ref prefix from version
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           echo "branch name: ${VERSION}"
-          cd webportal_plugin/deploy
+          cd webportal/deploy
           docker build . --file Dockerfile --tag image --build-arg VERSION=${BRANCH}
 
       - name: Log into registry

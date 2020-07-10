@@ -1,4 +1,4 @@
-import { assign, isNil } from 'lodash';
+import { assign, isNil, isEmpty } from 'lodash';
 
 export function generateJobProtocol(item) {
   const defaultJobProtocol = {
@@ -122,6 +122,14 @@ function generateJobProtocolFromTemplate(protocol, templateItem) {
     protocol.taskRoles.taskrole.commands.push(
       `export OUTPUT_DIR=${templateItem.content.outputStorage.containerPath}`,
     );
+  }
+  if (!isEmpty(templateItem.content.ports)) {
+    templateItem.content.ports.map(port => {
+      const command = `export ${port}=$PAI_PORT_LIST_taskrole_0_${port}`;
+      protocol.taskRoles.taskrole.commands.push(command);
+      protocol.taskRoles.taskrole.resourcePerInstance['ports'] = {};
+      protocol.taskRoles.taskrole.resourcePerInstance['ports'][port] = 1;
+    });
   }
   protocol.taskRoles.taskrole.commands.push(...templateItem.content.commands);
 
