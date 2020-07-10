@@ -13,11 +13,12 @@ class MarketplaceItem {
       },
       name: DataTypes.STRING,
       author: DataTypes.STRING,
-      category: DataTypes.STRING,
+      type: DataTypes.STRING,
+      categories: DataTypes.ARRAY(DataTypes.STRING),
       tags: DataTypes.ARRAY(DataTypes.STRING),
-      introduction: DataTypes.STRING,
+      summary: DataTypes.STRING,
       description: DataTypes.TEXT,
-      jobConfig: DataTypes.JSON, // TODO: protocol validation in the future
+      content: DataTypes.Object, // TODO: protocol validation in the future
       submits: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
       starNumber: {
         type: DataTypes.INTEGER,
