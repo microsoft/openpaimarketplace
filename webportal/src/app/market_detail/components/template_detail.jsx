@@ -21,9 +21,15 @@ const TemplateDetail = props => {
     <Stack gap='m'>
       <Text variant='xLarge'>Docker Image:</Text>
       <Wrapper>
-        <Text variant='large' styles={{ root: { color: `${palette.blue}` } }}>
-          {marketItem.content.dockerImage}
-        </Text>
+        <Text variant='large'>{marketItem.content.dockerImage}</Text>
+      </Wrapper>
+      <Text variant='xLarge'>Ports:</Text>
+      <Wrapper>
+        <Stack horizontal gap='s1'>
+          {marketItem.content.ports.map(port => (
+            <Text key={port}>{port}</Text>
+          ))}
+        </Stack>
       </Wrapper>
       <Text variant='xLarge'>Data Storage:</Text>
       <StorageCard storage={marketItem.content.dataStorage} />
@@ -35,9 +41,7 @@ const TemplateDetail = props => {
       <Wrapper>
         <Stack gap='s2'>
           {marketItem.content.commands.map(command => (
-            <Text key={command} styles={{ root: { color: `${palette.blue}` } }}>
-              {command}
-            </Text>
+            <Text key={command}>{command}</Text>
           ))}
         </Stack>
       </Wrapper>

@@ -20,27 +20,25 @@ const StorageCard = props => {
   return (
     <Wrapper>
       {isNil(storage) ? (
-        <Text styles={{ root: { color: `${palette.blue}` } }}>
+        <Text>
           There is no storage setting
         </Text>
       ) : (
         <Stack gap='m'>
           <Stack horizontal verticalAlign='center' gap='m'>
             <Text>Storage Type:</Text>
-            <Text styles={{ root: { color: `${palette.blue}` } }}>
-              {storage.storageType}
-            </Text>
+            <Text>{storage.storageType}</Text>
           </Stack>
           <Stack horizontal verticalAlign='center' gap='m'>
             <Text>Storage Path:</Text>
-            <Text styles={{ root: { color: `${palette.blue}` } }}>
+            <Text>
               {storage.serverPath}
               {storage.subPath}
             </Text>
           </Stack>
           <Stack horizontal verticalAlign='center' gap='m'>
             <Text>Container Path:</Text>
-            <Text styles={{ root: { color: `${palette.blue}` } }}>
+            <Text>
               {storage.containerPath}
               {storage.subPath}
             </Text>
