@@ -15,7 +15,7 @@ export const MARKET_ITEM_LIST = [
     tags: ['official example'],
     summary: 'Dataset of couplet',
     description:
-      '# Couplet Dataset\n\nThis is the dataset of couplet. \n\n## Data content\n\nThis dataset contains processed data based on [Microsoft AI EDU project](https://github.com/microsoft/ai-edu/blob/master/B-%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B/B13-AI%E5%AF%B9%E8%81%94%E7%94%9F%E6%88%90%E6%A1%88%E4%BE%8B/docs/fairseq.md).\n\nThe original dataset was downloaded from [Public couplet dataset](https://github.com/wb14123/couplet-dataset) and was splited into ```test, train and valid``` with 98:1:1 proportion. The ```.up``` and ```.down``` files contains upper part and down part of a certain couplet seperately.\n\n## The file stucture\n\n```\n.\n|-- test.down // down part of couplet\n|-- test.up  // up part of couplet\n|-- train.down\n|-- train.up\n|-- valid.down\n|-- valid.up\n```\n\n## How to use it\n\nThe data will be mounted at ```DATA_DIR``` environment variable. You could use ```$DATA_DIR``` in your command when submit jobs in pai.\n\n\n',
+      '# Couplet Dataset\n\nThis is the dataset of couplet. \n\n## Data content\n\nThis dataset contains processed data based on [Microsoft AI EDU project](https://github.com/microsoft/ai-edu/blob/master/B-%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B/B13-AI%E5%AF%B9%E8%81%94%E7%94%9F%E6%88%90%E6%A1%88%E4%BE%8B/docs/fairseq.md).\n\nThe original dataset was downloaded from [Public couplet dataset](https://github.com/wb14123/couplet-dataset/releases) and was splited into ```test, train and valid``` with 98:1:1 proportion. The ```.up``` and ```.down``` files contains upper part and down part of a certain couplet seperately.\n\n## The file stucture\n\n```\n.\n|-- test.down // down part of couplet\n|-- test.up  // up part of couplet\n|-- train.down\n|-- train.up\n|-- valid.down\n|-- valid.up\n```\n\n## How to use it\n\nThe data will be mounted at ```DATA_DIR``` environment variable. You could use ```$DATA_DIR``` in your command when submit jobs in pai.\n\n\n',
     content: {
       dataStorage: {
         storageType: 'nfs',
@@ -38,7 +38,7 @@ export const MARKET_ITEM_LIST = [
     type: 'template',
     categories: 'AI couplet',
     tags: ['official example'],
-    summary: 'Dataset of couplet',
+    summary: 'This template will train a couplet model using fairseq',
     description:
       '# Couplet Training Model\n\nThis is a model training process. After training, this model will give a down part with an upper part of couplet. Please refer to Microsoft AI Edu Project for more details.\n\n## Training Data\n\nYou could use Couplet Dataset data component as training data, or any dataset follows fairseq model requirements.\n\n## How to use\n\nWhen use this module, you should set three environment variables:\n\n- ```DATA_DIR```: the training data path in container, by default it uses Couplet Dataset data component. If you want to use your own datasets. First make sure mount your data into container, and then change the ```$DATA_DIR``` with the path.\n\n- PREPROCESSED_DATA_DIR: the path to store intermediate result, by default it is ./processed_data.\n\n- ```OUTPUT_DIR```: the path to store output result, i.e. the training model files. By default it will mount a nfs storage, and you could change it with other mounted storage.\n\n## How to check the result\n\nAfter job finished successfully, you could check the output model files in the output storage. The storage server url is in details page.\n',
     content: {
@@ -94,7 +94,7 @@ export const MARKET_ITEM_LIST = [
     type: 'template',
     categories: 'AI couplet',
     tags: ['official example'],
-    summary: 'Dataset of couplet',
+    summary: 'This template will inference couplet models and give down part with upper part',
     description:
       '# Couplet Training Job Template\n\nThis is a model inference process. The input data is the trainning models trained by ```couplet training job```, and the this job will produce a url for user to ask for down part for a upper part of couplet.\n\n## How to use\n\nWhen use this module, you should set three environment variables:\n\n- ```DATA_DIR```: the training model path in container, by default it uses the output of couplet training job. If you want to use your own models. First make sure mount your models into container, and then change the ```$DATA_DIR``` with the path.\n\n- ```CODE_DIR```: the service code, it will start a server at the given port.\n\n- ```FLASK_RUN_PORT```: the service port container will output.\n\n## How to check the result\n\nAfter job finished successfully, you could check the job detail to get the container ip and ```flask_port``` number, then go to http://<ip>:<flask_port>/?upper=<input> to test the result.\n',
     content: {
