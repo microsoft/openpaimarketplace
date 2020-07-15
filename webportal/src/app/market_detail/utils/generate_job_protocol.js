@@ -127,8 +127,8 @@ function generateJobProtocolFromTemplate(protocol, templateItem) {
     templateItem.content.ports.map(port => {
       const command = `export ${port}=$PAI_PORT_LIST_taskrole_0_${port}`;
       protocol.taskRoles.taskrole.commands.push(command);
-      protocol.taskRoles.taskrole.resourcePerInstance['ports'] = {};
-      protocol.taskRoles.taskrole.resourcePerInstance['ports'][port] = 1;
+      protocol.taskRoles.taskrole.resourcePerInstance.ports = {};
+      protocol.taskRoles.taskrole.resourcePerInstance.ports[port] = 1;
     });
   }
   protocol.taskRoles.taskrole.commands.push(...templateItem.content.commands);

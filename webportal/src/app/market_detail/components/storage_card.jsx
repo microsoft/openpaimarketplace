@@ -20,9 +20,7 @@ const StorageCard = props => {
   return (
     <Wrapper>
       {isNil(storage) ? (
-        <Text>
-          There is no storage setting
-        </Text>
+        <Text>There is no storage setting</Text>
       ) : (
         <Stack gap='m'>
           <Stack horizontal verticalAlign='center' gap='m'>
