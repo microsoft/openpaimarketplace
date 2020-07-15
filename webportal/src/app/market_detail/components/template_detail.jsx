@@ -6,6 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StorageCard from './storage_card';
 import styled from 'styled-components';
+import { isEmpty } from 'lodash';
 
 const { spacing, palette } = getTheme();
 
@@ -25,11 +26,15 @@ const TemplateDetail = props => {
       </Wrapper>
       <Text variant='xLarge'>Ports:</Text>
       <Wrapper>
-        <Stack horizontal gap='s1'>
-          {marketItem.content.ports.map(port => (
-            <Text key={port}>{port}</Text>
-          ))}
-        </Stack>
+        {isEmpty(marketItem.content.ports) ? (
+          <Text>There is no ports setting</Text>
+        ) : (
+          <Stack horizontal gap='s1'>
+            {marketItem.content.ports.map(port => (
+              <Text key={port}>{port}</Text>
+            ))}
+          </Stack>
+        )}
       </Wrapper>
       <Text variant='xLarge'>Data Storage:</Text>
       <StorageCard storage={marketItem.content.dataStorage} />
