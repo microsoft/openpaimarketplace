@@ -8,6 +8,7 @@ const { spacing } = getTheme();
 const Page = styled.div`
   margin: 0 ${spacing.l1};
   padding: ${spacing.l2};
+  max-width: 1300px;
 `;
 
 export default Page;
