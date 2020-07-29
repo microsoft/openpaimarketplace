@@ -60,6 +60,20 @@ module.exports = () => {
           test: /\.(css|scss)$/,
           use: ['style-loader', 'css-loader'],
         },
+        {
+          test: /\.svg$/,
+          use: [
+            '@svgr/webpack',
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                publicPath: '/assets/font/',
+                outputPath: 'assets/font/',
+              },
+            },
+          ],
+        },
       ],
     },
     resolve: {

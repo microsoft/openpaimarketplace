@@ -15,6 +15,8 @@ import styled from 'styled-components';
 import { capitalize } from 'lodash';
 import { DateTime } from 'luxon';
 import CircleIcon from 'App/components/circle_icon';
+import { ReactComponent as DataIcon } from 'App/assets/data.svg';
+import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
 import VerticalLine from 'App/components/vertical_line';
 import { generateJobProtocol } from '../utils/generate_job_protocol';
 
@@ -39,7 +41,8 @@ export default function Summary(props) {
     <Wrapper>
       <Stack gap={'l1'}>
         <Stack horizontal verticalAlign='center' gap='l2'>
-          <CircleIcon />
+          {marketItem.type === 'data' && <DataIcon />}
+          {marketItem.type === 'template' && <TemplateIcon />}
           <Stack gap='m'>
             <Text variant={'xLarge'}>{marketItem.name}</Text>
             <Text variant={'large'}>{marketItem.summary}</Text>
