@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import Card from 'App/components/card';
 import CircleIcon from 'App/components/circle_icon';
 import Context from 'App/context';
+import { ReactComponent as DataIcon } from 'App/assets/data.svg';
+import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
 
 const HoverCard = styled(Card)`
   cursor: pointer;
@@ -39,7 +41,8 @@ const ItemCard = props => {
         horizontalAlign='space-between'
         gap='l2'
       >
-        <CircleIcon />
+        {item.type === 'data' && <DataIcon />}
+        {item.type === 'template' && <TemplateIcon />}
         <Stack gap='m' styles={{ root: [{ width: '70%' }] }}>
           <Text variant={'xLarge'}>{item.name}</Text>
           <Text variant={'small'}>

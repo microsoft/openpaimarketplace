@@ -16,8 +16,8 @@ const { spacing, palette } = getTheme();
 const Wrapper = styled.div`
   background-color: ${palette.white};
   padding: ${spacing.l2};
-  height: 700px;
-  overflow-y: auto;
+  height: 1700px;
+  overflow-y: none;
 `;
 
 const PivotItemWrapper = styled.div`

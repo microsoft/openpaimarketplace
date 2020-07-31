@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.87 290.52" width='180'>
+  <defs>
+    <style>.cls-1,.cls-3{fill:#004e8c;}.cls-2{fill:none;}.cls-2,.cls-3{stroke:#fff;stroke-miterlimit:10;stroke-width:5px;}</style>
+  </defs>
+  <g id="图层_2" data-name="图层 2">
+    <circle class="cls-1" cx="142.44" cy="149.35" r="105.99"/>
+    <rect class="cls-2" x="104.94" y="109.73" width="73.76" height="84.49"/>
+    <line class="cls-2" x1="119.94" y1="133.36" x2="162.71" y2="133.36"/>
+    <rect class="cls-1" x="115.08" y="91.19" width="54.43" height="32.18"/>
+    <line class="cls-2" x1="119.6" y1="142.42" x2="162.71" y2="142.42"/>
+    <line class="cls-2" x1="119.94" y1="151.48" x2="150.55" y2="151.48"/>
+    <line class="cls-2" x1="119.6" y1="160.54" x2="150.55" y2="160.54"/>
+    <circle class="cls-1" cx="171.37" cy="184.95" r="28.34"/>
+    <circle class="cls-3" cx="170.82" cy="184.26" r="18.82"/>
+    <polyline class="cls-2" points="159.65 182.21 167.05 190.61 182.38 177.9"/>
+    <path class="cls-3" d="M141.82,97.09a8.89,8.89,0,0,0-8.61,6.67h-9.16v11.11H159.6V103.76h-9.17A8.87,8.87,0,0,0,141.82,97.09Z"/>
+  </g>
+</svg>

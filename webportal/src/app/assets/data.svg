@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.87 290.52" width='180'>
+  <defs>
+    <style>.cls-1{fill:#038387;}.cls-2{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:5px;}.cls-3{fill:#fff;}</style>
+  </defs>
+  <g id="图层_2" data-name="图层 2">
+    <circle class="cls-1" cx="142.72" cy="146.68" r="105.99"/>
+    <ellipse class="cls-2" cx="142.39" cy="107.13" rx="38.46" ry="10.36"/>
+    <path class="cls-2" d="M180.85,132.09c0,5.72-17.19,10.35-38.39,10.35s-38.4-4.63-38.4-10.35"/>
+    <path class="cls-2" d="M181,157c0,5.72-17.19,10.35-38.38,10.35s-38.38-4.63-38.38-10.35"/>
+    <path class="cls-2" d="M181.18,182c0,5.72-17.21,10.35-38.46,10.35s-38.46-4.63-38.46-10.35"/>
+    <line class="cls-2" x1="103.93" y1="107.13" x2="104.26" y2="181.99"/>
+    <line class="cls-2" x1="180.85" y1="107.13" x2="181.18" y2="181.99"/>
+    <circle class="cls-3" cx="171.1" cy="126.3" r="3.11"/>
+    <circle class="cls-3" cx="171.1" cy="176.53" r="3.11"/>
+    <circle class="cls-3" cx="171.1" cy="151.41" r="3.11"/>
+  </g>
+</svg>
