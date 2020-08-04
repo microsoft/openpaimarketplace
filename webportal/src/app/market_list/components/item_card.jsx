@@ -6,7 +6,6 @@ import { Text, Stack } from 'office-ui-fabric-react';
 import styled from 'styled-components';
 
 import Card from 'App/components/card';
-import CircleIcon from 'App/components/circle_icon';
 import Context from 'App/context';
 import { ReactComponent as DataIcon } from 'App/assets/data.svg';
 import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';

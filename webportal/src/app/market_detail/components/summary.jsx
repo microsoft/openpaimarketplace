@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { capitalize } from 'lodash';
 import { DateTime } from 'luxon';
-import CircleIcon from 'App/components/circle_icon';
 import { ReactComponent as DataIcon } from 'App/assets/data.svg';
 import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
 import VerticalLine from 'App/components/vertical_line';
