@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.10.x, 10.x]
+        node-version: [10.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -26,5 +26,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: |
         cd rest_server
-        yarn install
-        yarn lint
+        npm install
+        npm run lint
