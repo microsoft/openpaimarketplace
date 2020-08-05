@@ -397,8 +397,7 @@ export const MARKET_ITEM_LIST = [
     categories: ['official example'],
     tags: ['official example'],
     summary: 'A Rocm Pytorch Example',
-    description:
-      'PyTorch MNIST example on AMD GPUs.',
+    description: 'PyTorch MNIST example on AMD GPUs.',
     content: {
       config: 'rocm-pytorch-mnist.yaml',
     },
@@ -416,8 +415,7 @@ export const MARKET_ITEM_LIST = [
     categories: ['official example'],
     tags: ['official example'],
     summary: 'A Rocm Tensorflow2 Example',
-    description:
-      'TensorFlow2 example on AMD GPUs.',
+    description: 'TensorFlow2 example on AMD GPUs.',
     content: {
       config: 'rocm-pytorch-mnist.yaml',
     },

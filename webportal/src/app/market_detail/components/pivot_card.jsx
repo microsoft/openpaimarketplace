@@ -47,9 +47,7 @@ const PivotCard = props => {
             {marketItem.type === 'template' && (
               <TemplateDetail marketItem={marketItem} />
             )}
-            {marketItem.type === 'old' && (
-              <OldDetail marketItem={marketItem} />
-            )}
+            {marketItem.type === 'old' && <OldDetail marketItem={marketItem} />}
           </PivotItemWrapper>
         </PivotItem>
       </Pivot>

@@ -29,12 +29,12 @@ const Wrapper = styled.div`
 export default function Summary(props) {
   const { marketItem } = props;
 
-  const clickUse = () => {
-    const jobProtocol = generateJobProtocol(marketItem);
+  async function clickUse() {
+    const jobProtocol = await generateJobProtocol(marketItem);
     window.localStorage.removeItem('marketItem');
     window.localStorage.setItem('marketItem', JSON.stringify(jobProtocol));
     window.location.href = `/submit.html`;
-  };
+  }
 
   return (
     <Wrapper>
@@ -42,6 +42,7 @@ export default function Summary(props) {
         <Stack horizontal verticalAlign='center' gap='l2'>
           {marketItem.type === 'data' && <DataIcon />}
           {marketItem.type === 'template' && <TemplateIcon />}
+          {marketItem.type === 'old' && <TemplateIcon />}
           <Stack gap='m'>
             <Text variant={'xLarge'}>{marketItem.name}</Text>
             <Text variant={'large'}>{marketItem.summary}</Text>
@@ -99,7 +100,12 @@ export default function Summary(props) {
               </Stack>
             </TooltipHost>
           </Stack>
-          <PrimaryButton text='use' onClick={clickUse} />
+          <PrimaryButton
+            text='use'
+            onClick={async () => {
+              await clickUse();
+            }}
+          />
         </Stack>
       </Stack>
     </Wrapper>
