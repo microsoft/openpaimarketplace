@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 import DataDetail from './data_detail';
 import TemplateDetail from './template_detail';
+import OldDetail from './old_detail';
 import ReactMarkdown from 'react-markdown';
 import 'github-markdown-css';
 
@@ -45,6 +46,9 @@ const PivotCard = props => {
             )}
             {marketItem.type === 'template' && (
               <TemplateDetail marketItem={marketItem} />
+            )}
+            {marketItem.type === 'old' && (
+              <OldDetail marketItem={marketItem} />
             )}
           </PivotItemWrapper>
         </PivotItem>

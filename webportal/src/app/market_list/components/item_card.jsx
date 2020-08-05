@@ -42,6 +42,7 @@ const ItemCard = props => {
       >
         {item.type === 'data' && <DataIcon />}
         {item.type === 'template' && <TemplateIcon />}
+        {item.type === 'old' && <TemplateIcon />}
         <Stack gap='m' styles={{ root: [{ width: '70%' }] }}>
           <Text variant={'xLarge'}>{item.name}</Text>
           <Text variant={'small'}>

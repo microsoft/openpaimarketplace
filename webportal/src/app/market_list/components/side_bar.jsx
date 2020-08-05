@@ -43,6 +43,11 @@ const SideBar = props => {
           selected={type === 'template'}
           onChange={changeFilter('template')}
         />
+        <FilterItem
+          text='Old Example'
+          selected={type === 'old'}
+          onChange={changeFilter('old')}
+        />
       </Stack>
     </Stack>
   );
