@@ -1,6 +1,7 @@
 import { assign, isNil, isEmpty } from 'lodash';
+import yaml from 'js-yaml';
 
-export function generateJobProtocol(item) {
+export async function generateJobProtocol(item) {
   const defaultJobProtocol = {
     protocolVersion: 2,
     name: 'marketplace_job',
@@ -30,6 +31,9 @@ export function generateJobProtocol(item) {
   }
   if (item.type === 'template') {
     return generateJobProtocolFromTemplate(defaultJobProtocol, item);
+  }
+  if (item.type === 'old') {
+    return await generateJobProtocolFromOld(item);
   }
 }
 
@@ -133,5 +137,14 @@ function generateJobProtocolFromTemplate(protocol, templateItem) {
   }
   protocol.taskRoles.taskrole.commands.push(...templateItem.content.commands);
 
+  return protocol;
+}
+
+async function generateJobProtocolFromOld(item) {
+  const res = await fetch(
+    `https://microsoft.github.io/openpaimarketplace/examples/yaml_templates/${item.content.config}`,
+  );
+  const text = await res.text();
+  const protocol = yaml.safeLoad(text);
   return protocol;
 }

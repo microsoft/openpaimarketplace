@@ -26,6 +26,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: |
         cd webportal
-        yarn install
-        yarn lint
-        yarn build
+        npm install
+        npm run lint
+        npm run build
