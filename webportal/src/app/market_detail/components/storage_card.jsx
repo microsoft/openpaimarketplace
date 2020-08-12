@@ -14,19 +14,11 @@ const Wrapper = styled.div`
   padding: ${spacing.m};
 `;
 
-const StorageCard = props => {
-  const { storage } = props;
-
-  return (
-    <Wrapper>
-      {isNil(storage) ? (
-        <Text>There is no storage setting</Text>
-      ) : (
-        <Stack gap='m'>
-          <Stack horizontal verticalAlign='center' gap='m'>
-            <Text>Storage Type:</Text>
-            <Text>{storage.storageType}</Text>
-          </Stack>
+const ShowStorage = storage => {
+  switch (storage.storageType) {
+    case 'nfs':
+      return (
+        <>
           <Stack horizontal verticalAlign='center' gap='m'>
             <Text>Storage Path:</Text>
             <Text>
@@ -41,6 +33,42 @@ const StorageCard = props => {
               {storage.subPath}
             </Text>
           </Stack>
+        </>
+      );
+    case 'gitRepository':
+      return (
+        <>
+          <Stack horizontal verticalAlign='center' gap='m'>
+            <Text>URL:</Text>
+            <Text>
+              {storage.url}
+            </Text>
+          </Stack>
+          <Stack horizontal verticalAlign='center' gap='m'>
+            <Text>Path:</Text>
+            <Text>
+              {storage.path}
+            </Text>
+          </Stack>
+        </>
+      );
+  }
+}
+
+const StorageCard = props => {
+  const { storage } = props;
+
+  return (
+    <Wrapper>
+      {isNil(storage) ? (
+        <Text>There is no storage setting</Text>
+      ) : (
+        <Stack gap='m'>
+          <Stack horizontal verticalAlign='center' gap='m'>
+            <Text>Storage Type:</Text>
+            <Text>{storage.storageType}</Text>
+          </Stack>
+          {ShowStorage(storage)}
         </Stack>
       )}
     </Wrapper>

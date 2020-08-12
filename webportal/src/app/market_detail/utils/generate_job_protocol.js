@@ -38,27 +38,42 @@ export async function generateJobProtocol(item) {
 }
 
 function generateJobProtocolFromData(protocol, dataItem) {
-  const storageConfig = {
-    extras: {
-      'com.microsoft.pai.runtimeplugin': [
-        {
-          plugin: 'teamwise_storage',
-          parameters: {
-            storageConfigNames: [`${dataItem.content.dataStorage.storageName}`],
-          },
+  switch (dataItem.content.dataStorage.storageType) {
+    case 'nfs':
+      const storageConfig = {
+        extras: {
+          'com.microsoft.pai.runtimeplugin': [
+            {
+              plugin: 'teamwise_storage',
+              parameters: {
+                storageConfigNames: [`${dataItem.content.dataStorage.storageName}`],
+              },
+            },
+          ],
         },
-      ],
-    },
-  };
-  assign(protocol, storageConfig);
-  protocol.taskRoles.taskrole.commands.push(
-    '# The data stored in environment variable DATA_DIR, you could use it in commands by $DATA_DIR',
-  );
-  protocol.taskRoles.taskrole.commands.push(
-    `export DATA_DIR=${dataItem.content.dataStorage.containerPath}`,
-  );
+      };
+      assign(protocol, storageConfig);
+      protocol.taskRoles.taskrole.commands.push(
+        '# The data stored in environment variable DATA_DIR, you could use it in commands by $DATA_DIR',
+      );
+      protocol.taskRoles.taskrole.commands.push(
+        `export DATA_DIR=${dataItem.content.dataStorage.containerPath}`,
+      );
 
-  return protocol;
+      return protocol;
+    case 'gitRepository':
+      protocol.taskRoles.taskrole.commands.push(
+        '# The data stored in environment variable DATA_DIR, you could use it in commands by $DATA_DIR',
+      );
+      protocol.taskRoles.taskrole.commands.push(
+        `git clone ${dataItem.content.dataStorage.url}`,
+      );
+      protocol.taskRoles.taskrole.commands.push(
+        `export DATA_DIR=${dataItem.content.dataStorage.path}`,
+      );
+
+      return protocol;
+  }
 }
 
 function generateJobProtocolFromTemplate(protocol, templateItem) {
