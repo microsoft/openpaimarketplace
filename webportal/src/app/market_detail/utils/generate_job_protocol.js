@@ -39,7 +39,7 @@ export async function generateJobProtocol(item) {
 
 function generateJobProtocolFromData(protocol, dataItem) {
   switch (dataItem.content.dataStorage.storageType) {
-    case 'nfs':
+    case 'nfs': {
       const storageConfig = {
         extras: {
           'com.microsoft.pai.runtimeplugin': [
@@ -61,7 +61,8 @@ function generateJobProtocolFromData(protocol, dataItem) {
       );
 
       return protocol;
-    case 'gitRepository':
+    }
+    case 'gitRepository': {
       protocol.taskRoles.taskrole.commands.push(
         '# The data stored in environment variable DATA_DIR, you could use it in commands by $DATA_DIR',
       );
@@ -73,6 +74,7 @@ function generateJobProtocolFromData(protocol, dataItem) {
       );
 
       return protocol;
+    }
   }
 }
 
