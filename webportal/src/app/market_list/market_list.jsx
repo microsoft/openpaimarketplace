@@ -28,27 +28,25 @@ const MarketList = props => {
   return (
     <Context.Provider value={context}>
       <Page>
-        <Stack gap='l1'>
-          <Stack horizontal horizontalAlign='center' gap={spacing.l1}>
-            <StackItem>
-              <SideBar
-                type={
-                  isNil(qs.parse(routeProps.location.search).type)
-                    ? 'all'
-                    : qs.parse(routeProps.location.search).type
-                }
-              />
-            </StackItem>
-            <StackItem grow={1}>
-              <ItemList
-                type={
-                  isNil(qs.parse(routeProps.location.search).type)
-                    ? 'all'
-                    : qs.parse(routeProps.location.search).type
-                }
-              />
-            </StackItem>
-          </Stack>
+        <Stack horizontal gap={spacing.l1}>
+          <StackItem>
+            <SideBar
+              type={
+                isNil(qs.parse(routeProps.location.search).type)
+                  ? 'all'
+                  : qs.parse(routeProps.location.search).type
+              }
+            />
+          </StackItem>
+          <StackItem grow={1}>
+            <ItemList
+              type={
+                isNil(qs.parse(routeProps.location.search).type)
+                  ? 'all'
+                  : qs.parse(routeProps.location.search).type
+              }
+            />
+          </StackItem>
         </Stack>
       </Page>
     </Context.Provider>

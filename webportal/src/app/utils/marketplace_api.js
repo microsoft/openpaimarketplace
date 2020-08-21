@@ -4,6 +4,7 @@ import { isNil } from 'lodash';
 import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 import { MARKET_ITEM_LIST } from 'App/utils/constants';
+import yaml from 'js-yaml';
 
 export async function listItems(type) {
   if (isNil(type) || type === 'all') {
@@ -18,6 +19,16 @@ export async function getItem(itemId) {
   const item = MARKET_ITEM_LIST.find(item => {
     return item.id === itemId;
   });
+
+  // fetch protocol
+  const res = await fetch(
+    `https://microsoft.github.io/openpaimarketplace/examples/yaml_templates/${item.protocol}`,
+  );
+  const text = await res.text();
+  const protocol = yaml.safeLoad(text);
+  console.log(item)
+  item.protocol = protocol;
+  console.log(item)
   return item;
 }
 
