@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.87 290.52" width='180'>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.87 290.52" width='160'>
   <defs>
     <style>.cls-1,.cls-3{fill:#004e8c;}.cls-2{fill:none;}.cls-2,.cls-3{stroke:#fff;stroke-miterlimit:10;stroke-width:5px;}</style>
   </defs>
   <g id="图层_2" data-name="图层 2">
-    <circle class="cls-1" cx="142.44" cy="149.35" r="105.99"/>
+    <circle class="cls-1" cx="142.72" cy="146.68" r="105.99"/>
     <rect class="cls-2" x="104.94" y="109.73" width="73.76" height="84.49"/>
     <line class="cls-2" x1="119.94" y1="133.36" x2="162.71" y2="133.36"/>
     <rect class="cls-1" x="115.08" y="91.19" width="54.43" height="32.18"/>
