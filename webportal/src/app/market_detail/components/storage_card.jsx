@@ -5,7 +5,7 @@ import { getTheme, Stack, Text } from 'office-ui-fabric-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { isNil } from 'lodash';
+import { isEmpty } from 'lodash';
 
 const { palette, spacing } = getTheme();
 
@@ -15,38 +15,36 @@ const Wrapper = styled.div`
 `;
 
 const StorageCard = props => {
-  const { storage } = props;
+  const { storages } = props;
 
   return (
     <Wrapper>
-      {isNil(storage) ? (
+      {isEmpty(storages) ? (
         <Text>There is no storage setting</Text>
       ) : (
-        <Stack gap='m'>
-          <Stack horizontal verticalAlign='center' gap='m'>
-            <Text>Storage Type:</Text>
-            <Text>{storage.type}</Text>
+        storages.map(storage => (
+          <Stack key={storage.name} gap='m'>
+            <Stack horizontal verticalAlign='center' gap='m'>
+              <Text>Storage Type:</Text>
+              <Text>{storage.type}</Text>
+            </Stack>
+            <Stack horizontal verticalAlign='center' gap='m'>
+              <Text>Storage Name:</Text>
+              <Text>{storage.name}</Text>
+            </Stack>
+            <Stack horizontal verticalAlign='center' gap='m'>
+              <Text>Storage Path:</Text>
+              <Text>{storage.uri}</Text>
+            </Stack>
           </Stack>
-          <Stack horizontal verticalAlign='center' gap='m'>
-            <Text>Storage Name:</Text>
-            <Text>
-              {storage.name}
-            </Text>
-          </Stack>
-          <Stack horizontal verticalAlign='center' gap='m'>
-            <Text>Storage Path:</Text>
-            <Text>
-              {storage.uri}
-            </Text>
-          </Stack>
-        </Stack>
+        ))
       )}
     </Wrapper>
   );
 };
 
 StorageCard.propTypes = {
-  storage: PropTypes.object,
+  storages: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default StorageCard;

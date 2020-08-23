@@ -1,5 +1,5 @@
 protocolVersion: 2
-name: Couplet Inference Job Template
+name: couplet_inference
 type: job
 contributor: OpenPAI
 description: |
@@ -28,7 +28,8 @@ prerequisites:
     uri: "openpai/standard:python_3.6-pytorch_1.2.0-gpu"
   - name: couplet_data
     type: data
-    uri: /mnt/confignfs/couplet/checkpoints
+    uri:
+      - /mnt/confignfs/couplet/checkpoints
   - name: code
     type: script
     uri: /mnt/confignfs/couplet
@@ -43,6 +44,8 @@ taskRoles:
       cpu: 4
       memoryMB: 8192
       gpu: 1
+      ports:
+        FLASK_PORT: 1
     commands:
       - export DATA_DIR=<% $data.uri[0] %>
       - export CODE_DIR=<% $script.uri %>
