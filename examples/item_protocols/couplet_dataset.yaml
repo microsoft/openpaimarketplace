@@ -51,7 +51,7 @@ taskRoles:
       - >-
         # The data stored in environment variable DATA_DIR, you could use it in
         commands by $DATA_DIR
-      - export DATA_DIR= <% $data.uri[0] %>
+      - export DATA_DIR=<% $data.uri[0] %>
 
 extras:
   storages:
