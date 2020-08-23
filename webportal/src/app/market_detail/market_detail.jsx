@@ -27,7 +27,7 @@ const MarketDetail = props => {
       setLoading(false);
     }
     fetchItem();
-  });
+  }, []);
 
   const context = {
     user,
@@ -42,7 +42,7 @@ const MarketDetail = props => {
       {loading && <Loading />}
       {!loading && (
         <Page>
-          <TopBar pageType='detail' status={marketItem.status} />
+          <TopBar />
           <Summary marketItem={marketItem} />
           <HorizontalLine />
           <PivotCard marketItem={marketItem} />

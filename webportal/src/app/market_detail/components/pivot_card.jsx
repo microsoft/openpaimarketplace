@@ -35,7 +35,7 @@ const PivotCard = props => {
           <PivotItemWrapper>
             <ReactMarkdown
               className='markdown-body'
-              source={marketItem.description}
+              source={marketItem.protocol.description}
             />
           </PivotItemWrapper>
         </PivotItem>

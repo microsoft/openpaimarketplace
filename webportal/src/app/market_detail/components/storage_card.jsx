@@ -25,20 +25,18 @@ const StorageCard = props => {
         <Stack gap='m'>
           <Stack horizontal verticalAlign='center' gap='m'>
             <Text>Storage Type:</Text>
-            <Text>{storage.storageType}</Text>
+            <Text>{storage.type}</Text>
+          </Stack>
+          <Stack horizontal verticalAlign='center' gap='m'>
+            <Text>Storage Name:</Text>
+            <Text>
+              {storage.name}
+            </Text>
           </Stack>
           <Stack horizontal verticalAlign='center' gap='m'>
             <Text>Storage Path:</Text>
             <Text>
-              {storage.serverPath}
-              {storage.subPath}
-            </Text>
-          </Stack>
-          <Stack horizontal verticalAlign='center' gap='m'>
-            <Text>Container Path:</Text>
-            <Text>
-              {storage.containerPath}
-              {storage.subPath}
+              {storage.uri}
             </Text>
           </Stack>
         </Stack>
