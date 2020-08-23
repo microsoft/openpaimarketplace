@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { getTheme, Stack, Text } from 'office-ui-fabric-react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import yaml from 'js-yaml';

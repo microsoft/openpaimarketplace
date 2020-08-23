@@ -30,7 +30,6 @@ const TemplateDetail = props => {
     item => item.type === 'output',
   );
   // TODO: multiple taskroles scenario
-  console.log(marketItem)
   const [ports, setPorts] = useState([]);
   const [commands, setCommands] = useState([]);
 

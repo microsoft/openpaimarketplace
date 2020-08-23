@@ -16,12 +16,12 @@ export async function listItems(type) {
 }
 
 export async function getItem(itemId) {
+  let uri;
   try {
     const item = MARKET_ITEM_LIST.find(item => {
       return item.id === itemId;
     });
 
-    let uri;
     // fetch protocol
     if (item.type === 'old') {
       uri = `https://microsoft.github.io/openpaimarketplace/examples/yaml_templates/${item.protocol}`;
