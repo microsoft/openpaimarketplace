@@ -5,6 +5,7 @@ import { getTheme, Stack, Text } from 'office-ui-fabric-react';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import yaml from 'js-yaml';
 
 const { palette, spacing } = getTheme();
 
@@ -16,23 +17,11 @@ const Wrapper = styled.div`
 
 const OldDetail = props => {
   const { marketItem } = props;
-  const [protocolText, setProtocolText] = useState('');
-
-  useEffect(() => {
-    async function fetchProtocol() {
-      const res = await fetch(
-        `https://microsoft.github.io/openpaimarketplace/examples/yaml_templates/${marketItem.content.config}`,
-      );
-      const text = await res.text();
-      setProtocolText(text);
-    }
-    fetchProtocol();
-  }, []);
 
   return (
     <Stack gap='m'>
       <Text variant='large'>Protocol</Text>
-      <Wrapper>{protocolText}</Wrapper>
+      <Wrapper>{yaml.safeDump(marketItem.protocol)}</Wrapper>
     </Stack>
   );
 };

@@ -1,5 +1,5 @@
 protocolVersion: 2
-name: Couplet Dataset
+name: couplet_dataset
 type: job
 contributor: OpenPAI
 description: |
@@ -35,7 +35,8 @@ prerequisites:
     uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
   - name: couplet_data
     type: data
-    uri : /mnt/confignfs/couplet_data
+    uri :
+      - /mnt/confignfs/couplet_data
 
 taskRoles:
   taskrole:

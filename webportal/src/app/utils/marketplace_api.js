@@ -21,16 +21,20 @@ export async function getItem(itemId) {
       return item.id === itemId;
     });
 
+    let uri;
     // fetch protocol
-    const res = await fetch(
-      `https://microsoft.github.io/openpaimarketplace/examples/item_protocols/${item.protocol}`,
-    );
+    if (item.type === 'old') {
+      uri = `https://microsoft.github.io/openpaimarketplace/examples/yaml_templates/${item.protocol}`;
+    } else {
+      uri = `https://microsoft.github.io/openpaimarketplace/examples/item_protocols/${item.protocol}`;
+    }
+    const res = await fetch(uri);
     const text = await res.text();
     const protocol = yaml.safeLoad(text);
     item.protocol = protocol;
     return item;
   } catch (error) {
-    alert('could not get marketplace item from api')
+    alert(`could not get marketplace item from uri ${uri}`);
   }
 }
 
