@@ -41,6 +41,7 @@ taskRoles:
   taskrole:
     instances: 1
     dockerImage: default_image
+    data: couplet_data
     resourcePerInstance:
       cpu: 4
       memoryMB: 8192

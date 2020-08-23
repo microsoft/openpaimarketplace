@@ -8,11 +8,16 @@ import StorageCard from './storage_card';
 
 const DataDetail = props => {
   const { marketItem } = props;
+  const dataStorages = marketItem.protocol.prerequisites.filter(
+    item => item.type === 'data',
+  );
 
   return (
     <Stack gap='m'>
       <Text variant='large'>Data Storage</Text>
-      <StorageCard storage={marketItem.content.dataStorage} />
+      {dataStorages.map(storage => (
+        <StorageCard key={storage.name} storage={storage} />
+      ))}
     </Stack>
   );
 };

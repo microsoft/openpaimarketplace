@@ -16,20 +16,22 @@ export async function listItems(type) {
 }
 
 export async function getItem(itemId) {
-  const item = MARKET_ITEM_LIST.find(item => {
-    return item.id === itemId;
-  });
+  try {
+    const item = MARKET_ITEM_LIST.find(item => {
+      return item.id === itemId;
+    });
 
-  // fetch protocol
-  const res = await fetch(
-    `https://microsoft.github.io/openpaimarketplace/examples/yaml_templates/${item.protocol}`,
-  );
-  const text = await res.text();
-  const protocol = yaml.safeLoad(text);
-  console.log(item)
-  item.protocol = protocol;
-  console.log(item)
-  return item;
+    // fetch protocol
+    const res = await fetch(
+      `https://microsoft.github.io/openpaimarketplace/examples/item_protocols/${item.protocol}`,
+    );
+    const text = await res.text();
+    const protocol = yaml.safeLoad(text);
+    item.protocol = protocol;
+    return item;
+  } catch (error) {
+    alert('could not get marketplace item from api')
+  }
 }
 
 export async function getApprovedItems() {
