@@ -1,19 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTheme, Stack, Text } from 'office-ui-fabric-react';
+import { Stack, Text } from 'office-ui-fabric-react';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StorageCard from './storage_card';
-import styled from 'styled-components';
 import { isNil, isEmpty } from 'lodash';
-
-const { spacing, palette } = getTheme();
-
-const Wrapper = styled.div`
-  background-color: ${palette.neutralLighterAlt};
-  padding: ${spacing.m};
-`;
+import CodeWrapper from 'App/components/code_wrapper';
 
 const TemplateDetail = props => {
   const { marketItem } = props;
@@ -60,11 +53,11 @@ const TemplateDetail = props => {
   return (
     <Stack gap='m'>
       <Text variant='xLarge'>Docker Image:</Text>
-      <Wrapper>
+      <CodeWrapper>
         <Text variant='large'>{dockerImage.uri}</Text>
-      </Wrapper>
+      </CodeWrapper>
       <Text variant='xLarge'>Ports:</Text>
-      <Wrapper>
+      <CodeWrapper>
         {isEmpty(ports) ? (
           <Text>There is no ports setting</Text>
         ) : (
@@ -74,7 +67,7 @@ const TemplateDetail = props => {
             ))}
           </Stack>
         )}
-      </Wrapper>
+      </CodeWrapper>
       <Text variant='xLarge'>Data Storage:</Text>
       <StorageCard storages={dataStorages} />
       <Text variant='xLarge'>Code Storage:</Text>
@@ -82,13 +75,13 @@ const TemplateDetail = props => {
       <Text variant='xLarge'>Output Storage:</Text>
       <StorageCard storages={outputStorages} />
       <Text variant='xLarge'>Commands:</Text>
-      <Wrapper>
+      <CodeWrapper>
         <Stack gap='s2'>
           {commands.map(command => (
             <Text key={command}>{command}</Text>
           ))}
         </Stack>
-      </Wrapper>
+      </CodeWrapper>
     </Stack>
   );
 };

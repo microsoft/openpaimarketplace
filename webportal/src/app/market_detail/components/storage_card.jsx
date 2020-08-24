@@ -1,24 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTheme, Stack, Text } from 'office-ui-fabric-react';
+import { Stack, Text } from 'office-ui-fabric-react';
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { isEmpty } from 'lodash';
-
-const { palette, spacing } = getTheme();
-
-const Wrapper = styled.div`
-  background-color: ${palette.neutralLighterAlt};
-  padding: ${spacing.m};
-`;
+import CodeWrapper from 'App/components/code_wrapper';
 
 const StorageCard = props => {
   const { storages } = props;
 
   return (
-    <Wrapper>
+    <CodeWrapper>
       {isEmpty(storages) ? (
         <Text>There is no storage setting</Text>
       ) : (
@@ -39,7 +32,7 @@ const StorageCard = props => {
           </Stack>
         ))
       )}
-    </Wrapper>
+    </CodeWrapper>
   );
 };
 
