@@ -22,8 +22,8 @@ const MarketDetail = props => {
   useEffect(() => {
     async function fetchItem() {
       const itemId = qs.parse(routeProps.location.search).itemId;
-      const marketItem = await getItem(itemId);
-      setMarketItem(marketItem);
+      const newMarketItem = await getItem(itemId);
+      setMarketItem(newMarketItem);
       setLoading(false);
     }
     fetchItem();
