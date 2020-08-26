@@ -1,54 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTheme, Stack, Text } from 'office-ui-fabric-react';
+import { Stack, Text } from 'office-ui-fabric-react';
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { isNil } from 'lodash';
-
-const { palette, spacing } = getTheme();
-
-const Wrapper = styled.div`
-  background-color: ${palette.neutralLighterAlt};
-  padding: ${spacing.m};
-`;
+import { isEmpty } from 'lodash';
+import CodeWrapper from 'App/components/code_wrapper';
 
 const StorageCard = props => {
-  const { storage } = props;
+  const { storages } = props;
 
   return (
-    <Wrapper>
-      {isNil(storage) ? (
+    <CodeWrapper>
+      {isEmpty(storages) ? (
         <Text>There is no storage setting</Text>
       ) : (
-        <Stack gap='m'>
-          <Stack horizontal verticalAlign='center' gap='m'>
-            <Text>Storage Type:</Text>
-            <Text>{storage.storageType}</Text>
+        storages.map(storage => (
+          <Stack key={storage.name} gap='m'>
+            <Stack horizontal verticalAlign='center' gap='m'>
+              <Text>Storage Type:</Text>
+              <Text>{storage.type}</Text>
+            </Stack>
+            <Stack horizontal verticalAlign='center' gap='m'>
+              <Text>Storage Name:</Text>
+              <Text>{storage.name}</Text>
+            </Stack>
+            <Stack horizontal verticalAlign='center' gap='m'>
+              <Text>Storage Path:</Text>
+              <Text>{storage.uri}</Text>
+            </Stack>
           </Stack>
-          <Stack horizontal verticalAlign='center' gap='m'>
-            <Text>Storage Path:</Text>
-            <Text>
-              {storage.serverPath}
-              {storage.subPath}
-            </Text>
-          </Stack>
-          <Stack horizontal verticalAlign='center' gap='m'>
-            <Text>Container Path:</Text>
-            <Text>
-              {storage.containerPath}
-              {storage.subPath}
-            </Text>
-          </Stack>
-        </Stack>
+        ))
       )}
-    </Wrapper>
+    </CodeWrapper>
   );
 };
 
 StorageCard.propTypes = {
-  storage: PropTypes.object,
+  storages: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default StorageCard;

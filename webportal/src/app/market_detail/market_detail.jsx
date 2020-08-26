@@ -22,12 +22,12 @@ const MarketDetail = props => {
   useEffect(() => {
     async function fetchItem() {
       const itemId = qs.parse(routeProps.location.search).itemId;
-      const marketItem = await getItem(itemId);
-      setMarketItem(marketItem);
+      const newMarketItem = await getItem(itemId);
+      setMarketItem(newMarketItem);
       setLoading(false);
     }
     fetchItem();
-  });
+  }, []);
 
   const context = {
     user,
@@ -42,7 +42,7 @@ const MarketDetail = props => {
       {loading && <Loading />}
       {!loading && (
         <Page>
-          <TopBar pageType='detail' status={marketItem.status} />
+          <TopBar />
           <Summary marketItem={marketItem} />
           <HorizontalLine />
           <PivotCard marketItem={marketItem} />

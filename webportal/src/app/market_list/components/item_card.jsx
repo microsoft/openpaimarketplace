@@ -12,6 +12,7 @@ import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
 
 const HoverCard = styled(Card)`
   cursor: pointer;
+  min-width: 400px;
 `;
 
 const ItemCard = props => {
@@ -38,13 +39,20 @@ const ItemCard = props => {
         horizontal
         verticalAlign='center'
         horizontalAlign='space-between'
-        gap='l2'
+        gap='m'
       >
-        {item.type === 'data' && <DataIcon />}
-        {item.type === 'template' && <TemplateIcon />}
-        {item.type === 'old' && <TemplateIcon />}
+        <Stack.Item>
+          {item.type === 'data' && <DataIcon />}
+          {item.type === 'template' && <TemplateIcon />}
+          {item.type === 'old' && <TemplateIcon />}
+        </Stack.Item>
         <Stack gap='m' styles={{ root: [{ width: '70%' }] }}>
-          <Text variant={'xLarge'}>{item.name}</Text>
+          <Text
+            variant={'xLarge'}
+            styles={{ root: { overflowWrap: 'anywhere' } }}
+          >
+            {item.name}
+          </Text>
           <Text variant={'small'}>
             {item.author} published {populateCreatedTime()}
           </Text>
