@@ -1,19 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTheme, Stack, Text } from 'office-ui-fabric-react';
-import React, { useEffect, useState } from 'react';
+import { Stack, Text } from 'office-ui-fabric-react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import yaml from 'js-yaml';
-
-const { palette, spacing } = getTheme();
-
-const Wrapper = styled.div`
-  background-color: ${palette.neutralLighterAlt};
-  padding: ${spacing.m};
-  white-space: pre-wrap;
-`;
+import CodeWrapper from 'App/components/code_wrapper';
 
 const OldDetail = props => {
   const { marketItem } = props;
@@ -21,7 +13,7 @@ const OldDetail = props => {
   return (
     <Stack gap='m'>
       <Text variant='large'>Protocol</Text>
-      <Wrapper>{yaml.safeDump(marketItem.protocol)}</Wrapper>
+      <CodeWrapper>{yaml.safeDump(marketItem.protocol)}</CodeWrapper>
     </Stack>
   );
 };

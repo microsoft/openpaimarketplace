@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isNil } from 'lodash';
+import { isNil, cloneDeep } from 'lodash';
 import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 import { MARKET_ITEM_LIST } from 'App/utils/constants';
@@ -16,12 +16,12 @@ export async function listItems(type) {
 }
 
 export async function getItem(itemId) {
+  let uri;
   try {
     const item = MARKET_ITEM_LIST.find(item => {
       return item.id === itemId;
     });
 
-    let uri;
     // fetch protocol
     if (item.type === 'old') {
       uri = `https://microsoft.github.io/openpaimarketplace/examples/yaml_templates/${item.protocol}`;
@@ -31,8 +31,9 @@ export async function getItem(itemId) {
     const res = await fetch(uri);
     const text = await res.text();
     const protocol = yaml.safeLoad(text);
-    item.protocol = protocol;
-    return item;
+    const newItem = cloneDeep(item);
+    newItem.protocol = protocol;
+    return newItem;
   } catch (error) {
     alert(`could not get marketplace item from uri ${uri}`);
   }

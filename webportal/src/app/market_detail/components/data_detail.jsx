@@ -15,9 +15,7 @@ const DataDetail = props => {
   return (
     <Stack gap='m'>
       <Text variant='large'>Data Storage</Text>
-      {dataStorages.map(storage => (
-        <StorageCard key={storage.name} storage={storage} />
-      ))}
+      <StorageCard storages={dataStorages} />
     </Stack>
   );
 };

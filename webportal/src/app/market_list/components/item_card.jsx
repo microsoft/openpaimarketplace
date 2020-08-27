@@ -47,7 +47,12 @@ const ItemCard = props => {
           {item.type === 'old' && <TemplateIcon />}
         </Stack.Item>
         <Stack gap='m' styles={{ root: [{ width: '70%' }] }}>
-          <Text variant={'xLarge'} styles={{root: {overflowWrap: 'anywhere'}}}>{item.name}</Text>
+          <Text
+            variant={'xLarge'}
+            styles={{ root: { overflowWrap: 'anywhere' } }}
+          >
+            {item.name}
+          </Text>
           <Text variant={'small'}>
             {item.author} published {populateCreatedTime()}
           </Text>
