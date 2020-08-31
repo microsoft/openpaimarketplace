@@ -239,7 +239,7 @@ export const MARKET_ITEM_LIST = [
     categories: ['official example'],
     tags: ['official example'],
     summary: 'A Tensorflow Mnist Model Example',
-    protocol: 'tensorflow_serving_mnist.yaml',
+    protocol: 'tensorflow-serving-mnist.yaml',
     useNumber: 0,
     starNumber: 0,
     status: 'approved',
