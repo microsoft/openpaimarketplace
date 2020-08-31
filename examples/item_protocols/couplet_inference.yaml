@@ -57,6 +57,8 @@ taskRoles:
       - 'gunicorn --bind=0.0.0.0:${FLASK_PORT} app:app'
 
 extras:
-  storages:
-    - name: confignfs
-      mountPath: /mnt/confignfs
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs
