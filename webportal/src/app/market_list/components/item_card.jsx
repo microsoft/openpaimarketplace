@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
-import { Text, Stack } from 'office-ui-fabric-react';
+import { Text, Stack, Link } from 'office-ui-fabric-react';
+import { FontClassNames } from '@uifabric/styling';
 import styled from 'styled-components';
 
 import Card from 'App/components/card';
@@ -47,12 +48,12 @@ const ItemCard = props => {
           {item.type === 'old' && <TemplateIcon />}
         </Stack.Item>
         <Stack gap='m' styles={{ root: [{ width: '70%' }] }}>
-          <Text
-            variant={'xLarge'}
-            styles={{ root: { overflowWrap: 'anywhere' } }}
+          <Link
+            className={FontClassNames.xLarge}
+            href={`/plugin.html?index=0#/market_detail?itemId=${item.id}`}
           >
             {item.name}
-          </Text>
+          </Link>
           <Text variant={'small'}>
             {item.author} published {populateCreatedTime()}
           </Text>
