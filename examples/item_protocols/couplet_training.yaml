@@ -71,6 +71,8 @@ taskRoles:
       - "--max-epoch 100"
 
 extras:
-  storages:
-    - name: confignfs
-      mountPath: /mnt/confignfs
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs

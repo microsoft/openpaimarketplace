@@ -194,7 +194,7 @@ export const MARKET_ITEM_LIST = [
     categories: ['official example'],
     tags: ['official example'],
     summary: 'A Rocm Tensorflow2 Example',
-    protocol: 'rocm-pytorch-mnist.yaml',
+    protocol: 'rocm-tensorflow2.yaml',
     useNumber: 0,
     starNumber: 0,
     status: 'approved',
