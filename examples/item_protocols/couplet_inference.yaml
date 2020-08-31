@@ -3,7 +3,7 @@ name: couplet_inference
 type: job
 contributor: OpenPAI
 description: |
-  # Couplet Training Job Template
+  # Couplet Inference Job Template
 
   This is a model inference process. The input data is the trainning models trained by ```couplet training job```, and the this job will produce a url for user to ask for down part for a upper part of couplet.
 
@@ -19,7 +19,7 @@ description: |
 
   ## How to check the result
 
-  After job finished successfully, you could check the job detail to get the container ip and ```flask_port``` number, then go to http://<ip>:<flask_port>/upper=<input> to test the result.
+  After job finished successfully, you could check the job detail to get the container ip and ```flask_port``` number, then go to http://<ip>:<flask_port>?upper=<input> to test the result.
 
 
 prerequisites:
@@ -57,6 +57,8 @@ taskRoles:
       - 'gunicorn --bind=0.0.0.0:${FLASK_PORT} app:app'
 
 extras:
-  storages:
-    - name: confignfs
-      mountPath: /mnt/confignfs
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs

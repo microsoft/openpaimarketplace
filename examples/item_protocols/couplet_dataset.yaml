@@ -54,6 +54,8 @@ taskRoles:
       - export DATA_DIR=<% $data.uri[0] %>
 
 extras:
-  storages:
-    - name: confignfs
-      mountPath: /mnt/confignfs
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs
