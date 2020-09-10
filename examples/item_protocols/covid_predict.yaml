@@ -1,5 +1,5 @@
 protocolVersion: 2
-name: Covid19 Prediction Model
+name: Covid19_Prediction_Model
 type: job
 contributor: OpenPAI
 description: |
