@@ -38,16 +38,15 @@ prerequisites:
   - name: default_image
     type: dockerimage
     uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
-  - name: couplet_data
+  - name: covid_data
     type: data
     uri :
-      - /mnt/confignfs/couplet_data
-
+      - /mnt/confignfs/covid19/data
 taskRoles:
   taskrole:
     instances: 1
     dockerImage: default_image
-    data: couplet_data
+    data: covid_data
     resourcePerInstance:
       cpu: 4
       memoryMB: 8192
