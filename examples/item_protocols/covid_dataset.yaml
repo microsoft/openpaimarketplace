@@ -1,5 +1,5 @@
 protocolVersion: 2
-name: couplet_dataset
+name: covid_dataset
 type: job
 contributor: OpenPAI
 description: |

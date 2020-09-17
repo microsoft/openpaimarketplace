@@ -1,5 +1,5 @@
 protocolVersion: 2
-name: Covid19_Inference_Service
+name: covid19_inference
 type: job
 contributor: OpenPAI
 description: |
