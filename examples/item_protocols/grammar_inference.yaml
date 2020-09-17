@@ -40,6 +40,7 @@ taskRoles:
     commands:
       - export PREPROCESSED_DATA_DIR=<% $data.uri[0] %>
       - export MODEL_SAVE_DIR=<% $data.uri[1] %>
+      - pip install fairseq
       - fairseq-generate ${PREPROCESSED_DATA_DIR} --path ${MODEL_SAVE_DIR}/checkpoint_best.pt --source-lang origin --target-lang correct
 
 extras:
