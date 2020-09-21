@@ -36,6 +36,12 @@ If you use modern editors like VS Code. It is highly recommends to install eslin
 
     How to do code format with prettier? You could use cli like prettier --write 'src/**/*.js' 'src/**/*.jsx' or use prettier extension in vscode.
 
+## Related Project
+
+- [OpenPAI](https://github.com/microsoft/pai): A complete solution for AI platform. HiveD will be more user-friendly when working in tandem with OpenPAI.
+
+- [OpenPAI Protocol](https://github.com/microsoft/openpai-protocol): The protocol interface between marketplace and OpenPAI platform.
+
 ## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a

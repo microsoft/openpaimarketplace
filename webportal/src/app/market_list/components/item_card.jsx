@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
-import { Text, Stack } from 'office-ui-fabric-react';
+import { Text, Stack, Link } from 'office-ui-fabric-react';
+import { FontClassNames } from '@uifabric/styling';
 import styled from 'styled-components';
 
 import Card from 'App/components/card';
@@ -12,6 +13,7 @@ import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
 
 const HoverCard = styled(Card)`
   cursor: pointer;
+  min-width: 400px;
 `;
 
 const ItemCard = props => {
@@ -38,13 +40,20 @@ const ItemCard = props => {
         horizontal
         verticalAlign='center'
         horizontalAlign='space-between'
-        gap='l2'
+        gap='m'
       >
-        {item.type === 'data' && <DataIcon />}
-        {item.type === 'template' && <TemplateIcon />}
-        {item.type === 'old' && <TemplateIcon />}
+        <Stack.Item>
+          {item.type === 'data' && <DataIcon />}
+          {item.type === 'template' && <TemplateIcon />}
+          {item.type === 'old' && <TemplateIcon />}
+        </Stack.Item>
         <Stack gap='m' styles={{ root: [{ width: '70%' }] }}>
-          <Text variant={'xLarge'}>{item.name}</Text>
+          <Link
+            className={FontClassNames.xLarge}
+            href={`/plugin.html?index=0#/market_detail?itemId=${item.id}`}
+          >
+            {item.name}
+          </Link>
           <Text variant={'small'}>
             {item.author} published {populateCreatedTime()}
           </Text>
