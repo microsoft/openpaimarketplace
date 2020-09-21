@@ -14,20 +14,12 @@ export const MARKET_ITEM_LIST = [
     categories: 'COVID-19',
     tags: ['open source dataset'],
     summary: 'Dataset of COVID-19 X-ray and CT images',
-    description:
-      "# COVID-19 image data collection\n\n[🎬 video about the project](https://www.youtube.com/watch?v=ineWmqfelEQ)\n\nProject Summary: To build a public open dataset of chest X-ray and CT images of patients which are positive or suspected of COVID-19 or other viral and bacterial pneumonias ([MERS](https://en.wikipedia.org/wiki/Middle_East_respiratory_syndrome), [SARS](https://en.wikipedia.org/wiki/Severe_acute_respiratory_syndrome), and [ARDS](https://en.wikipedia.org/wiki/Acute_respiratory_distress_syndrome).).\n\n## Data content\n\nData will be collected from public sources as well as through indirect collection from hospitals and physicians.\nAll images and data will be released publicly in GitHub repo [https://github.com/ieee8023/covid-chestxray-dataset](https://github.com/ieee8023/covid-chestxray-dataset).\n\n![Image](https://github.com/ieee8023/covid-chestxray-dataset/blob/master/images/000001-1.png?raw=true)\n\n## View current [images](images) and [metadata](metadata.csv)\n\nCurrent stats of PA, AP, and AP Supine views. Labels 0=No or 1=Yes. Data loader is [here](https://github.com/mlmed/torchxrayvision/blob/master/torchxrayvision/datasets.py#L867)\n\n```js\nCOVID19_Dataset num_samples=481 views=['PA', 'AP']\n{'ARDS': {0.0: 465, 1.0: 16},\n 'Bacterial': {0.0: 445, 1.0: 36},\n 'COVID-19': {0.0: 162, 1.0: 319},\n 'Chlamydophila': {0.0: 480, 1.0: 1},\n 'E.Coli': {0.0: 481},\n 'Fungal': {0.0: 459, 1.0: 22},\n 'Influenza': {0.0: 478, 1.0: 3},\n 'Klebsiella': {0.0: 474, 1.0: 7},\n 'Legionella': {0.0: 474, 1.0: 7},\n 'Lipoid': {0.0: 473, 1.0: 8},\n 'MERS': {0.0: 481},\n 'Mycoplasma': {0.0: 476, 1.0: 5},\n 'No Finding': {0.0: 467, 1.0: 14},\n 'Pneumocystis': {0.0: 459, 1.0: 22},\n 'Pneumonia': {0.0: 36, 1.0: 445},\n 'SARS': {0.0: 465, 1.0: 16},\n 'Streptococcus': {0.0: 467, 1.0: 14},\n 'Varicella': {0.0: 476, 1.0: 5},\n 'Viral': {0.0: 138, 1.0: 343}}\n\nCOVID19_Dataset num_samples=173 views=['AP Supine']\n{'ARDS': {0.0: 170, 1.0: 3},\n 'Bacterial': {0.0: 169, 1.0: 4},\n 'COVID-19': {0.0: 41, 1.0: 132},\n 'Chlamydophila': {0.0: 173},\n 'E.Coli': {0.0: 169, 1.0: 4},\n 'Fungal': {0.0: 171, 1.0: 2},\n 'Influenza': {0.0: 173},\n 'Klebsiella': {0.0: 173},\n 'Legionella': {0.0: 173},\n 'Lipoid': {0.0: 173},\n 'MERS': {0.0: 173},\n 'Mycoplasma': {0.0: 173},\n 'No Finding': {0.0: 170, 1.0: 3},\n 'Pneumocystis': {0.0: 171, 1.0: 2},\n 'Pneumonia': {0.0: 26, 1.0: 147},\n 'SARS': {0.0: 173},\n 'Streptococcus': {0.0: 173},\n 'Varicella': {0.0: 173},\n 'Viral': {0.0: 41, 1.0: 132}}\n",
-    content: {
-      dataStorage: {
-        storageType: 'gitRepository',
-        url: 'https://github.com/ieee8023/covid-chestxray-dataset.git',
-        path: './covid-chestxray-dataset',
-      },
-    },
+    protocol: 'covid-chestxray-dataset',
     useNumber: 0,
     starNumber: 0,
     status: 'approved',
-    createdAt: '2020-07-28T04:52:48.289Z',
-    updatedAt: '2020-07-28T04:52:48.289Z',
+    createdAt: '2020-09-20T04:52:48.289Z',
+    updatedAt: '2020-09-20T04:52:48.289Z',
   },
   {
     id: '1',
