@@ -14,7 +14,7 @@ export const MARKET_ITEM_LIST = [
     categories: 'COVID-19',
     tags: ['open source dataset'],
     summary: 'Dataset of COVID-19 X-ray and CT images',
-    protocol: 'covid-chestxray-dataset',
+    protocol: 'covid_chestxray_dataset.yaml',
     useNumber: 0,
     starNumber: 0,
     status: 'approved',
