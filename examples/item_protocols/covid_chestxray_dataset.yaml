@@ -14,9 +14,11 @@ description: |
   Data will be collected from public sources as well as through indirect collection from hospitals and physicians.
   All images and data will be released publicly in GitHub repo [https://github.com/ieee8023/covid-chestxray-dataset](https://github.com/ieee8023/covid-chestxray-dataset).
 
-  ![Image](https://github.com/ieee8023/covid-chestxray-dataset/blob/master/images/000001-1.png?raw=true)
-
   ## View current [images](images) and [metadata](metadata.csv)
+
+  The labels are arranged in a hierarchy:
+
+  ![Image](https://github.com/ieee8023/covid-chestxray-dataset/blob/master/docs/hierarchy.jpg)
 
   Current stats of PA, AP, and AP Supine views. Labels 0=No or 1=Yes. Data loader is [here](https://github.com/mlmed/torchxrayvision/blob/master/torchxrayvision/datasets.py#L867)
 
@@ -65,6 +67,12 @@ description: |
    'Viral': {0.0: 41, 1.0: 132}}
 
   ```
+
+  ## License
+
+  Each image has license specified in the metadata.csv file. Including Apache 2.0, CC BY-NC-SA 4.0, CC BY 4.0.
+
+  The metadata.csv, scripts, and other documents are released under a CC BY-NC-SA 4.0 license. Companies are free to perform research. Beyond that contact us.
 
 prerequisites:
   - name: default_image
