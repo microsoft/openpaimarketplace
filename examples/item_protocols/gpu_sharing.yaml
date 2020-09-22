@@ -1,0 +1,56 @@
+protocolVersion: 2
+name: gpu_sharing_example
+type: job
+contributor: OpenPAI
+description: |
+  # GPU Sharing Example
+
+  This example shows how two jobs share one GPU in OpenPAI.
+
+  We use `python <script.py> &` to initialize each task to be a "Linux background job". Then, the command `wait` will wait for all these jobs to finish. At last, we print the job log of each task.
+
+  Comparing with using one GPU, gpu sharing has higher utilization in our experiement on a K80 GPU. However, this kind of GPU sharing job doesn't ensure isolation for different tasks. Thus different tasks will affect with each other, and sometimes may fail due to various reasons.
+
+jobRetryCount: 0
+prerequisites:
+  - type: dockerimage
+    uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
+    name: docker_image_0
+taskRoles:
+  taskrole:
+    instances: 1
+    completion:
+      minFailedInstances: 1
+    taskRetryCount: 0
+    dockerImage: docker_image_0
+    resourcePerInstance:
+      gpu: 1
+      cpu: 4
+      memoryMB: 8192
+    commands:
+      - mkdir job1
+      - cd job1
+      - >-
+        wget
+        https://raw.githubusercontent.com/microsoft/pai/master/examples/Distributed-example/cifar10-single-node-gpus-cpu-DP.py
+      - python cifar10-single-node-gpus-cpu-DP.py --epoch 200 &> log &
+      - cd ..
+      - mkdir job2
+      - cd job2
+      - >-
+        wget
+        https://raw.githubusercontent.com/microsoft/pai/master/examples/Distributed-example/cifar10-single-node-gpus-cpu-DP.py
+      - python cifar10-single-node-gpus-cpu-DP.py --epoch 200 &> log &
+      - cd ..
+      - wait
+      - 'echo ''job1 log:'''
+      - cat job1/log
+      - 'echo ''job2 log:'''
+      - cat job2/log
+defaults:
+  virtualCluster: default
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: ssh
+      parameters:
+        jobssh: true
