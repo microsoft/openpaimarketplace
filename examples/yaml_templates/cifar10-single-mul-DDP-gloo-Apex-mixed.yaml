@@ -1,0 +1,56 @@
+protocolVersion: 2
+name: Apex-cifar-10-gloo-2node-4gpu-change
+type: job
+jobRetryCount: 0
+description: |
+  # Pytorch Cifar10 Example
+
+  This example shows how to train a custom neural network on cifar10 with Pytorch on OpenPAI.
+
+  We installed Apex before running `python <script.py>`,we recommend using the right network interface, so we used environment variables, and the sample program will be trained on two machines, each with two gpus.
+
+  This example can be run on single-node or on multi-node, using Gloo backend for distributed GPU training.And mixed precision training (training in a combination of float (FP32) and half (FP16) precision) allows us to use larger batch sizes and take advantage of NVIDIA Tensor Cores for faster computation.
+
+
+prerequisites:
+  - type: dockerimage
+    uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
+    name: docker_image_0
+taskRoles:
+  worker:
+    instances: 2
+    completion:
+      minFailedInstances: 1
+    taskRetryCount: 0
+    dockerImage: docker_image_0
+    resourcePerInstance:
+      gpu: 2
+      cpu: 8
+      memoryMB: 16384
+      ports:
+        SynPort: 1
+    commands:
+      - export GLOO_SOCKET_IFNAME=eth0
+      - 'git clone https://github.com/NVIDIA/apex'
+      - cd apex
+      - python setup.py install
+      - cd ..
+      - >-
+        wget
+        https://raw.githubusercontent.com/microsoft/pai/master/examples/Distributed-example/cifar10-single-mul-DDP-nccl-gloo-Apex-mixed.py
+      - >-
+        python  cifar10-single-mul-DDP-nccl-gloo-Apex-mixed.py -n 2 -g 2
+        --epochs 2 --dist-backend gloo
+defaults:
+  virtualCluster: default
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: ssh
+      parameters:
+        jobssh: true
+        userssh: {}
+  hivedScheduler:
+    taskRoles:
+      worker:
+        skuNum: 1
+        skuType: null
