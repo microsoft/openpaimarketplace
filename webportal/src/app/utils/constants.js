@@ -23,7 +23,7 @@ export const MARKET_ITEM_LIST = [
   },
   {
     id: 'e284b120-fdaf-11ea-adc1-0242ac120002',
-    name: 'COVID-19 image data collection',
+    name: 'COVID-19 Image Data Training Job Template',
     author: 'mlmed',
     type: 'template',
     categories: 'COVID-19',
