@@ -77,7 +77,7 @@ description: |
 prerequisites:
   - name: default_image
     type: dockerimage
-    uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
+    uri: 'openpai/standard:python_3.6-pytorch_1.4.0-gpu'
   - name: covid-chestxray-dataset
     type: data
     uri :
