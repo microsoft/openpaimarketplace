@@ -13,7 +13,6 @@ jobRetryCount: 0
     And mixed precision training (training in a combination of float (FP32) and half (FP16) precision) allows us to use larger batch sizes and take advantage of NVIDIA Tensor Cores for faster computation.
 
 
-
 prerequisites:
   - type: dockerimage
     uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'

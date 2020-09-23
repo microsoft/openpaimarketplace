@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 /* eslint-disable no-template-curly-in-string */
-
 export const MARKETPLACE_API_URL = process.env.MARKETPLACE_API_URL;
 
 export const MARKET_ITEM_LIST = [
