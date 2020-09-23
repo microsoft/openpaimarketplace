@@ -7,6 +7,21 @@ export const MARKETPLACE_API_URL = process.env.MARKETPLACE_API_URL;
 
 export const MARKET_ITEM_LIST = [
   {
+    id: '0b41d10e-36e5-4e97-95c2-27726dd94f33',
+    name: 'COVID-19 image data collection',
+    author: 'ieee8023',
+    type: 'data',
+    categories: 'COVID-19',
+    tags: ['open source dataset'],
+    summary: 'Dataset of COVID-19 X-ray and CT images',
+    protocol: 'covid_chestxray_dataset.yaml',
+    useNumber: 0,
+    starNumber: 0,
+    status: 'approved',
+    createdAt: '2020-09-20T04:52:48.289Z',
+    updatedAt: '2020-09-20T04:52:48.289Z',
+  },
+  {
     id: '1',
     name: 'Couplet Dataset',
     author: 'OpenPAI',
