@@ -69,7 +69,7 @@
         {
           "taskIndex": 0,
           "taskUid": "421",
-          "taskState": "FAILED",
+          "taskState": "SUCCEEDED",
           "retries": 2,
           "accountableRetries": 2,
           "createdTime": 1600421290000,
@@ -109,7 +109,7 @@
         {
           "taskIndex": 1,
           "taskUid": "673",
-          "taskState": "FAILED",
+          "taskState": "SUCCEEDED",
           "retries": 2,
           "accountableRetries": 2,
           "createdTime": 1600421290000,
@@ -156,7 +156,7 @@
         {
           "taskIndex": 0,
           "taskUid": "111",
-          "taskState": "FAILED",
+          "taskState": "SUCCEEDED",
           "retries": 1,
           "accountableRetries": 1,
           "createdTime": 1600421290000,
