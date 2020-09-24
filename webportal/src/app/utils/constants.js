@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 /* eslint-disable no-template-curly-in-string */
+
 export const MARKETPLACE_API_URL = process.env.MARKETPLACE_API_URL;
 
 export const MARKET_ITEM_LIST = [
- {
+  {
     id: '0b41d10e-36e5-4e97-95c2-27726dd94f33',
     name: 'COVID-19 image data collection',
     author: 'ieee8023',
@@ -13,7 +14,22 @@ export const MARKET_ITEM_LIST = [
     categories: 'COVID-19',
     tags: ['open source dataset'],
     summary: 'Dataset of COVID-19 X-ray and CT images',
-    protocol: 'covid-chestxray-dataset.yaml',
+    protocol: 'covid_chestxray_dataset.yaml',
+    useNumber: 0,
+    starNumber: 0,
+    status: 'approved',
+    createdAt: '2020-09-20T04:52:48.289Z',
+    updatedAt: '2020-09-20T04:52:48.289Z',
+  },
+  {
+    id: 'e284b120-fdaf-11ea-adc1-0242ac120002',
+    name: 'COVID-19 Image Data Training Job Template',
+    author: 'mlmed',
+    type: 'template',
+    categories: 'COVID-19',
+    tags: ['official example'],
+    summary: 'Covid chestxray model training job',
+    protocol: 'covid_chestxray_training.yaml',
     useNumber: 0,
     starNumber: 0,
     status: 'approved',
@@ -65,7 +81,7 @@ export const MARKET_ITEM_LIST = [
     createdAt: '2020-08-15T04:52:48.289Z',
     updatedAt: '2020-08-15T04:52:48.289Z',
   },
-    {
+  {
     id: '4',
     name: 'Covid19 Dataset',
     author: 'OpenPAI',
@@ -154,6 +170,21 @@ export const MARKET_ITEM_LIST = [
     status: 'approved',
     createdAt: '2020-08-15T04:52:48.289Z',
     updatedAt: '2020-08-15T04:52:48.289Z',
+  },
+  {
+    id: '10',
+    name: 'GPU Sharing Example',
+    author: 'OpenPAI',
+    type: 'template',
+    categories: 'gpu sharing',
+    tags: ['official example'],
+    summary: 'GPU sharing example: two tasks share one GPU',
+    protocol: 'gpu_sharing.yaml',
+    useNumber: 0,
+    starNumber: 0,
+    status: 'approved',
+    createdAt: '2020-09-22T04:52:48.289Z',
+    updatedAt: '2020-09-22T04:52:48.289Z',
   },
   {
     id: '69ff3c37-1405-49a7-b9de-47e640ba490c',
@@ -350,7 +381,7 @@ export const MARKET_ITEM_LIST = [
     createdAt: '2020-08-15T04:52:48.289Z',
     updatedAt: '2020-08-15T04:52:48.289Z',
   },
-   {
+  {
     id: '11',
     name: 'cifar10-single-mul-DDP-gloo',
     author: 'OpenPAI',
@@ -365,7 +396,7 @@ export const MARKET_ITEM_LIST = [
     createdAt: '2020-09-23T14:52:48.289Z',
     updatedAt: '2020-09-23T14:52:48.289Z',
   },
-   {
+  {
     id: '12',
     name: 'cifar10-single-mul-DDP-gloo-Apex-mixed',
     author: 'OpenPAI',
@@ -380,7 +411,7 @@ export const MARKET_ITEM_LIST = [
     createdAt: '2020-09-23T14:52:48.289Z',
     updatedAt: '2020-09-23T14:52:48.289Z',
   },
-   {
+  {
     id: '13',
     name: 'cifar10-single-mul-DDP-nccl',
     author: 'OpenPAI',
@@ -395,8 +426,7 @@ export const MARKET_ITEM_LIST = [
     createdAt: '2020-09-23T14:52:48.289Z',
     updatedAt: '2020-09-23T14:52:48.289Z',
   },
-
-   {
+  {
     id: '14',
     name: 'cifar10-single-mul-DDP-nccl-Apex-mixed',
     author: 'OpenPAI',
@@ -411,7 +441,7 @@ export const MARKET_ITEM_LIST = [
     createdAt: '2020-09-23T14:52:48.289Z',
     updatedAt: '2020-09-23T14:52:48.289Z',
   },
-   {
+  {
     id: '15',
     name: 'cifar10-single-node-gpus-cpu-DP',
     author: 'OpenPAI',
@@ -426,7 +456,7 @@ export const MARKET_ITEM_LIST = [
     createdAt: '2020-09-23T14:52:48.289Z',
     updatedAt: '2020-09-23T14:52:48.289Z',
   },
-   {
+  {
     id: '16',
     name: 'Lite-imagenet-single-mul-DDP-gloo',
     author: 'OpenPAI',

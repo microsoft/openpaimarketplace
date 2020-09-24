@@ -1,5 +1,5 @@
 protocolVersion: 2
-name: Apex-cifar-10-nccl-2node-4gpu_2_748a8371
+name: Apex-cifar-10-nccl-2node-4gpu_2-example
 type: job
 jobRetryCount: 0
   description: |
