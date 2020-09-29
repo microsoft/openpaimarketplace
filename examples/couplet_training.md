@@ -8,7 +8,22 @@ Please refer [this tutorial](https://github.com/microsoft/ai-edu/blob/master/B-%
 
 In this job, we use [Couplet Dataset](https://int.openpai.org/plugin.html?index=0#/market_detail?itemId=1) provided by OpenPAI Marketplace. You could also use any dataset follows fairseq model requirements.
 
-The dataset is stored on Team share Storage under the path: `/mnt/confignfs/couplet_data` (`10.151.40.235:/data/couplet_data`)
+The dataset is stored on Team share Storage under the path: `10.151.40.235:/data/couplet_data`.
+
+You can use this data, or you can **upload** your own data with below commands:
+
+```
+$ sudo apt-get update && sudo apt-get install -y nfs-common
+$ sudo mkdir -p /mnt/nfsdata/
+$ sudo mount 10.151.40.235:/data /mnt/nfsdata/
+$ cp -r <local_data_folder> /mnt/nfsdata/<sub_path> 
+```
+
+- `/mnt/nfsdata` is a local directory created by `mkdir` command, you can change it by your own.
+  
+- `<local_data_folder>` indicates the folder stored your own dataset.
+
+- `<sub_path>` is the path you want to store the data, it can be `NULL`. But make sure to name your data folder with a different name from `couplet_data` to avoid overwriting the existed data.
 
 ## How to use
 
@@ -57,5 +72,14 @@ fairseq-train ${PREPROCESSED_DATA_DIR} \
 ## Get the result model
 
 After job finished successfully, you could check the output model files in the `output` storage. 
+
+You can mount the storage and download the trained model with below commands:
+
+```
+$ sudo apt-get update && sudo apt-get install -y nfs-common
+$ sudo mkdir -p /mnt/nfsdata/
+$ sudo mount 10.151.40.235:/data /mnt/nfsdata/
+$ cp -r /mnt/nfsdata/output <local_data_dir> 
+```
 
 You can get the details of the storage server information in the  `Detail` page.
