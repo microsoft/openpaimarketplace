@@ -1,21 +1,85 @@
 # Couplet Training Job Template
 
-This is a model training process. After training, this model will give a down part with an upper part of couplet. Please refer to Microsoft AI Edu Project for more details.
+This is a model training process. It uses fairseq model toolkit and a couplet dataset to train a language model. You can use different algorithms while training. The template job is use lstm. 
+
+Please refer [this tutorial](https://github.com/microsoft/ai-edu/blob/master/B-%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B/B13-AI%E5%AF%B9%E8%81%94%E7%94%9F%E6%88%90%E6%A1%88%E4%BE%8B/docs/fairseq.md) for more details.
 
 ## Training Data
 
-You could use Couplet Dataset data component as training data, or any dataset follows fairseq model requirements.
+In this job, we use [Couplet Dataset](https://int.openpai.org/plugin.html?index=0#/market_detail?itemId=1) provided by OpenPAI Marketplace. You could also use any dataset follows fairseq model requirements.
+
+The dataset is stored on Team share Storage under the path: `10.151.40.235:/data/couplet_data`.
+
+You can use this data, or you can **upload** your own data with below commands:
+
+```
+$ sudo apt-get update && sudo apt-get install -y nfs-common
+$ sudo mkdir -p /mnt/nfsdata/
+$ sudo mount 10.151.40.235:/data /mnt/nfsdata/
+$ cp -r <local_data_folder> /mnt/nfsdata/<sub_path> 
+```
+
+- `/mnt/nfsdata` is a local directory created by `mkdir` command, you can change it by your own.
+  
+- `<local_data_folder>` indicates the folder stored your own dataset.
+
+- `<sub_path>` is the path you want to store the data, it can be `NULL`. But make sure to name your data folder with a different name from `couplet_data` to avoid overwriting the existed data.
 
 ## How to use
 
+## Prerequisites
 When use this module, you should set three environment variables:
+
+```
+export DATA_DIR=<% $data.uri[0] %>
+export OUTPUT_DIR=<% $output.uri %>
+export PREPROCESSED_DATA_DIR=./preprocessed_data
+```
+
+**NOTE**: The value of `data` and `output` are defined under the `prerequisites` filed of the YAML file on the `Job submission` page.
 
 - ```DATA_DIR```: the training data path in container, by default it uses Couplet Dataset data component. If you want to use your own datasets. First make sure mount your data into container, and then change the ```$DATA_DIR``` with the path.
 
-- PREPROCESSED_DATA_DIR: the path to store intermediate result, by default it is ./processed_data.
+- ```PREPROCESSED_DATA_DIR```: the path to store intermediate result, by default it is ./processed_data.
 
 - ```OUTPUT_DIR```: the path to store output result, i.e. the training model files. By default it will mount a nfs storage, and you could change it with other mounted storage.
 
-## How to check the result
+## Training command
 
-After job finished successfully, you could check the output model files in the output storage. The storage server url is in details page.
+```
+fairseq-preprocess \
+--source-lang up \
+--target-lang down \
+--trainpref ${DATA_DIR}/train \
+--validpref ${DATA_DIR}/valid \
+--testpref ${DATA_DIR}/test \
+--destdir ${PREPROCESSED_DATA_DIR}
+```
+
+```
+fairseq-train ${PREPROCESSED_DATA_DIR} \
+--log-interval 100 \
+--lr 0.25 \
+--clip-norm 0.1 \
+--dropout 0.2  \
+--criterion label_smoothed_cross_entropy \
+--save-dir ${OUTPUT_DIR} \
+-a lstm \
+--max-tokens 4000 \
+--max-epoch 100
+```
+
+## Get the result model
+
+After job finished successfully, you could check the output model files in the `output` storage. 
+
+You can mount the storage and download the trained model with below commands:
+
+```
+$ sudo apt-get update && sudo apt-get install -y nfs-common
+$ sudo mkdir -p /mnt/nfsdata/
+$ sudo mount 10.151.40.235:/data /mnt/nfsdata/
+$ cp -r /mnt/nfsdata/output <local_data_dir> 
+```
+
+You can get the details of the storage server information in the  `Detail` page.

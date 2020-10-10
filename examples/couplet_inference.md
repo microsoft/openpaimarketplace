@@ -1,6 +1,6 @@
 # Couplet Training Job Template
 
-This is a model inference process. The input data is the trainning models trained by ```couplet training job```, and the this job will produce a url for user to ask for down part for a upper part of couplet.
+This is a model inference process. It serves with a language model trained by [Couplet Training Job Template](https://int.openpai.org/plugin.html?index=0#/market_detail?itemId=2). This job will produce a url for user to ask for down part for a upper part of couplet.
 
 ## How to use
 
@@ -14,4 +14,4 @@ When use this module, you should set three environment variables:
 
 ## How to check the result
 
-After job finished successfully, you could check the job detail to get the container ip and ```flask_port``` number, then go to http://<ip>:<flask_port>/upper=<input> to test the result.
+After job finished successfully, you could check the job detail to get the container ip and ```flask_port``` number, then go to http://<ip>:<flask_port>?upper=<input> to test the result.
