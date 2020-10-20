@@ -1,5 +1,5 @@
 protocolVersion: 2
-name: covid_chestxray_dataset
+name: covid-chestxray-dataset
 type: job
 contributor: OpenPAI
 description: |
@@ -14,7 +14,7 @@ description: |
   Data will be collected from public sources as well as through indirect collection from hospitals and physicians.
   All images and data will be released publicly in GitHub repo [https://github.com/ieee8023/covid-chestxray-dataset](https://github.com/ieee8023/covid-chestxray-dataset).
 
-  ## View current [images](images) and [metadata](metadata.csv)
+  ## View current [images](https://github.com/ieee8023/covid-chestxray-dataset/tree/master/images) and [metadata](https://github.com/ieee8023/covid-chestxray-dataset/blob/master/metadata.csv)
 
   The labels are arranged in a hierarchy:
 

@@ -1,0 +1,51 @@
+protocolVersion: 2
+name: grammar_inference
+type: job
+contributor: OpenPAI
+description: |
+  # Grammar Check Inference Job Template
+
+  This is a model inference process. The input data is the training models trained by ```Grammer Check Model Training Job```, and this job will use ```fairseq-generate``` to correct test sentences.
+
+  ## How to use
+
+  This job uses two data input, the preprocessed data and checkpoint files trained by ```Grammer Check Model Training Job```:
+
+  - ```PREPROCESSED_DATA_DIR```: the training model path in container, by default it uses the output of couplet training job. If you want to use your own models. First make sure mount your models into container, and then change the ```$DATA_DIR``` with the path.
+
+  - ```MODEL_SAVE_DIR```: the service code, it will start a server at the given port.
+
+  ## How to check the result
+
+  You could check the inference results in stdout output.
+
+prerequisites:
+  - name: default_image
+    type: dockerimage
+    uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
+  - name: grammar_model
+    type: data
+    uri :
+      - /mnt/confignfs/grammarCheck/data-bin
+      - /mnt/confignfs/grammarCheck/checkpoints
+taskRoles:
+  taskrole:
+    instances: 1
+    dockerImage: default_image
+    data: grammar_model
+    resourcePerInstance:
+      cpu: 4
+      memoryMB: 8192
+      gpu: 1
+    commands:
+      - export PREPROCESSED_DATA_DIR=<% $data.uri[0] %>
+      - export MODEL_SAVE_DIR=<% $data.uri[1] %>
+      - pip install fairseq
+      - fairseq-generate ${PREPROCESSED_DATA_DIR} --path ${MODEL_SAVE_DIR}/checkpoint_best.pt --source-lang origin --target-lang correct
+
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs
