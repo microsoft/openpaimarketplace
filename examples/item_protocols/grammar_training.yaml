@@ -1,0 +1,78 @@
+protocolVersion: 2
+name: grammar_training
+type: job
+contributor: OpenPAI
+description: |
+  # Grammar Check Model Training Job
+
+  This is a grammar check model training process.
+
+  ## Training Data
+
+  You could use the prepared data (which stored in $DATA_DIR) as training data, or any dataset follows fairseq model requirements.
+
+  ## How to use
+
+  In this job, three environment variables are set:
+
+  - ```DATA_DIR```: the training data path in container, by default it uses prepared data. If you want to use your own datasets. First make sure mount your data into container, and then change the ```$DATA_DIR``` with the path.
+
+  - ```PREPROCESSED_DATA_DIR```: the path to store intermediate result, by default it is ./processed_data.
+
+  - ```OUTPUT_DIR```: the path to store output result, i.e. the training model files. By default it will mount a nfs storage, and you could change it with other mounted storage.
+
+  ## How to check the result
+
+  After job finished successfully, you could check the output model files in the output storage.
+
+prerequisites:
+  - name: default_image
+    type: dockerimage
+    uri: "openpai/standard:python_3.6-pytorch_1.2.0-gpu"
+  - name: grammar_data
+    type: data
+    uri:
+      - /mnt/confignfs/grammarCheck/dataset
+  - name: output
+    type: output
+    uri: /mnt/confignfs/grammarCheck/output
+
+taskRoles:
+  taskrole:
+    instances: 1
+    dockerImage: default_image
+    data: grammar_data
+    output: output
+    resourcePerInstance:
+      cpu: 4
+      memoryMB: 8192
+      gpu: 1
+    commands:
+      - export DATA_DIR=<% $data.uri[0] %>
+      - export OUTPUT_DIR=<% $output.uri %>
+      - export PREPROCESSED_DATA_DIR=./preprocessed_data
+      - pip install fairseq
+      - fairseq-preprocess \
+      - '--source-lang origin \'
+      - '--target-lang correct \'
+      - '--trainpref ${DATA_DIR}/processed_data/train \'
+      - '--validpref ${DATA_DIR}/processed_data/dev \'
+      - '--testpref ${DATA_DIR}/processed_data/test \'
+      - "--destdir ${PREPROCESSED_DATA_DIR}"
+      - 'fairseq-train ${PREPROCESSED_DATA_DIR} \'
+      - '--log-interval 100 \'
+      - '--lr 0.25 \'
+      - '--clip-norm 0.1 \'
+      - '--dropout 0.2  \'
+      - '--criterion label_smoothed_cross_entropy \'
+      - '--save-dir ${OUTPUT_DIR} \'
+      - '-a lstm \'
+      - '--max-tokens 4000 \'
+      - "--max-epoch 100"
+
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs

@@ -1,0 +1,68 @@
+protocolVersion: 2
+name: covid19_prediction
+type: job
+contributor: OpenPAI
+description: |
+  # Covid19 Prediction Model Training Job
+
+  This is a prediction model of confirmed and death number in different countries. This model uses dataset published by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University. With this data set, the model could predict the confirmed and death number of population of different dates.
+
+  ## Training Data
+
+  The training data is fetched by [Coronavirus Tracker API](https://github.com/ExpDev07/coronavirus-tracker-api). You could provide a formatted data as the training data, there is a default dataset downloaded ahead in the data storage. If no input data given, the model will auto download latest dataset from Coronavirus Tracker API.
+
+  ## How to use
+
+  When use this module, you should set three environment variables:
+
+  - `DATA_DIR`: the training data path in container, by default it uses Coronavirus Public Dataset. If you want to use your own datasets. First make sure mount your data into container, and then change the `$DATA_DIR` with the path.
+
+  - `CODE_DIR`: the path to store model training code,it is mounted by code storage.
+
+  - `OUTPUT_DIR`: the path to store output result, i.e. the prediction results. By default it will mount the output storage, and you could change it with other mounted storage.
+
+  ## How to check the result
+
+  After job finished successfully, you could check the output result file in the output storage. Or you could use model service template and go to http://<ip>:<flask_port>/upper=<input> to see the visualization.
+prerequisites:
+  - name: docker_image_0
+    type: dockerimage
+    uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
+  - name: covid_data
+    type: data
+    uri:
+      - /mnt/confignfs/covid19/data
+  - name: covid_code
+    type: script
+    uri: /mnt/confignfs/covid19/prediction_project
+  - name: covid_output
+    type: output
+    uri: /mnt/confignfs/covid19/prediction_project/output
+taskRoles:
+  taskrole:
+    instances: 1
+    dockerImage: docker_image_0
+    data: covid_data
+    script: covid_code
+    output: covid_output
+    resourcePerInstance:
+      gpu: 1
+      cpu: 4
+      memoryMB: 8192
+    commands:
+      - export DATA_DIR=<% $data.uri[0] %>
+      - export CODE_DIR=<% $script.uri %>
+      - export OUTPUT_DIR=<% $output.uri %>
+      - pip install numpy
+      - pip install scipy
+      - pip install sklearn
+      - 'cd ${CODE_DIR}'
+      - >-
+        python PredictionConfirmed.py -i ${DATA_DIR}/covid-19_data.json -o
+        ${OUTPUT_DIR}
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs

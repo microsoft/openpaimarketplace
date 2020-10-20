@@ -1,0 +1,47 @@
+protocolVersion: 2
+name: covid19_inference
+type: job
+contributor: OpenPAI
+description: |
+  # Covid19 Inference Service of Prediction Model
+
+  This is the inference service to visualize the prediction number of confirmed and death population in different countries.
+
+  ## How to check the result
+
+  After job finished successfully, you could check the stdout of the job. There will be a log ```please go to <url> to view the result.```. Copy the <url> to the browser to check the visualization result.
+prerequisites:
+  - name: docker_image_0
+    type: dockerimage
+    uri: 'node:carbon'
+  - name: covid_code
+    type: script
+    uri: /mnt/confignfs/covid19/inference_project
+taskRoles:
+  taskrole:
+    instances: 1
+    dockerImage: docker_image_0
+    script: covid_code
+    resourcePerInstance:
+      gpu: 1
+      cpu: 4
+      memoryMB: 8192
+      ports:
+        SERVER_PORT: 1
+    commands:
+      - export CODE_DIR=<% $script.uri %>
+      - export SERVER_PORT=$PAI_PORT_LIST_taskrole_0_SERVER_PORT
+      - cp -r ${CODE_DIR} .
+      - cd inference_project
+      - ls
+      - echo please go to $PAI_HOST_IP_taskrole_0:$SERVER_PORT to view the result.
+      - npm install
+      - npm run build
+      - npm start
+
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs

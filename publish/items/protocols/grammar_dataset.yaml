@@ -1,0 +1,64 @@
+protocolVersion: 2
+name: grammar_dataset
+type: job
+contributor: OpenPAI
+description: |
+  # Grammar check dataset
+
+  This dataset is downloaded from [Building Educational Applications 2019 Shared Task: Grammatical Error Correction](https://www.cl.cam.ac.uk/research/nl/bea2019st/).
+
+  ## Dataset Introduction
+
+  This dataset includes First Certificate in English (FCE) original corpus and a processed version which could be easily used by nlp models like fairseq.
+
+
+  ## The file stucture
+
+  ```
+  .
+  |-- processed_data
+      |-- train.origin
+      |-- train.correct
+      |-- dev.origin
+      |-- dev.correct
+      |-- test.origin
+      |-- test.correct
+  |-- fce_v2.1.bea19
+      |-- <raw data>
+  ```
+
+  The suffix ```.origin``` and ```.correct``` means original sentences and correct sentences seperately. The ```fce_v2.1.bea19``` is the raw data downloaded from websites.
+
+  ## How to use
+
+  The data will be mounted at ```DATA_DIR``` environment variable. You could use ```$DATA_DIR``` in your command when submitting jobs in pai.
+
+prerequisites:
+  - name: default_image
+    type: dockerimage
+    uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
+  - name: grammar_data
+    type: data
+    uri :
+      - /mnt/confignfs/grammarCheck/dataset
+taskRoles:
+  taskrole:
+    instances: 1
+    dockerImage: default_image
+    data: grammar_data
+    resourcePerInstance:
+      cpu: 4
+      memoryMB: 8192
+      gpu: 1
+    commands:
+      - >-
+        # The data stored in environment variable DATA_DIR, you could use it in
+        commands by $DATA_DIR
+      - export DATA_DIR=<% $data.uri[0] %>
+
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs
