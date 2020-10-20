@@ -88,7 +88,8 @@ export const MARKET_ITEM_LIST = [
     type: 'data',
     categories: 'AI couplet',
     tags: ['official example'],
-    summary: 'Provides up-to-date data about Coronavirus outbreak, including numbers about confirmed cases, deaths and recovered',
+    summary:
+      'Provides up-to-date data about Coronavirus outbreak, including numbers about confirmed cases, deaths and recovered',
     protocol: 'covid_dataset.yaml',
     useNumber: 0,
     starNumber: 0,
@@ -103,7 +104,8 @@ export const MARKET_ITEM_LIST = [
     type: 'template',
     categories: 'AI couplet',
     tags: ['official example'],
-    summary: 'This model predicts the confirmed and death number of population of different dates',
+    summary:
+      'This model predicts the confirmed and death number of population of different dates',
     protocol: 'covid_training.yaml',
     useNumber: 0,
     starNumber: 0,
@@ -118,7 +120,8 @@ export const MARKET_ITEM_LIST = [
     type: 'template',
     categories: 'AI couplet',
     tags: ['official example'],
-    summary: 'This is the inference service to visualize the prediction number of confirmed and death population in different countries',
+    summary:
+      'This is the inference service to visualize the prediction number of confirmed and death population in different countries',
     protocol: 'covid_inference.yaml',
     useNumber: 0,
     starNumber: 0,
