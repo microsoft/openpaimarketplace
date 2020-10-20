@@ -1,0 +1,63 @@
+protocolVersion: 2
+name: couplet_inference
+type: job
+contributor: OpenPAI
+description: |
+  # Couplet Inference Job Template
+
+  This is a model inference process. It serves with a language model trained by [Couplet Training Job Template](https://int.openpai.org/plugin.html?index=0#/market_detail?itemId=2). This job will produce a url for user to ask for down part for a upper part of couplet.
+
+  ## How to use
+
+  When use this module, you should set three environment variables:
+
+  - ```DATA_DIR```: the training model path in container, by default it uses the output of couplet training job. If you want to use your own models. First make sure mount your models into container, and then change the ```$DATA_DIR``` with the path.
+
+  - ```CODE_DIR```: the service code, it will start a server at the given port.
+
+  - ```FLASK_RUN_PORT```: the service port container will output.
+
+  ## How to check the result
+
+  After job finished successfully, you could check the job detail to get the container ip and ```flask_port``` number, then go to http://<ip>:<flask_port>?upper=<input> to test the result.
+
+prerequisites:
+  - name: default_image
+    type: dockerimage
+    uri: "openpai/standard:python_3.6-pytorch_1.2.0-gpu"
+  - name: couplet_data
+    type: data
+    uri:
+      - /mnt/confignfs/couplet/checkpoints
+  - name: code
+    type: script
+    uri: /mnt/confignfs/couplet
+
+taskRoles:
+  taskrole:
+    instances: 1
+    dockerImage: default_image
+    data: couplet_data
+    script: code
+    resourcePerInstance:
+      cpu: 4
+      memoryMB: 8192
+      gpu: 1
+      ports:
+        FLASK_PORT: 1
+    commands:
+      - export DATA_DIR=<% $data.uri[0] %>
+      - export CODE_DIR=<% $script.uri %>
+      - export FLASK_PORT=$PAI_PORT_LIST_taskrole_0_FLASK_PORT
+      - pip install fairseq
+      - pip install flask
+      - pip install gunicorn
+      - 'cd ${CODE_DIR}'
+      - 'gunicorn --bind=0.0.0.0:${FLASK_PORT} app:app'
+
+extras:
+  com.microsoft.pai.runtimeplugin:
+    - plugin: teamwise_storage
+      parameters:
+        storageConfigNames:
+          - confignfs
