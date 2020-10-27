@@ -11,8 +11,6 @@ description: |
 
   This example can be run on single-node or on multi-node, using nccl backend for distributed GPU training,nccl currently provides the best distributed GPU training performance, especially for multiprocess single-node or multi-node distributed training.
 
-
-
 prerequisites:
   - type: dockerimage
     uri: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu'
