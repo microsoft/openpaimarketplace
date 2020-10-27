@@ -35,7 +35,13 @@ export async function getItem(itemId) {
     newItem.protocol = protocol;
     return newItem;
   } catch (error) {
-    alert(`could not get marketplace item from uri ${uri}`);
+    if (error.name === 'YAMLException') {
+      alert(`wrong yaml file format of ${uri}`);
+      window.location.href = `http://localhost:9286/plugin.html?index=0`;
+    } else {
+      alert(`could not get marketplace item from uri ${uri}`);
+      window.location.href = `http://localhost:9286/plugin.html?index=0`;
+    }
   }
 }
 

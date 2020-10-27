@@ -2,15 +2,15 @@ protocolVersion: 2
 name: Apex-cifar-10-nccl-2node-4gpu_2_748a8371
 type: job
 jobRetryCount: 0
-  description: |
-    # Pytorch Cifar10 Example
+description: |
+  # Pytorch Cifar10 Example
 
-    This example shows how to train a custom neural network on cifar10 with Pytorch on OpenPAI.
+  This example shows how to train a custom neural network on cifar10 with Pytorch on OpenPAI.
 
-    We installed Apex before running `python <script.py>`,and the sample program will be trained on two machines, each with two gpus.
+  We installed Apex before running `python <script.py>`,and the sample program will be trained on two machines, each with two gpus.
 
-    This example can be run on single-node or on multi-node, using nccl backend for distributed GPU training,nccl currently provides the best distributed GPU training performance, especially for multiprocess single-node or multi-node distributed training.
-    And mixed precision training (training in a combination of float (FP32) and half (FP16) precision) allows us to use larger batch sizes and take advantage of NVIDIA Tensor Cores for faster computation.
+  This example can be run on single-node or on multi-node, using nccl backend for distributed GPU training,nccl currently provides the best distributed GPU training performance, especially for multiprocess single-node or multi-node distributed training.
+  And mixed precision training (training in a combination of float (FP32) and half (FP16) precision) allows us to use larger batch sizes and take advantage of NVIDIA Tensor Cores for faster computation.
 
 
 
