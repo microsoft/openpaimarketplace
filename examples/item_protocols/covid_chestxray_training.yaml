@@ -52,10 +52,10 @@ taskRoles:
       - export OUTPUT_DIR=<% $output.uri %>
       - mkdir covid_chestxray_training
       - cd covid_chestxray_training
-      - wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/0bf02015a1843452fda8c4cc6c9942018d577a44/examples/code/covid_chestxray_training/requirements.txt
+      - wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/master/examples/code/covid_chestxray_training/requirements.txt
       - pip install -r requirements.txt
-      - wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/0bf02015a1843452fda8c4cc6c9942018d577a44/examples/code/covid_chestxray_training/train.py
-      - wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/0bf02015a1843452fda8c4cc6c9942018d577a44/code/covid_chestxray_training/train_utils.py
+      - wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/master/examples/code/covid_chestxray_training/train.py
+      - wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/master/examples/code/covid_chestxray_training/train_utils.py
       - >-
         python3 train.py -name=covid_chestxray_training --output_dir=OUTPUT_DIR
         --dataset=COVID19 --dataset_dir=../covid-chestxray-dataset
