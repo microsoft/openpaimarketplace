@@ -3,34 +3,35 @@
 import { isNil, cloneDeep } from 'lodash';
 import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
-import { MARKET_ITEM_LIST } from 'App/utils/constants';
 import yaml from 'js-yaml';
 
 export async function listItems(type) {
-  if (isNil(type) || type === 'all') {
-    return MARKET_ITEM_LIST;
+  const url = `${MARKETPLACE_API_URL}/items`;
+  const res = await fetch(url);
+  if (res.ok) {
+    const items = await res.json();
+    // order by updateDate
+    items.filter(item => item.type === type).sort(function(a, b) {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    return items;
+  } else {
+    throw new Error(res.statusText);
   }
-  return MARKET_ITEM_LIST.filter(item => {
-    return item.type === type;
-  });
 }
 
 export async function getItem(itemId) {
-  let uri;
   try {
-    const item = MARKET_ITEM_LIST.find(item => {
-      return item.id === itemId;
-    });
-
-    // fetch protocol
-    if (item.type === 'old') {
-      uri = `https://microsoft.github.io/openpaimarketplace/examples/yaml_templates/${item.protocol}`;
+    const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
+    const res = await fetch(url);
+    let item;
+    if (res.ok) {
+      item = await res.json();
     } else {
-      uri = `https://microsoft.github.io/openpaimarketplace/examples/item_protocols/${item.protocol}`;
+      throw new Error(res.statusText);
     }
-    const res = await fetch(uri);
-    const text = await res.text();
-    const protocol = yaml.safeLoad(text);
+
+    const protocol = yaml.safeLoad(item.protocol);
     const newItem = cloneDeep(item);
     newItem.protocol = protocol;
     return newItem;
