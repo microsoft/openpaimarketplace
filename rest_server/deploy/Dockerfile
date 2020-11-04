@@ -7,13 +7,11 @@ WORKDIR /usr/src/app
 
 ARG VERSION
 
-# RUN git clone https://github.com/microsoft/openpaimarketplace.git && \
-#    cd openpaimarketplace && \
-#    git checkout ${VERSION} && \
-#    cd rest_server && \
-#    npm install
-
-
+RUN git clone https://github.com/microsoft/openpaimarketplace.git && \
+   cd openpaimarketplace && \
+   git checkout ${VERSION} && \
+   cd rest_server && \
+   npm install
 
 EXPOSE ${PORT}
 
