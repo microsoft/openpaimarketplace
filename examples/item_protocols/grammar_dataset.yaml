@@ -40,7 +40,7 @@ prerequisites:
   - name: grammar_data
     type: data
     uri :
-      - /mnt/confignfs/grammarCheck/dataset
+      - https://openpaimarketplace.blob.core.windows.net/marketplace/GrammarCheck/gramarCheck_data.tgz
 taskRoles:
   taskrole:
     instances: 1
@@ -54,11 +54,9 @@ taskRoles:
       - >-
         # The data stored in environment variable DATA_DIR, you could use it in
         commands by $DATA_DIR
-      - export DATA_DIR=<% $data.uri[0] %>
+      - mkdir -p /data/grammarCheck/
+      - cd /data/grammarCheck/
+      - wget <% $data.uri[0] %>
+      - tar xvf gramarCheck_data.tgz
+      - export DATA_DIR=/data/grammarCheck/dataset
 
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs

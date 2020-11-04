@@ -162,9 +162,3 @@ taskRoles:
       - tar xvf couplet_data.tgz
       - export DATA_DIR=/data/couplet_data/
 
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs
