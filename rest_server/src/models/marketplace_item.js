@@ -7,7 +7,7 @@ class MarketplaceItem {
   constructor(sequelize, DataTypes) {
     this.orm = sequelize.define('MarketplaceItem', {
       id: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
@@ -17,15 +17,23 @@ class MarketplaceItem {
       categories: DataTypes.ARRAY(DataTypes.STRING),
       tags: DataTypes.ARRAY(DataTypes.STRING),
       summary: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      content: DataTypes.Object, // TODO: protocol validation in the future
-      submits: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+      protocol: DataTypes.TEXT,
+      useNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       starNumber: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
       },
       status: DataTypes.ENUM('pending', 'approved', 'rejected'),
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
     });
   }
 

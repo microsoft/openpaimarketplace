@@ -5,28 +5,29 @@ const fs = require('fs-extra');
 const yaml = require('js-yaml');
 const path = require('path');
 
-const EXAMPLE_DIR = path.join(__dirname, '../../examples/yaml_templates');
+const EXAMPLE_DIR1 = path.join(__dirname, '../../../examples/yaml_templates');
+const EXAMPLE_DIR2 = path.join(__dirname, '../../../examples/item_protocols');
 
-const createTemplates = async models => {
-  const files = await fs.readdir(EXAMPLE_DIR);
+const createTemplates = async (models, dir, type) => {
+  const files = await fs.readdir(dir);
   const templates = [];
   await Promise.all(
     files.map(async file => {
-      const filePath = path.join(EXAMPLE_DIR, file);
+      const filePath = path.join(dir, file);
       const text = await fs.readFile(filePath, 'utf8');
       const template = yaml.safeLoad(text);
       templates.push(template);
       await models.MarketplaceItem.orm.create({
         name: template.name,
         author: template.contributor,
+        type: type,
         category: 'OpenPAI Official',
         tags: ['official example'],
-        introduction: template.name,
-        description: template.description,
-        jobConfig: template, // TODO: protocol validation in the future
-        submits: 0,
+        summary: 'TODO...',
+        protocol: text,
+        susNumber: 0,
         starNumber: 0,
-        status: 'approved',
+        createdAt: new Date().toISOString(),
       });
     }),
   );
@@ -35,7 +36,8 @@ const createTemplates = async models => {
 
 const init = async models => {
   await models.sequelize.sync();
-  await createTemplates(models);
+  await createTemplates(models, EXAMPLE_DIR1, 'old');
+  await createTemplates(models, EXAMPLE_DIR2, 'template');
 };
 
 const modelSyncHandler = fn => {
