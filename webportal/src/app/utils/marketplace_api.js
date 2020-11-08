@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isNil, cloneDeep } from 'lodash';
+import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 import yaml from 'js-yaml';
-
-const MARKETPLACE_API_URL = Window.marketplaceApiUrl;
 
 export async function listItems(type) {
   const url = `${MARKETPLACE_API_URL}/items`;

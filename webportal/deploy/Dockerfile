@@ -6,7 +6,7 @@ FROM node:dubnium
 WORKDIR /usr/src/app
 
 ARG VERSION
-ARG API_URL=http://localhost:3000
+ARG API_URL=\$\{MARKETPLACE_API_URL\}
 ARG PORT=9292
 
 ENV NODE_ENV=production \

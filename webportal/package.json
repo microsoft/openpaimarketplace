@@ -14,7 +14,7 @@
     "prebuild": "npm run clean",
     "build": "webpack --mode=production",
     "dev": "webpack-dev-server --mode=development",
-    "prestart": "mkdirp dist && envsub --env-file .env --system src/app/env.js.template dist/env.js",
+    "prestart": "envsub --env-file .env --system dist/plugin.js dist/plugin.js",
     "start": "node server"
   },
   "dependencies": {
@@ -55,7 +55,6 @@
     "babel-loader": "^8.0.5",
     "babel-plugin-lodash": "^3.3.4",
     "css-loader": "^2.1.1",
-    "envsub": "^4.0.7",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-config-standard": "^14.1.1",
