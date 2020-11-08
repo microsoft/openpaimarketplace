@@ -4,19 +4,10 @@ import { isNil, cloneDeep } from 'lodash';
 import { MarketItem } from '../models/market_item';
 import yaml from 'js-yaml';
 
-export async function getMarketplaceApiUrl() {
-  const url = '/marketplace_api_url';
-  const res = await fetch(url);
-  if (res.ok) {
-    return await res.json();
-  } else {
-    throw new Error(res.statusText);
-  }
-}
+const MARKETPLACE_API_URL = Window.marketplaceApiUrl;
 
 export async function listItems(type) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items`;
+  const url = `${MARKETPLACE_API_URL}/items`;
   const res = await fetch(url);
   if (res.ok) {
     const items = await res.json();
@@ -32,8 +23,7 @@ export async function listItems(type) {
 
 export async function getItem(itemId) {
   try {
-    const marketplace_api_url = await getMarketplaceApiUrl();
-    const url = `${marketplace_api_url}/items/${itemId}`;
+    const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
     const res = await fetch(url);
     let item;
     if (res.ok) {
@@ -58,8 +48,7 @@ export async function getItem(itemId) {
 }
 
 export async function getApprovedItems() {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items?status=approved`;
+  const url = `${MARKETPLACE_API_URL}/items?status=approved`;
   const res = await fetch(url);
   if (res.ok) {
     const items = await res.json();
@@ -74,8 +63,7 @@ export async function getApprovedItems() {
 }
 
 export async function getPendingItems() {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items?status=pending`;
+  const url = `${MARKETPLACE_API_URL}/items?status=pending`;
   const res = await fetch(url);
   if (res.ok) {
     const items = await res.json();
@@ -90,8 +78,7 @@ export async function getPendingItems() {
 }
 
 export async function deleteItem(itemId) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
   const res = await fetch(url, {
     method: 'DELETE',
   });
@@ -114,8 +101,7 @@ export async function updateItem(
   starNumber,
   tags,
 ) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
   const res = await fetch(url, {
     method: 'PUT',
     headers: {
@@ -142,8 +128,7 @@ export async function updateItem(
 }
 
 export async function createMarketItem(marketItem) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items`;
+  const url = `${MARKETPLACE_API_URL}/items`;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -169,8 +154,7 @@ export async function createMarketItem(marketItem) {
 }
 
 export async function getItemById(itemId) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
   const res = await fetch(url);
   if (res.ok) {
     const result = await res.json();
@@ -196,8 +180,7 @@ export async function getItemById(itemId) {
 }
 
 export async function approveItem(itemId) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items/${itemId}/status`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}/status`;
   const res = await fetch(url, {
     method: 'Put',
     headers: {
@@ -213,8 +196,7 @@ export async function approveItem(itemId) {
 }
 
 export async function rejectItem(itemId) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items/${itemId}/status`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}/status`;
   const res = await fetch(url, {
     method: 'Put',
     headers: {
@@ -230,8 +212,7 @@ export async function rejectItem(itemId) {
 }
 
 export async function increaseSubmits(itemId) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/items/${itemId}/submits`;
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}/submits`;
   const res = await fetch(url, {
     method: 'Put',
   });
@@ -244,8 +225,7 @@ export async function increaseSubmits(itemId) {
 
 // create if user not exist
 export async function ensureUser(user) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/users`;
+  const url = `${MARKETPLACE_API_URL}/users`;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -263,8 +243,7 @@ export async function ensureUser(user) {
 }
 
 export async function getStarStatus(username, itemId) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/users/${username}/starItems/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/users/${username}/starItems/${itemId}`;
   const res = await fetch(url);
   if (res.ok) {
     return true;
@@ -276,8 +255,7 @@ export async function getStarStatus(username, itemId) {
 }
 
 export async function addStar(username, itemId) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/users/${username}/starItems/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/users/${username}/starItems/${itemId}`;
   const res = await fetch(url, {
     method: 'PUT',
   });
@@ -291,8 +269,7 @@ export async function addStar(username, itemId) {
 }
 
 export async function deleteStar(username, itemId) {
-  const marketplace_api_url = await getMarketplaceApiUrl();
-  const url = `${marketplace_api_url}/users/${username}/starItems/${itemId}`;
+  const url = `${MARKETPLACE_API_URL}/users/${username}/starItems/${itemId}`;
   const res = await fetch(url, {
     method: 'DELETE',
   });
