@@ -9,8 +9,10 @@ const cookieParser = require('cookie-parser');
 const appRoot = require('app-root-path');
 const config = require('./config');
 const logger = require('./logger');
+const dotnev = require('dotenv');
 
 const app = express();
+dotnev.config();
 
 app.use(compress());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +28,10 @@ app.use(
   express.static(path.join(appRoot.path, 'dist/scripts'), { maxAge: oneMonth }),
 );
 app.use(express.static(path.join(appRoot.path, 'dist')));
+
+app.get('/marketplace_api_url', function(req, res) {
+  res.send(process.env.MARKETPLACE_API_URL);
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
