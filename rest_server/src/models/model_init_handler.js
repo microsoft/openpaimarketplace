@@ -25,7 +25,7 @@ const createTemplates = async (models, dir, type) => {
         tags: ['official example'],
         summary: 'TODO...',
         protocol: text,
-        susNumber: 0,
+        useNumber: 0,
         starNumber: 0,
         createdAt: new Date().toISOString(),
       });

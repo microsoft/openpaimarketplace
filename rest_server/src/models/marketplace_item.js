@@ -14,7 +14,7 @@ class MarketplaceItem {
       name: DataTypes.STRING,
       author: DataTypes.STRING,
       type: DataTypes.STRING,
-      categories: DataTypes.ARRAY(DataTypes.STRING),
+      categories: DataTypes.STRING,
       tags: DataTypes.ARRAY(DataTypes.STRING),
       summary: DataTypes.STRING,
       protocol: DataTypes.TEXT,
