@@ -19,7 +19,11 @@ const createTemplates = async (models) => {
       const text = await fs.readFile(filePath, 'utf8');
       const template = yaml.safeLoad(text);
       templates.push(template);
-      const newItem = { ...item, ...{ protocol: text } };
+      const newItem = {
+        ...item,
+        ...{ protocol: text },
+        ...{ categories: Array.isArray(item.categories) ? item.categories : [item.categories] }
+      };
       await models.MarketplaceItem.orm.create(newItem);
     })
   );
