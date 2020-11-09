@@ -26,8 +26,8 @@ prerequisites:
   - name: grammar_model
     type: data
     uri :
-      - /mnt/confignfs/grammarCheck/data-bin
-      - /mnt/confignfs/grammarCheck/checkpoints
+      - https://openpaimarketplace.blob.core.windows.net/marketplace/GrammarCheck/gramarCheck_data_bin.tgz
+      - https://openpaimarketplace.blob.core.windows.net/marketplace/GrammarCheck/gramarCheck_checkpoint_best.tgz
 taskRoles:
   taskrole:
     instances: 1
@@ -38,14 +38,13 @@ taskRoles:
       memoryMB: 8192
       gpu: 1
     commands:
-      - export PREPROCESSED_DATA_DIR=<% $data.uri[0] %>
-      - export MODEL_SAVE_DIR=<% $data.uri[1] %>
+      - mkdir -p /data/grammarCheck/ 
+      - cd /data/grammarCheck/ 
+      - wget <% $data.uri[0] %>
+      - tar xvf gramarCheck_data_bin.tgz
+      - wget <% $data.uri[1] %>
+      - tar xvf gramarCheck_checkpoint_best.tgz
+      - export PREPROCESSED_DATA_DIR=/data/grammarCheck/data-bin/
+      - export MODEL_SAVE_DIR=/data/grammarCheck/checkpoints/
       - pip install fairseq
       - fairseq-generate ${PREPROCESSED_DATA_DIR} --path ${MODEL_SAVE_DIR}/checkpoint_best.pt --source-lang origin --target-lang correct
-
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs

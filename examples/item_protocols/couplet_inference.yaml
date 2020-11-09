@@ -28,10 +28,10 @@ prerequisites:
   - name: couplet_data
     type: data
     uri:
-      - /mnt/confignfs/couplet/checkpoints
+      - https://openpaimarketplace.blob.core.windows.net/marketplace/Couplet_data/couplet_checkpoint_best.tgz
   - name: code
     type: script
-    uri: /mnt/confignfs/couplet
+    uri: https://openpaimarketplace.blob.core.windows.net/marketplace/Couplet_data/couplet_inference_project.tgz
 
 taskRoles:
   taskrole:
@@ -46,18 +46,17 @@ taskRoles:
       ports:
         FLASK_PORT: 1
     commands:
-      - export DATA_DIR=<% $data.uri[0] %>
-      - export CODE_DIR=<% $script.uri %>
+      - mkdir -p /data/
+      - wget <% $script.uri %>
+      - tar xvf couplet_inference_project.tgz
+      - cd /data/couplet/
+      - wget <% $data.uri[0] %>
+      - tar xvf couplet_checkpoint_best.tgz
+      - export DATA_DIR=/data/couplet/checkpoints/
+      - export CODE_DIR=/data/couplet/
       - export FLASK_PORT=$PAI_PORT_LIST_taskrole_0_FLASK_PORT
       - pip install fairseq
       - pip install flask
       - pip install gunicorn
       - 'cd ${CODE_DIR}'
       - 'gunicorn --bind=0.0.0.0:${FLASK_PORT} app:app'
-
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs

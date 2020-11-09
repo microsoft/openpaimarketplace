@@ -16,7 +16,7 @@ prerequisites:
     uri: 'node:carbon'
   - name: covid_code
     type: script
-    uri: /mnt/confignfs/covid19/inference_project
+    uri: https://openpaimarketplace.blob.core.windows.net/marketplace/Covid19_data/covid19_inference_project.tgz
 taskRoles:
   taskrole:
     instances: 1
@@ -29,19 +29,15 @@ taskRoles:
       ports:
         SERVER_PORT: 1
     commands:
-      - export CODE_DIR=<% $script.uri %>
+      - mkdir -p /data/covid19
+      - cd /data/covid19
+      - wget <% $script.uri[0] %>
+      - tar xvf covid_inference_project.tgz
+      - export CODE_DIR=/data/covid19/inference_project
       - export SERVER_PORT=$PAI_PORT_LIST_taskrole_0_SERVER_PORT
-      - cp -r ${CODE_DIR} .
-      - cd inference_project
+      - cd ${CODE_DIR}
       - ls
       - echo please go to $PAI_HOST_IP_taskrole_0:$SERVER_PORT to view the result.
       - npm install
       - npm run build
       - npm start
-
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs
