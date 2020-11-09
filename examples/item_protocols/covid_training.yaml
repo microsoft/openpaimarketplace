@@ -31,10 +31,10 @@ prerequisites:
   - name: covid_data
     type: data
     uri:
-      - /mnt/confignfs/covid19/data
+      - https://openpaimarketplace.blob.core.windows.net/marketplace/Covid19_data/covid-19_data.json
   - name: covid_code
     type: script
-    uri: /mnt/confignfs/covid19/prediction_project
+    uri: https://openpaimarketplace.blob.core.windows.net/marketplace/Covid19_data/covid19_prediction_project.tgz
   - name: covid_output
     type: output
     uri: /mnt/confignfs/covid19/prediction_project/output
@@ -50,9 +50,15 @@ taskRoles:
       cpu: 4
       memoryMB: 8192
     commands:
-      - export DATA_DIR=<% $data.uri[0] %>
-      - export CODE_DIR=<% $script.uri %>
-      - export OUTPUT_DIR=<% $output.uri %>
+      - mkdir -p /data/covid19/data/
+      - cd /data/covid19/data/
+      - wget <% $data.uri[0] %>
+      - export DATA_DIR=/data/covid19/data/
+      - cd /data/covid19/
+      - wegt <% $script.uri[0] %>
+      - tar xvf /data/covid19/covid19_prediction_project.tgz
+      - export CODE_DIR=/data/covid19/prediction_project
+      - export OUTPUT_DIR=/data/covid19/prediction_project/output
       - pip install numpy
       - pip install scipy
       - pip install sklearn
@@ -60,9 +66,3 @@ taskRoles:
       - >-
         python PredictionConfirmed.py -i ${DATA_DIR}/covid-19_data.json -o
         ${OUTPUT_DIR}
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs
