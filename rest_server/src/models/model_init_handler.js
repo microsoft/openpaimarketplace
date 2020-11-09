@@ -4,7 +4,6 @@ const { get } = require('lodash');
 const fs = require('fs-extra');
 const yaml = require('js-yaml');
 const path = require('path');
-const copy = require('copy');
 const { MARKET_ITEM_LIST } = require('../../../examples/constants');
 
 const EXAMPLE_DIR1 = path.join(__dirname, '../../../examples/yaml_templates');
