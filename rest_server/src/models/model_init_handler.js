@@ -4,40 +4,33 @@ const { get } = require('lodash');
 const fs = require('fs-extra');
 const yaml = require('js-yaml');
 const path = require('path');
+const copy = require('copy');
+const { MARKET_ITEM_LIST } = require('../../../examples/constants');
 
 const EXAMPLE_DIR1 = path.join(__dirname, '../../../examples/yaml_templates');
 const EXAMPLE_DIR2 = path.join(__dirname, '../../../examples/item_protocols');
 
-const createTemplates = async (models, dir, type) => {
-  const files = await fs.readdir(dir);
+const createTemplates = async (models) => {
   const templates = [];
   await Promise.all(
-    files.map(async file => {
-      const filePath = path.join(dir, file);
+    MARKET_ITEM_LIST.map(async item => {
+      const filePath = path.join(
+        item.type === 'old' ? EXAMPLE_DIR1 : EXAMPLE_DIR2, item.protocol + '.yaml'
+      );
       const text = await fs.readFile(filePath, 'utf8');
       const template = yaml.safeLoad(text);
       templates.push(template);
-      await models.MarketplaceItem.orm.create({
-        name: template.name,
-        author: template.contributor,
-        type: type,
-        category: 'OpenPAI Official',
-        tags: ['official example'],
-        summary: 'TODO...',
-        protocol: text,
-        useNumber: 0,
-        starNumber: 0,
-        createdAt: new Date().toISOString(),
-      });
-    }),
+      const newItem = { ...item, ...{ protocol: text } };
+      await models.MarketplaceItem.orm.create(newItem);
+    })
   );
+
   return templates;
 };
 
 const init = async models => {
   await models.sequelize.sync();
-  await createTemplates(models, EXAMPLE_DIR1, 'old');
-  await createTemplates(models, EXAMPLE_DIR2, 'template');
+  await createTemplates(models);
 };
 
 const modelSyncHandler = fn => {
