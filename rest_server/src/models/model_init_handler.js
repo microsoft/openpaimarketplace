@@ -14,7 +14,7 @@ const createTemplates = async (models) => {
   await Promise.all(
     MARKET_ITEM_LIST.map(async item => {
       const filePath = path.join(
-        item.type === 'old' ? EXAMPLE_DIR1 : EXAMPLE_DIR2, item.protocol + '.yaml'
+        item.type === 'old' ? EXAMPLE_DIR1 : EXAMPLE_DIR2, item.protocol
       );
       const text = await fs.readFile(filePath, 'utf8');
       const template = yaml.safeLoad(text);
