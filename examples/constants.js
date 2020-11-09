@@ -3,9 +3,7 @@
 
 /* eslint-disable no-template-curly-in-string */
 
-export const MARKETPLACE_API_URL = process.env.MARKETPLACE_API_URL;
-
-export const MARKET_ITEM_LIST = [
+const MARKET_ITEM_LIST = [
   {
     id: '0b41d10e-36e5-4e97-95c2-27726dd94f33',
     name: 'COVID-19 image data collection',
@@ -475,3 +473,5 @@ export const MARKET_ITEM_LIST = [
     updatedAt: '2020-09-23T14:52:48.289Z',
   },
 ];
+
+module.exports = { MARKET_ITEM_LIST };
