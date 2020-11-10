@@ -47,6 +47,7 @@ taskRoles:
         FLASK_PORT: 1
     commands:
       - mkdir -p /data/
+      - cd /data/
       - wget <% $script.uri %>
       - tar xvf couplet_inference_project.tgz
       - cd /data/couplet/
