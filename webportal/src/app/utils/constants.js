@@ -11,6 +11,9 @@ export const MARKET_ITEM_LIST = [
     name: 'COVID-19 image data collection',
     author: 'ieee8023',
     type: 'data',
+    dataType: 'github',
+    dataUrl:
+      'https://github.com/ieee8023/covid-chestxray-dataset/archive/master.zip',
     categories: 'COVID-19',
     tags: ['open source dataset'],
     summary: 'Dataset of COVID-19 X-ray and CT images',
@@ -41,6 +44,9 @@ export const MARKET_ITEM_LIST = [
     name: 'Couplet Dataset',
     author: 'OpenPAI',
     type: 'data',
+    dataType: 'blob',
+    dataUrl:
+      'https://openpaimarketplace.blob.core.windows.net/marketplace/Couplet_data/couplet_data.tgz',
     categories: 'AI couplet',
     tags: ['official example'],
     summary: 'Dataset of couplet',
@@ -86,6 +92,9 @@ export const MARKET_ITEM_LIST = [
     name: 'Covid19 Dataset',
     author: 'OpenPAI',
     type: 'data',
+    dataType: 'blob',
+    dataUrl:
+      'https://openpaimarketplace.blob.core.windows.net/marketplace/Covid19_data/covid-19_data.json',
     categories: 'AI couplet',
     tags: ['official example'],
     summary:
@@ -134,6 +143,9 @@ export const MARKET_ITEM_LIST = [
     name: 'Grammar Check Dataset',
     author: 'OpenPAI',
     type: 'data',
+    dataType: 'blob',
+    dataUrl:
+      'https://openpaimarketplace.blob.core.windows.net/marketplace/GrammarCheck/gramarCheck_data.tgz',
     categories: 'AI couplet',
     tags: ['official example'],
     summary: 'Dataset for grammar check task',

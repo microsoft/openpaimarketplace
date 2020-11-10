@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import {
+  DefaultButton,
   PrimaryButton,
   Stack,
   Text,
@@ -14,10 +15,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { capitalize } from 'lodash';
 import { DateTime } from 'luxon';
+import { saveAs } from 'file-saver';
 import { ReactComponent as DataIcon } from 'App/assets/data.svg';
 import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
 import VerticalLine from 'App/components/vertical_line';
 import { generateJobProtocol } from '../utils/generate_job_protocol';
+import { getFileName } from 'App/utils/fileNameUtil';
 
 const { spacing, palette } = getTheme();
 
@@ -100,12 +103,38 @@ export default function Summary(props) {
               </Stack>
             </TooltipHost>
           </Stack>
-          <PrimaryButton
-            text='use'
-            onClick={async () => {
-              await clickUse();
-            }}
-          />
+          <Stack horizontal gap='s1'>
+            {marketItem.type === 'data' && marketItem.dataType === 'blob' && (
+              <DefaultButton
+                text='download'
+                onClick={async () => {
+                  const fileName = getFileName(marketItem.dataUrl);
+                  const res = await fetch(marketItem.dataUrl);
+                  const content = await res.blob();
+                  saveAs(content, fileName);
+                }}
+              />
+            )}
+            {marketItem.type === 'data' && marketItem.dataType === 'github' && (
+              <DefaultButton
+                text='download'
+                onClick={async () => {
+                  const fileName = getFileName(marketItem.dataUrl);
+                  const res = await fetch(marketItem.dataUrl, {
+                    mode: 'no-cors',
+                  });
+                  const content = await res.blob();
+                  saveAs(content, fileName);
+                }}
+              />
+            )}
+            <PrimaryButton
+              text='use'
+              onClick={async () => {
+                await clickUse();
+              }}
+            />
+          </Stack>
         </Stack>
       </Stack>
     </Wrapper>
