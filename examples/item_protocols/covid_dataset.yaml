@@ -41,7 +41,7 @@ prerequisites:
   - name: covid_data
     type: data
     uri :
-      - /mnt/confignfs/covid19/data
+      - https://openpaimarketplace.blob.core.windows.net/marketplace/Covid19_data/covid-19_data.json
 taskRoles:
   taskrole:
     instances: 1
@@ -55,11 +55,8 @@ taskRoles:
       - >-
         # The data stored in environment variable DATA_DIR, you could use it in
         commands by $DATA_DIR
-      - export DATA_DIR=<% $data.uri[0] %>
+      - mkdir -p /data/covid19/data/
+      - cd /data/covid19/data/
+      - wget <% $data.uri[0] %>
+      - export DATA_DIR=/data/covid19/data/
 
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs

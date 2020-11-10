@@ -141,7 +141,7 @@ prerequisites:
   - name: couplet_data
     type: data
     uri :
-      - /mnt/confignfs/couplet_data
+      - https://openpaimarketplace.blob.core.windows.net/marketplace/Couplet_data/couplet_data.tgz
 
 taskRoles:
   taskrole:
@@ -156,11 +156,9 @@ taskRoles:
       - >-
         # The data stored in environment variable DATA_DIR, you could use it in
         commands by $DATA_DIR
-      - export DATA_DIR=<% $data.uri[0] %>
+      - mkdir -p /data/
+      - cd /data
+      - wget <% $data.uri[0] %>
+      - tar xvf couplet_data.tgz
+      - export DATA_DIR=/data/couplet_data/
 
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs

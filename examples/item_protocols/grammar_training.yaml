@@ -32,7 +32,7 @@ prerequisites:
   - name: grammar_data
     type: data
     uri:
-      - /mnt/confignfs/grammarCheck/dataset
+      - https://openpaimarketplace.blob.core.windows.net/marketplace/GrammarCheck/gramarCheck_data.tgz
   - name: output
     type: output
     uri: /mnt/confignfs/grammarCheck/output
@@ -48,8 +48,13 @@ taskRoles:
       memoryMB: 8192
       gpu: 1
     commands:
-      - export DATA_DIR=<% $data.uri[0] %>
-      - export OUTPUT_DIR=<% $output.uri %>
+      - mkdir -p /data/grammarCheck/
+      - cd /data/grammarCheck/
+      - wget <% $data.uri[0] %>
+      - tar xvf gramarCheck_data.tgz
+      - export DATA_DIR=/data/grammarCheck/dataset
+      - mkdir -p /data/grammarCheck/output
+      - export OUTPUT_DIR=/data/grammarCheck/
       - export PREPROCESSED_DATA_DIR=./preprocessed_data
       - pip install fairseq
       - fairseq-preprocess \
@@ -69,10 +74,3 @@ taskRoles:
       - '-a lstm \'
       - '--max-tokens 4000 \'
       - "--max-epoch 100"
-
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs
