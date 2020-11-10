@@ -1,16 +1,15 @@
 protocolVersion: 2
-name: Apex-cifar-10-nccl-2node-4gpu_2_748a8371
+name: Pytorch-Apex-cifar10-DDP-gloo
 type: job
 jobRetryCount: 0
 description: |
-  # Pytorch Cifar10 Example
+  # Pytorch DDP Example With Apex
 
   This example shows how to train a custom neural network on cifar10 with Pytorch on OpenPAI.
 
-  We installed Apex before running `python <script.py>`,and the sample program will be trained on two machines, each with two gpus.
+  We installed Apex before running `python <script.py>`,we recommend using the right network interface, so we used environment variables, and the sample program will be trained on two machines, each with two gpus.
 
-  This example can be run on single-node or on multi-node, using nccl backend for distributed GPU training,nccl currently provides the best distributed GPU training performance, especially for multiprocess single-node or multi-node distributed training.
-  And mixed precision training (training in a combination of float (FP32) and half (FP16) precision) allows us to use larger batch sizes and take advantage of NVIDIA Tensor Cores for faster computation.
+  If you’re using the Gloo backend, you can specify multiple interfaces by separating them by a comma, like this: . The backend will dispatch operations in a round-robin fashion across these interfaces.And mixed precision training (training in a combination of float (FP32) and half (FP16) precision) allows us to use larger batch sizes and take advantage of NVIDIA Tensor Cores for faster computation.
 
 
 
@@ -32,6 +31,7 @@ taskRoles:
       ports:
         SynPort: 1
     commands:
+      - export GLOO_SOCKET_IFNAME=eth0
       - 'git clone https://github.com/NVIDIA/apex'
       - cd apex
       - python setup.py install
@@ -41,7 +41,7 @@ taskRoles:
         https://raw.githubusercontent.com/microsoft/pai/master/examples/Distributed-example/cifar10-single-mul-DDP-nccl-gloo-Apex-mixed.py
       - >-
         python  cifar10-single-mul-DDP-nccl-gloo-Apex-mixed.py -n 2 -g 2
-        --epochs 2 --dist-backend nccl
+        --epochs 2 --dist-backend gloo
 defaults:
   virtualCluster: default
 extras:
@@ -53,5 +53,5 @@ extras:
   hivedScheduler:
     taskRoles:
       worker:
-        skuNum: 1
+        skuNum: 2
         skuType: null

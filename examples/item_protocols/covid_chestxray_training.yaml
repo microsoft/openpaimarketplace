@@ -48,10 +48,11 @@ taskRoles:
       memoryMB: 8192
       gpu: 1
     commands:
+      - mkdir -p /data/covid_chestxray_training/output
+      - cd /data/
       - 'git clone <% $data.uri[0] %> covid-chestxray-dataset'
-      - export OUTPUT_DIR=<% $output.uri %>
-      - mkdir covid_chestxray_training
-      - cd covid_chestxray_training
+      - export OUTPUT_DIR=/data/covid_chestxray_training/output
+      - cd /data/covid_chestxray_training
       - wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/master/examples/code/covid_chestxray_training/requirements.txt
       - pip install -r requirements.txt
       - wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/master/examples/code/covid_chestxray_training/train.py
@@ -61,10 +62,3 @@ taskRoles:
         --dataset=COVID19 --dataset_dir=../covid-chestxray-dataset
 defaults:
   virtualCluster: default
-extras:
-  com.microsoft.pai.runtimeplugin:
-    - plugin: teamwise_storage
-      parameters:
-        storageConfigNames:
-          - confignfs
-
