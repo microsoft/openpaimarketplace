@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isNil, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 import yaml from 'js-yaml';
@@ -11,9 +11,11 @@ export async function listItems(type) {
   if (res.ok) {
     const items = await res.json();
     // order by updateDate
-    items.filter(item => item.type === type).sort(function(a, b) {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
+    items
+      .filter(item => item.type === type)
+      .sort(function(a, b) {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
     return items;
   } else {
     throw new Error(res.statusText);
@@ -21,8 +23,8 @@ export async function listItems(type) {
 }
 
 export async function getItem(itemId) {
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
   try {
-    const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
     const res = await fetch(url);
     let item;
     if (res.ok) {
@@ -37,10 +39,10 @@ export async function getItem(itemId) {
     return newItem;
   } catch (error) {
     if (error.name === 'YAMLException') {
-      alert(`wrong yaml file format of ${uri}`);
+      alert(`wrong yaml file format of ${url}`);
       window.location.href = `http://localhost:9286/plugin.html?index=0`;
     } else {
-      alert(`could not get marketplace item from uri ${uri}`);
+      alert(`could not get marketplace item from uri ${url}`);
       window.location.href = `http://localhost:9286/plugin.html?index=0`;
     }
   }
