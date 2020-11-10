@@ -56,12 +56,6 @@ class MarketplaceItem {
         if (author) {
           filterStatement.author = author;
         }
-        if (category) {
-          filterStatement.category = category;
-        }
-        if (status) {
-          filterStatement.status = status;
-        }
         if (type !== 'all') {
           filterStatement.type = type;
         }
