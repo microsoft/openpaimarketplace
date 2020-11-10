@@ -4,6 +4,9 @@
   "description": "The rest server of openpai marketplace.",
   "author": "Microsoft",
   "license": "MIT",
+  "engines": {
+    "node": "^10"
+  },
   "scripts": {
     "lint": "eslint --ext .js --ext .jsx .",
     "test": "echo \"Error: no test specified\" && exit 1",
