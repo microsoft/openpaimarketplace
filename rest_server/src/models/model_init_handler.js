@@ -9,12 +9,13 @@ const { MARKET_ITEM_LIST } = require('../../../examples/constants');
 const EXAMPLE_DIR1 = path.join(__dirname, '../../../examples/yaml_templates');
 const EXAMPLE_DIR2 = path.join(__dirname, '../../../examples/item_protocols');
 
-const createTemplates = async (models) => {
+const createTemplates = async models => {
   const templates = [];
   await Promise.all(
     MARKET_ITEM_LIST.map(async item => {
       const filePath = path.join(
-        item.type === 'old' ? EXAMPLE_DIR1 : EXAMPLE_DIR2, item.protocol
+        item.type === 'old' ? EXAMPLE_DIR1 : EXAMPLE_DIR2,
+        item.protocol,
       );
       const text = await fs.readFile(filePath, 'utf8');
       const template = yaml.safeLoad(text);
@@ -22,10 +23,14 @@ const createTemplates = async (models) => {
       const newItem = {
         ...item,
         ...{ protocol: text },
-        ...{ categories: Array.isArray(item.categories) ? item.categories : [item.categories] }
+        ...{
+          categories: Array.isArray(item.categories)
+            ? item.categories
+            : [item.categories],
+        },
       };
       await models.MarketplaceItem.orm.create(newItem);
-    })
+    }),
   );
 
   return templates;
