@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import React, { useState, useEffect } from 'react';
-import { Stack, Text, getTheme } from 'office-ui-fabric-react';
+import { DefaultButton, Stack, Text, getTheme } from 'office-ui-fabric-react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { capitalize, isNil } from 'lodash';
@@ -44,6 +44,7 @@ const ItemList = props => {
           <Text variant={'xxLarge'}>
             {isNil(type) ? 'All' : capitalize(type)}
           </Text>
+          <DefaultButton text='Create' href={`${window.location}create_item`} />
           <HorizontalLine />
           <GridWrapper>
             {itemList.map(item => (
