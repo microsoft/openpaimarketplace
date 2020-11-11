@@ -9,8 +9,10 @@ const cookieParser = require('cookie-parser');
 const appRoot = require('app-root-path');
 const config = require('./config');
 const logger = require('./logger');
+const dotnev = require('dotenv');
 
 const app = express();
+dotnev.config();
 
 app.use(compress());
 app.use(bodyParser.urlencoded({ extended: true }));

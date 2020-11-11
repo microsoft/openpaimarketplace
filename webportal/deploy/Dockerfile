@@ -1,12 +1,12 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-FROM node:carbon
+FROM node:dubnium
 
 WORKDIR /usr/src/app
 
 ARG VERSION
-ARG API_URL=http://localhost:3000
+ARG API_URL=\$\{MARKETPLACE_API_URL\}
 ARG PORT=9292
 
 ENV NODE_ENV=production \
@@ -17,12 +17,12 @@ ENV NODE_ENV=production \
 RUN git clone https://github.com/microsoft/openpaimarketplace.git && \
     cd openpaimarketplace && \
     git checkout ${VERSION} && \
-    cd webportal_plugin && \
-    yarn install --production=false && \
-    yarn build
+    cd webportal && \
+    npm install --production=false && \
+    npm run build
 
 EXPOSE ${SERVER_PORT}
 
-WORKDIR /usr/src/app/openpaimarketplace/webportal_plugin
+WORKDIR /usr/src/app/openpaimarketplace/webportal
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]

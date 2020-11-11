@@ -50,7 +50,7 @@ const ItemCard = props => {
         <Stack gap='m' styles={{ root: [{ width: '70%' }] }}>
           <Link
             className={FontClassNames.xLarge}
-            href={`/plugin.html?index=0#/market_detail?itemId=${item.id}`}
+            href={`${window.location}market_detail?itemId=${item.id}`}
           >
             {item.name}
           </Link>

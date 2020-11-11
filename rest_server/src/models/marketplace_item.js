@@ -7,25 +7,35 @@ class MarketplaceItem {
   constructor(sequelize, DataTypes) {
     this.orm = sequelize.define('MarketplaceItem', {
       id: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       name: DataTypes.STRING,
       author: DataTypes.STRING,
       type: DataTypes.STRING,
+      dataType: DataTypes.STRING,
+      dataUrl: DataTypes.STRING,
       categories: DataTypes.ARRAY(DataTypes.STRING),
       tags: DataTypes.ARRAY(DataTypes.STRING),
       summary: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      content: DataTypes.Object, // TODO: protocol validation in the future
-      submits: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+      protocol: DataTypes.TEXT,
+      useNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       starNumber: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
       },
       status: DataTypes.ENUM('pending', 'approved', 'rejected'),
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
     });
   }
 
@@ -37,23 +47,22 @@ class MarketplaceItem {
   }
 
   async list(name, author, category, status) {
-    const handler = modelSyncHandler(async (name, author, category, status) => {
-      const filterStatement = {};
-      if (name) {
-        filterStatement.name = name;
-      }
-      if (author) {
-        filterStatement.author = author;
-      }
-      if (category) {
-        filterStatement.category = category;
-      }
-      if (status) {
-        filterStatement.status = status;
-      }
-      const items = await this.orm.findAll({ where: filterStatement });
-      return items;
-    });
+    const handler = modelSyncHandler(
+      async (name, author, category, status, type) => {
+        const filterStatement = {};
+        if (name) {
+          filterStatement.name = name;
+        }
+        if (author) {
+          filterStatement.author = author;
+        }
+        if (type !== 'all') {
+          filterStatement.type = type;
+        }
+        const items = await this.orm.findAll({ where: filterStatement });
+        return items;
+      },
+    );
 
     return await handler(name, author, category, status, this.models);
   }
