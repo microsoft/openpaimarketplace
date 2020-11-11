@@ -46,7 +46,7 @@ taskRoles:
     script: covid_code
     output: covid_output
     resourcePerInstance:
-      gpu: 1
+      gpu: 0
       cpu: 4
       memoryMB: 8192
     commands:
@@ -55,14 +55,13 @@ taskRoles:
       - wget <% $data.uri[0] %>
       - export DATA_DIR=/data/covid19/data/
       - cd /data/covid19/
-      - wegt <% $script.uri[0] %>
+      - wget <% $script.uri %>
       - tar xvf /data/covid19/covid19_prediction_project.tgz
-      - export CODE_DIR=/data/covid19/prediction_project
-      - export OUTPUT_DIR=/data/covid19/prediction_project/output
+      - export CODE_DIR=/data/covid19/prediction_project/
+      - export OUTPUT_DIR=/data/covid19/prediction_project/output/
       - pip install numpy
       - pip install scipy
       - pip install sklearn
       - 'cd ${CODE_DIR}'
-      - >-
-        python PredictionConfirmed.py -i ${DATA_DIR}/covid-19_data.json -o
+      - python PredictionConfirmed.py -i ${DATA_DIR}/covid-19_data.json -o
         ${OUTPUT_DIR}

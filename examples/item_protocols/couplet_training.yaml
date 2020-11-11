@@ -112,11 +112,11 @@ taskRoles:
       memoryMB: 8192
       gpu: 1
     commands:
+      - mkdir -p /data/couplet_output/
       - cd /data
       - wget <% $data.uri[0] %>
       - tar xvf couplet_data.tgz
       - export DATA_DIR=/data/couplet_data/
-      - mkdir -p /data/couplet_output/
       - export OUTPUT_DIR=/data/couplet_output/
       - export PREPROCESSED_DATA_DIR=./preprocessed_data
       - pip install fairseq
@@ -136,5 +136,5 @@ taskRoles:
       - '--save-dir ${OUTPUT_DIR} \'
       - '-a lstm \'
       - '--max-tokens 4000 \'
-      - "--max-epoch 100"
-
+      - '--max-epoch 100 \'
+      - "--batch-size 256"

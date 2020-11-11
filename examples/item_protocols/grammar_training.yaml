@@ -73,4 +73,5 @@ taskRoles:
       - '--save-dir ${OUTPUT_DIR} \'
       - '-a lstm \'
       - '--max-tokens 4000 \'
-      - "--max-epoch 100"
+      - '--max-epoch 100 \'
+      - "--batch-size 256"
