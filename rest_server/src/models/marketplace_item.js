@@ -56,7 +56,7 @@ class MarketplaceItem {
         if (author) {
           filterStatement.author = author;
         }
-        if (type !== 'all') {
+        if (type && type !== 'all') {
           filterStatement.type = type;
         }
         const items = await this.orm.findAll({ where: filterStatement });
