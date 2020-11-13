@@ -6,16 +6,14 @@ import { MarketItem } from '../models/market_item';
 import yaml from 'js-yaml';
 
 export async function listItems(type) {
-  const url = `${MARKETPLACE_API_URL}/items`;
+  const url = `${MARKETPLACE_API_URL}/items${type ? '?type=' + type : ''}`;
   const res = await fetch(url);
   if (res.ok) {
     const items = await res.json();
     // order by updateDate
-    items
-      .filter(item => item.type === type)
-      .sort(function(a, b) {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      });
+    items.sort(function(a, b) {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
     return items;
   } else {
     throw new Error(res.statusText);
