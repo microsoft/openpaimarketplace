@@ -10,8 +10,6 @@ const list = asyncHandler(async (req, res, next) => {
     const result = await MarketplaceItem.list(
       req.query.name,
       req.query.author,
-      req.query.category,
-      req.query.status,
       req.query.type,
     );
     res.status(200).json(result);

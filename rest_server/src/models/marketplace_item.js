@@ -46,9 +46,9 @@ class MarketplaceItem {
     this.models = models;
   }
 
-  async list(name, author, category, status) {
+  async list(name, author, type) {
     const handler = modelSyncHandler(
-      async (name, author, category, status, type) => {
+      async (name, author, type) => {
         const filterStatement = {};
         if (name) {
           filterStatement.name = name;
@@ -64,7 +64,7 @@ class MarketplaceItem {
       },
     );
 
-    return await handler(name, author, category, status, this.models);
+    return await handler(name, author, type, this.models);
   }
 
   async create(itemReq) {
