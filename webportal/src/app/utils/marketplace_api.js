@@ -5,6 +5,26 @@ import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 import yaml from 'js-yaml';
 
+export async function getConnectionString(
+  username,
+  storageAccount,
+  containerName,
+  type = 'blob',
+) {
+  const url = `${MARKETPLACE_API_URL}/storages/blobs?type=${type}&username=${username}&storageAccount=${storageAccount}&containerName=${containerName}`;
+  const res = await fetch(url, {
+    method: 'GET',
+  });
+  if (res.ok) {
+    const blobs = await res.json();
+    return blobs[0].connectionStrings[0];
+  } else if (res.status === 404) {
+    return false;
+  } else {
+    throw new Error(res.statusText);
+  }
+}
+
 export async function listItems(type) {
   const url = `${MARKETPLACE_API_URL}/items`;
   const res = await fetch(url);
