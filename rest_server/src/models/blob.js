@@ -24,7 +24,7 @@ class Blob {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      connectStrings: {
+      connectionStrings: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
