@@ -50,6 +50,7 @@ const modelSyncHandler = fn => {
     try {
       return await fn(...args.slice(0, args.length - 1));
     } catch (error) {
+      console.log(error);
       if (get(error, 'original.code') === '42P01') {
         // Error 42P01: relation(target table) does not exist
         await init(args[args.length - 1]);

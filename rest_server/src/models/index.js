@@ -18,6 +18,17 @@ const sequelize = new Sequelize(DATABASE, DB_USERNAME, DB_PASSWORD, {
   host: DB_HOST,
   port: DB_PORT,
 });
+//TODO: ensure connection succeeds
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(error => {
+    console.error('Unable to connect to the database:', error);
+  })
+  .done();
 
 const models = {
   MarketplaceItem: new MarketplaceItem(sequelize, DataTypes),
