@@ -3,11 +3,14 @@
 const express = require('express');
 const itemController = require('./controllers/item_controller');
 const userController = require('./controllers/user_controller');
-const blobController = require('./controllers/blob_controller');
+const storageController = require('./controllers/storage_controller');
 
 const router = new express.Router();
 
-router.route('/items').get(itemController.list).post(itemController.create);
+router
+  .route('/items')
+  .get(itemController.list)
+  .post(itemController.create);
 
 router
   .route('/items/:itemId')
@@ -25,7 +28,10 @@ router.route('/items/:itemId/submits').put(itemController.updateSubmits);
 
 router.route('/items/:itemId/starUsers').get(itemController.listStarUsers);
 
-router.route('/users').get(userController.list).post(userController.create);
+router
+  .route('/users')
+  .get(userController.list)
+  .post(userController.create);
 
 router.route('/users/:username').delete(userController.del);
 
@@ -37,13 +43,13 @@ router
   .put(userController.updateItem)
   .delete(userController.deleteItem);
 
-router.route('/storages/blobs').get(blobController.list);
+router.route('/storages/blobs').get(storageController.list);
 router
   .route('/storages/blobs/:blobId')
-  .get(blobController.get)
-  .put(blobController.update)
-  .create(blobController.create)
-  .delete(blobController.del);
+  .get(storageController.get)
+  .put(storageController.update)
+  .post(storageController.create)
+  .delete(storageController.del);
 
 // module exports
 module.exports = router;
