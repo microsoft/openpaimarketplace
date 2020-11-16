@@ -63,37 +63,36 @@ After preprocessing, we got the 6 data files.
 
 ## How to use
 
-### Download from OpenPAI team share storage
+### Download to local
 
-The dataset is stored on team share storage with the path:
-
-You can mount the storage and download the data directly with below commands:
-
-```
-$ sudo apt-get update && sudo apt-get install -y nfs-common
-$ sudo mkdir -p /mnt/nfsdata/
-$ sudo mount 10.151.40.235:/data /mnt/nfsdata/
-$ cp -r /mnt/nfsdata/couplet_data <local_data_dir> 
-```
-- `/mnt/nfsdata` is a local directory created by `mkdir` command, you can change it by your own.
-  
-- `<local_data_dir>` should be replaced by your local directory where you want to store the data.
+1. You can download the `couplet_data.tgz` file by click the `Download` buttton.
+   
+2. The dataset is stored on `Azure Blob Storage`, you can access the dataset via below url:
+   ```
+   https://openpaimarketplace.blob.core.windows.net/marketplace/Couplet_data/couplet_data.tgz
+   ```
 
 ### Use via OpenPAI job submission
 
 You can also submit an OpenPAI job with this data by adding `DATA_DIR` environment variable.
 
 ```
-export DATA_DIR=<% $data.uri[0] %>
+mkdir -p /data/
+cd /data
+wget <% $data.uri[0] %>
+tar xvf couplet_data.tgz
+export DATA_DIR=/data/couplet_data/
 ```
-The parameter `data.uri[0]` is defined in the config file, under the `prerequisites` and `taskRoles` items.
+
+The parameter `data.uri[0]` is defined in the config file (under the `prerequisites` and `taskToles` items), which indicates the dataset address on Azure Blob Storage.
 
 ```
 prerequisites:
   - name: couplet_data
     type: data
     uri:
-      - /mnt/confignfs/couplet_data
+      - >-
+        https://openpaimarketplace.blob.core.windows.net/marketplace/Couplet_data/couplet_data.tgz
 taskRoles:
   taskrole:
     instances: 1
