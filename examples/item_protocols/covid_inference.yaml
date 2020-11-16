@@ -23,7 +23,7 @@ taskRoles:
     dockerImage: docker_image_0
     script: covid_code
     resourcePerInstance:
-      gpu: 1
+      gpu: 0
       cpu: 4
       memoryMB: 8192
       ports:
@@ -31,7 +31,7 @@ taskRoles:
     commands:
       - mkdir -p /data/covid19
       - cd /data/covid19
-      - wget <% $script.uri[0] %>
+      - wget <% $script.uri %>
       - tar xvf covid_inference_project.tgz
       - export CODE_DIR=/data/covid19/inference_project
       - export SERVER_PORT=$PAI_PORT_LIST_taskrole_0_SERVER_PORT

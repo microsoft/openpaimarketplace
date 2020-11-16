@@ -103,7 +103,7 @@ module.exports = () => {
     ],
     devServer: {
       host: '0.0.0.0',
-      port: 9292,
+      port: 9293,
       contentBase: false,
       disableHostCheck: true,
       watchOptions: {
