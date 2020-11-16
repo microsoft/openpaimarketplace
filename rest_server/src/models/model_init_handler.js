@@ -26,7 +26,10 @@ const createTemplates = async models => {
             ? null
             : path.join(descriptionDir, item.description);
         const protocolText = await fs.readFile(protocolFilePath, 'utf8');
-        const descriptionText = await fs.readFile(descriptionFilePath, 'utf8');
+        let descriptionText = `# ${item.name}`;
+        if (await fs.pathExists(descriptionFilePath)) {
+          descriptionText = await fs.readFile(descriptionFilePath, 'utf8');
+        }
         const newItem = {
           ...item,
           protocol: protocolText,
