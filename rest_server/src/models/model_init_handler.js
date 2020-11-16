@@ -17,19 +17,23 @@ const createTemplates = async models => {
         item.type === 'old' ? EXAMPLE_DIR1 : EXAMPLE_DIR2,
         item.protocol,
       );
-      const text = await fs.readFile(filePath, 'utf8');
-      const template = yaml.safeLoad(text);
-      templates.push(template);
-      const newItem = {
-        ...item,
-        ...{ protocol: text },
-        ...{
-          categories: Array.isArray(item.categories)
-            ? item.categories
-            : [item.categories],
-        },
-      };
-      await models.MarketplaceItem.orm.create(newItem);
+      try {
+        const text = await fs.readFile(filePath, 'utf8');
+        const template = yaml.safeLoad(text);
+        templates.push(template);
+        const newItem = {
+          ...item,
+          ...{ protocol: text },
+          ...{
+            categories: Array.isArray(item.categories)
+              ? item.categories
+              : [item.categories],
+          },
+        };
+        await models.MarketplaceItem.orm.create(newItem);
+      } catch (err) {
+        console.log(err.message);
+      }
     }),
   );
 

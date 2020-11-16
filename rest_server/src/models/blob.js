@@ -37,7 +37,7 @@ class Blob {
     const handler = modelSyncHandler(
       async (type, storageAccount, containerName, user) => {
         const filterStatement = {};
-        if (type !== 'all') {
+        if (type && type !== 'all') {
           filterStatement.type = type;
         }
         if (storageAccount) {

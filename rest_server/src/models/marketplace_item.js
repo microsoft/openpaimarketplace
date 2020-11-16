@@ -46,27 +46,23 @@ class MarketplaceItem {
     this.models = models;
   }
 
-  async list(name, author, category, status) {
-    const handler = modelSyncHandler(
-      async (name, author, category, status, type) => {
-        const filterStatement = {};
-        if (name) {
-          filterStatement.name = name;
-        }
-        if (author) {
-          filterStatement.author = author;
-        }
-        if (type && type !== 'all') {
-          filterStatement.type = type;
-        }
-        console.log(type);
-        console.log(filterStatement);
-        const items = await this.orm.findAll({ where: filterStatement });
-        return items;
-      },
-    );
+  async list(name, author, type) {
+    const handler = modelSyncHandler(async (name, author, type) => {
+      const filterStatement = {};
+      if (name) {
+        filterStatement.name = name;
+      }
+      if (author) {
+        filterStatement.author = author;
+      }
+      if (type && type !== 'all') {
+        filterStatement.type = type;
+      }
+      const items = await this.orm.findAll({ where: filterStatement });
+      return items;
+    });
 
-    return await handler(name, author, category, status, this.models);
+    return await handler(name, author, type, this.models);
   }
 
   async create(itemReq) {
