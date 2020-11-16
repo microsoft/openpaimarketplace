@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import React from 'react';
-import { Stack, StackItem, getTheme } from 'office-ui-fabric-react';
+import {
+  DefaultButton,
+  Stack,
+  StackItem,
+  getTheme,
+} from 'office-ui-fabric-react';
 import qs from 'query-string';
 import PropTypes from 'prop-types';
 import { isNil } from 'lodash';
@@ -28,6 +33,10 @@ const MarketList = props => {
   return (
     <Context.Provider value={context}>
       <Page>
+        <Stack horizontal horizontalAlign='space-between'>
+          <span>Marketplace</span>
+          <DefaultButton text='Create' href={`${window.location}create_item`} />
+        </Stack>
         <Stack horizontal gap={spacing.l1}>
           <StackItem>
             <SideBar
