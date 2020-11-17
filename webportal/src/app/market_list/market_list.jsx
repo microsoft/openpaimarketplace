@@ -46,7 +46,7 @@ const MarketList = props => {
           <DefaultButton
             iconProps={{ iconName: 'Add' }}
             text='Create'
-            href={`${window.location}create_item`}
+            href={`${window.location.href.split('?type=')[0]}create_item`}
             styles={{
               root: {
                 backgroundColor: palette.white,
