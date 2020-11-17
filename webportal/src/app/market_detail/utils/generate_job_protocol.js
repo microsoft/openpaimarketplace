@@ -15,10 +15,10 @@ export async function generateJobProtocol(item, user) {
   ];
   // pai_copy upload [filePath] [containerName] [blobFolder]
   const protocolFooterArray = [
-    'if [ -z ${OUTPUT_DIR+x}]; then',
+    'if [ -z $\{OUTPUT_DIR+x\}]; then',
     '\techo "Not found OUTPUT_DIR environ"',
     'else',
-    '\tpai_copy upload ${OUTPUT_DIR} paiuploadtest ${PAI_USER_NAME}/${PAI_JOB_NAME}/',
+    '\tpai_copy upload $\{OUTPUT_DIR\} paiuploadtest $\{PAI_USER_NAME\}/$\{PAI_JOB_NAME\}/',
     'fi',
   ];
   item.protocol.taskRoles.taskrole.commands = protocolHeaderArray.concat(
