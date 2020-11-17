@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 const { isNil } = require('lodash');
 const modelSyncHandler = require('./model_init_handler');
+const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 class Blob {
