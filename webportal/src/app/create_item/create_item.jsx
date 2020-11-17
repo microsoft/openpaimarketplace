@@ -7,12 +7,7 @@ import { getTheme } from '@uifabric/styling';
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
 import yaml from 'js-yaml';
-import {
-  ActionButton,
-  DefaultButton,
-  Stack,
-  StackItem,
-} from 'office-ui-fabric-react';
+import { ActionButton, Stack } from 'office-ui-fabric-react';
 
 import Page from 'App/components/page';
 import Context from 'App/context';
@@ -31,7 +26,7 @@ const GrayCard = styled.div`
 `;
 
 const CreateItem = props => {
-  const { api, user, token, isAdmin, routeProps } = props;
+  const { user, routeProps } = props;
   const [loadYamlError, setLoadYamlError] = useState(null);
 
   const [itemProtocol, setItemProtocol] = useState(null);
@@ -60,73 +55,50 @@ const CreateItem = props => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const context = {
-    user,
-    api,
-    token,
-    isAdmin,
-    history: routeProps.history,
-    itemProtocol,
-    setItemProtocol,
-    itemObject,
-    setItemObject,
-  };
-
   return (
-    <Context.Provider value={context}>
-      <Page>
-        <Stack horizontal horizontalAlign='space-between'>
-          <StackItem gap='0'>
-            <ActionButton
-              onClick={() => {
-                window.location.href = window.location.href.split(
-                  '/create_item',
-                )[0];
-              }}
-              styles={{ root: { color: palette.themePrimary } }}
-            >
-              Marketplace / Create
-            </ActionButton>
-          </StackItem>
-          <DefaultButton
-            iconProps={{ iconName: 'Add' }}
-            text='Create'
-            href={`${window.location}create_item`}
-          />
-        </Stack>
-        <Stack>
-          <GrayCard>
-            <CreateStep step={step} />
-            {step === 'uploadFiles' && (
-              <UploadFiles
-                getRootProps={getRootProps}
-                getInputProps={getInputProps}
-                loadYamlError={loadYamlError}
-              />
-            )}
-            {step === 'basicInformation' && (
-              <BasicInformation
-                user={user}
-                itemProtocol={itemProtocol}
-                setItemProtocol={setItemProtocol}
-                itemObject={itemObject}
-                setItemObject={setItemObject}
-                setStep={setStep}
-              />
-            )}
-            {step === 'detail' && (
-              <Detail
-                user={user}
-                itemProtocol={itemProtocol}
-                setItemProtocol={setItemProtocol}
-                itemObject={itemObject}
-                setStep={setStep}
-              />
-            )}
-          </GrayCard>
-        </Stack>
-      </Page>
-    </Context.Provider>
+    <Page>
+      <Stack horizontal horizontalAlign='begin' verticalAlign='baseline'>
+        <ActionButton
+          iconProps={{ iconName: 'revToggleKey' }}
+          onClick={() => {
+            routeProps.history.push('/');
+          }}
+        >
+          Back to market list
+        </ActionButton>
+      </Stack>
+      <Stack>
+        <GrayCard>
+          <CreateStep step={step} />
+          {step === 'uploadFiles' && (
+            <UploadFiles
+              getRootProps={getRootProps}
+              getInputProps={getInputProps}
+              loadYamlError={loadYamlError}
+            />
+          )}
+          {step === 'basicInformation' && (
+            <BasicInformation
+              user={user}
+              itemProtocol={itemProtocol}
+              setItemProtocol={setItemProtocol}
+              itemObject={itemObject}
+              setItemObject={setItemObject}
+              setStep={setStep}
+            />
+          )}
+          {step === 'detail' && (
+            <Detail
+              user={user}
+              itemProtocol={itemProtocol}
+              setItemProtocol={setItemProtocol}
+              itemObject={itemObject}
+              setStep={setStep}
+            />
+          )}
+        </GrayCard>
+      </Stack>
+    </Page>
   );
 };
 

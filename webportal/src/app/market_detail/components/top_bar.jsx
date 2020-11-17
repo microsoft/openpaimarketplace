@@ -13,6 +13,7 @@ const TopBar = React.memo(props => {
         <ActionButton
           iconProps={{ iconName: 'revToggleKey' }}
           onClick={() => {
+            console.log(history);
             history.push('/');
           }}
         >

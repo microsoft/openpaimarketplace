@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import React from 'react';
 import {
-  ActionButton,
   DefaultButton,
   Stack,
   StackItem,
@@ -34,15 +33,7 @@ const MarketList = props => {
   return (
     <Context.Provider value={context}>
       <Page>
-        <Stack horizontal horizontalAlign='space-between'>
-          <ActionButton
-            onClick={() => {
-              history.push('/');
-            }}
-            styles={{ root: { color: palette.themePrimary } }}
-          >
-            Marketplace
-          </ActionButton>
+        <Stack horizontal horizontalAlign='end'>
           <DefaultButton
             iconProps={{ iconName: 'Add' }}
             text='Create'
