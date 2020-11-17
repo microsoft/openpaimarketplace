@@ -92,7 +92,6 @@ const Detail = props => {
   }, []);
 
   const submit = () => {
-    console.log(itemObject);
     createMarketItem(itemObject)
       .then(id => {
         window.location.href = `${window.location.href.slice(
