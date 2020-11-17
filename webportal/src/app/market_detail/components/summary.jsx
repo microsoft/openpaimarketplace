@@ -37,9 +37,9 @@ export default function Summary(props) {
   async function clickUse() {
     try {
       const jobProtocol = await generateJobProtocol(marketItem, user);
-      // window.localStorage.removeItem('marketItem');
-      // window.localStorage.setItem('marketItem', JSON.stringify(jobProtocol));
-      // window.location.href = `/submit.html`;
+      window.localStorage.removeItem('marketItem');
+      window.localStorage.setItem('marketItem', JSON.stringify(jobProtocol));
+      window.location.href = `/submit.html`;
     } catch (err) {
       alert(err.message);
     }
