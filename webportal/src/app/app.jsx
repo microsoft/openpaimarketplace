@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import MarketList from './market_list/market_list';
 import MarketDetail from './market_detail/market_detail';
-import UploadYaml from './create_item/upload_yaml';
+import CreateItem from './create_item/create_item';
 
 const App = props => {
   const { api, user, token, isAdmin } = props;
@@ -43,7 +43,7 @@ const App = props => {
         path={'/create_item'}
         exact
         render={props => (
-          <UploadYaml
+          <CreateItem
             api={api}
             user={user}
             token={token}

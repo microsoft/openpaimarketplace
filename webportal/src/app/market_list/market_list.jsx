@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import React from 'react';
 import {
+  ActionButton,
   DefaultButton,
   Stack,
   StackItem,
@@ -17,7 +18,7 @@ import SideBar from './components/side_bar';
 import ItemList from './components/item_list';
 import Page from 'App/components/page';
 
-const { spacing } = getTheme();
+const { spacing, palette } = getTheme();
 
 const MarketList = props => {
   const { api, user, token, isAdmin, routeProps } = props;
@@ -34,8 +35,26 @@ const MarketList = props => {
     <Context.Provider value={context}>
       <Page>
         <Stack horizontal horizontalAlign='space-between'>
-          <span>Marketplace</span>
-          <DefaultButton text='Create' href={`${window.location}create_item`} />
+          <ActionButton
+            onClick={() => {
+              history.push('/');
+            }}
+            styles={{ root: { color: palette.themePrimary } }}
+          >
+            Marketplace
+          </ActionButton>
+          <DefaultButton
+            iconProps={{ iconName: 'Add' }}
+            text='Create'
+            href={`${window.location}create_item`}
+            styles={{
+              root: {
+                backgroundColor: palette.white,
+                color: palette.themePrimary,
+                borderColor: palette.themePrimary,
+              },
+            }}
+          />
         </Stack>
         <Stack horizontal gap={spacing.l1}>
           <StackItem>
