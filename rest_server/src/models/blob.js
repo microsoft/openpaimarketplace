@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 const { isNil } = require('lodash');
 const modelSyncHandler = require('./model_init_handler');
+const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 
 class Blob {
   constructor(sequelize, DataTypes) {
-    this.orm = sequelize.define('MarketplaceItem', {
+    this.orm = sequelize.define('Blob', {
       id: {
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -25,12 +26,16 @@ class Blob {
         allowNull: false,
       },
       connectionStrings: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
+        type: DataTypes.ARRAY(DataTypes.TEXT),
         allowNull: false,
       },
-      tokens: DataTypes.ARRAY(DataTypes.STRING),
+      tokens: DataTypes.ARRAY(DataTypes.TEXT),
       users: DataTypes.ARRAY(DataTypes.STRING),
     });
+  }
+
+  associate(models) {
+    this.models = models;
   }
 
   async list(type, storageAccount, containerName, user) {
@@ -56,7 +61,7 @@ class Blob {
       },
     );
 
-    return await handler(type, storageAccount, containerName, user, this.orm);
+    return await handler(type, storageAccount, containerName, user, this.models);
   }
 
   async create(blobReq) {
@@ -80,7 +85,7 @@ class Blob {
       }
     });
 
-    return await handler(blobId, this.orm);
+    return await handler(blobId, this.models);
   }
 
   async update(blobId, newBlobReq) {
@@ -97,7 +102,7 @@ class Blob {
       }
     });
 
-    return await handler(blobId, newBlobReq, this.orm);
+    return await handler(blobId, newBlobReq, this.models);
   }
 
   async del(blobId) {
@@ -112,7 +117,7 @@ class Blob {
       }
     });
 
-    return await handler(blobId, this.orm);
+    return await handler(blobId, this.models);
   }
 }
 
