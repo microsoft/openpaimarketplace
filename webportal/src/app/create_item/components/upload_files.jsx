@@ -39,11 +39,13 @@ const UploadFiles = ({ getRootProps, getInputProps, loadYamlError }) => {
     <UploadArea {...getRootProps()}>
       <Stack horizontalAlign='center' gap='l1'>
         <input {...getInputProps()} />
-        <UploadFilesText>Upload files</UploadFilesText>
+        <UploadFilesText>Upload YAML</UploadFilesText>
         <div style={{ width: '30px' }}>
           <UploadIcon />
         </div>
-        <MessageText>Drag and drop or click here to upload a file</MessageText>
+        <MessageText>
+          Drag and drop or click here to upload a YAML file
+        </MessageText>
         {loadYamlError !== null && <ErrorText>{loadYamlError}</ErrorText>}
       </Stack>
     </UploadArea>
