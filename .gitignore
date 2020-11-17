@@ -1,5 +1,5 @@
 node_modules
-.env
+.env*
 .vscode
-yarn-error.log
-/data
+/data*
+*.log
