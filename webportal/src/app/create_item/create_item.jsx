@@ -10,7 +10,6 @@ import yaml from 'js-yaml';
 import { ActionButton, Stack } from 'office-ui-fabric-react';
 
 import Page from 'App/components/page';
-import Context from 'App/context';
 import CreateStep from './components/create_step';
 import UploadFiles from './components/upload_files';
 import BasicInformation from './components/basic_information';
@@ -44,6 +43,7 @@ const CreateItem = props => {
     reader.onload = () => {
       try {
         setItemProtocol(yaml.safeLoad(reader.result));
+        setItemObject(null);
         setStep('basicInformation');
         setLoadYamlError(null);
       } catch (err) {
