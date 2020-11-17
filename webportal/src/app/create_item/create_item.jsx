@@ -30,8 +30,13 @@ const CreateItem = props => {
 
   const [itemProtocol, setItemProtocol] = useState(null);
   const [itemObject, setItemObject] = useState({
+    name: '',
     summary: '',
     type: '',
+    description: '',
+    protocol: '',
+    author: user,
+    status: 'approved',
   });
   const [step, setStep] = useState('uploadFiles');
 
@@ -42,8 +47,17 @@ const CreateItem = props => {
     reader.onerror = () => console.log('file reading has failed');
     reader.onload = () => {
       try {
-        setItemProtocol(yaml.safeLoad(reader.result));
-        setItemObject(null);
+        const yamlObject = yaml.safeLoad(reader.result);
+        setItemProtocol(yamlObject);
+        setItemObject({
+          name: yamlObject.name || '',
+          summary: '',
+          type: '',
+          description: yamlObject.description || '',
+          protocol: reader.result,
+          author: user,
+          status: 'approved',
+        });
         setStep('basicInformation');
         setLoadYamlError(null);
       } catch (err) {
@@ -80,8 +94,6 @@ const CreateItem = props => {
           {step === 'basicInformation' && (
             <BasicInformation
               user={user}
-              itemProtocol={itemProtocol}
-              setItemProtocol={setItemProtocol}
               itemObject={itemObject}
               setItemObject={setItemObject}
               setStep={setStep}
@@ -91,7 +103,6 @@ const CreateItem = props => {
             <Detail
               user={user}
               itemProtocol={itemProtocol}
-              setItemProtocol={setItemProtocol}
               itemObject={itemObject}
               setStep={setStep}
             />

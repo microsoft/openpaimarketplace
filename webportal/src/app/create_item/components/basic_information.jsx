@@ -19,14 +19,7 @@ const BasicInformationArea = styled.div`
 `;
 
 const BasicInformation = props => {
-  const {
-    user,
-    itemProtocol,
-    setItemProtocol,
-    itemObject,
-    setItemObject,
-    setStep,
-  } = props;
+  const { user, itemObject, setItemObject, setStep } = props;
 
   const columnProps = {
     tokens: { childrenGap: 8 },
@@ -54,10 +47,6 @@ const BasicInformation = props => {
   const dropdownStyles = {
     dropdown: { borderRadius: '5px' },
   };
-
-  if (!itemObject.name) {
-    itemObject.name = itemProtocol.name;
-  }
 
   return (
     <BasicInformationArea>
@@ -107,10 +96,10 @@ const BasicInformation = props => {
           required
           multiline={true}
           rows={9}
-          value={itemProtocol.description}
+          value={itemObject.description}
           onChange={(event, newValue) => {
-            itemProtocol.description = newValue;
-            setItemProtocol(itemObject);
+            itemObject.description = newValue;
+            setItemObject(itemObject);
           }}
           styles={textStyles}
         />
@@ -134,8 +123,6 @@ const BasicInformation = props => {
 
 BasicInformation.propTypes = {
   user: PropTypes.string,
-  itemProtocol: PropTypes.object,
-  setItemProtocol: PropTypes.func,
   itemObject: PropTypes.object,
   setItemObject: PropTypes.func,
   setStep: PropTypes.func,
