@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import queryString from "query-string"
-import { cloneDeep, isNil, isEmpty } from 'lodash';
+import queryString from 'query-string';
+import { cloneDeep, isEmpty } from 'lodash';
 import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 import yaml from 'js-yaml';
@@ -26,7 +26,7 @@ export async function getConnectionString(
   if (res.ok) {
     const blobs = await res.json();
     if (isEmpty(blobs)) {
-      throw new Error('Error no available connectionString!')
+      throw new Error('Error no available connectionString!');
     }
     console.log(blobs[0]);
     return blobs[0].connectionStrings[0];

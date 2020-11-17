@@ -43,7 +43,10 @@ router
   .put(userController.updateItem)
   .delete(userController.deleteItem);
 
-router.route('/storages/blobs').get(storageController.list).post(storageController.create);
+router
+  .route('/storages/blobs')
+  .get(storageController.list)
+  .post(storageController.create);
 router
   .route('/storages/blobs/:blobId')
   .get(storageController.get)

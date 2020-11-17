@@ -1,7 +1,7 @@
 import { getConnectionString } from 'App/utils/marketplace_api';
 
 export async function generateJobProtocol(item, user) {
-  const connectionString = await getConnectionString();  // can add user as key to get connection string
+  const connectionString = await getConnectionString(); // can add user as key to get connection string
   console.log(connectionString);
   const protocolHeaderArray = [
     'curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh',
