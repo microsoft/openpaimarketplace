@@ -34,7 +34,7 @@
     "luxon": "^1.11.3",
     "morgan": "^1.10.0",
     "office-ui-fabric-react": "^6.189.0",
-    "query-string": "^6.11.1",
+    "query-string": "^6.13.7",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-markdown": "^4.3.1",

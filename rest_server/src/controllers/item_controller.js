@@ -21,7 +21,6 @@ const list = asyncHandler(async (req, res, next) => {
 const create = asyncHandler(async (req, res, next) => {
   try {
     const id = await MarketplaceItem.create(req.body);
-    console.log(id);
     res.status(201).json({ id: id });
   } catch (e) {
     databaseErrorHandler(e, res);
