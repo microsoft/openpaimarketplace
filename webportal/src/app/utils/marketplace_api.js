@@ -18,7 +18,6 @@ export async function getConnectionString(
     containerName,
     type,
   });
-  console.log(queryStr);
   const url = `${MARKETPLACE_API_URL}/storages/blobs?${queryStr}`;
   const res = await fetch(url, {
     method: 'GET',
@@ -28,7 +27,6 @@ export async function getConnectionString(
     if (isEmpty(blobs)) {
       throw new Error('Error no available connectionString!');
     }
-    console.log(blobs[0]);
     return blobs[0].connectionStrings[0];
   } else if (res.status === 404) {
     return false;

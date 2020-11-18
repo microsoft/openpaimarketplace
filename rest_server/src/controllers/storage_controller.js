@@ -20,9 +20,9 @@ const list = asyncHandler(async (req, res, next) => {
 });
 
 const create = asyncHandler(async (req, res, next) => {
+  // TODO: Add validation to distinguish TypeError
   try {
     const id = await Blob.create(req.body);
-    console.log(id);
     res.status(201).json({ id: id });
   } catch (e) {
     databaseErrorHandler(e, res);
@@ -43,6 +43,7 @@ const get = asyncHandler(async (req, res, next) => {
 });
 
 const update = asyncHandler(async (req, res, next) => {
+  // TODO: Add validation to distinguish TypeError
   try {
     const result = await Blob.update(req.params.blobId, req.body);
     if (isNil(result)) {
