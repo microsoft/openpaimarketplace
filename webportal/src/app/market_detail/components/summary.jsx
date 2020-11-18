@@ -112,7 +112,7 @@ export default function Summary(props) {
           <Stack horizontal gap='s1'>
             {marketItem.type === 'data' && marketItem.dataType === 'blob' && (
               <DefaultButton
-                text='download'
+                text='Download'
                 onClick={async () => {
                   const fileName = getFileName(marketItem.dataUrl);
                   const res = await fetch(marketItem.dataUrl);
@@ -123,7 +123,7 @@ export default function Summary(props) {
             )}
             {marketItem.type === 'data' && marketItem.dataType === 'github' && (
               <DefaultButton
-                text='download'
+                text='Download'
                 onClick={async () => {
                   const fileName = getFileName(marketItem.dataUrl);
                   const res = await fetch(marketItem.dataUrl, {
@@ -135,7 +135,7 @@ export default function Summary(props) {
               />
             )}
             <PrimaryButton
-              text='use'
+              text='Use'
               onClick={async () => {
                 await clickUse();
               }}
