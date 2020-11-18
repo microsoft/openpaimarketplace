@@ -41,8 +41,7 @@ const MarketList = props => {
             styles={{
               root: {
                 backgroundColor: palette.white,
-                color: palette.themePrimary,
-                borderColor: palette.themePrimary,
+                borderColor: palette.blackTranslucent40,
               },
             }}
           />
