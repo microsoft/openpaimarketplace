@@ -20,7 +20,7 @@ const { spacing, palette } = getTheme();
 const GrayCard = styled.div`
   padding: ${spacing.m};
   background: ${palette.neutralLighterAlt};
-  height: 600px;
+  min-height: 600px;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px, rgba(0, 0, 0, 0.05) 0px 0.5px 1px;
 `;
 

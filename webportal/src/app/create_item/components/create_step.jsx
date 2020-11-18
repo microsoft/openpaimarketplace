@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Stack } from 'office-ui-fabric-react';
+import { Stack, Text } from 'office-ui-fabric-react';
 import { getTheme } from '@uifabric/styling';
 
 const { palette } = getTheme();
@@ -32,7 +32,6 @@ const StepText = styled.div`
   text-align: center;
   width: 150px;
   margin-left: -65px;
-  font-size: small;
   color: ${({ color }) => color};
 `;
 
@@ -55,7 +54,7 @@ const CreateStep = props => {
             }
           />
           <StepText color={props.step === 'uploadFiles' ? 'black' : 'gray'}>
-            Upload Files
+            <Text>Upload Files</Text>
           </StepText>
         </StepArea>
         <StepArea left='calc(50% - 8px)'>
@@ -69,7 +68,7 @@ const CreateStep = props => {
           <StepText
             color={props.step === 'basicInformation' ? 'black' : 'gray'}
           >
-            Basic information
+            <Text>Basic information</Text>
           </StepText>
         </StepArea>
         <StepArea left='calc(100% - 8px)'>
@@ -77,7 +76,7 @@ const CreateStep = props => {
             color={props.step === 'detail' ? palette.themePrimary : 'LightGray'}
           />
           <StepText color={props.step === 'detail' ? 'black' : 'gray'}>
-            Detail
+            <Text>Detail</Text>
           </StepText>
         </StepArea>
       </GrayLine>

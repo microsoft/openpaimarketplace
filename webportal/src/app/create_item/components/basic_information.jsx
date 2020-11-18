@@ -9,6 +9,8 @@ import {
   PrimaryButton,
   Stack,
   TextField,
+  FontSizes,
+  FontWeights,
 } from 'office-ui-fabric-react';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
@@ -26,30 +28,38 @@ const BasicInformation = props => {
   const forceUpdate = () => updateState({});
 
   const columnProps = {
-    tokens: { childrenGap: 8 },
+    tokens: { childrenGap: 'm' },
     styles: {
       root: {
         minWidth: 300,
-        fontSize: 'small',
-        fontWeight: 500,
+        fontSize: FontSizes.mediumPlus,
+        fontWeight: FontWeights.semibold,
       },
     },
   };
 
   const textStyles = {
-    fieldGroup: { fontSize: 'smaller', borderRadius: '5px' },
+    fieldGroup: { borderRadius: '5px' },
     subComponentStyles: {
       label: {
         root: {
-          fontSize: 'small',
-          fontWeight: 500,
+          fontSize: FontSizes.mediumPlus,
+          fontWeight: FontWeights.semibold,
         },
       },
     },
   };
 
   const dropdownStyles = {
-    dropdown: { borderRadius: '5px' },
+    title: { borderRadius: '5px' },
+    subComponentStyles: {
+      label: {
+        root: {
+          fontSize: FontSizes.mediumPlus,
+          fontWeight: FontWeights.semibold,
+        },
+      },
+    },
   };
 
   return (
@@ -90,12 +100,13 @@ const BasicInformation = props => {
             setItemObject(itemObject);
             forceUpdate();
           }}
+          containerBorderRadius='5px'
+          styles={dropdownStyles}
           errorMessage={
             errorMessage && isEmpty(itemObject.type)
               ? 'Please select type here.'
               : undefined
           }
-          styles={dropdownStyles}
         />
         <TextField
           label='Short summary'

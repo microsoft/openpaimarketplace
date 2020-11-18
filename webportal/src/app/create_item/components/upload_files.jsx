@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Stack } from 'office-ui-fabric-react';
+import { FontSizes, FontWeights, Stack, Text } from 'office-ui-fabric-react';
 import { getTheme } from '@uifabric/styling';
 import { ReactComponent as UploadIcon } from 'App/assets/upload.svg';
 
@@ -21,12 +21,9 @@ const UploadArea = styled.div`
   background: ${palette.white};
 `;
 
-const UploadFilesText = styled.p`
-  font-size: large;
-`;
-
 const MessageText = styled.p`
   font-size: small;
+  margin-bottom: 50px;
 `;
 
 const ErrorText = styled.p`
@@ -37,14 +34,31 @@ const ErrorText = styled.p`
 const UploadFiles = ({ getRootProps, getInputProps, loadYamlError }) => {
   return (
     <UploadArea {...getRootProps()}>
-      <Stack horizontalAlign='center' gap='l1'>
+      <Stack horizontalAlign='center' gap='l2'>
         <input {...getInputProps()} />
-        <UploadFilesText>Upload YAML</UploadFilesText>
+        <Text
+          styles={{
+            root: {
+              fontSize: FontSizes.mediumPlus,
+              fontWeight: FontWeights.semibold,
+            },
+          }}
+        >
+          Upload YAML
+        </Text>
         <div style={{ width: '30px' }}>
           <UploadIcon />
         </div>
         <MessageText>
-          Drag and drop or click here to upload a YAML file
+          <Text
+            styles={{
+              root: {
+                fontSize: FontSizes.smallPlus,
+              },
+            }}
+          >
+            Drag and drop or click here to upload a YAML file
+          </Text>
         </MessageText>
         {loadYamlError !== null && <ErrorText>{loadYamlError}</ErrorText>}
       </Stack>
