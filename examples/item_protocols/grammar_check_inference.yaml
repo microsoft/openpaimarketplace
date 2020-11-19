@@ -3,21 +3,9 @@ name: grammar_inference
 type: job
 contributor: OpenPAI
 description: |
-  # Grammar Check Inference Job Template
+  Grammar Check Inference Job Template
 
   This is a model inference process. The input data is the training models trained by ```Grammer Check Model Training Job```, and this job will use ```fairseq-generate``` to correct test sentences.
-
-  ## How to use
-
-  This job uses two data input, the preprocessed data and checkpoint files trained by ```Grammer Check Model Training Job```:
-
-  - ```PREPROCESSED_DATA_DIR```: the training model path in container, by default it uses the output of couplet training job. If you want to use your own models. First make sure mount your models into container, and then change the ```$DATA_DIR``` with the path.
-
-  - ```MODEL_SAVE_DIR```: the service code, it will start a server at the given port.
-
-  ## How to check the result
-
-  You could check the inference results in stdout output.
 
 prerequisites:
   - name: default_image
