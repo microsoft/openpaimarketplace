@@ -15,6 +15,7 @@ First create a .env file in the webportal plugin root path with some configurati
 LOG_LEVEL=<error, warn, info, verbose, debug or silly>
 SERVER_PORT=<expose_port>
 MARKETPLACE_API_URL=<marketplace_api_url>
+NPM_INSTALL_TOKEN=<npm_install_token>
 ```
 
 Webportal plugin used webpack-dev-server to watch the file changes instantly.

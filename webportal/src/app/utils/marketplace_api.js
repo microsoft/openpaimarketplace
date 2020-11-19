@@ -1,9 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { cloneDeep } from 'lodash';
+import queryString from 'query-string';
+import { cloneDeep, isEmpty } from 'lodash';
 import { MARKETPLACE_API_URL } from './constants';
 import { MarketItem } from '../models/market_item';
 import yaml from 'js-yaml';
+
+export async function getConnectionString(
+  username,
+  storageAccount,
+  containerName,
+  type = 'blob',
+) {
+  const queryStr = queryString.stringify({
+    username,
+    storageAccount,
+    containerName,
+    type,
+  });
+  const url = `${MARKETPLACE_API_URL}/storages/blobs?${queryStr}`;
+  const res = await fetch(url, {
+    method: 'GET',
+  });
+  if (res.ok) {
+    const blobs = await res.json();
+    if (isEmpty(blobs)) {
+      throw new Error('Error no available connectionString!');
+    }
+    return blobs[0].connectionStrings[0];
+  } else if (res.status === 404) {
+    return false;
+  } else {
+    throw new Error(res.statusText);
+  }
+}
 
 export async function listItems(type) {
   const url = `${MARKETPLACE_API_URL}/items${type ? '?type=' + type : ''}`;
@@ -136,10 +166,13 @@ export async function createMarketItem(marketItem) {
     body: JSON.stringify({
       name: marketItem.name,
       author: marketItem.author,
+      type: marketItem.type,
+      dataType: marketItem.dataType,
+      dataUrl: marketItem.dataUrl,
       category: marketItem.category,
-      introduction: marketItem.introduction,
+      summary: marketItem.summary,
       description: marketItem.description,
-      jobConfig: marketItem.jobConfig,
+      protocol: marketItem.protocol,
       tags: marketItem.tags,
       status: marketItem.status,
     }),

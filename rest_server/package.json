@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint --ext .js --ext .jsx .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.js",
+    "dev": "npx nodemon src/index.js",
     "start": "node src/index.js"
   },
   "dependencies": {

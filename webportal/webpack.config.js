@@ -75,9 +75,10 @@ module.exports = () => {
         template: './index.html',
       }),
       new webpack.DefinePlugin({
-        'process.env.MARKETPLACE_API_URL': JSON.stringify(
-          process.env.MARKETPLACE_API_URL,
-        ),
+        'process.env': {
+          MARKETPLACE_API_URL: JSON.stringify(process.env.MARKETPLACE_API_URL),
+          NPM_INSTALL_TOKEN: JSON.stringify(process.env.NPM_INSTALL_TOKEN),
+        },
       }),
       new webpack.IgnorePlugin({
         resourceRegExp: /^esprima$/,
