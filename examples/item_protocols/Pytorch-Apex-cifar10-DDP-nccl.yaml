@@ -3,7 +3,7 @@ name: Pytorch-Apex-cifar10-DDP-nccl
 type: job
 jobRetryCount: 0
 description: |
-  # Pytorch DDP Example With Apex
+  Pytorch DDP Example With Apex (NCCL backend)
 
   This example shows how to train a custom neural network on cifar10 with Pytorch on OpenPAI.
 
