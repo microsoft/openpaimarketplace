@@ -14,7 +14,7 @@ URL: `https://openpaimarketplace.blob.core.windows.net/marketplace/Couplet_data/
 
 ## How to use
 
-## Prerequisites
+### Prerequisites
 When use this module, you should
 
 1. Load data from Azure Blob to container
@@ -35,18 +35,18 @@ When use this module, you should
    pip install fairseq==0.9.0
    ```
 **NOTE**: 
-- The value of `data` and `output` are defined under the `prerequisites` filed of the YAML file on the `Job submission` page.
+- The value of `data` and `output` are defined under the `prerequisites` and `taskRoles` fileds of the YAML file on the `Job submission` page.
 
-- ```DATA_DIR```: the training data path in container, by default it uses Couplet Dataset data component. If you want to use your own datasets. First make sure mount your data into container, and then change the ```$DATA_DIR``` with the path.
+- ```DATA_DIR```: The training data path in container, by default it uses Couplet Dataset data component. If you want to use your own datasets. First make sure mount your data into container, and then change the ```$DATA_DIR``` with the path.
 
     *Please view [How to mount](#how-to-mount) to get detail information about how to mount data.*
 
 
-- ```PREPROCESSED_DATA_DIR```: the path to store intermediate result, by default it is ./processed_data.
+- ```PREPROCESSED_DATA_DIR```: The path to store intermediate result, by default it is ./processed_data.
 
-- ```OUTPUT_DIR```: the path to store output result, i.e. the training model files. By default it will mount a nfs storage, and you could change it with other mounted storage.
-
-## Training command
+- ```OUTPUT_DIR```: The path to store output result, i.e. the training model files.
+  
+### Training command
 
 ```
 fairseq-preprocess \
@@ -71,31 +71,32 @@ fairseq-train ${PREPROCESSED_DATA_DIR} \
 --max-epoch 100
 ```
 
-## Get the result model
+### Get the result model
 
 \<TBD>
 
+<br>
 
 
-# Reference
+## Reference
 
-## How to mount
+### How to mount
 
-### Install nfs
-```
-$ sudo apt-get update && sudo apt-get install -y nfs-common
-```
+1. Install nfs
+   ```
+   $ sudo apt-get update && sudo apt-get install -y nfs-common
+   ```
 
-### Upload
-```
-$ sudo mkdir -p /mnt/nfsData
-$ sudo mount <container_ip>:/data /mnt/nfsData
-$ cp -r <local_data_dir> /mnt/nfsData/<subPath>
-```
+2. Upload
+   ```
+   $ sudo mkdir -p /mnt/nfsData
+   $ sudo mount <container_ip>:/data /mnt/nfsData
+   $ cp -r <local_data_dir> /mnt/nfsData/<subPath>
+   ```
 
-### Download
-```
-$ sudo mkdir -p /mnt/nfsData
-$ sudo mount <container_ip>:/data /mnt/nfsData
-$ cp -r <local_data_dir> /mnt/nfsData/<subPath>
-```
+3. Download
+   ```
+   $ sudo mkdir -p /mnt/nfsData
+   $ sudo mount <container_ip>:/data /mnt/nfsData
+   $ cp -r <local_data_dir> /mnt/nfsData/<subPath>
+   ```

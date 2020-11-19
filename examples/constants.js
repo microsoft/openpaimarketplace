@@ -87,7 +87,7 @@ const MARKET_ITEM_LIST = [
   },
   {
     id: '4',
-    name: 'Covid19 Outbreak Statistics Dataset',
+    name: 'Covid19 Outbreak Prediction Dataset',
     author: 'OpenPAI',
     type: 'data',
     dataType: 'blob',
@@ -106,7 +106,7 @@ const MARKET_ITEM_LIST = [
   },
   {
     id: '5',
-    name: 'Covid19 Prediction Model',
+    name: 'Covid19 Outbreak Prediction Model',
     author: 'OpenPAI',
     type: 'template',
     categories: 'AI couplet',
@@ -122,7 +122,7 @@ const MARKET_ITEM_LIST = [
   },
   {
     id: '6',
-    name: 'Covid19 Inference Service',
+    name: 'Covid19 Outbreak Inference Service',
     author: 'OpenPAI',
     type: 'template',
     categories: 'AI couplet',
