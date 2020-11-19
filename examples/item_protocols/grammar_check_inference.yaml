@@ -38,13 +38,13 @@ taskRoles:
       memoryMB: 8192
       gpu: 1
     commands:
-      - mkdir -p /data/grammarCheck/ 
-      - cd /data/grammarCheck/ 
+      - mkdir -p /data/grammarCheck/
+      - cd /data/grammarCheck/
       - wget <% $data.uri[0] %>
       - tar xvf gramarCheck_data_bin.tgz
       - wget <% $data.uri[1] %>
       - tar xvf gramarCheck_checkpoint_best.tgz
       - export PREPROCESSED_DATA_DIR=/data/grammarCheck/data-bin/
       - export MODEL_SAVE_DIR=/data/grammarCheck/checkpoints/
-      - pip install fairseq
+      - pip install fairseq==0.9
       - fairseq-generate ${PREPROCESSED_DATA_DIR} --path ${MODEL_SAVE_DIR}/checkpoint_best.pt --source-lang origin --target-lang correct

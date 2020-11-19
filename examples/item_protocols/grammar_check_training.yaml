@@ -56,7 +56,7 @@ taskRoles:
       - mkdir -p /data/grammarCheck/output
       - export OUTPUT_DIR=/data/grammarCheck/
       - export PREPROCESSED_DATA_DIR=./preprocessed_data
-      - pip install fairseq
+      - pip install fairseq==0.9
       - fairseq-preprocess \
       - '--source-lang origin \'
       - '--target-lang correct \'

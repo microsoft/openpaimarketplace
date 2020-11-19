@@ -3,6 +3,7 @@
 const express = require('express');
 const itemController = require('./controllers/item_controller');
 const userController = require('./controllers/user_controller');
+const storageController = require('./controllers/storage_controller');
 
 const router = new express.Router();
 
@@ -41,6 +42,16 @@ router
   .get(userController.getItem)
   .put(userController.updateItem)
   .delete(userController.deleteItem);
+
+router
+  .route('/storages/blobs')
+  .get(storageController.list)
+  .post(storageController.create);
+router
+  .route('/storages/blobs/:blobId')
+  .get(storageController.get)
+  .put(storageController.update)
+  .delete(storageController.del);
 
 // module exports
 module.exports = router;
