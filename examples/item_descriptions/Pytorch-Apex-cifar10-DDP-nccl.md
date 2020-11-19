@@ -1,5 +1,4 @@
-
-# Pytorch DDP Example With Apex
+# Pytorch DDP Example With Apex (NCCL backend)
 
 This example shows how to train a custom neural network on cifar10 with Pytorch on OpenPAI.
 
