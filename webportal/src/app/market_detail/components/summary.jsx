@@ -10,7 +10,7 @@ import {
   Icon,
   TooltipHost,
 } from 'office-ui-fabric-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { capitalize } from 'lodash';
@@ -21,6 +21,7 @@ import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
 import VerticalLine from 'App/components/vertical_line';
 import { generateJobProtocol } from '../utils/generate_job_protocol';
 import { getFileName } from 'App/utils/fileNameUtil';
+import Context from 'App/context';
 
 const { spacing, palette } = getTheme();
 
@@ -31,12 +32,17 @@ const Wrapper = styled.div`
 
 export default function Summary(props) {
   const { marketItem } = props;
+  const { user } = useContext(Context);
 
   async function clickUse() {
-    const jobProtocol = await generateJobProtocol(marketItem);
-    window.localStorage.removeItem('marketItem');
-    window.localStorage.setItem('marketItem', JSON.stringify(jobProtocol));
-    window.location.href = `/submit.html`;
+    try {
+      const jobProtocol = await generateJobProtocol(marketItem, user);
+      window.localStorage.removeItem('marketItem');
+      window.localStorage.setItem('marketItem', JSON.stringify(jobProtocol));
+      window.location.href = `/submit.html`;
+    } catch (err) {
+      alert(err.message);
+    }
   }
 
   return (
@@ -106,7 +112,7 @@ export default function Summary(props) {
           <Stack horizontal gap='s1'>
             {marketItem.type === 'data' && marketItem.dataType === 'blob' && (
               <DefaultButton
-                text='download'
+                text='Download'
                 onClick={async () => {
                   const fileName = getFileName(marketItem.dataUrl);
                   const res = await fetch(marketItem.dataUrl);
@@ -117,7 +123,7 @@ export default function Summary(props) {
             )}
             {marketItem.type === 'data' && marketItem.dataType === 'github' && (
               <DefaultButton
-                text='download'
+                text='Download'
                 onClick={async () => {
                   const fileName = getFileName(marketItem.dataUrl);
                   const res = await fetch(marketItem.dataUrl, {
@@ -129,7 +135,7 @@ export default function Summary(props) {
               />
             )}
             <PrimaryButton
-              text='use'
+              text='Use'
               onClick={async () => {
                 await clickUse();
               }}

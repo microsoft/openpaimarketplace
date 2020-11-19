@@ -19,7 +19,11 @@ class MarketplaceItem {
       categories: DataTypes.ARRAY(DataTypes.STRING),
       tags: DataTypes.ARRAY(DataTypes.STRING),
       summary: DataTypes.STRING,
-      protocol: DataTypes.TEXT,
+      description: DataTypes.TEXT,
+      protocol: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
       useNumber: {
         type: DataTypes.INTEGER,
         allowNull: false,

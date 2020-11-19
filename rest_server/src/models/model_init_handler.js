@@ -2,28 +2,38 @@
 // Licensed under the MIT License.
 const { get } = require('lodash');
 const fs = require('fs-extra');
-const yaml = require('js-yaml');
 const path = require('path');
-const { MARKET_ITEM_LIST } = require('../../../examples/constants');
+const { EXAMPLE_LIST } = require('../../../examples/examples');
 
-const EXAMPLE_DIR1 = path.join(__dirname, '../../../examples/yaml_templates');
-const EXAMPLE_DIR2 = path.join(__dirname, '../../../examples/item_protocols');
+const protocolDir = path.join(__dirname, '../../../examples/item_protocols');
+const descriptionDir = path.join(
+  __dirname,
+  '../../../examples/item_descriptions',
+);
 
 const createTemplates = async models => {
-  const templates = [];
   await Promise.all(
-    MARKET_ITEM_LIST.map(async item => {
-      const filePath = path.join(
-        item.type === 'old' ? EXAMPLE_DIR1 : EXAMPLE_DIR2,
-        item.protocol,
-      );
+    EXAMPLE_LIST.map(async item => {
       try {
-        const text = await fs.readFile(filePath, 'utf8');
-        const template = yaml.safeLoad(text);
-        templates.push(template);
+        const protocolFilePath = path.join(
+          item.type === 'old'
+            ? path.join(protocolDir, 'old_templates')
+            : protocolDir,
+          item.protocol,
+        );
+        const descriptionFilePath =
+          item.type === 'old'
+            ? null
+            : path.join(descriptionDir, item.description);
+        const protocolText = await fs.readFile(protocolFilePath, 'utf8');
+        let descriptionText = `# ${item.name}`;
+        if (await fs.pathExists(descriptionFilePath)) {
+          descriptionText = await fs.readFile(descriptionFilePath, 'utf8');
+        }
         const newItem = {
           ...item,
-          ...{ protocol: text },
+          protocol: protocolText,
+          description: descriptionText,
           ...{
             categories: Array.isArray(item.categories)
               ? item.categories
@@ -36,8 +46,6 @@ const createTemplates = async models => {
       }
     }),
   );
-
-  return templates;
 };
 
 const init = async models => {
@@ -51,7 +59,7 @@ const modelSyncHandler = fn => {
       return await fn(...args.slice(0, args.length - 1));
     } catch (error) {
       if (get(error, 'original.code') === '42P01') {
-        // Error 42P01: relation does not exist
+        // Error 42P01: relation(target table) does not exist
         await init(args[args.length - 1]);
         return await fn(...args.slice(0, args.length - 1));
       } else {
