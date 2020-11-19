@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import React from 'react';
-import { Stack, StackItem, getTheme } from 'office-ui-fabric-react';
+import {
+  DefaultButton,
+  Stack,
+  StackItem,
+  getTheme,
+} from 'office-ui-fabric-react';
 import qs from 'query-string';
 import PropTypes from 'prop-types';
 import { isNil } from 'lodash';
@@ -12,7 +17,7 @@ import SideBar from './components/side_bar';
 import ItemList from './components/item_list';
 import Page from 'App/components/page';
 
-const { spacing } = getTheme();
+const { spacing, palette } = getTheme();
 
 const MarketList = props => {
   const { api, user, token, isAdmin, routeProps } = props;
@@ -28,6 +33,19 @@ const MarketList = props => {
   return (
     <Context.Provider value={context}>
       <Page>
+        <Stack horizontal horizontalAlign='end'>
+          <DefaultButton
+            iconProps={{ iconName: 'Add' }}
+            text='Create'
+            href={`${window.location.href.split('?type=')[0]}create_item`}
+            styles={{
+              root: {
+                backgroundColor: palette.white,
+                borderColor: palette.blackTranslucent40,
+              },
+            }}
+          />
+        </Stack>
         <Stack horizontal gap={spacing.l1}>
           <StackItem>
             <SideBar
