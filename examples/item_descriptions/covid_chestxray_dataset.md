@@ -1,21 +1,72 @@
-# COVID-19 image data collection
+# COVID-19 chest X-ray dataset
 
-  [🎬 video about the project](https://www.youtube.com/watch?v=ineWmqfelEQ)
+## About the dataset
 
-  Project Summary: To build a public open dataset of chest X-ray and CT images of patients which are positive or suspected of COVID-19 or other viral and bacterial pneumonias ([MERS](https://en.wikipedia.org/wiki/Middle_East_respiratory_syndrome), [SARS](https://en.wikipedia.org/wiki/Severe_acute_respiratory_syndrome), and [ARDS](https://en.wikipedia.org/wiki/Acute_respiratory_distress_syndrome).).
+The COVID-19 chest X-ray dataset is achieved from a GitHub repo [ieee8023/covid-chestxray-dataset](https://github.com/ieee8023/covid-chestxray-dataset). 
 
-  ## Data content
+The project is to build a public open dataset of chest X-ray and CT images of patients which are positive or suspected of COVID-19 or other viral and bacterial pneumonias ([MERS](https://en.wikipedia.org/wiki/Middle_East_respiratory_syndrome), [SARS](https://en.wikipedia.org/wiki/Severe_acute_respiratory_syndrome), and [ARDS](https://en.wikipedia.org/wiki/Acute_respiratory_distress_syndrome).).
 
-  Data will be collected from public sources as well as through indirect collection from hospitals and physicians.
-  All images and data will be released publicly in GitHub repo [https://github.com/ieee8023/covid-chestxray-dataset](https://github.com/ieee8023/covid-chestxray-dataset).
+Below description is also copyed from the repo's [readme file](https://github.com/ieee8023/covid-chestxray-dataset/blob/master/README.md) , and made minor changes. You can get more information from the GitHub repo.
 
-  ## View current [images](https://github.com/ieee8023/covid-chestxray-dataset/tree/master/images) and [metadata](https://github.com/ieee8023/covid-chestxray-dataset/blob/master/metadata.csv)
+### Get raw data
+You can get the raw data by cloning the GitHub repo or download the `.zip` file [here](https://github.com/ieee8023/covid-chestxray-dataset).
 
-  The labels are arranged in a hierarchy:
+We downloaded the `.zip` file and stored it on Azure Blob Storage.
 
-  ![Image](https://github.com/ieee8023/covid-chestxray-dataset/blob/master/docs/hierarchy.jpg)
+### Data content
 
-  Current stats of PA, AP, and AP Supine views. Labels 0=No or 1=Yes. Data loader is [here](https://github.com/mlmed/torchxrayvision/blob/master/torchxrayvision/datasets.py#L867)
+Data will be collected from public sources as well as through indirect collection from hospitals and physicians.
+
+You can view current [images](https://github.com/ieee8023/covid-chestxray-dataset/tree/master/images) and [metadata](https://github.com/ieee8023/covid-chestxray-dataset/blob/master/metadata.csv).
+
+The labels are arranged in a hierarchy:
+
+![Image](https://github.com/ieee8023/covid-chestxray-dataset/raw/master/docs/hierarchy.jpg)
+
+
+## How to use
+
+### Download to local
+
+You can download the zip file by click the `Download` buttton.
+
+
+### Use via OpenPAI job submission
+
+You can also submit an OpenPAI job with this data by adding `DATA_DIR` environment variable.
+
+```
+mkdir -p /data/
+cd /data
+wget <% $data.uri[0] %>
+tar xvf couplet_data.tgz
+export DATA_DIR=/data/couplet_data/
+```
+
+The parameter `data.uri[0]` is defined in the config file (under the `prerequisites` and `taskToles` items), which indicates the dataset address on Azure Blob Storage.
+
+```
+prerequisites:
+  - name: couplet_data
+    type: data
+    uri:
+      - >-
+        https://openpaimarketplace.blob.core.windows.net/marketplace/Couplet_data/couplet_data.tgz
+taskRoles:
+  taskrole:
+    instances: 1
+    data: couplet_data
+```
+
+You can click "Edit YAML" on the **Job submission** page to get more information.
+
+### Use in the code
+
+Current stats of PA, AP, and AP Supine views. Labels 0=No or 1=Yes. 
+
+Data loader is [here](https://github.com/mlmed/torchxrayvision/blob/master/torchxrayvision/datasets.py#L867). 
+
+You can load data to file by creating object of `class MIMIC_Dataset(Dataset)`.
 
   ```js
 
@@ -63,8 +114,13 @@
 
   ```
 
-  ## License
+## License
 
   Each image has license specified in the metadata.csv file. Including Apache 2.0, CC BY-NC-SA 4.0, CC BY 4.0.
 
-  The metadata.csv, scripts, and other documents are released under a CC BY-NC-SA 4.0 license. Companies are free to perform research. Beyond that contact us.
+  The metadata.csv, scripts, and other documents are released under a CC BY-NC-SA 4.0 license. Companies are free to perform research.
+
+
+## Related project
+
+The dataset is related to the GitHub project [mlmed/torchxrayvision](https://github.com/mlmed/torchxrayvision).

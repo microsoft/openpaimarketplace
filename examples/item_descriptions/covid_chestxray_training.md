@@ -1,19 +1,45 @@
 # Covid Chestxray Model Training Job
 
-  This is a covid chestxray model training process.
+  This is a COVID-19 chest X-ray model training process.
 
-  ## Training Data
+## Training Data
 
   You could use [covid-chestxray-dataset](https://github.com/ieee8023/covid-chestxray-dataset) or other dataset supported by [torchxrayvision](https://github.com/mlmed/torchxrayvision).
 
-  ## How to use
+## How to use
 
-  In this job, three environment variables are set:
+### Prerequisites
 
-  DATA_DIR: the training data path in container, by default it uses prepared data. If you want to use your own datasets change the $DATA_DIR with the new URL.
+- Load dataset
+  
+    ```
+    mkdir -p /data/covid_chestxray_training/output
+    cd /data/
+    git clone <% $data.uri[0] %> covid-chestxray-dataset
+    export OUTPUT_DIR=/data/covid_chestxray_training/output
+    cd /data/covid_chestxray_training
+    ```
 
-  OUTPUT_DIR: the path to store output result, i.e. the training model files. By default it will mount a nfs storage, and you could change it with other mounted storage.
+### Training code
 
-  ## How to check the result
+We provide the sample training code on [OpenPAI Marketplace](https://github.com/microsoft/openpaimarketplace) GitHub repo, You can get them [here](https://github.com/microsoft/openpaimarketplace/tree/master/examples/code/covid_chestxray_training). The codes are referd to `train_model.py` and `train_utils.py` from [torchxrayvision/scripts/](https://github.com/mlmed/torchxrayvision/tree/master/scripts).
 
-  After job finished successfully, you could check the output model files in the output storage.
+There are three files: `requirements.txt`, `train.py`, `train_utiles.py`
+
+Command to get the sample training code.
+```
+wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/master/examples/code/covid_chestxray_training/requirements.txt
+pip install -r requirements.txt
+wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/master/examples/code/covid_chestxray_training/train.py
+wget https://raw.githubusercontent.com/microsoft/openpaimarketplace/master/examples/code/covid_chestxray_training/train_utils.py
+```
+
+### Training command
+
+```
+python3 train.py -name=covid_chestxray_training --output_dir=OUTPUT_DIR --dataset=COVID19 --dataset_dir=../covid-chestxray-dataset --batch_size 80
+```
+
+### Get the result model
+
+After job finished successfully, you could check the output model files in the output storage.
