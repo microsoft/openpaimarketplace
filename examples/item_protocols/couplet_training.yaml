@@ -119,7 +119,7 @@ taskRoles:
       - export DATA_DIR=/data/couplet_data/
       - export OUTPUT_DIR=/data/couplet_output/
       - export PREPROCESSED_DATA_DIR=./preprocessed_data
-      - pip install fairseq
+      - pip install fairseq==0.9
       - fairseq-preprocess \
       - '--source-lang up \'
       - '--target-lang down \'

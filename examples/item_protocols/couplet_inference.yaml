@@ -56,7 +56,7 @@ taskRoles:
       - export DATA_DIR=/data/couplet/checkpoints/
       - export CODE_DIR=/data/couplet/
       - export FLASK_PORT=$PAI_PORT_LIST_taskrole_0_FLASK_PORT
-      - pip install fairseq
+      - pip install fairseq==0.9
       - pip install flask
       - pip install gunicorn
       - 'cd ${CODE_DIR}'

@@ -9,6 +9,9 @@ const databaseErrorHandler = (error, res) => {
   }
   if (error.name === 'SequelizeDatabaseError') {
     res.status(500).send('database error');
+  }
+  if (error.name === 'SequelizeValidationError') {
+    res.status(400).send('bad request: database validation not passed');
   } else {
     throw error;
   }
