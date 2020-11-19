@@ -13,7 +13,7 @@
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "webpack --mode=production",
-    "dev": "webpack-dev-server --mode=development",
+    "dev": "webpack-dev-server",
     "prestart": "envsub --env-file .env --system dist/plugin.js dist/plugin.js",
     "start": "node server"
   },
