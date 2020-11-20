@@ -13,7 +13,7 @@
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "webpack --mode=production",
-    "dev": "webpack-dev-server --mode=development",
+    "dev": "webpack-dev-server",
     "prestart": "envsub --env-file .env --system dist/plugin.js dist/plugin.js",
     "start": "node server"
   },
@@ -37,6 +37,7 @@
     "query-string": "^6.13.7",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-dropzone": "^11.2.4",
     "react-markdown": "^4.3.1",
     "react-responsive": "^8.1.0",
     "react-router-dom": "^5.1.2",

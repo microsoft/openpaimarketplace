@@ -3,35 +3,11 @@ name: grammar_dataset
 type: job
 contributor: OpenPAI
 description: |
-  # Grammar check dataset
+  Grammar check dataset
 
   This dataset is downloaded from [Building Educational Applications 2019 Shared Task: Grammatical Error Correction](https://www.cl.cam.ac.uk/research/nl/bea2019st/).
-
-  ## Dataset Introduction
-
   This dataset includes First Certificate in English (FCE) original corpus and a processed version which could be easily used by nlp models like fairseq.
 
-
-  ## The file stucture
-
-  ```
-  .
-  |-- processed_data
-      |-- train.origin
-      |-- train.correct
-      |-- dev.origin
-      |-- dev.correct
-      |-- test.origin
-      |-- test.correct
-  |-- fce_v2.1.bea19
-      |-- <raw data>
-  ```
-
-  The suffix ```.origin``` and ```.correct``` means original sentences and correct sentences seperately. The ```fce_v2.1.bea19``` is the raw data downloaded from websites.
-
-  ## How to use
-
-  The data will be mounted at ```DATA_DIR``` environment variable. You could use ```$DATA_DIR``` in your command when submitting jobs in pai.
 
 prerequisites:
   - name: default_image

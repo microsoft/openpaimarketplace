@@ -8,14 +8,47 @@ The training data is fetched by [Coronavirus Tracker API](https://github.com/Exp
 
 ## How to use
 
-When use this module, you should set three environment variables:
+### Prerequisites
+When use this module, you should
 
-- `DATA_DIR`: the training data path in container, by default it uses Coronavirus Public Dataset. If you want to use your own datasets. First make sure mount your data into container, and then change the `$DATA_DIR` with the path.
+1. Load training data and code from Azure Blob to container
+   ```
+   mkdir -p /data/covid19/data/
+   cd /data/covid19/data/
+   wget <% $data.uri[0] %>
+   export DATA_DIR=/data/covid19/data/
+   cd /data/covid19/
+   wget <% $script.uri %>
+   tar xvf /data/covid19/covid19_prediction_project.tgz
+   ```
+2. Set three environment variables:
+   ```
+    export CODE_DIR=/data/covid19/prediction_project/
+    export OUTPUT_DIR=/data/covid19/prediction_project/output/
+   ```
+3. install python packages
+   ```
+    pip install numpy
+    pip install scipy
+    pip install sklearn
+   ```
+**NOTE**: 
+- The value of `data` and `script` are defined under the `prerequisites` and `taskRoles` fileds of the YAML file on the `Job submission` page.
 
-- `CODE_DIR`: the path to store model training code,it is mounted by code storage.
+- ```DATA_DIR```: The training data path in container, by default it uses Couplet Dataset data component.
 
-- `OUTPUT_DIR`: the path to store output result, i.e. the prediction results. By default it will mount the output storage, and you could change it with other mounted storage.
+- ```CODE_DIR```: The training command path in container.
 
-## How to check the result
+- ```OUTPUT_DIR```: The path to store output result, i.e. the training model files.
+  
+### Training command
 
-After job finished successfully, you could check the output result file in the output storage. Or you could use model service template and go to http://<ip>:<flask_port>/upper=<input> to see the visualization.
+```
+cd ${CODE_DIR}
+python PredictionConfirmed.py -i ${DATA_DIR}/covid-19_data.json -o ${OUTPUT_DIR}
+```
+
+### Get the result
+
+You can get the prediction result in the job log page.
+

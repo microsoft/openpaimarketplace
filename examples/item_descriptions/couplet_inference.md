@@ -1,11 +1,32 @@
-# Couplet Training Job Template
+# Couplet Inference Job Template
 
-This is a model inference process. It serves with a language model trained by [Couplet Training Job Template](https://int.openpai.org/plugin.html?index=0#/market_detail?itemId=2). This job will produce a url for user to ask for down part for a upper part of couplet.
+This is a model inference process. It serves with a language model trained by **Couplet Training Job Template**. This job will produce a url for user to ask for down part for a upper part of couplet.
+
+## Trained model
+
+The model is trained by **Couplet Training Job Template**, and is stored on Azure Blob Storage.
 
 ## How to use
 
 ### Prerequisites
-When use this module, you should set three environment variables:
+
+1. Load model file to container
+   ```
+   mkdir -p /data/
+   cd /data/
+   wget <% $script.uri %>
+   tar xvf couplet_inference_project.tgz
+   cd /data/couplet/
+   wget <% $data.uri[0] %>
+   tar xvf couplet_checkpoint_best.tgz
+   ```
+
+2. When use this module, you should set three environment variables:
+   ```
+   export DATA_DIR=/data/couplet/checkpoints/
+   export CODE_DIR=/data/couplet/
+   export FLASK_PORT=$PAI_PORT_LIST_taskrole_0_FLASK_PORT
+   ```
 
 - ```DATA_DIR```: the training model path in container, by default it uses the output of couplet training job. If you want to use your own models. First make sure mount your models into container, and then change the ```$DATA_DIR``` with the path.
 
@@ -16,16 +37,6 @@ When use this module, you should set three environment variables:
 ### Inference command
 
 ```
-mkdir -p /data/
-cd /data/
-wget <% $script.uri %>
-tar xvf couplet_inference_project.tgz
-cd /data/couplet/
-wget <% $data.uri[0] %>
-tar xvf couplet_checkpoint_best.tgz
-export DATA_DIR=/data/couplet/checkpoints/
-export CODE_DIR=/data/couplet/
-export FLASK_PORT=$PAI_PORT_LIST_taskrole_0_FLASK_PORT
 pip install fairseq
 pip install flask
 pip install gunicorn
