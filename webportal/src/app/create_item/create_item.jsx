@@ -15,6 +15,9 @@ import UploadFiles from './components/upload_files';
 import BasicInformation from './components/basic_information';
 import Detail from './components/detail';
 
+const defaultDescription =
+  '# Job Template Name\n\n## Training data\n\nPlease add the brief introduction of the training data\n\n## How to use\n\n### Prerequisites\n\nPlease add the prerequisites before run the job if have. The prerequisites include data downloading, package installation, environment variable settings, and so on.\n\n### Training command\n\nPlease add the training command here.\n\n### Get the result\n\nPlease show how to get the training result.\n\n## Reference\n\nYou can add the reference tutorials or projects here if have any.\n';
+
 const { spacing, palette } = getTheme();
 
 const GrayCard = styled.div`
@@ -53,7 +56,7 @@ const CreateItem = props => {
           name: yamlObject.name || '',
           summary: '',
           type: '',
-          description: yamlObject.description || '',
+          description: defaultDescription || '',
           protocol: reader.result,
           author: user,
           status: 'approved',
