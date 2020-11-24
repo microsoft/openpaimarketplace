@@ -48,9 +48,27 @@ const createTemplates = async models => {
   );
 };
 
+const createStorageBlobs = async models => {
+  try {
+    const envBlob = JSON.parse(process.env.AZURE_STORAGE);
+    const defaultBlob = {
+      type: envBlob.type,
+      storageAccount: envBlob.storage_account,
+      containerName: 'marketplace',
+      connectionStrings: envBlob.connection_strings,
+      tokens: [''],
+      users: [''],
+    };
+    await models.Blob.orm.create(defaultBlob);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 const init = async models => {
   await models.sequelize.sync();
   await createTemplates(models);
+  await createStorageBlobs(models);
 };
 
 const modelSyncHandler = fn => {
