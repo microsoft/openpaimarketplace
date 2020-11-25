@@ -304,6 +304,129 @@ paths:
           description: OK
         404:
           $ref: "#/components/responses/404NotFound"
+  /storages/blobs:
+    get:
+      tags:
+        - Storage
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [blob]
+        - name: storageAccount
+          in: query
+          schema:
+            type: string
+        - name: containerName
+          in: query
+          schema:
+            type: string
+        - name: user
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Get blob storage matches query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Storage"
+    post:
+      tags:
+        - Storage
+      summary: Add a new blob storage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Storage"
+      responses:
+        201:
+          description: Return storage id if created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+        400:
+          description: Database vlidation error
+          content:
+            text/plain:
+              schema:
+                type: string
+  /storages/blobs/{blobId}:
+    parameters:
+      - name: blobId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Storage
+      summary: Get the blob storage of the specified id, 404 if not found
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Storage"
+        404:
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+    put:
+      tags:
+        - Storage
+      summary: Update the blob storage of the specified id.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Storage"
+      responses:
+        200:
+          description: Updated successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          description: Blob not found
+          content:
+            text/plain:
+              schema:
+                type: string
+    delete:
+      tags:
+        - Storage
+      summary: Delete the blob storage of the specified id.
+      responses:
+        200:
+          description: Deleted successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        404:
+          description: Blob not found
+          content:
+            text/plain:
+              schema:
+                type: string
 
 components:
   schemas:
@@ -312,6 +435,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
         name:
           type: string
         author:
@@ -349,6 +473,42 @@ components:
         status:
           type: string
           description: pending, approved or rejected
+    Storage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [blob]
+        storageAccount:
+          type: string
+        containerName:
+          type: string
+        connectionStrings:
+          type: array
+          items:
+            type: string
+        tokens:
+          type: array
+          items:
+            type: string
+        users:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: "date-time"
+        updatedAt:
+          type: string
+          format: "date-time"
+      required:
+        - type
+        - storageAccount
+        - containerName
+        - connectionStrings
     Data:
       type: object
       properties:
