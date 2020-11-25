@@ -29,12 +29,12 @@ taskRoles:
       - mkdir -p /data/covid19
       - cd /data/covid19
       - wget <% $script.uri %>
-      - tar xvf covid_inference_project.tgz
+      - tar xvf covid19_inference_project.tgz
       - export CODE_DIR=/data/covid19/inference_project
       - export SERVER_PORT=$PAI_PORT_LIST_taskrole_0_SERVER_PORT
       - cd ${CODE_DIR}
       - ls
-      - echo please go to $PAI_HOST_IP_taskrole_0:$SERVER_PORT to view the result.
       - npm install
       - npm run build
       - npm start
+      - echo please go to $PAI_HOST_IP_taskrole_0:$SERVER_PORT to view the result.
