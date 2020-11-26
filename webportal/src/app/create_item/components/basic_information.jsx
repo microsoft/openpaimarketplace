@@ -91,9 +91,7 @@ const BasicInformation = props => {
           label='Type'
           required={true}
           placeholder='Please select a type'
-          options={[
-            { key: 'template', text: 'Job template' },
-          ]}
+          options={[{ key: 'template', text: 'Job template' }]}
           onChange={(event, item) => {
             itemObject.type = item.key;
             setItemObject(itemObject);
