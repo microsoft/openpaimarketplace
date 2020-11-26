@@ -21,8 +21,9 @@ export async function generateJobProtocol(item, user) {
     '\tpai_copy upload ${OUTPUT_DIR} paiuploadtest ${PAI_USER_NAME}/${PAI_JOB_NAME}/', // eslint-disable-line no-template-curly-in-string
     'fi',
   ];
-  item.protocol.taskRoles.taskrole.commands = protocolHeaderArray.concat(
-    item.protocol.taskRoles.taskrole.commands,
+  const taskRoleName = Object.keys(item.protocol.taskRoles)[0];
+  item.protocol.taskRoles[taskRoleName].commands = protocolHeaderArray.concat(
+    item.protocol.taskRoles[taskRoleName].commands,
     protocolFooterArray,
   );
   return item.protocol;
