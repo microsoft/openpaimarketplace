@@ -44,7 +44,7 @@ const UploadFiles = ({ getRootProps, getInputProps, loadYamlError }) => {
             },
           }}
         >
-          Upload YAML
+          Upload OpenPAI Protocol
         </Text>
         <div style={{ width: '30px' }}>
           <UploadIcon />
