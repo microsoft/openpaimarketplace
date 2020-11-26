@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StorageCard from './storage_card';
 
-const DataDetail = props => {
+const DataTemplateDetail = props => {
   const { marketItem } = props;
   const dataStorages = marketItem.protocol.prerequisites.filter(
     item => item.type === 'data',
@@ -20,8 +20,8 @@ const DataDetail = props => {
   );
 };
 
-DataDetail.propTypes = {
+DataTemplateDetail.propTypes = {
   marketItem: PropTypes.object.isRequired,
 };
 
-export default DataDetail;
+export default DataTemplateDetail;
