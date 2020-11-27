@@ -5,6 +5,7 @@ import { getTheme, Stack, Text } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
 import FilterItem from './filter_item';
 import Context from 'App/context';
+import { TYPE_ENUM } from 'App/utils/constants';
 
 const SideBar = props => {
   const { type } = props;
@@ -30,23 +31,23 @@ const SideBar = props => {
       <Stack>
         <FilterItem
           text='All'
-          selected={type === 'all'}
-          onChange={changeFilter('all')}
+          selected={type === TYPE_ENUM.ALL}
+          onChange={changeFilter(TYPE_ENUM.ALL)}
         />
         <FilterItem
-          text='Data'
-          selected={type === 'data'}
-          onChange={changeFilter('data')}
+          text='Data Template'
+          selected={type === TYPE_ENUM.DATA_TEMPLATE}
+          onChange={changeFilter(TYPE_ENUM.DATA_TEMPLATE)}
         />
         <FilterItem
           text='Job Template'
-          selected={type === 'template'}
-          onChange={changeFilter('template')}
+          selected={type === TYPE_ENUM.JOB_TEMPLATE}
+          onChange={changeFilter(TYPE_ENUM.JOB_TEMPLATE)}
         />
         <FilterItem
           text='Old Example'
-          selected={type === 'old'}
-          onChange={changeFilter('old')}
+          selected={type === TYPE_ENUM.OLD_TEMPLATE}
+          onChange={changeFilter(TYPE_ENUM.OLD_TEMPLATE)}
         />
       </Stack>
     </Stack>

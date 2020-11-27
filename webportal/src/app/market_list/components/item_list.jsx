@@ -5,7 +5,6 @@ import { Stack, Text, getTheme } from 'office-ui-fabric-react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { capitalize, isNil } from 'lodash';
-
 import ItemCard from './item_card';
 import HorizontalLine from 'App/components/horizontal_line';
 import { listItems } from 'App/utils/marketplace_api';

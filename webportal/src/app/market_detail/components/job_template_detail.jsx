@@ -8,7 +8,7 @@ import StorageCard from './storage_card';
 import { isNil, isEmpty } from 'lodash';
 import CodeWrapper from 'App/components/code_wrapper';
 
-const TemplateDetail = props => {
+const JobTemplateDetail = props => {
   const { marketItem } = props;
   const dockerImage = marketItem.protocol.prerequisites.filter(
     item => item.type === 'dockerimage',
@@ -86,8 +86,8 @@ const TemplateDetail = props => {
   );
 };
 
-TemplateDetail.propTypes = {
+JobTemplateDetail.propTypes = {
   marketItem: PropTypes.object,
 };
 
-export default TemplateDetail;
+export default JobTemplateDetail;

@@ -5,11 +5,11 @@ import React, { useContext } from 'react';
 import { Text, Stack, Link } from 'office-ui-fabric-react';
 import { FontClassNames } from '@uifabric/styling';
 import styled from 'styled-components';
-
 import Card from 'App/components/card';
 import Context from 'App/context';
 import { ReactComponent as DataIcon } from 'App/assets/data.svg';
-import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
+import { ReactComponent as JobIcon } from 'App/assets/job.svg';
+import { TYPE_ENUM } from 'App/utils/constants';
 
 const HoverCard = styled(Card)`
   cursor: pointer;
@@ -43,9 +43,9 @@ const ItemCard = props => {
         gap='m'
       >
         <Stack.Item>
-          {item.type === 'data' && <DataIcon />}
-          {item.type === 'template' && <TemplateIcon />}
-          {item.type === 'old' && <TemplateIcon />}
+          {item.type === TYPE_ENUM.DATA_TEMPLATE && <DataIcon />}
+          {item.type === TYPE_ENUM.JOB_TEMPLATE && <JobIcon />}
+          {item.type === TYPE_ENUM.OLD_TEMPLATE && <JobIcon />}
         </Stack.Item>
         <Stack gap='m' styles={{ root: [{ width: '70%' }] }}>
           <Link
