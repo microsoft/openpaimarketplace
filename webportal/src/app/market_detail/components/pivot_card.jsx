@@ -48,7 +48,9 @@ const PivotCard = props => {
             {marketItem.type === TYPE_ENUM.DATA_TEMPLATE && (
               <JobTemplateDetail marketItem={marketItem} />
             )}
-            {marketItem.type === TYPE_ENUM.OLD_TEMPLATE && <OldTemplateDetail marketItem={marketItem} />}
+            {marketItem.type === TYPE_ENUM.OLD_TEMPLATE && (
+              <OldTemplateDetail marketItem={marketItem} />
+            )}
           </PivotItemWrapper>
         </PivotItem>
       </Pivot>

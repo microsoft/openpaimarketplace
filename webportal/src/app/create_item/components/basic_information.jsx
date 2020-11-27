@@ -14,6 +14,7 @@ import {
 } from 'office-ui-fabric-react';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
+import { TYPE_ENUM } from 'App/utils/constants';
 
 const BasicInformationArea = styled.div`
   margin-bottom: 50px;
@@ -91,7 +92,7 @@ const BasicInformation = props => {
           label='Type'
           required={true}
           placeholder='Please select a type'
-          options={[{ key: 'template', text: 'Job template' }]}
+          options={[{ key: TYPE_ENUM.JOB_TEMPLATE, text: 'Job template' }]}
           onChange={(event, item) => {
             itemObject.type = item.key;
             setItemObject(itemObject);
