@@ -16,7 +16,7 @@ import {
 } from 'office-ui-fabric-react';
 import styled from 'styled-components';
 import { isNil, isEmpty } from 'lodash';
-import { createMarketItem } from 'App/utils/marketplace_api';
+import { createItem } from 'App/utils/marketplace_api';
 
 const DetailsArea = styled.div`
   margin-bottom: 50px;
@@ -102,7 +102,7 @@ const Detail = props => {
   }, []);
 
   const submit = () => {
-    createMarketItem(itemObject)
+    createItem(itemObject)
       .then(id => {
         window.location.href = `${window.location.href.slice(
           0,
