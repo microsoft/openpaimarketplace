@@ -3,6 +3,7 @@
 const { get } = require('lodash');
 const fs = require('fs-extra');
 const path = require('path');
+const yaml = require('js-yaml');
 const { EXAMPLE_LIST } = require('../../../examples/examples');
 
 const protocolDir = path.join(__dirname, '../../../examples/item_protocols');
@@ -29,6 +30,8 @@ const createTemplates = async models => {
         let descriptionText = `# ${item.name}`;
         if (await fs.pathExists(descriptionFilePath)) {
           descriptionText = await fs.readFile(descriptionFilePath, 'utf8');
+        } else if (item.type === 'old') {
+          descriptionText = yaml.safeLoad(protocolText).description;
         }
         const newItem = {
           ...item,
