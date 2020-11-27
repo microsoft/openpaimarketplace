@@ -5,12 +5,10 @@ nav:
   - Home: index.md
   - User Manual:
       - Introduction: user/README.md
-      - Quick Start: user/quick-start.md
-      - Data Management: user/data-management.md
-      - Create Template: user/create-template.md
+      - Quick Start: user/quick_start.md
+      - Data Management: user/data_management.md
+      - Create Template: user/create_template.md
   - Admin Manual:
       - Introduction: admin/README.md
       - Deployment: deployment.md
-  - Deployment: deployment.md
-  - Getting Started: getting_started.md
 theme: readthedocs
