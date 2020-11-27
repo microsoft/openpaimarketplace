@@ -20,7 +20,7 @@ import { ReactComponent as DataIcon } from 'App/assets/data.svg';
 import { ReactComponent as TemplateIcon } from 'App/assets/template.svg';
 import VerticalLine from 'App/components/vertical_line';
 import { generateJobProtocol } from '../utils/generate_job_protocol';
-import { getFileName } from 'App/utils/fileNameUtil';
+import { getFileName } from 'App/utils/file_name_util';
 import Context from 'App/context';
 
 const { spacing, palette } = getTheme();
