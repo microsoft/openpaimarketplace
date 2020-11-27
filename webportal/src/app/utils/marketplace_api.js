@@ -103,4 +103,3 @@ export async function createItem(marketItem) {
     throw new Error(res.statusText);
   }
 }
-
