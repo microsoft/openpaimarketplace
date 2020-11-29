@@ -13,34 +13,39 @@
 
 ---
 
-A marketplace which stores examples and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
+A marketplace which stores data and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
 ## Components
 
-There are two components of openpaimarketplace, [rest server](https://github.com/microsoft/openpaimarketplace/tree/master/rest_server) and [webportal plugin](https://github.com/microsoft/openpaimarketplace/tree/master/webportal_plugin), which are responsible for backend service and frontend usage seperately. Please check the two folders for more detail.
+There are two components of openpaimarketplace, [rest server](https://github.com/microsoft/openpaimarketplace/tree/master/rest_server) and [webportal](https://github.com/microsoft/openpaimarketplace/tree/master/webportal), which are responsible for backend service and frontend UI seperately.
 
-## Documentation
+## Getting Started
 
-The documentation is put in [docs directory](./docs) and hosted at [readthedocs](https://openpaimarketplace.readthedocs.io/en/latest/):
+- For Admin
+  
+  To the admin user who is responsible for deploying and managing OpenPAI and openpaimarketplace, please check [admin manual](https://openpaimarketplace.readthedocs.io/en/latest/admin/) for help.
 
-- [Deployment](./docs/deployment.md)
-- [Getting started](./docs/getting_started.md)
+- For User
 
-## Code style check
+  To the normal user who wants to use marketplace templates in OpenPAI, please check [user manual](https://openpaimarketplace.readthedocs.io/en/latest/user/) for help.
 
-This project use eslint with standard config as linter and prettier as code formatter.
-
-Pleae refer to eslint config file and prettier config file for details. Make sure to run yarn lint command every time before you push your code, and resolve all the errors and warnings. Otherwise it will break the CI check when you submit your pull request.
-
-If you use modern editors like VS Code. It is highly recommends to install eslint and prettier extensions.
-
-    How to do code format with prettier? You could use cli like prettier --write 'src/**/*.js' 'src/**/*.jsx' or use prettier extension in vscode.
-
-## Related Project
+## Reference
 
 - [OpenPAI](https://github.com/microsoft/pai): A complete solution for AI platform. HiveD will be more user-friendly when working in tandem with OpenPAI.
 
 - [OpenPAI Protocol](https://github.com/microsoft/openpai-protocol): The protocol interface between marketplace and OpenPAI platform.
+
+## Developing Guide
+
+This section is a guide for developers who are new to openpaimarketplace. Openpaimarketplace contains 2 sub projects, `rest_server` and `webportal`. For the detailed developing guide, you should refer to the readme doc of each sub project.
+
+### [rest_server](./rest_server)
+
+Rest server uses nodejs as backend service framework. The api follows RESTful API specification.
+
+### [webportal](./webportal)
+
+Currently openpaimarketplace webportal is used as a [pai webportal plugin](https://github.com/microsoft/pai/blob/master/docs/manual/cluster-admin/how-to-customize-cluster-by-plugins.md). It uses react as frontend framework, and builds with webpack bundler.
 
 ## Contributing
 
