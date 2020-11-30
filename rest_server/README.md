@@ -32,7 +32,17 @@ The rest server of openpaimarketplace. It is the api service to use openpai mark
   ```
   - DB_USERNAME, DATABASE, DB_PASSWORD, DB_HOST, DB_PORT: the database info 
   - PORT: the rest server service port.
-  - AZURE_STORAGE: the initial azure storage info
+  - AZURE_STORAGE: the initial azure storage info. It is a json string that will be initially created in database, and will be used by download or upload data in templates. The format is :
+
+    ```
+    {
+      "storage_account": <azure_storage_account>,
+      "connection_strings": [
+        <blob_strage_string>
+      ],
+      "type": "blob"
+    }
+    ```
 
   After creating `.env` file, use `npm install` and `npm run dev` command to start marketpalce rest server.
 
