@@ -23,11 +23,11 @@ There are two components of openpaimarketplace, [rest server](https://github.com
 
 - For Admin
   
-  To the admin user who is responsible for deploying and managing OpenPAI and openpaimarketplace, please check [admin manual](https://openpaimarketplace.readthedocs.io/en/latest/admin/) for help.
+  To the admin user who is responsible for deploying and managing OpenPAI and openpaimarketplace, please check [admin manual](https://openpaimarketplace.readthedocs.io/en/latest/admin/README.html) for help.
 
 - For User
 
-  To the normal user who wants to use marketplace templates in OpenPAI, please check [user manual](https://openpaimarketplace.readthedocs.io/en/latest/user/) for help.
+  To the normal user who wants to use marketplace templates in OpenPAI, please check [user manual](https://openpaimarketplace.readthedocs.io/en/latest/user/README.html) for help.
 
 ## Reference
 

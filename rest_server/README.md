@@ -68,5 +68,5 @@ If you use modern editors like VS Code. It is highly recommended to install esli
 
 ## Deployment
 
-Please refer to [OpenPAI Marketplace deplopment doc](https://openpaimarketplace.readthedocs.io/en/latest/deployment/)
+Please refer to [OpenPAI Marketplace deplopment doc](https://openpaimarketplace.readthedocs.io/en/latest/admin/deployment.html)
 
