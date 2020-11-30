@@ -11,4 +11,7 @@ nav:
   - Admin Manual:
       - Introduction: admin/README.md
       - Deployment: admin/deployment.md
+plugins:
+  - search
 theme: readthedocs
+use_directory_urls: false
