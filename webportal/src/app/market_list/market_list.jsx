@@ -10,12 +10,11 @@ import {
 import qs from 'query-string';
 import PropTypes from 'prop-types';
 import { isNil } from 'lodash';
-
 import Context from '../context';
 import SideBar from './components/side_bar';
-
 import ItemList from './components/item_list';
 import Page from 'App/components/page';
+import { TYPE_ENUM } from 'App/utils/constants';
 
 const { spacing, palette } = getTheme();
 
@@ -51,7 +50,7 @@ const MarketList = props => {
             <SideBar
               type={
                 isNil(qs.parse(routeProps.location.search).type)
-                  ? 'all'
+                  ? TYPE_ENUM.ALL
                   : qs.parse(routeProps.location.search).type
               }
             />
@@ -60,7 +59,7 @@ const MarketList = props => {
             <ItemList
               type={
                 isNil(qs.parse(routeProps.location.search).type)
-                  ? 'all'
+                  ? TYPE_ENUM.ALL
                   : qs.parse(routeProps.location.search).type
               }
             />

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import yaml from 'js-yaml';
 import CodeWrapper from 'App/components/code_wrapper';
 
-const OldDetail = props => {
+const OldTemplateDetail = props => {
   const { marketItem } = props;
 
   return (
@@ -18,8 +18,8 @@ const OldDetail = props => {
   );
 };
 
-OldDetail.propTypes = {
+OldTemplateDetail.propTypes = {
   marketItem: PropTypes.object.isRequired,
 };
 
-export default OldDetail;
+export default OldTemplateDetail;
