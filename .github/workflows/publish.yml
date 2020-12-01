@@ -12,9 +12,11 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'Publish to DockerHub'
         # Default value if no value is explicitly provided
-        default: 'int'
+        default: 'latest'
         # Input has to be provided for the workflow to run
         required: true
+  push:
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
