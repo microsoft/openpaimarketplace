@@ -15,7 +15,7 @@ prerequisites:
   - protocolVersion: 2
     name: rocm_torch
     type: dockerimage
-    uri : rocm/pytorch:rocm2.10_ubuntu16.04_py3.6_pytorch
+    uri : rocm/pytorch:rocm3.9_ubuntu18.04_py3.6_pytorch
 
 taskRoles:
   worker:
@@ -32,9 +32,9 @@ taskRoles:
     commands:
       - git clone https://github.com/pytorch/examples
       - cd examples/mnist
-      - pip install -r requirements.txt
+      - pip3 install -r requirements.txt
       - >
-        /usr/bin/python3.6 main.py
+        python3 main.py
         --epochs <% $parameters.epochs %>
         --lr <% $parameters.lr %>
         --batch-size <% $parameters.batchsize %>
