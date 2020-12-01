@@ -1,6 +1,6 @@
 # Openpaimarketplace Release Note
 
-## Dec 2020 (version 1.4.0)
+## Dec 2020 (version 1.3.0)
 
 - Better data storage experience
   - Use Azure Blob as data storage backend.
@@ -10,7 +10,7 @@
 - New deployment process in OpenPAI
   - Create three pai services when deploying in openpai
   - Register marketplace rest api and webportal plugin in OpenPAI pylon.
-  - For more details, please refer to [data management doc](https://openpaimarketplace.readthedocs.io/en/latest/user/data_management.html).
+  - For more details, please refer to [development doc](https://openpaimarketplace.readthedocs.io/en/latest/admin/deployment.html).
 
 - Better Documentation
   - Refine user manual and admin manual in [readthedocs](https://openpaimarketplace.readthedocs.io/en/latest/index.html)
@@ -22,4 +22,4 @@
   
 - Better UI Design
   - Toggle up pai webportal Marketplace plugin by default
-  - Add download button in Marketplace data template -- ETA: Oct. 30 
+  - Add download button in Marketplace data template
