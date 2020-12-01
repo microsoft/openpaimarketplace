@@ -52,7 +52,7 @@ jobs:
         file: ./webportal/deploy/Dockerfile
         push: ${{ github.event_name == 'push' }}
         build-args: VERSION=${GITHUB_REF##*/}
-        tags: openpai/pai-marketplace-webportal:${{ github.event.inputs.name }}
+        tags: openpai/pai-marketplace-webportal:${{ github.event.inputs.name || 'latest' }}
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
 
@@ -86,6 +86,6 @@ jobs:
         file: ./rest_server/deploy/Dockerfile
         push: ${{ github.event_name == 'push' }}
         build-args: VERSION=${GITHUB_REF##*/}
-        tags: openpai/pai-marketplace-restserver:${{ github.event.inputs.name }}
+        tags: openpai/pai-marketplace-restserver:${{ github.event.inputs.name || 'latest' }}
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
