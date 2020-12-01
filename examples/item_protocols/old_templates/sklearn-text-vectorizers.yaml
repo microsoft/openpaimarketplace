@@ -28,4 +28,7 @@ taskRoles:
       memoryMB: 8192
       gpu: 1
     commands:
-      - pip install memory_profiler && cd scikit-learn/benchmarks && python bench_text_vectorizers.py
+      - pip3 install --upgrade pip
+      - pip3 install memory_profiler numpy pandas scikit-learn
+      - cd scikit-learn/benchmarks
+      - python3 bench_text_vectorizers.py
