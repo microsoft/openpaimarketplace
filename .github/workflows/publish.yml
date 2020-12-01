@@ -47,7 +47,7 @@ jobs:
     - name: Build in pull request
       id: docker_build
       uses: docker/build-push-action@v2
-      if: ${{ github.event_name == 'pull_request'}
+      if: ${{ github.event_name == 'pull_request' }}
       with:
         context: .
         file: ./webportal/deploy/Dockerfile
@@ -57,7 +57,7 @@ jobs:
     - name: Build and push after merge PR
       id: docker_build
       uses: docker/build-push-action@v2
-      if: ${{ github.event_name == 'push'}
+      if: ${{ github.event_name == 'push' }}
       with:
         context: .
         file: ./webportal/deploy/Dockerfile
@@ -67,7 +67,7 @@ jobs:
     - name: Build and push manual
       id: docker_build
       uses: docker/build-push-action@v2
-      if: ${{ github.event_name == 'workflow_dispatch'}
+      if: ${{ github.event_name == 'workflow_dispatch' }}
       with:
         context: .
         file: ./webportal/deploy/Dockerfile
@@ -102,7 +102,7 @@ jobs:
     - name: Build in pull request
       id: docker_build
       uses: docker/build-push-action@v2
-      if: ${{ github.event_name == 'pull_request'}
+      if: ${{ github.event_name == 'pull_request' }}
       with:
         context: .
         file: ./rest_server/deploy/Dockerfile
@@ -112,7 +112,7 @@ jobs:
     - name: Build and push after merge PR
       id: docker_build
       uses: docker/build-push-action@v2
-      if: ${{ github.event_name == 'push'}
+      if: ${{ github.event_name == 'push' }}
       with:
         context: .
         file: ./rest_server/deploy/Dockerfile
@@ -122,7 +122,7 @@ jobs:
     - name: Build and push manual
       id: docker_build
       uses: docker/build-push-action@v2
-      if: ${{ github.event_name == 'workflow_dispatch'}
+      if: ${{ github.event_name == 'workflow_dispatch' }}
       with:
         context: .
         file: ./rest_server/deploy/Dockerfile
