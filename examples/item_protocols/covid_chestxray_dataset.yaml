@@ -6,7 +6,7 @@ description: |
   COVID-19 chest X-ray image data collection
 
   It is to build a public open dataset of chest X-ray and CT images of patients which are positive or suspected of COVID-19 or other viral and bacterial pneumonias ([MERS](https://en.wikipedia.org/wiki/Middle_East_respiratory_syndrome), [SARS](https://en.wikipedia.org/wiki/Severe_acute_respiratory_syndrome), and [ARDS](https://en.wikipedia.org/wiki/Acute_respiratory_distress_syndrome).).
-  
+
 prerequisites:
   - name: default_image
     type: dockerimage
@@ -20,6 +20,7 @@ taskRoles:
   taskrole:
     instances: 1
     dockerImage: default_image
+    data: covid-chestxray-dataset
     resourcePerInstance:
       cpu: 4
       memoryMB: 8192
