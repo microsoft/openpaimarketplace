@@ -5,6 +5,7 @@
 <h2 align="center">Openpaimarketplace</h2>
 
 <p align="center">
+  <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Publish+Docker+Image%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Publish%20Docker%20Image/badge.svg" alt="Publish Docker Image"></a>
   <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3AWebportal"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Webportal/badge.svg?branch=master" alt="Webportal CI"></a>
   <a href="https://github.com/microsoft/openpaimarketplace/actions?query=workflow%3A%22Rest+Server%22"><img src="https://github.com/microsoft/openpaimarketplace/workflows/Rest%20Server/badge.svg?branch=master" alt="Rest Server CI"></a>
   <a href="https://openpaimarketplace.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/openpaimarketplace/badge/?version=latest" alt="Doc"></a>
