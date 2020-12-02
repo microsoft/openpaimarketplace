@@ -1,4 +1,4 @@
-# Covid Chestxray Model Training Job
+# Covid Chest X-ray Diagnosis Model Training Job Template
 
   This is a COVID-19 chest X-ray model training process.
 

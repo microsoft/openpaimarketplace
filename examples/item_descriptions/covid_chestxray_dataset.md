@@ -1,4 +1,4 @@
-# COVID-19 chest X-ray dataset
+# COVID-19 Chest X-ray Dataset
 
 ## About the dataset
 

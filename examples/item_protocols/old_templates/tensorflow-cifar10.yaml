@@ -4,7 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
-  # TensorFlow Distributed Training
+  # TensorFlow Distributed Training on CIFAR-10 Job Template
   This example runs TensorFlow Distributed Training on OpenPAI using CIFAR10.
   Scripts are from TensorFlow Benchmarks repository, please refer to
   https://github.com/tensorflow/benchmarks/tree/master/scripts/tf_cnn_benchmarks.

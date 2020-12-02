@@ -23,7 +23,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "e284b120-fdaf-11ea-adc1-0242ac120002",
-    name: "COVID-19 Chest X-ray Diagnosis Training Job Template",
+    name: "COVID-19 Chest X-ray Diagnosis Model Training Job Template",
     author: "mlmed",
     type: "template",
     categories: "COVID-19",
@@ -90,7 +90,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "4",
-    name: "Covid19 Outbreak Statistics Dataset",
+    name: "COVID-19 Outbreak Statistics Dataset",
     author: "OpenPAI",
     type: "data",
     dataType: "blob",
@@ -110,7 +110,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "5",
-    name: "Covid19 Prediction Model",
+    name: "COVID-19 Prediction Model Training Job Template",
     author: "OpenPAI",
     type: "template",
     categories: "COVID-19",
@@ -127,7 +127,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "6",
-    name: "Covid19 Inference Service",
+    name: "COVID-19 Inference Service Job Template",
     author: "OpenPAI",
     type: "template",
     categories: "COVID-19",
@@ -163,7 +163,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "8",
-    name: "Grammar Check Model Training",
+    name: "Grammar Check Model Training Job Template",
     author: "OpenPAI",
     type: "template",
     categories: "NLP",
@@ -179,7 +179,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "9",
-    name: "Grammar Check Inference Job",
+    name: "Grammar Check Inference Job Template",
     author: "OpenPAI",
     type: "template",
     categories: "NLP",
@@ -195,7 +195,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "10",
-    name: "GPU Sharing Example",
+    name: "GPU Sharing Job Template",
     author: "OpenPAI",
     type: "template",
     categories: "gpu sharing",
@@ -211,7 +211,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "69ff3c37-1405-49a7-b9de-47e640ba490c",
-    name: "Caffe2 Minist Example",
+    name: "Caffe2 Minist Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -227,7 +227,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "9d3fbdad-dd82-429c-a368-f3d7b41717b5",
-    name: "Caffe2 ResNet50 Example",
+    name: "Caffe2 ResNet50 Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -243,7 +243,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "5fa59045-c3f8-4243-88ff-89a1034681d8",
-    name: "Chainer Example",
+    name: "Chainer CIFAR Image Classification Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -259,7 +259,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "d5f357d0-70cc-435c-92f2-21d63c7a1513",
-    name: "Horovod Pytorch",
+    name: "Horovod PyTorch Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -275,7 +275,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "55a21b76-abbe-4f75-9b09-ed0ee3accc16",
-    name: "Keras Tensorflow Mnist Example",
+    name: "Keras Tensorflow Backend MNIST Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -291,7 +291,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "56a0d871-fe2d-43ce-b26c-b89b9c0646fd",
-    name: "Mxnet Autoencoder Example",
+    name: "MXNet Auto Encoder Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -307,7 +307,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "cc42d399-06d8-4b93-9e84-e5f609ef0c73",
-    name: "Pytorch Mnist Example",
+    name: "PyTorch MNIST Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -323,7 +323,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "1c7efdef-40da-46d0-bdea-16c25e560380",
-    name: "Pytorch Regression Example",
+    name: "PyTorch Regression Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -339,7 +339,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "80cf9714-de4e-480b-8e26-66f529dbff6d",
-    name: "Rocm Pytorch Mnist",
+    name: "ROCm PyTorch MNIST Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -355,7 +355,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "44cbad87-c2d5-4433-9890-0883f07e3912",
-    name: "rocm_tensorflow2",
+    name: "ROCm Tensorflow2 Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -371,7 +371,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "17c2500d-94ed-4e2d-af74-e1ace47987af",
-    name: "sklearn_text_vectorizers",
+    name: "Scikit-learn Text Vectorizer Speed Benchmark Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -387,7 +387,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "4fb02608-3769-475c-a0c2-c2155fb03c4f",
-    name: "tensorflow_cifar10",
+    name: "TensorFlow Distributed Training on CIFAR-10 Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -403,7 +403,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "74c8ab09-6225-4982-8145-5be0b5c55a28",
-    name: "tensorflow_serving_mnist",
+    name: "TensorFlow MNIST Digit Recognition Model Serving Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -419,7 +419,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "11",
-    name: "cifar10-single-mul-DDP-gloo",
+    name: "PyTorch DDP Job Template (Gloo backend)",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],
@@ -435,7 +435,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "12",
-    name: "cifar10-single-mul-DDP-gloo-Apex-mixed",
+    name: "PyTorch DDP Job Template With Apex (Gloo backend)",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],
@@ -451,7 +451,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "13",
-    name: "cifar10-single-mul-DDP-nccl",
+    name: "PyTorch DDP Job Template (NCCL backend)",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],
@@ -467,7 +467,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "14",
-    name: "cifar10-single-mul-DDP-nccl-Apex-mixed",
+    name: "PyTorch DDP Job Template With Apex (NCCL backend)",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],
@@ -483,7 +483,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "15",
-    name: "cifar10-single-node-gpus-cpu-DP",
+    name: "CIFAR-10 Single Node DP Job Template",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],

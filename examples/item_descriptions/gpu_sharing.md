@@ -1,4 +1,4 @@
-# GPU Sharing Example
+# GPU Sharing Job Template
 
   This example shows how two jobs share one GPU in OpenPAI.
 

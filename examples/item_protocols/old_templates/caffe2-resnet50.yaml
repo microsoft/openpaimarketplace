@@ -4,7 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
-  # Caffe2 ResNet50 Example
+  # Caffe2 ResNet50 Job Template
   This example shows using caffe2 to train ResNet50 with fake data on OpenPAI.
 
 parameters:

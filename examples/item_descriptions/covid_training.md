@@ -1,4 +1,4 @@
-# Covid19 prediction model of confirmed and death number
+# COVID-19 Prediction Model Training Job Template
 
 This is a prediction model of confirmed and death number in different countries. This model uses dataset published by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University. With this data set, the model could predict the confirmed and death number of population of different dates.
 

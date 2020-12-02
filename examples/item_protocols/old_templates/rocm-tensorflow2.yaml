@@ -4,6 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
+  # ROCm Tensorflow2 Job Template
   TensorFlow2 example on AMD GPUs.
 
 parameters:
