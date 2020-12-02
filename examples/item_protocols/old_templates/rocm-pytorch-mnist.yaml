@@ -4,6 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
+  # ROCm PyTorch MNIST Job Template
   PyTorch MNIST example on AMD GPUs.
 
 parameters:

@@ -4,6 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
+  # PyTorch MNIST Job Template
   This is a basic PyTorch MNIST digit recognition example running on OpenPAI.
   ```sh
   python main.py

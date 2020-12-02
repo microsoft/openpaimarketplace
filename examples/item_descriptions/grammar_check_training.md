@@ -1,4 +1,4 @@
-# Grammar Check Model Training Job
+# Grammar Check Model Training Job Template
 
 This is a grammar check model training process.
 

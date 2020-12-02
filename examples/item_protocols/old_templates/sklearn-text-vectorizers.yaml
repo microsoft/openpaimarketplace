@@ -4,6 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
+  # Scikit-learn Text Vectorizer Speed Benchmark Job Template
   This is a scikit-learn example on OpenPAI.
   It is a speed benchmark for text vectorizer with scikit-learn.
 

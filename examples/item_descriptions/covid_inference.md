@@ -1,4 +1,4 @@
-# Covid19 Inference Service of Prediction Model
+# COVID-19 Inference Service Job Template
 
 This is the inference service to visualize the prediction number of confirmed and death population in different countries.
 
