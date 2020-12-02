@@ -4,7 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
-  # Caffe MNIST Example
+  # Caffe MNIST Job Template
   This example shows how to train LeNet on MNIST with Caffe on OpenPAI.
 
   ## Dataset

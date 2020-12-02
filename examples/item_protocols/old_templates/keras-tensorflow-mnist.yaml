@@ -4,7 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
-  # Keras Tensorflow Backend MNIST Digit Recognition Examples
+  # Keras Tensorflow Backend MNIST Job Template
   Trains a simple convnet on the MNIST dataset.
   Gets to 99.25% test accuracy after 12 epochs
   (there is still a lot of margin for parameter tuning).

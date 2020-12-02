@@ -4,7 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
-  # Serving a TensorFlow MNIST Digit Recognition Model
+  # TensorFlow MNIST Digit Recognition Model Serving Job Template
   This example shows you how to use TensorFlow Serving components to export a trained TensorFlow model
   and use the standard tensorflow_model_server to serve it on OpenPAI.
   This example uses the simple Softmax Regression model introduced in the TensorFlow tutorial for handwritten image (MNIST data) classification.

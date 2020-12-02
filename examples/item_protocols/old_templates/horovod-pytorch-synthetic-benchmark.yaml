@@ -4,6 +4,7 @@ type: job
 version: horovod0.16.4-tf1.12.0-torch1.1.0-mxnet1.4.1-py3.5
 contributor: OpenPAI
 description: |
+  # Horovod PyTorch Job Template
   This is a distributed synthetic benchmark for Horovod with PyTorch backend running on OpenPAI.
   It runs [Horovod with Open MPI](https://github.com/horovod/horovod/blob/master/docs/mpirun.rst).
 parameters:

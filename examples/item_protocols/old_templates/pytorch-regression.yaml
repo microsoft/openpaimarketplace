@@ -4,6 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
+  # PyTorch Regression Job Template
   This is a simple PyTorch regression example running on OpenPAI.
   This example Trains a single fully-connected layer to fit a 4th degree polynomial.
 

@@ -4,7 +4,7 @@ type: job
 version: 1.0
 contributor: OpenPAI
 description: |
-  # MXNet Autoencoder Example
+  # MXNet Auto Encoder Job Template
   Autoencoder architectures are often used for unsupervised feature learning.
   This [link](http://ufldl.stanford.edu/tutorial/unsupervised/Autoencoders/) contains an introduction tutorial to autoencoders.
   This example illustrates a simple autoencoder using a stack of convolutional layers for both the encoder and the decoder.
