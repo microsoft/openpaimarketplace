@@ -78,8 +78,13 @@ jobs:
         context: .
         file: ./webportal/deploy/Dockerfile
         push: true
+<<<<<<< HEAD
         build-args: VERSION=${{ steps.vars.outputs.version }}
         tags: openpai/pai-marketplace-webportal:${{ steps.vars.outputs.version }}
+=======
+        build-args: VERSION=${{ github.ref }}
+        tags: openpai/pai-marketplace-webportal:${{ github.ref }}
+>>>>>>> origin/master
     - name: Build and push manual
       id: docker_build_manual
       uses: docker/build-push-action@v2
@@ -147,8 +152,13 @@ jobs:
         context: .
         file: ./rest_server/deploy/Dockerfile
         push: true
+<<<<<<< HEAD
         build-args: VERSION=${{ steps.vars.outputs.version }}
         tags: openpai/pai-marketplace-restserver:${{ steps.vars.outputs.version }}
+=======
+        build-args: VERSION=${{ github.ref }}
+        tags: openpai/pai-marketplace-restserver:${{ github.ref }}
+>>>>>>> origin/master
     - name: Build and push manual
       id: docker_build_manual
       uses: docker/build-push-action@v2
