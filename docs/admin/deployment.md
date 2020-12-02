@@ -1,6 +1,8 @@
 # Deployment
 
-Currently (in version 1.3.0), you need to prepare three parts when deploying Marketplace: database, rest server and webportal.
+> Note: This deployment document suits for openpaimarketplace version v1.4.0 and later, and pai version v1.4.0 and later.
+
+To deploy OpenPAI Marketplace, you need to prepare three parts when deploying Marketplace: database, rest server and webportal.
 
 ## Deploy in OpenPAI cluster
 

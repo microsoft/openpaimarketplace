@@ -1,5 +1,14 @@
 # Openpaimarketplace Release Note
 
+## Dec 2020 (version 1.4.0)
+
+- Keep the release version aligned with [pai](https://github.com/microsoft/pai) (both with version v1.4.0).
+
+- Make the name of example templates human readable in Marketplace Webportal UI.
+  - Change names of /examples/examples.js human readable.
+  - Make the title of /examples/item_descriptions aligned with name of /examples/examples.js.
+  - Keep the name of /examples/item_protoocls illegal for OpenPAI. (Because the protocol will be submitted to OpenPAI cluster).
+
 ## Dec 2020 (version 1.3.0)
 
 - Better data storage experience

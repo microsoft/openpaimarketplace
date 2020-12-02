@@ -1,6 +1,6 @@
 # Create Template
 
-At current version (v1.3.0), the marketplace only support create job template. Create job template has 4 steps:
+At current version (v1.4.0), the marketplace only support create job template. Create job template has 4 steps:
 
 1. Click `Create` button at top right corner.
 2. Upload OpenPAI protocol yaml file.
