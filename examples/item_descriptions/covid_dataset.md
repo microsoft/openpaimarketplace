@@ -1,4 +1,4 @@
-# Coronavirus Public Dataset
+# COVID-19 Outbreak Statistics Dataset
 
 This dataset is downloaded from [Coronavirus Tracker API](https://github.com/ExpDev07/coronavirus-tracker-api). It provides up-to-date data about Coronavirus outbreak, including numbers about confirmed cases, deaths and recovered. Please refer to the project for more details.
 

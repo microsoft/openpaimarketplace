@@ -1,4 +1,4 @@
-# Pytorch DDP Job Template (Gloo backend)
+# PyTorch DDP Job Template (Gloo backend)
 
   This example shows how to train a custom neural network on cifar10 with Pytorch on OpenPAI. In this example, we use the DistributedDataParallel.
 

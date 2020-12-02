@@ -90,7 +90,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "4",
-    name: "Covid19 Outbreak Statistics Dataset",
+    name: "COVID-19 Outbreak Statistics Dataset",
     author: "OpenPAI",
     type: "data",
     dataType: "blob",
@@ -291,7 +291,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "56a0d871-fe2d-43ce-b26c-b89b9c0646fd",
-    name: "Mxnet Auto Encoder Job Template",
+    name: "MXNet Auto Encoder Job Template",
     author: "OpenPAI",
     type: "old",
     categories: ["official example"],
@@ -419,7 +419,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "11",
-    name: "Pytorch DDP Job Template (Gloo backend)",
+    name: "PyTorch DDP Job Template (Gloo backend)",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],
@@ -435,7 +435,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "12",
-    name: "Pytorch DDP Job Template With Apex (Gloo backend)",
+    name: "PyTorch DDP Job Template With Apex (Gloo backend)",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],
@@ -451,7 +451,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "13",
-    name: "Pytorch DDP Job Template (NCCL backend)",
+    name: "PyTorch DDP Job Template (NCCL backend)",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],
@@ -467,7 +467,7 @@ const EXAMPLE_LIST = [
   },
   {
     id: "14",
-    name: "Pytorch DDP Job Template With Apex (NCCL backend)",
+    name: "PyTorch DDP Job Template With Apex (NCCL backend)",
     author: "OpenPAI",
     type: "template",
     categories: ["distributed example"],
