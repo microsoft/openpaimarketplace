@@ -19,6 +19,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  release:
+    types: [ created ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -64,6 +66,16 @@ jobs:
         push: true
         build-args: VERSION=${{ github.ref }}
         tags: openpai/pai-marketplace-webportal:latest
+    - name: Build and push on release
+      id: docker_build_release
+      uses: docker/build-push-action@v2
+      if: ${{ github.event_name == 'release' }}
+      with:
+        context: .
+        file: ./webportal/deploy/Dockerfile
+        push: true
+        build-args: VERSION=${{ github.ref }}
+        tags: openpai/pai-marketplace-webportal:${{ github.ref }}
     - name: Build and push manual
       id: docker_build_manual
       uses: docker/build-push-action@v2
@@ -119,6 +131,16 @@ jobs:
         push: true
         build-args: VERSION=${{ github.ref }}
         tags: openpai/pai-marketplace-restserver:latest
+    - name: Build and push on release
+      id: docker_build_release
+      uses: docker/build-push-action@v2
+      if: ${{ github.event_name == 'release' }}
+      with:
+        context: .
+        file: ./rest_server/deploy/Dockerfile
+        push: true
+        build-args: VERSION=${{ github.ref }}
+        tags: openpai/pai-marketplace-restserver:${{ github.ref }}
     - name: Build and push manual
       id: docker_build_manual
       uses: docker/build-push-action@v2
