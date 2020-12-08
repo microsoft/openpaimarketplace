@@ -462,11 +462,8 @@ components:
           type: string
           enum: [pending, approved, rejected]
         protocol:
-          oneOf:
-            - $ref: "#/components/schemas/Data"
-            - $ref: "#/components/schemas/Docker"
-            - $ref: "#/components/schemas/Model"
-            - $ref: "#/components/schemas/Job"
+          type: object # TODO: outer link
+          description: "https://github.com/microsoft/openpai-protocol/blob/master/schemas/v2/schema.yaml"
         useNumber:
           type: number
         starNumber:
