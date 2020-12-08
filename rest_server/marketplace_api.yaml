@@ -32,19 +32,19 @@ paths:
       summary: List marketplace items
       parameters:
         - in: query
-          name: author
-          schema:
-            type: string
-        - in: query
           name: name
           schema:
             type: string
         - in: query
-          name: category
+          name: author
           schema:
             type: string
         - in: query
-          name: status
+          name: type
+          schema:
+            type: string
+        - in: query
+          name: keyword
           schema:
             type: string
       responses:
