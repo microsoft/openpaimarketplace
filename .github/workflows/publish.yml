@@ -32,8 +32,6 @@ jobs:
         node-version: [10.x]
 
     steps:
-    - name: Debug Action
-      uses: hmarr/debug-action@v1.0.0
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -60,7 +58,9 @@ jobs:
         context: .
         file: ./webportal/deploy/Dockerfile
         push: false
-        build-args: VERSION=${{ github.head_ref }}
+        build-args: |
+          VERSION=${{ steps.vars.outputs.version }}
+          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
         tags: openpai/pai-marketplace-webportal:int
     - name: Build and push after merge PR
       id: docker_build_push
@@ -70,9 +70,7 @@ jobs:
         context: .
         file: ./webportal/deploy/Dockerfile
         push: true
-        build-args: |
-          VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+        build-args: VERSION=${{ steps.vars.outputs.version }}
         tags: openpai/pai-marketplace-webportal:latest
     - name: Build and push on release
       id: docker_build_release
@@ -82,9 +80,7 @@ jobs:
         context: .
         file: ./webportal/deploy/Dockerfile
         push: true
-        build-args: |
-          VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+        build-args: VERSION=${{ steps.vars.outputs.version }}
         tags: openpai/pai-marketplace-webportal:${{ steps.vars.outputs.version }}
     - name: Build and push manual
       id: docker_build_manual
@@ -94,9 +90,7 @@ jobs:
         context: .
         file: ./webportal/deploy/Dockerfile
         push: true
-        build-args: |
-          VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+        build-args: VERSION=${{ steps.vars.outputs.version }}
         tags: openpai/pai-marketplace-webportal:${{ github.event.inputs.name }}
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
@@ -135,7 +129,9 @@ jobs:
         context: .
         file: ./rest_server/deploy/Dockerfile
         push: false
-        build-args: VERSION=${{ github.head_ref }}
+        build-args: |
+          VERSION=${{ steps.vars.outputs.version }}
+          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
         tags: openpai/pai-marketplace-restserver:int
     - name: Build and push after merge PR
       id: docker_build_push
@@ -145,9 +141,7 @@ jobs:
         context: .
         file: ./rest_server/deploy/Dockerfile
         push: true
-        build-args: |
-          VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+        build-args: VERSION=${{ steps.vars.outputs.version }}
         tags: openpai/pai-marketplace-restserver:latest
     - name: Build and push on release
       id: docker_build_release
@@ -157,9 +151,7 @@ jobs:
         context: .
         file: ./rest_server/deploy/Dockerfile
         push: true
-        build-args: |
-          VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+        build-args: VERSION=${{ steps.vars.outputs.version }}
         tags: openpai/pai-marketplace-restserver:${{ steps.vars.outputs.version }}
     - name: Build and push manual
       id: docker_build_manual
@@ -169,9 +161,7 @@ jobs:
         context: .
         file: ./rest_server/deploy/Dockerfile
         push: true
-        build-args: |
-          VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+        build-args: VERSION=${{ steps.vars.outputs.version }}
         tags: openpai/pai-marketplace-restserver:${{ github.event.inputs.name }}
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
