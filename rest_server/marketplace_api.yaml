@@ -442,6 +442,10 @@ components:
           type: string
         type:
           type: string
+        dataType:
+          type: string
+        dataUrl:
+          type: string
         categories:
           type: array
           items:
@@ -450,17 +454,14 @@ components:
           type: array
           items:
             type: string
-        createdAt:
-          type: string
-          format: "date-time"
-        updatedAt:
-          type: string
-          format: "date-time"
         summary:
           type: string
         description:
           type: string
-        content:
+        status:
+          type: string
+          enum: [pending, approved, rejected]
+        protocol:
           oneOf:
             - $ref: "#/components/schemas/Data"
             - $ref: "#/components/schemas/Docker"
@@ -470,9 +471,12 @@ components:
           type: number
         starNumber:
           type: number
-        status:
+        createdAt:
           type: string
-          description: pending, approved or rejected
+          format: "date-time"
+        updatedAt:
+          type: string
+          format: "date-time"
     Storage:
       type: object
       properties:
