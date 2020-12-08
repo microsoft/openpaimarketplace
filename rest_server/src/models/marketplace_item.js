@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const { isNil } = require('lodash');
+const { Op } = require('sequelize');
 const modelSyncHandler = require('./model_init_handler');
 
 class MarketplaceItem {
@@ -50,8 +51,8 @@ class MarketplaceItem {
     this.models = models;
   }
 
-  async list(name, author, type) {
-    const handler = modelSyncHandler(async (name, author, type) => {
+  async list(name, author, type, keyword) {
+    const handler = modelSyncHandler(async (name, author, type, keyword) => {
       const filterStatement = {};
       if (name) {
         filterStatement.name = name;
@@ -62,11 +63,18 @@ class MarketplaceItem {
       if (type && type !== 'all') {
         filterStatement.type = type;
       }
+      if (keyword) {
+        filterStatement[Op.or] = [
+          { name: { [Op.substring]: keyword } },
+          { author: { [Op.substring]: keyword } },
+          { summary: { [Op.substring]: keyword } },
+        ];
+      }
       const items = await this.orm.findAll({ where: filterStatement });
       return items;
     });
 
-    return await handler(name, author, type, this.models);
+    return await handler(name, author, type, keyword, this.models);
   }
 
   async create(itemReq) {
