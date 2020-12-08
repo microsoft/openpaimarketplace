@@ -63,7 +63,7 @@ class MarketplaceItem {
       if (type && type !== 'all') {
         filterStatement.type = type;
       }
-      if (keyword) {
+      if (keyword && !['null', 'Null', 'NULL'].includes(keyword)) {
         filterStatement[Op.or] = [
           { name: { [Op.substring]: keyword } },
           { author: { [Op.substring]: keyword } },
