@@ -70,7 +70,7 @@ jobs:
         push: true
         build-args: |
           VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.repository }}.git
+          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
         tags: openpai/pai-marketplace-webportal:latest
     - name: Build and push on release
       id: docker_build_release
@@ -82,7 +82,7 @@ jobs:
         push: true
         build-args: |
           VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.repository }}.git
+          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
         tags: openpai/pai-marketplace-webportal:${{ steps.vars.outputs.version }}
     - name: Build and push manual
       id: docker_build_manual
@@ -94,7 +94,7 @@ jobs:
         push: true
         build-args: |
           VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.repository }}.git
+          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
         tags: openpai/pai-marketplace-webportal:${{ github.event.inputs.name }}
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
@@ -145,7 +145,7 @@ jobs:
         push: true
         build-args: |
           VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.repository }}.git
+          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
         tags: openpai/pai-marketplace-restserver:latest
     - name: Build and push on release
       id: docker_build_release
@@ -157,7 +157,7 @@ jobs:
         push: true
         build-args: |
           VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.repository }}.git
+          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
         tags: openpai/pai-marketplace-restserver:${{ steps.vars.outputs.version }}
     - name: Build and push manual
       id: docker_build_manual
@@ -169,7 +169,7 @@ jobs:
         push: true
         build-args: |
           VERSION=${{ steps.vars.outputs.version }}
-          TARGET=https://github.com/${{ github.repository }}.git
+          TARGET=https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
         tags: openpai/pai-marketplace-restserver:${{ github.event.inputs.name }}
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
