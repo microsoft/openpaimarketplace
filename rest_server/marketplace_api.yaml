@@ -32,19 +32,19 @@ paths:
       summary: List marketplace items
       parameters:
         - in: query
-          name: author
-          schema:
-            type: string
-        - in: query
           name: name
           schema:
             type: string
         - in: query
-          name: category
+          name: author
           schema:
             type: string
         - in: query
-          name: status
+          name: type
+          schema:
+            type: string
+        - in: query
+          name: keyword
           schema:
             type: string
       responses:
@@ -442,6 +442,10 @@ components:
           type: string
         type:
           type: string
+        dataType:
+          type: string
+        dataUrl:
+          type: string
         categories:
           type: array
           items:
@@ -450,29 +454,26 @@ components:
           type: array
           items:
             type: string
+        summary:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, approved, rejected]
+        protocol:
+          type: object # TODO: outer link
+          description: "https://github.com/microsoft/openpai-protocol/blob/master/schemas/v2/schema.yaml"
+        useNumber:
+          type: number
+        starNumber:
+          type: number
         createdAt:
           type: string
           format: "date-time"
         updatedAt:
           type: string
           format: "date-time"
-        summary:
-          type: string
-        description:
-          type: string
-        content:
-          oneOf:
-            - $ref: "#/components/schemas/Data"
-            - $ref: "#/components/schemas/Docker"
-            - $ref: "#/components/schemas/Model"
-            - $ref: "#/components/schemas/Job"
-        useNumber:
-          type: number
-        starNumber:
-          type: number
-        status:
-          type: string
-          description: pending, approved or rejected
     Storage:
       type: object
       properties:
