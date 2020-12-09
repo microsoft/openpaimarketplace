@@ -6,8 +6,9 @@ FROM node:dubnium
 WORKDIR /usr/src/app
 
 ARG VERSION
+ARG TARGET=https://github.com/microsoft/openpaimarketplace.git
 
-RUN git clone https://github.com/microsoft/openpaimarketplace.git && \
+RUN git clone ${TARGET} && \
    cd openpaimarketplace && \
    git checkout ${VERSION} && \
    cd rest_server && \

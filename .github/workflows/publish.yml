@@ -58,7 +58,9 @@ jobs:
         context: .
         file: ./webportal/deploy/Dockerfile
         push: false
-        build-args: VERSION=${{ github.head_ref }}
+        build-args: |
+          VERSION=${{ github.event.pull_request.head.ref }}
+          TARGET=${{ github.event.pull_request.head.repo.git_url }}
         tags: openpai/pai-marketplace-webportal:int
     - name: Build and push after merge PR
       id: docker_build_push
@@ -127,7 +129,9 @@ jobs:
         context: .
         file: ./rest_server/deploy/Dockerfile
         push: false
-        build-args: VERSION=${{ github.head_ref }}
+        build-args: |
+          VERSION=${{ github.event.pull_request.head.ref }}
+          TARGET=${{ github.event.pull_request.head.repo.git_url }}
         tags: openpai/pai-marketplace-restserver:int
     - name: Build and push after merge PR
       id: docker_build_push
