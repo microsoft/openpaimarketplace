@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import React, { useContext } from 'react';
-import { getTheme, Stack, Text } from 'office-ui-fabric-react';
+import { getTheme, Stack, Text, SearchBox } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
 import FilterItem from './filter_item';
 import Context from 'App/context';
@@ -27,6 +27,7 @@ const SideBar = props => {
       styles={{ root: { width: 200, padding: `${spacing.s1}` } }}
       gap={spacing.l1}
     >
+      <SearchBox />
       <Text variant={'large'}>Types</Text>
       <Stack>
         <FilterItem
