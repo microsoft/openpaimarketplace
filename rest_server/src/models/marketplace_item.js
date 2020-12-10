@@ -70,21 +70,21 @@ class MarketplaceItem {
             name: where(
               fn('LOWER', col('name')),
               Op.substring,
-              '%' + lowerKeyword + '%',
+              `%${lowerKeyword}%`,
             ),
           },
           {
             author: where(
               fn('LOWER', col('author')),
               Op.substring,
-              '%' + lowerKeyword + '%',
+              `%${lowerKeyword}%`,
             ),
           },
           {
             summary: where(
               fn('LOWER', col('summary')),
               Op.substring,
-              `%{lowerKeyword}%`,
+              `%${lowerKeyword}%`,
             ),
           },
         ];
