@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { isNil } = require('lodash');
-const { Op } = require('sequelize');
+const { isNil, toLower } = require('lodash');
+const { Op, fn, col, where } = require('sequelize');
 const modelSyncHandler = require('./model_init_handler');
 
 class MarketplaceItem {
@@ -64,10 +64,29 @@ class MarketplaceItem {
         filterStatement.type = type;
       }
       if (keyword) {
+        const lowerKeyword = toLower(keyword);
         filterStatement[Op.or] = [
-          { name: { [Op.substring]: keyword } },
-          { author: { [Op.substring]: keyword } },
-          { summary: { [Op.substring]: keyword } },
+          {
+            name: where(
+              fn('LOWER', col('name')),
+              Op.substring,
+              '%' + lowerKeyword + '%',
+            ),
+          },
+          {
+            author: where(
+              fn('LOWER', col('author')),
+              Op.substring,
+              '%' + lowerKeyword + '%',
+            ),
+          },
+          {
+            summary: where(
+              fn('LOWER', col('summary')),
+              Op.substring,
+              '%' + lowerKeyword + '%',
+            ),
+          },
         ];
       }
       const items = await this.orm.findAll({ where: filterStatement });
