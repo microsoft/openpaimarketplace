@@ -4,7 +4,6 @@ import React from 'react';
 import { getTheme, Text, Icon } from 'office-ui-fabric-react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { isNil } from 'lodash';
 
 const { spacing, palette } = getTheme();
 
@@ -26,19 +25,10 @@ const Wrapper = styled.div`
 `;
 
 const FilterItem = props => {
-  const { text, selected, onChange } = props;
+  const { text, selected, onClick } = props;
 
   return (
-    <Wrapper
-      selected={selected}
-      onClick={
-        isNil(onChange)
-          ? null
-          : () => {
-              onChange(selected);
-            }
-      }
-    >
+    <Wrapper selected={selected} onClick={onClick}>
       <Text>{text}</Text>
       {selected && <Icon iconName='Cancel' />}
     </Wrapper>
@@ -48,7 +38,7 @@ const FilterItem = props => {
 FilterItem.propTypes = {
   text: PropTypes.string.isRequired,
   selected: PropTypes.bool,
-  onChange: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default FilterItem;

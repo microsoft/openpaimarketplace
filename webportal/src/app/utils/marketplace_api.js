@@ -34,8 +34,16 @@ export async function getConnectionString(
   }
 }
 
-export async function listItems(type) {
-  const url = `${MARKETPLACE_API_URL}/items${type ? '?type=' + type : ''}`;
+export async function listItems(type, keyword) {
+  const queryOptions = {};
+  if (type) {
+    queryOptions.type = type;
+  }
+  if (keyword) {
+    queryOptions.keyword = keyword;
+  }
+  const queryStr = queryString.stringify(queryOptions);
+  const url = `${MARKETPLACE_API_URL}/items?${queryStr}`;
   const res = await fetch(url);
   if (res.ok) {
     const items = await res.json();
