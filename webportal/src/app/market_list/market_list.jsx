@@ -47,13 +47,7 @@ const MarketList = props => {
         </Stack>
         <Stack horizontal gap={spacing.l1}>
           <StackItem>
-            <SideBar
-              type={
-                isNil(qs.parse(routeProps.location.search).type)
-                  ? TYPE_ENUM.ALL
-                  : qs.parse(routeProps.location.search).type
-              }
-            />
+            <SideBar />
           </StackItem>
           <StackItem grow={1}>
             <ItemList
@@ -62,6 +56,7 @@ const MarketList = props => {
                   ? TYPE_ENUM.ALL
                   : qs.parse(routeProps.location.search).type
               }
+              keyword={qs.parse(routeProps.location.search).keyword}
             />
           </StackItem>
         </Stack>
