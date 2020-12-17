@@ -44,48 +44,106 @@ const GrayLine = styled.div`
 `;
 
 const CreateStep = props => {
-  return (
-    <Stack horizontalAlign='center'>
-      <GrayLine>
-        <StepArea left='-8px'>
-          <CircleDot
-            color={
-              props.step === 'uploadFiles' ? palette.themePrimary : 'LightGray'
-            }
-          />
-          <StepText color={props.step === 'uploadFiles' ? 'black' : 'gray'}>
-            <Text>Upload Files</Text>
-          </StepText>
-        </StepArea>
-        <StepArea left='calc(50% - 8px)'>
-          <CircleDot
-            color={
-              props.step === 'basicInformation'
-                ? palette.themePrimary
-                : 'LightGray'
-            }
-          />
-          <StepText
-            color={props.step === 'basicInformation' ? 'black' : 'gray'}
-          >
-            <Text>Basic information</Text>
-          </StepText>
-        </StepArea>
-        <StepArea left='calc(100% - 8px)'>
-          <CircleDot
-            color={props.step === 'detail' ? palette.themePrimary : 'LightGray'}
-          />
-          <StepText color={props.step === 'detail' ? 'black' : 'gray'}>
-            <Text>Detail</Text>
-          </StepText>
-        </StepArea>
-      </GrayLine>
-    </Stack>
-  );
+  if (props.type === 'data') {
+    return (
+      <Stack horizontalAlign='center'>
+        <GrayLine>
+          <StepArea left='-8px'>
+            <CircleDot
+              color={
+                props.step === 'basicInformation'
+                  ? palette.themePrimary
+                  : 'LightGray'
+              }
+            />
+            <StepText
+              color={props.step === 'basicInformation' ? 'black' : 'gray'}
+            >
+              <Text>Basic information</Text>
+            </StepText>
+          </StepArea>
+          <StepArea left='calc(50% - 8px)'>
+            <CircleDot
+              color={
+                props.step === 'detail' ? palette.themePrimary : 'LightGray'
+              }
+            />
+            <StepText color={props.step === 'detail' ? 'black' : 'gray'}>
+              <Text>Detail</Text>
+            </StepText>
+          </StepArea>
+          <StepArea left='calc(100% - 8px)'>
+            <CircleDot
+              color={
+                props.step === 'completed' ? palette.themePrimary : 'LightGray'
+              }
+            />
+            <StepText color={props.step === 'completed' ? 'black' : 'gray'}>
+              <Text>Completed</Text>
+            </StepText>
+          </StepArea>
+        </GrayLine>
+      </Stack>
+    );
+  } else {
+    return (
+      <Stack horizontalAlign='center'>
+        <GrayLine>
+          <StepArea left='-8px'>
+            <CircleDot
+              color={
+                props.step === 'uploadFiles'
+                  ? palette.themePrimary
+                  : 'LightGray'
+              }
+            />
+            <StepText color={props.step === 'uploadFiles' ? 'black' : 'gray'}>
+              <Text>Upload Files</Text>
+            </StepText>
+          </StepArea>
+          <StepArea left='calc(100% / 3 - 8px)'>
+            <CircleDot
+              color={
+                props.step === 'basicInformation'
+                  ? palette.themePrimary
+                  : 'LightGray'
+              }
+            />
+            <StepText
+              color={props.step === 'basicInformation' ? 'black' : 'gray'}
+            >
+              <Text>Basic information</Text>
+            </StepText>
+          </StepArea>
+          <StepArea left='calc(200% / 3 - 8px)'>
+            <CircleDot
+              color={
+                props.step === 'detail' ? palette.themePrimary : 'LightGray'
+              }
+            />
+            <StepText color={props.step === 'detail' ? 'black' : 'gray'}>
+              <Text>Detail</Text>
+            </StepText>
+          </StepArea>
+          <StepArea left='calc(100% - 8px)'>
+            <CircleDot
+              color={
+                props.step === 'completed' ? palette.themePrimary : 'LightGray'
+              }
+            />
+            <StepText color={props.step === 'completed' ? 'black' : 'gray'}>
+              <Text>Completed</Text>
+            </StepText>
+          </StepArea>
+        </GrayLine>
+      </Stack>
+    );
+  }
 };
 
 CreateStep.propTypes = {
   step: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default CreateStep;

@@ -8,13 +8,12 @@ import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
 import yaml from 'js-yaml';
 import { ActionButton, Stack } from 'office-ui-fabric-react';
-import { isEmpty } from 'lodash';
 
 import Page from 'App/components/page';
-import { TYPE_ENUM } from 'App/utils/constants';
-import CreateStep from './components/create_step';
-import SelectType from './components/select_type';
-import CreateJob from './components/create_job/create_job';
+import CreateStep from '../create_step';
+import UploadFiles from './upload_files';
+import BasicInformation from './basic_information';
+import Detail from './detail';
 
 const defaultDescription =
   '# Job Template Name\n\n## Training data\n\nPlease add the brief introduction of the training data\n\n## How to use\n\n### Prerequisites\n\nPlease add the prerequisites before run the job if have. The prerequisites include data downloading, package installation, environment variable settings, and so on.\n\n### Training command\n\nPlease add the training command here.\n\n### Get the result\n\nPlease show how to get the training result.\n\n## Reference\n\nYou can add the reference tutorials or projects here if have any.\n';
@@ -28,7 +27,7 @@ const GrayCard = styled.div`
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px, rgba(0, 0, 0, 0.05) 0px 0.5px 1px;
 `;
 
-const CreateItem = props => {
+const CreateJob = props => {
   const { user, routeProps } = props;
   const [loadYamlError, setLoadYamlError] = useState(null);
 
@@ -91,25 +90,28 @@ const CreateItem = props => {
       </Stack>
       <Stack>
         <GrayCard>
-          {isEmpty(itemObject.type) && (
-            <SelectType itemObject={itemObject} setItemObject={setItemObject} />
+          <CreateStep step={step} />
+          {step === 'uploadFiles' && (
+            <UploadFiles
+              getRootProps={getRootProps}
+              getInputProps={getInputProps}
+              loadYamlError={loadYamlError}
+            />
           )}
-          {!isEmpty(itemObject.type) && (
-            <CreateStep step={step} type={itemObject.type} />
-          )}
-          {itemObject.type === TYPE_ENUM.JOB_TEMPLATE && (
-            <CreateJob
+          {step === 'basicInformation' && (
+            <BasicInformation
               user={user}
               itemObject={itemObject}
               setItemObject={setItemObject}
-              itemProtocol={itemProtocol}
-              setItemProtocol={setItemProtocol}
-              step={step}
               setStep={setStep}
-              loadYamlError={loadYamlError}
-              setLoadYamlError={setLoadYamlError}
-              getRootProps={getRootProps}
-              getInputProps={getInputProps}
+            />
+          )}
+          {step === 'detail' && (
+            <Detail
+              user={user}
+              itemProtocol={itemProtocol}
+              itemObject={itemObject}
+              setStep={setStep}
             />
           )}
         </GrayCard>
@@ -118,7 +120,7 @@ const CreateItem = props => {
   );
 };
 
-CreateItem.propTypes = {
+CreateJob.propTypes = {
   api: PropTypes.string,
   user: PropTypes.string,
   token: PropTypes.string,
@@ -126,4 +128,4 @@ CreateItem.propTypes = {
   routeProps: PropTypes.object,
 };
 
-export default CreateItem;
+export default CreateJob;
