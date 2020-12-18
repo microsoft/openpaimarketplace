@@ -14,6 +14,7 @@ import { TYPE_ENUM } from 'App/utils/constants';
 import CreateStep from './components/create_step';
 import SelectType from './components/select_type';
 import CreateJob from './components/create_job/create_job';
+import CreateData from './components/create_data/create_data';
 
 const { spacing, palette } = getTheme();
 
@@ -26,6 +27,8 @@ const GrayCard = styled.div`
 
 const itemDescription = {
   description: '',
+
+  // Job template
   trainingData: {
     label: 'Training Data',
     value: '',
@@ -52,6 +55,34 @@ const itemDescription = {
     value: '',
     placeholder:
       'You can add the reference tutorials or projects here if have any.',
+  },
+
+  // Data template
+  getRawData: {
+    label: 'Get raw data',
+    value: '',
+    placeholder:
+      'Please add how to get the raw data here. It can include below information:\n' +
+      '1. Source address\n' +
+      '2. How to Get\n' +
+      '3. Data format\n' +
+      '4. Data preprocess\n',
+  },
+  useViaOpenPaiJobSubmition: {
+    label: 'Use via OpenPAI job submission',
+    value: '',
+    placeholder: 'You can add the submission command here.',
+  },
+  useInTheCode: {
+    label: 'Use in the code',
+    value: '',
+    placeholder:
+      'You can add code snippet to show how to use the data in the code.',
+  },
+  relatedProject: {
+    label: 'Related project',
+    value: '',
+    placeholder: 'You can add related projects here if have.',
   },
 };
 
@@ -160,6 +191,14 @@ const CreateItem = props => {
               setState={setState}
               getRootProps={getRootProps}
               getInputProps={getInputProps}
+              itemDescription={itemDescription}
+            />
+          )}
+          {state.itemObject.type === TYPE_ENUM.DATA_TEMPLATE && (
+            <CreateData
+              user={user}
+              state={state}
+              setState={setState}
               itemDescription={itemDescription}
             />
           )}
