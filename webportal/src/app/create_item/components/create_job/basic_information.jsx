@@ -57,8 +57,6 @@ const BasicInformation = props => {
   };
 
   function generateDescription(state, itemDescription) {
-    console.log(state);
-    console.log(itemDescription);
     return (
       `# ${state.itemObject.name}\n\n${itemDescription.description}\n\n` +
       (isEmpty(itemDescription.trainingData.value)
@@ -219,12 +217,10 @@ const BasicInformation = props => {
               alert('please enter all required fields.');
             } else {
               setErrorMessage(false);
-              console.log('ggg' + generateDescription(state, itemDescription));
               state.itemObject.description = generateDescription(
                 state,
                 itemDescription,
               );
-              console.log(state);
               setState({
                 step: 'detail',
                 itemObject: state.itemObject,
