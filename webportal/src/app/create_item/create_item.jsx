@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import React, { useState, useCallback } from 'react';
+import React, { useReducer, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { getTheme } from '@uifabric/styling';
 import styled from 'styled-components';
@@ -16,9 +16,6 @@ import CreateStep from './components/create_step';
 import SelectType from './components/select_type';
 import CreateJob from './components/create_job/create_job';
 
-const defaultDescription =
-  '# Job Template Name\n\n## Training data\n\nPlease add the brief introduction of the training data\n\n## How to use\n\n### Prerequisites\n\nPlease add the prerequisites before run the job if have. The prerequisites include data downloading, package installation, environment variable settings, and so on.\n\n### Training command\n\nPlease add the training command here.\n\n### Get the result\n\nPlease show how to get the training result.\n\n## Reference\n\nYou can add the reference tutorials or projects here if have any.\n';
-
 const { spacing, palette } = getTheme();
 
 const GrayCard = styled.div`
@@ -28,21 +25,56 @@ const GrayCard = styled.div`
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px, rgba(0, 0, 0, 0.05) 0px 0.5px 1px;
 `;
 
+const itemDescription = {
+  description: '',
+  trainingData: {
+    label: 'Training Data',
+    value: '',
+    placeholder: 'Please add the brief introduction of the training data',
+  },
+  prerequisites: {
+    label: 'Prerequisites',
+    value: '',
+    placeholder:
+      'Please add the prerequisites before run the job if have. The prerequisites include data downloading, package installation, environment variable settings, and so on.',
+  },
+  trainingCommand: {
+    label: 'Training Command',
+    value: '',
+    placeholder: 'Please add the training command here.',
+  },
+  getTheResult: {
+    label: 'Get The Result',
+    value: '',
+    placeholder: 'Please show how to get the training result.',
+  },
+  reference: {
+    label: 'Reference',
+    value: '',
+    placeholder:
+      'You can add the reference tutorials or projects here if have any.',
+  },
+};
+
 const CreateItem = props => {
   const { user, routeProps } = props;
-  const [loadYamlError, setLoadYamlError] = useState(null);
-
-  const [itemProtocol, setItemProtocol] = useState(null);
-  const [itemObject, setItemObject] = useState({
-    name: '',
-    summary: '',
-    type: '',
-    description: '',
-    protocol: '',
-    author: user,
-    status: 'approved',
-  });
-  const [step, setStep] = useState('uploadFiles');
+  const [state, setState] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      itemProtocol: null,
+      itemObject: {
+        name: '',
+        summary: '',
+        type: '',
+        description: '',
+        protocol: '',
+        author: user,
+        status: 'approved',
+      },
+      step: 'uploadFiles',
+      itemId: '',
+    },
+  );
 
   const onDrop = useCallback(files => {
     const reader = new FileReader();
@@ -52,20 +84,24 @@ const CreateItem = props => {
     reader.onload = () => {
       try {
         const yamlObject = yaml.safeLoad(reader.result);
-        setItemProtocol(yamlObject);
-        setItemObject({
-          name: yamlObject.name || '',
-          summary: '',
-          type: '',
-          description: defaultDescription || '',
-          protocol: reader.result,
-          author: user,
-          status: 'approved',
+        setState({
+          itemProtocol: yamlObject,
+          itemObject: {
+            name: yamlObject.name || '',
+            type: TYPE_ENUM.JOB_TEMPLATE,
+            summary: '',
+            description: '',
+            protocol: reader.result,
+            author: user,
+            status: 'approved',
+          },
+          step: 'basicInformation',
+          setLoadYamlError: null,
         });
-        setStep('basicInformation');
-        setLoadYamlError(null);
       } catch (err) {
-        setLoadYamlError(err.message);
+        setState({
+          setLoadYamlError: err.message,
+        });
       }
     };
     reader.readAsText(files[0]);
@@ -91,25 +127,26 @@ const CreateItem = props => {
       </Stack>
       <Stack>
         <GrayCard>
-          {isEmpty(itemObject.type) && (
-            <SelectType itemObject={itemObject} setItemObject={setItemObject} />
+          {isEmpty(state.itemObject.type) && (
+            <SelectType
+              updateItemType={type =>
+                setState({
+                  itemObject: { ...state.itemObject, ...{ type: type } },
+                })
+              }
+            />
           )}
-          {!isEmpty(itemObject.type) && (
-            <CreateStep step={step} type={itemObject.type} />
+          {!isEmpty(state.itemObject.type) && (
+            <CreateStep step={state.step} type={state.itemObject.type} />
           )}
-          {itemObject.type === TYPE_ENUM.JOB_TEMPLATE && (
+          {state.itemObject.type === TYPE_ENUM.JOB_TEMPLATE && (
             <CreateJob
               user={user}
-              itemObject={itemObject}
-              setItemObject={setItemObject}
-              itemProtocol={itemProtocol}
-              setItemProtocol={setItemProtocol}
-              step={step}
-              setStep={setStep}
-              loadYamlError={loadYamlError}
-              setLoadYamlError={setLoadYamlError}
+              state={state}
+              setState={setState}
               getRootProps={getRootProps}
               getInputProps={getInputProps}
+              itemDescription={itemDescription}
             />
           )}
         </GrayCard>

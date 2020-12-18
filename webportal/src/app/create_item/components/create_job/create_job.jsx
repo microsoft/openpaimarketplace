@@ -1,22 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { getTheme } from '@uifabric/styling';
 import styled from 'styled-components';
-import { useDropzone } from 'react-dropzone';
-import yaml from 'js-yaml';
-import { ActionButton, Stack } from 'office-ui-fabric-react';
+import { Stack } from 'office-ui-fabric-react';
 
-import Page from 'App/components/page';
-import CreateStep from '../create_step';
 import UploadFiles from './upload_files';
 import BasicInformation from './basic_information';
 import Detail from './detail';
-
-const defaultDescription =
-  '# Job Template Name\n\n## Training data\n\nPlease add the brief introduction of the training data\n\n## How to use\n\n### Prerequisites\n\nPlease add the prerequisites before run the job if have. The prerequisites include data downloading, package installation, environment variable settings, and so on.\n\n### Training command\n\nPlease add the training command here.\n\n### Get the result\n\nPlease show how to get the training result.\n\n## Reference\n\nYou can add the reference tutorials or projects here if have any.\n';
+import CreateCompleted from '../create_completed';
 
 const { spacing, palette } = getTheme();
 
@@ -28,104 +22,49 @@ const GrayCard = styled.div`
 `;
 
 const CreateJob = props => {
-  const { user, routeProps } = props;
-  const [loadYamlError, setLoadYamlError] = useState(null);
-
-  const [itemProtocol, setItemProtocol] = useState(null);
-  const [itemObject, setItemObject] = useState({
-    name: '',
-    summary: '',
-    type: '',
-    description: '',
-    protocol: '',
-    author: user,
-    status: 'approved',
-  });
-  const [step, setStep] = useState('uploadFiles');
-
-  const onDrop = useCallback(files => {
-    const reader = new FileReader();
-
-    reader.onabort = () => console.log('file reading was aborted');
-    reader.onerror = () => console.log('file reading has failed');
-    reader.onload = () => {
-      try {
-        const yamlObject = yaml.safeLoad(reader.result);
-        setItemProtocol(yamlObject);
-        setItemObject({
-          name: yamlObject.name || '',
-          summary: '',
-          type: '',
-          description: defaultDescription || '',
-          protocol: reader.result,
-          author: user,
-          status: 'approved',
-        });
-        setStep('basicInformation');
-        setLoadYamlError(null);
-      } catch (err) {
-        setLoadYamlError(err.message);
-      }
-    };
-    reader.readAsText(files[0]);
-  }, []);
-
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const {
+    user,
+    state,
+    setState,
+    getRootProps,
+    getInputProps,
+    itemDescription,
+  } = props;
 
   return (
-    <Page>
-      <Stack horizontal horizontalAlign='begin' verticalAlign='baseline'>
-        <ActionButton
-          iconProps={{ iconName: 'revToggleKey' }}
-          onClick={() => {
-            if (confirm('Are you sure you want to leave this page?')) {
-              routeProps.history.push('/');
-            } else {
-              // Do nothing!
-            }
-          }}
-        >
-          Back to market list
-        </ActionButton>
-      </Stack>
-      <Stack>
-        <GrayCard>
-          <CreateStep step={step} />
-          {step === 'uploadFiles' && (
-            <UploadFiles
-              getRootProps={getRootProps}
-              getInputProps={getInputProps}
-              loadYamlError={loadYamlError}
-            />
-          )}
-          {step === 'basicInformation' && (
-            <BasicInformation
-              user={user}
-              itemObject={itemObject}
-              setItemObject={setItemObject}
-              setStep={setStep}
-            />
-          )}
-          {step === 'detail' && (
-            <Detail
-              user={user}
-              itemProtocol={itemProtocol}
-              itemObject={itemObject}
-              setStep={setStep}
-            />
-          )}
-        </GrayCard>
-      </Stack>
-    </Page>
+    <Stack>
+      <GrayCard>
+        {state.step === 'uploadFiles' && (
+          <UploadFiles
+            getRootProps={getRootProps}
+            getInputProps={getInputProps}
+            loadYamlError={state.loadYamlError}
+          />
+        )}
+        {state.step === 'basicInformation' && (
+          <BasicInformation
+            user={user}
+            state={state}
+            setState={setState}
+            itemDescription={itemDescription}
+          />
+        )}
+        {state.step === 'detail' && (
+          <Detail user={user} state={state} setState={setState} />
+        )}
+        {state.step === 'completed' && <CreateCompleted state={state} />}
+      </GrayCard>
+    </Stack>
   );
 };
 
 CreateJob.propTypes = {
-  api: PropTypes.string,
   user: PropTypes.string,
-  token: PropTypes.string,
-  isAdmin: PropTypes.bool,
-  routeProps: PropTypes.object,
+  state: PropTypes.object,
+  setState: PropTypes.func,
+  getRootProps: PropTypes.func,
+  getInputProps: PropTypes.func,
+  itemDescription: PropTypes.object,
 };
 
 export default CreateJob;

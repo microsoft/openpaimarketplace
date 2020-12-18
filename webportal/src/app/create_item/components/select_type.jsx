@@ -3,8 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Stack, Text, getTheme } from 'office-ui-fabric-react';
+import { Stack, Text, DefaultButton, getTheme } from 'office-ui-fabric-react';
+import { Dialog } from 'office-ui-fabric-react/lib/Dialog';
 import styled from 'styled-components';
+import { useBoolean } from '@uifabric/react-hooks';
 
 import { ReactComponent as DataIcon } from 'App/assets/data.svg';
 import { ReactComponent as JobIcon } from 'App/assets/job.svg';
@@ -32,19 +34,14 @@ const HoverCard = styled(Card)`
 `;
 
 const SelectType = props => {
+  const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
+
   return (
     <SelectTypeArea>
       <Stack horizontalAlign='center' gap='12%'>
         <Text variant={'xLarge'}>Create new item</Text>
         <GridWrapper>
-          <HoverCard
-            onClick={() =>
-              props.setItemObject({
-                ...props.itemObject,
-                ...{ type: TYPE_ENUM.JOB_TEMPLATE },
-              })
-            }
-          >
+          <HoverCard onClick={toggleHideDialog}>
             <Stack horizontal verticalAlign='center'>
               <JobIcon style={{ transform: 'scale(0.75)' }} />
               <Text variant={'large'} style={{ marginRight: '30px' }}>
@@ -53,12 +50,7 @@ const SelectType = props => {
             </Stack>
           </HoverCard>
           <HoverCard
-            onClick={() =>
-              props.setItemObject({
-                ...props.itemObject,
-                ...{ type: TYPE_ENUM.DATA_TEMPLATE },
-              })
-            }
+            onClick={() => props.updateItemType(TYPE_ENUM.DATA_TEMPLATE)}
           >
             <Stack horizontal verticalAlign='center'>
               <DataIcon style={{ transform: 'scale(0.75)' }} />
@@ -69,13 +61,35 @@ const SelectType = props => {
           </HoverCard>
         </GridWrapper>
       </Stack>
+      <Dialog
+        hidden={hideDialog}
+        onDismiss={toggleHideDialog}
+        modalProps={{
+          styles: {
+            main: {
+              height: '160px',
+              width: '100%',
+            },
+          },
+        }}
+      >
+        <Stack verticalAlign='space-around' gap='m'>
+          <DefaultButton
+            onClick={toggleHideDialog}
+            text='Select from your job list'
+          />
+          <DefaultButton
+            onClick={() => props.updateItemType(TYPE_ENUM.JOB_TEMPLATE)}
+            text='Upload files'
+          />
+        </Stack>
+      </Dialog>
     </SelectTypeArea>
   );
 };
 
 SelectType.propTypes = {
-  itemObject: PropTypes.object,
-  setItemObject: PropTypes.func,
+  updateItemType: PropTypes.func,
 };
 
 export default SelectType;
