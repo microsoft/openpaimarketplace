@@ -3,15 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import {
-  FontSizes,
-  FontWeights,
-  Stack,
-  Text,
-  DefaultButton,
-} from 'office-ui-fabric-react';
-import { getTheme } from '@uifabric/styling';
+import { Text } from 'office-ui-fabric-react';
 
 const SelectFromJobList = ({ state, setState }) => {
   return <Text>Job list here.</Text>;
