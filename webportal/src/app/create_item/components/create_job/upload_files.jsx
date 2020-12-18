@@ -4,7 +4,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontSizes, FontWeights, Stack, Text } from 'office-ui-fabric-react';
+import {
+  FontSizes,
+  FontWeights,
+  Stack,
+  Text,
+  DefaultButton,
+} from 'office-ui-fabric-react';
 import { getTheme } from '@uifabric/styling';
 import { ReactComponent as UploadIcon } from 'App/assets/upload.svg';
 
@@ -16,7 +22,7 @@ const UploadArea = styled.div`
   margin-top: 100px;
   margin-left: 50px;
   margin-right: 50px;
-  margin-bottom: 150px;
+  margin-bottom: 50px;
   padding: 20px;
   background: ${palette.white};
 `;
@@ -31,38 +37,51 @@ const ErrorText = styled.p`
   color: ${palette.red};
 `;
 
-const UploadFiles = ({ getRootProps, getInputProps, loadYamlError }) => {
+const UploadFiles = ({
+  getRootProps,
+  getInputProps,
+  loadYamlError,
+  setState,
+}) => {
   return (
-    <UploadArea {...getRootProps()}>
-      <Stack horizontalAlign='center' gap='l2'>
-        <input {...getInputProps()} />
-        <Text
-          styles={{
-            root: {
-              fontSize: FontSizes.mediumPlus,
-              fontWeight: FontWeights.semibold,
-            },
-          }}
-        >
-          Upload OpenPAI Protocol
-        </Text>
-        <div style={{ width: '30px' }}>
-          <UploadIcon />
-        </div>
-        <MessageText>
+    <>
+      <UploadArea {...getRootProps()}>
+        <Stack horizontalAlign='center' gap='l2'>
+          <input {...getInputProps()} />
           <Text
             styles={{
               root: {
-                fontSize: FontSizes.smallPlus,
+                fontSize: FontSizes.mediumPlus,
+                fontWeight: FontWeights.semibold,
               },
             }}
           >
-            Drag and drop or click here to upload a YAML file
+            Upload OpenPAI Protocol
           </Text>
-        </MessageText>
-        {loadYamlError !== null && <ErrorText>{loadYamlError}</ErrorText>}
-      </Stack>
-    </UploadArea>
+          <div style={{ width: '30px' }}>
+            <UploadIcon />
+          </div>
+          <MessageText>
+            <Text
+              styles={{
+                root: {
+                  fontSize: FontSizes.smallPlus,
+                },
+              }}
+            >
+              Drag and drop or click here to upload a YAML file
+            </Text>
+          </MessageText>
+          {loadYamlError !== null && <ErrorText>{loadYamlError}</ErrorText>}
+        </Stack>
+      </UploadArea>
+      <DefaultButton
+        text='Back'
+        onClick={() => {
+          setState({ step: 'selectType' });
+        }}
+      />
+    </>
   );
 };
 
@@ -70,6 +89,7 @@ UploadFiles.propTypes = {
   getRootProps: PropTypes.func,
   getInputProps: PropTypes.func,
   loadYamlError: PropTypes.string,
+  setState: PropTypes.func,
 };
 
 export default UploadFiles;

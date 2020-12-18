@@ -39,6 +39,7 @@ const CreateJob = props => {
             getRootProps={getRootProps}
             getInputProps={getInputProps}
             loadYamlError={state.loadYamlError}
+            setState={setState}
           />
         )}
         {state.step === 'basicInformation' && (

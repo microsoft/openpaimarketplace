@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
 import yaml from 'js-yaml';
 import { ActionButton, Stack } from 'office-ui-fabric-react';
-import { isEmpty } from 'lodash';
 
 import Page from 'App/components/page';
 import { TYPE_ENUM } from 'App/utils/constants';
@@ -71,7 +70,7 @@ const CreateItem = props => {
         author: user,
         status: 'approved',
       },
-      step: 'uploadFiles',
+      step: 'selectType',
       itemId: '',
     },
   );
@@ -127,16 +126,23 @@ const CreateItem = props => {
       </Stack>
       <Stack>
         <GrayCard>
-          {isEmpty(state.itemObject.type) && (
+          {state.step === 'selectType' && (
             <SelectType
-              updateItemType={type =>
+              updateItemType={type => {
+                let next = '';
+                if (type === TYPE_ENUM.JOB_TEMPLATE) {
+                  next = 'uploadFiles';
+                } else {
+                  next = 'basicInformation';
+                }
                 setState({
                   itemObject: { ...state.itemObject, ...{ type: type } },
-                })
-              }
+                  step: next,
+                });
+              }}
             />
           )}
-          {!isEmpty(state.itemObject.type) && (
+          {state.step !== 'selectType' && (
             <CreateStep step={state.step} type={state.itemObject.type} />
           )}
           {state.itemObject.type === TYPE_ENUM.JOB_TEMPLATE && (
