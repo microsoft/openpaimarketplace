@@ -95,11 +95,12 @@ const CreateItem = props => {
             status: 'approved',
           },
           step: 'basicInformation',
-          setLoadYamlError: null,
+          loadYamlError: null,
+          selectFromJobList: false,
         });
       } catch (err) {
         setState({
-          setLoadYamlError: err.message,
+          loadYamlError: err.message,
         });
       }
     };
@@ -128,22 +129,29 @@ const CreateItem = props => {
         <GrayCard>
           {state.step === 'selectType' && (
             <SelectType
-              updateItemType={type => {
+              updateItemType={(type, selectFromJobList) => {
                 let next = '';
                 if (type === TYPE_ENUM.JOB_TEMPLATE) {
-                  next = 'uploadFiles';
+                  next = selectFromJobList
+                    ? 'selectFromJobList'
+                    : 'uploadFiles';
                 } else {
                   next = 'basicInformation';
                 }
                 setState({
                   itemObject: { ...state.itemObject, ...{ type: type } },
                   step: next,
+                  selectFromJobList: selectFromJobList,
                 });
               }}
             />
           )}
-          {state.step !== 'selectType' && (
-            <CreateStep step={state.step} type={state.itemObject.type} />
+          {state.step !== 'selectType' && !state.selectFromJobList && (
+            <CreateStep
+              step={state.step}
+              type={state.itemObject.type}
+              selectFromJobList={state.selectFromJobList}
+            />
           )}
           {state.itemObject.type === TYPE_ENUM.JOB_TEMPLATE && (
             <CreateJob

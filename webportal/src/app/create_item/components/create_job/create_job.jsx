@@ -11,6 +11,7 @@ import UploadFiles from './upload_files';
 import BasicInformation from './basic_information';
 import Detail from './detail';
 import CreateCompleted from '../create_completed';
+import SelectFromJobList from './select_from_job_list';
 
 const { spacing, palette } = getTheme();
 
@@ -41,6 +42,9 @@ const CreateJob = props => {
             loadYamlError={state.loadYamlError}
             setState={setState}
           />
+        )}
+        {state.step === 'selectFromJobList' && (
+          <SelectFromJobList state={state} setState={setState} />
         )}
         {state.step === 'basicInformation' && (
           <BasicInformation

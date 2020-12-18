@@ -75,11 +75,11 @@ const SelectType = props => {
       >
         <Stack verticalAlign='space-around' gap='m'>
           <DefaultButton
-            onClick={toggleHideDialog}
+            onClick={() => props.updateItemType(TYPE_ENUM.JOB_TEMPLATE, true)}
             text='Select from your job list'
           />
           <DefaultButton
-            onClick={() => props.updateItemType(TYPE_ENUM.JOB_TEMPLATE)}
+            onClick={() => props.updateItemType(TYPE_ENUM.JOB_TEMPLATE, false)}
             text='Upload files'
           />
         </Stack>

@@ -92,13 +92,23 @@ const CreateStep = props => {
           <StepArea left='-8px'>
             <CircleDot
               color={
-                props.step === 'uploadFiles'
+                props.step === 'uploadFiles' ||
+                props.step === 'selectFromJobList'
                   ? palette.themePrimary
                   : 'LightGray'
               }
             />
-            <StepText color={props.step === 'uploadFiles' ? 'black' : 'gray'}>
-              <Text>Upload Files</Text>
+            <StepText
+              color={
+                props.step === 'uploadFiles' ||
+                props.step === 'selectFromJobList'
+                  ? 'black'
+                  : 'gray'
+              }
+            >
+              <Text>
+                {props.selectFromJobList ? 'Select job' : 'Upload Files'}
+              </Text>
             </StepText>
           </StepArea>
           <StepArea left='calc(100% / 3 - 8px)'>
@@ -144,6 +154,7 @@ const CreateStep = props => {
 CreateStep.propTypes = {
   step: PropTypes.string,
   type: PropTypes.string,
+  selectFromJobList: PropTypes.bool,
 };
 
 export default CreateStep;
