@@ -19,17 +19,23 @@ const GridWrapper = styled.div`
 `;
 
 const ItemList = props => {
-  const { type } = props;
+  const { type, keyword } = props;
   const [itemList, setItemList] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchData() {
-      const items = await listItems(type);
-      setItemList(items);
-      setLoading(false);
+      try {
+        const items = await listItems(type, keyword);
+        setItemList(items);
+        setLoading(false);
+      } catch (e) {
+        alert(e.message);
+        setItemList([]);
+        setLoading(false);
+      }
     }
     fetchData();
-  }, [type]);
+  }, [type, keyword]);
 
   return (
     <div>
@@ -57,6 +63,7 @@ const ItemList = props => {
 
 ItemList.propTypes = {
   type: PropTypes.string,
+  keyword: PropTypes.string,
 };
 
 export default ItemList;
