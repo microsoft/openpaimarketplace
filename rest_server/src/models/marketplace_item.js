@@ -16,6 +16,10 @@ class MarketplaceItem {
       type: DataTypes.STRING,
       dataType: DataTypes.STRING,
       dataUrl: DataTypes.STRING,
+      useBlob: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
       categories: DataTypes.ARRAY(DataTypes.STRING),
       tags: DataTypes.ARRAY(DataTypes.STRING),
       summary: DataTypes.STRING,
