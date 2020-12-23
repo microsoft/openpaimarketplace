@@ -4,76 +4,61 @@
 
 To deploy OpenPAI Marketplace, you need to prepare three parts when deploying Marketplace: database, rest server and webportal.
 
-## Deploy in OpenPAI cluster
+## Deploy inside OpenPAI
 
-When deploying in OpenPAI cluster, the Marketplace mainly includes three services: marketplace-db, marketplace-restserver and marketplace-webportal.
+When deploying inside OpenPAI cluster, you should deploy 3 services: marketplace-db, marketplace-restserver and marketplace-webportal. The deployment process of these 3 services are the same as deploying other pai services (like webportal and rest-server). The documentation of how to deploy a PAI service is located in [this page](https://openpai.readthedocs.io/en/latest/manual/cluster-admin/basic-management-operations.html#pai-service-management-and-paictl) and in `PAI Service Management and Paictl` section. Here we just figure out some main points about how to deploy these 3 marketplace services.
 
-1. Enable marketplace in **service-configuration.yaml**.
-   To enable marketplace service in OpenPAI, you need to add the following config in **service-configuration.yaml**:
+Firstly, start a dev-box and prepare a pai cluster config file **service-configuration.yaml** (please refer to pai doc how to get this file), and add some extra configurations in this file. Including: `cluster, marketplace-db, marketplace-restserver, marketplace-webportal` properties, the following steps will give the details how to add these configs.
 
-   ```javascript
-   cluster:
-     common:
-       marketplace: 'true'
+Then, push the new pai config file **service-configuration.yaml** to the cluster and start 3 services `marketplace-db marketplace-restserver marketplace-webportal`.
 
-   ```
+If the 3 services are started successfully, edit webportal plugin config in **service-configuration.yaml** file and push this file to cluster again and then restart pai webportal. Alternatively, if you are sure about the url of service marketplace-webportal, you could directly start OpenPAI webportal with webportal plugin config before the marketplace related services are started. When `marketplace-webportal` is started successfully, you could directly access marketplace plugin in the sidebar. Belowed are the detailed steps:
 
-   For more details about the **service-configuration.yaml** file, please refer to [PAI Service Management and Paictl](https://openpai.readthedocs.io/en/latest/manual/cluster-admin/basic-management-operations.html#pai-service-management-and-paictl).
+1. Add marketplace related configs in **service-configuration.yaml**, including `cluster.common.marketplace, marketplace-db, marketplace-restserver, marketplace-webportal and webportal.plugins` properties.
 
-2. Config **marketplace-db**.
+  ```
+  ## other configs ...
 
-   Add following config in **service-configuration.yaml** to config `marketplace-db` service: 
+  cluster:
+    common:
+      marketplace: 'true'
 
-   ```javascript
-   marketplace-db:
-     user: <username>   # default is 'user'
-     passwd: <password> # default is 'passwd'
-     data-path: /mnt/marketplace # db data path in master node
-   ```
+  marketplace-db:
+    user: <username>   # default is 'user'
+    passwd: <password> # default is 'passwd'
+    data-path: /mnt/marketplace # db data path in master node
 
-   For more details about the config of **marketplace-db**, please refer to [marketplace-db/config](https://github.com/microsoft/pai/tree/master/src/marketplace-db/config).
+  marketplace-restserver:
+    db_user: <username>   # default is 'user'
+    db_password: <password> # default is 'passwd'
+    azure_storage: # set this value if you want use Azure Blob as storage
+      storage_account: <storage_account>
+      connection_strings:
+      - '<connection_string>'
 
-3. Config **marketplace-restserver**.
+  marketplace-webportal:
+    marketplace_api_uri: https://<openpai cluster>/marketplace/api
 
-   Add following config in **service-configuration.yaml** to config `marketplace-restserver` service: 
+  webportal:
+    plugins:
+    - id: marketplace
+      title: Marketplace
+      uri: https://<openpai cluster>/marketplace/plugin.js
 
-   ```
-   marketplace-restserver:
-     db_user: <username>   # default is 'user'
-     db_password: <password> # default is 'passwd'
-     azure_storage:
-       storage_account: <storage_account>
-       connection_strings:
-       - '<connection_string>'
-   ```
+  ## other configs ...
+  ```
 
-   For more details about the config of **marketplace-restserver**, please refer to [marketplace-restserver/config](https://github.com/microsoft/pai/tree/master/src/marketplace-restserver/config), for the **azure_storage** config, please refer to [Data Management](../user/data_management.md).
+  - `cluster.common.marketplace`: this config is the switch of marketplace, if this value is set true, marketplace will be enabled in OpenPAI, if this value is false or not set, marketplace will be disabled in OpenPAI.
 
+  - `marketplace-db`: including `user, passwd and data-path` values. These values controls the basic info of postgresql database marketplace used.
 
-4. Config **marketplace-webportal**.
+  - `marketplace-restserver`: including `db_user, db_password and azure_storage`. These values are used when starting [Marketplace rest server](https://github.com/microsoft/pai/tree/master/src/marketplace-restserver/config). The first two values should be aligned with values set in `marketplace-db`. The last value `azure_storage` is not required, if this value exists, rest server will initialize it into database as an available [azure blob storage](../user/data_management.md).
 
-   Add following config in **service-configuration.yaml** to config `marketplace-webportal` service: 
+  - `marketplace-webportal.marketplace_api_uri`: this value is set with Marketplace rest server api url. If pylon is deployed in OpenPAI, if not. 
 
-   ```
-   marketplace-webportal:
-     marketplace_api_uri: https://<openpai cluster>/marketplace/api
-   ```
+3.  Push config: `./paictl.py config push -p <config-folder> -m service` in a dev-box.
 
-   For more details about the config of **marketplace-webportal**, please refer to [marketplace-webportal/config](https://github.com/microsoft/pai/tree/master/src/marketplace-webportal/config).
-
-7.  Add **marketplace-webportal** to PAI webportal plugin in **service-configuration.yaml**:
-
-    ```
-        webportal:
-          plugins:
-          - id: marketplace
-            title: Marketplace
-            uri: https://<openpai cluster>/marketplace/plugin.js
-    ```
-
-8.  Push config: `./paictl.py config push -p <config-folder> -m service` in a dev-box.
-
-9.  Start marketplace services in OpenPAI: `./paictl.py service start -n marketplace-db marketplace-restserver marketplace-webportal`.
+4.  Start marketplace services in OpenPAI: `./paictl.py service start -n marketplace-db marketplace-restserver marketplace-webportal`.
 
 ## Deploy without OpenPAI
 
