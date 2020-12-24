@@ -13,7 +13,7 @@ import {
   FontWeights,
 } from 'office-ui-fabric-react';
 import styled from 'styled-components';
-import { isEmpty } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import { TYPE_ENUM } from 'App/utils/constants';
 import { useBoolean } from '@uifabric/react-hooks';
 
@@ -24,10 +24,8 @@ const BasicInformationArea = styled.div`
 `;
 
 const BasicInformation = props => {
-  const { state, setState, itemDescription } = props;
+  const { state, setState } = props;
   const [errorMessage, setErrorMessage] = useState(false);
-  const [, updateState] = useState();
-  const forceUpdate = () => updateState({});
   const [
     advancedDescription,
     { toggle: toggleAdvancedDescription },
@@ -56,53 +54,28 @@ const BasicInformation = props => {
     },
   };
 
-  function generateDescription(state, itemDescription) {
+  function generateDescription(state) {
     return (
-      `# ${state.itemObject.name}\n\n${itemDescription.description}\n\n` +
-      (isEmpty(itemDescription.getRawData.value) &&
-      isEmpty(itemDescription.useViaOpenPaiJobSubmition.value) &&
-      isEmpty(itemDescription.useInTheCode.value)
+      `# ${state.itemObject.name}\n\n${state.itemDescription.description}\n\n` +
+      (isEmpty(state.itemDescription.getRawData.value) &&
+      isEmpty(state.itemDescription.useViaOpenPaiJobSubmition.value) &&
+      isEmpty(state.itemDescription.useInTheCode.value)
         ? ''
         : '## About teh dataset\n\n') +
-      (isEmpty(itemDescription.getRawData.value)
+      (isEmpty(state.itemDescription.getRawData.value)
         ? ''
-        : `### Get raw data\n\n${itemDescription.getRawData.value}\n\n`) +
-      (isEmpty(itemDescription.useViaOpenPaiJobSubmition.value)
+        : `### Get raw data\n\n${state.itemDescription.getRawData.value}\n\n`) +
+      (isEmpty(state.itemDescription.useViaOpenPaiJobSubmition.value)
         ? ''
-        : `### Use via OpenPAI job submission\n\n${itemDescription.useViaOpenPaiJobSubmition.value}\n\n`) +
-      (isEmpty(itemDescription.useInTheCode.value)
+        : `### Use via OpenPAI job submission\n\n${state.itemDescription.useViaOpenPaiJobSubmition.value}\n\n`) +
+      (isEmpty(state.itemDescription.useInTheCode.value)
         ? ''
-        : `### Use in the code\n\n${itemDescription.useInTheCode.value}\n\n`) +
-      (isEmpty(itemDescription.relatedProject.value)
+        : `### Use in the code\n\n${state.itemDescription.useInTheCode.value}\n\n`) +
+      (isEmpty(state.itemDescription.relatedProject.value)
         ? ''
-        : `## Related project\n\n${itemDescription.relatedProject.value}\n\n`)
+        : `## Related project\n\n${state.itemDescription.relatedProject.value}\n\n`)
     );
   }
-
-  function AdvancedDescriptionTextField({ field, rows }) {
-    return (
-      <TextField
-        label={field.label}
-        multiline={true}
-        rows={rows}
-        value={field.value}
-        onChange={(event, newValue) => {
-          field.value = newValue;
-        }}
-        placeholder={field.placeholder}
-        styles={textStyles}
-      />
-    );
-  }
-
-  AdvancedDescriptionTextField.defaultProps = {
-    rows: 2,
-  };
-
-  AdvancedDescriptionTextField.propTypes = {
-    field: PropTypes.object,
-    rows: PropTypes.number,
-  };
 
   return (
     <BasicInformationArea>
@@ -112,9 +85,9 @@ const BasicInformation = props => {
           required
           value={state.itemObject.name}
           onChange={(event, newValue) => {
-            state.itemObject.name = newValue;
-            setState({ itemObject: state.itemObject });
-            forceUpdate();
+            const itemObject = cloneDeep(state.itemObject);
+            itemObject.name = newValue;
+            setState({ itemObject });
           }}
           errorMessage={
             errorMessage && isEmpty(state.itemObject.name)
@@ -128,9 +101,9 @@ const BasicInformation = props => {
           required
           value={state.itemObject.dataUrl}
           onChange={(event, newValue) => {
-            state.itemObject.dataUrl = newValue;
-            setState({ itemObject: state.itemObject });
-            forceUpdate();
+            const itemObject = cloneDeep(state.itemObject);
+            itemObject.dataUrl = newValue;
+            setState({ itemObject });
           }}
           placeholder='Please add the data url here'
           styles={textStyles}
@@ -141,9 +114,9 @@ const BasicInformation = props => {
           required
           value={state.itemObject.summary}
           onChange={(event, newValue) => {
-            state.itemObject.summary = newValue;
-            setState({ itemObject: state.itemObject });
-            forceUpdate();
+            const itemObject = cloneDeep(state.itemObject);
+            itemObject.summary = newValue;
+            setState({ itemObject });
           }}
           errorMessage={
             errorMessage && isEmpty(state.itemObject.summary)
@@ -157,13 +130,14 @@ const BasicInformation = props => {
           required
           multiline={true}
           rows={2}
-          value={itemDescription.description}
+          value={state.itemDescription.description}
           onChange={(event, newValue) => {
+            const itemDescription = cloneDeep(state.itemDescription);
             itemDescription.description = newValue;
-            forceUpdate();
+            setState({ itemDescription });
           }}
           errorMessage={
-            errorMessage && isEmpty(itemDescription.description)
+            errorMessage && isEmpty(state.itemDescription.description)
               ? 'Please enter description here.'
               : undefined
           }
@@ -174,18 +148,59 @@ const BasicInformation = props => {
         />
         {advancedDescription && (
           <>
-            <AdvancedDescriptionTextField
-              field={itemDescription.getRawData}
+            <TextField
+              label={state.itemDescription.getRawData.label}
+              multiline={true}
               rows={5}
+              value={state.itemDescription.getRawData.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.getRawData.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={state.itemDescription.getRawData.placeholder}
+              styles={textStyles}
             />
-            <AdvancedDescriptionTextField
-              field={itemDescription.useViaOpenPaiJobSubmition}
+            <TextField
+              label={state.itemDescription.useViaOpenPaiJobSubmition.label}
+              multiline={true}
+              rows={5}
+              value={state.itemDescription.useViaOpenPaiJobSubmition.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.useViaOpenPaiJobSubmition.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={
+                state.itemDescription.useViaOpenPaiJobSubmition.placeholder
+              }
+              styles={textStyles}
             />
-            <AdvancedDescriptionTextField
-              field={itemDescription.useInTheCode}
+            <TextField
+              label={state.itemDescription.useInTheCode.label}
+              multiline={true}
+              rows={5}
+              value={state.itemDescription.useInTheCode.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.useInTheCode.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={state.itemDescription.useInTheCode.placeholder}
+              styles={textStyles}
             />
-            <AdvancedDescriptionTextField
-              field={itemDescription.relatedProject}
+            <TextField
+              label={state.itemDescription.relatedProject.label}
+              multiline={true}
+              rows={5}
+              value={state.itemDescription.relatedProject.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.relatedProject.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={state.itemDescription.relatedProject.placeholder}
+              styles={textStyles}
             />
           </>
         )}
@@ -226,16 +241,13 @@ const BasicInformation = props => {
               isEmpty(state.itemObject.type) ||
               isEmpty(state.itemObject.summary) ||
               isEmpty(state.itemObject.dataUrl) ||
-              isEmpty(itemDescription.description)
+              isEmpty(state.itemDescription.description)
             ) {
               setErrorMessage(true);
               alert('please enter all required fields.');
             } else {
               setErrorMessage(false);
-              state.itemObject.description = generateDescription(
-                state,
-                itemDescription,
-              );
+              state.itemObject.description = generateDescription(state);
               setState({
                 step: 'detail',
                 itemObject: state.itemObject,

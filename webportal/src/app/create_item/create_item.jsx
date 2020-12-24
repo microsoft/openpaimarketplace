@@ -92,6 +92,7 @@ const CreateItem = props => {
     (state, newState) => ({ ...state, ...newState }),
     {
       itemProtocol: null,
+      itemDescription: itemDescription,
       itemObject: {
         name: '',
         summary: '',
@@ -191,16 +192,10 @@ const CreateItem = props => {
               setState={setState}
               getRootProps={getRootProps}
               getInputProps={getInputProps}
-              itemDescription={itemDescription}
             />
           )}
           {state.itemObject.type === TYPE_ENUM.DATA_TEMPLATE && (
-            <CreateData
-              user={user}
-              state={state}
-              setState={setState}
-              itemDescription={itemDescription}
-            />
+            <CreateData user={user} state={state} setState={setState} />
           )}
         </GrayCard>
       </Stack>

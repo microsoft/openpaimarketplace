@@ -13,7 +13,7 @@ import {
   FontWeights,
 } from 'office-ui-fabric-react';
 import styled from 'styled-components';
-import { isEmpty } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import { TYPE_ENUM } from 'App/utils/constants';
 import { useBoolean } from '@uifabric/react-hooks';
 
@@ -24,10 +24,8 @@ const BasicInformationArea = styled.div`
 `;
 
 const BasicInformation = props => {
-  const { state, setState, itemDescription } = props;
+  const { state, setState } = props;
   const [errorMessage, setErrorMessage] = useState(false);
-  const [, updateState] = useState();
-  const forceUpdate = () => updateState({});
   const [
     advancedDescription,
     { toggle: toggleAdvancedDescription },
@@ -56,51 +54,31 @@ const BasicInformation = props => {
     },
   };
 
-  function generateDescription(state, itemDescription) {
+  function generateDescription(state) {
     return (
-      `# ${state.itemObject.name}\n\n${itemDescription.description}\n\n` +
-      (isEmpty(itemDescription.trainingData.value)
+      `# ${state.itemObject.name}\n\n${state.itemDescription.description}\n\n` +
+      (isEmpty(state.itemDescription.trainingData.value)
         ? ''
-        : `## Training data\n\n${itemDescription.trainingData.value}\n\n`) +
-      (isEmpty(itemDescription.prerequisites.value) &&
-      isEmpty(itemDescription.trainingCommand.value) &&
-      isEmpty(itemDescription.getTheResult.value)
+        : `## Training data\n\n${state.itemDescription.trainingData.value}\n\n`) +
+      (isEmpty(state.itemDescription.prerequisites.value) &&
+      isEmpty(state.itemDescription.trainingCommand.value) &&
+      isEmpty(state.itemDescription.getTheResult.value)
         ? ''
         : '## How to use\n\n') +
-      (isEmpty(itemDescription.prerequisites.value)
+      (isEmpty(state.itemDescription.prerequisites.value)
         ? ''
-        : `### Prerequisites\n\n${itemDescription.prerequisites.value}\n\n`) +
-      (isEmpty(itemDescription.trainingCommand.value)
+        : `### Prerequisites\n\n${state.itemDescription.prerequisites.value}\n\n`) +
+      (isEmpty(state.itemDescription.trainingCommand.value)
         ? ''
-        : `### Training command\n\n${itemDescription.trainingCommand.value}\n\n`) +
-      (isEmpty(itemDescription.getTheResult.value)
+        : `### Training command\n\n${state.itemDescription.trainingCommand.value}\n\n`) +
+      (isEmpty(state.itemDescription.getTheResult.value)
         ? ''
-        : `### Get the result\n\n${itemDescription.getTheResult.value}\n\n`) +
-      (isEmpty(itemDescription.reference.value)
+        : `### Get the result\n\n${state.itemDescription.getTheResult.value}\n\n`) +
+      (isEmpty(state.itemDescription.reference.value)
         ? ''
-        : `## Reference\n\n${itemDescription.reference.value}\n\n`)
+        : `## Reference\n\n${state.itemDescription.reference.value}\n\n`)
     );
   }
-
-  function AdvancedDescriptionTextField({ field }) {
-    return (
-      <TextField
-        label={field.label}
-        multiline={true}
-        rows={2}
-        value={field.value}
-        onChange={(event, newValue) => {
-          field.value = newValue;
-        }}
-        placeholder={field.placeholder}
-        styles={textStyles}
-      />
-    );
-  }
-
-  AdvancedDescriptionTextField.propTypes = {
-    field: PropTypes.object,
-  };
 
   return (
     <BasicInformationArea>
@@ -110,9 +88,9 @@ const BasicInformation = props => {
           required
           value={state.itemObject.name}
           onChange={(event, newValue) => {
-            state.itemObject.name = newValue;
-            setState({ itemObject: state.itemObject });
-            forceUpdate();
+            const itemObject = cloneDeep(state.itemObject);
+            itemObject.name = newValue;
+            setState({ itemObject });
           }}
           errorMessage={
             errorMessage && isEmpty(state.itemObject.name)
@@ -127,9 +105,9 @@ const BasicInformation = props => {
           required
           value={state.itemObject.summary}
           onChange={(event, newValue) => {
-            state.itemObject.summary = newValue;
-            setState({ itemObject: state.itemObject });
-            forceUpdate();
+            const itemObject = cloneDeep(state.itemObject);
+            itemObject.summary = newValue;
+            setState({ itemObject });
           }}
           errorMessage={
             errorMessage && isEmpty(state.itemObject.summary)
@@ -143,13 +121,14 @@ const BasicInformation = props => {
           required
           multiline={true}
           rows={2}
-          value={itemDescription.description}
+          value={state.itemDescription.description}
           onChange={(event, newValue) => {
+            const itemDescription = cloneDeep(state.itemDescription);
             itemDescription.description = newValue;
-            forceUpdate();
+            setState({ itemDescription });
           }}
           errorMessage={
-            errorMessage && isEmpty(itemDescription.description)
+            errorMessage && isEmpty(state.itemDescription.description)
               ? 'Please enter description here.'
               : undefined
           }
@@ -160,19 +139,71 @@ const BasicInformation = props => {
         />
         {advancedDescription && (
           <>
-            <AdvancedDescriptionTextField
-              field={itemDescription.trainingData}
+            <TextField
+              label={state.itemDescription.trainingData.label}
+              multiline={true}
+              rows={2}
+              value={state.itemDescription.trainingData.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.trainingData.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={state.itemDescription.trainingData.placeholder}
+              styles={textStyles}
             />
-            <AdvancedDescriptionTextField
-              field={itemDescription.prerequisites}
+            <TextField
+              label={state.itemDescription.prerequisites.label}
+              multiline={true}
+              rows={2}
+              value={state.itemDescription.prerequisites.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.prerequisites.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={state.itemDescription.prerequisites.placeholder}
+              styles={textStyles}
             />
-            <AdvancedDescriptionTextField
-              field={itemDescription.trainingCommand}
+            <TextField
+              label={state.itemDescription.trainingCommand.label}
+              multiline={true}
+              rows={2}
+              value={state.itemDescription.trainingCommand.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.trainingCommand.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={state.itemDescription.trainingCommand.placeholder}
+              styles={textStyles}
             />
-            <AdvancedDescriptionTextField
-              field={itemDescription.getTheResult}
+            <TextField
+              label={state.itemDescription.getTheResult.label}
+              multiline={true}
+              rows={2}
+              value={state.itemDescription.getTheResult.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.getTheResult.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={state.itemDescription.getTheResult.placeholder}
+              styles={textStyles}
             />
-            <AdvancedDescriptionTextField field={itemDescription.reference} />
+            <TextField
+              label={state.itemDescription.reference.label}
+              multiline={true}
+              rows={2}
+              value={state.itemDescription.reference.value}
+              onChange={(event, newValue) => {
+                const itemDescription = cloneDeep(state.itemDescription);
+                itemDescription.reference.value = newValue;
+                setState({ itemDescription });
+              }}
+              placeholder={state.itemDescription.reference.placeholder}
+              styles={textStyles}
+            />
           </>
         )}
         <Stack horizontal horizontalAlign='space-between'>
@@ -211,16 +242,13 @@ const BasicInformation = props => {
               isEmpty(state.itemObject.name) ||
               isEmpty(state.itemObject.type) ||
               isEmpty(state.itemObject.summary) ||
-              isEmpty(itemDescription.description)
+              isEmpty(state.itemDescription.description)
             ) {
               setErrorMessage(true);
               alert('please enter all required fields.');
             } else {
               setErrorMessage(false);
-              state.itemObject.description = generateDescription(
-                state,
-                itemDescription,
-              );
+              state.itemObject.description = generateDescription(state);
               setState({
                 step: 'detail',
                 itemObject: state.itemObject,
@@ -237,7 +265,6 @@ BasicInformation.propTypes = {
   user: PropTypes.string,
   state: PropTypes.object,
   setState: PropTypes.func,
-  itemDescription: PropTypes.object,
 };
 
 export default BasicInformation;
