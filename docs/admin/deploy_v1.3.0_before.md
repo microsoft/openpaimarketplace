@@ -2,7 +2,7 @@
 
 # Deploy Marketplace version v1.3.0 and before
 
-> Note: this document is not guaranteed to deploy openpaimarketplace successfully for backward compatability. If you meet any problems when deploying v1.3.0 and previous version, please propose issues in github or contact the contributors.
+> Note: this document is not guaranteed to deploy openpaimarketplace successfully for backward compatability. If you meet any problems when deploying v1.3.0 and previous version, please submit issues in openpaimarketplace github project or contact the admins.
 
 ## Deploy by marketplace docker images
 
@@ -104,4 +104,3 @@
    ```
 
 4.  Visit `http://<HOST_IP>:<SERVER_PORT>/plugin.js` to get the marketplace js file.
-
