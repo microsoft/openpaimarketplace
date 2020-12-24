@@ -14,7 +14,6 @@ import {
 } from 'office-ui-fabric-react';
 import styled from 'styled-components';
 import { cloneDeep, isEmpty } from 'lodash';
-import { TYPE_ENUM } from 'App/utils/constants';
 import { useBoolean } from '@uifabric/react-hooks';
 
 const BasicInformationArea = styled.div`
@@ -132,9 +131,6 @@ const BasicInformation = props => {
               ? 'Please enter description here.'
               : undefined
           }
-          placeholder={`Please add the description of ${
-            state.itemObject.type === TYPE_ENUM.JOB_TEMPLATE ? 'job' : 'data'
-          } template`}
           styles={textStyles}
         />
         {advancedDescription && (
