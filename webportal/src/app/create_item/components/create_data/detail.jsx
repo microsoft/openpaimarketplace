@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  Dropdown,
   DefaultButton,
   PrimaryButton,
   Stack,
@@ -56,6 +57,18 @@ const Detail = props => {
     },
   };
 
+  const dropdownStyles = {
+    title: { borderRadius: '5px' },
+    subComponentStyles: {
+      label: {
+        root: {
+          fontSize: FontSizes.mediumPlus,
+          fontWeight: FontWeights.semibold,
+        },
+      },
+    },
+  };
+
   const submit = () => {
     if (
       isEmpty(dataTemplateObject.dockerImage) ||
@@ -94,15 +107,13 @@ const Detail = props => {
           }}
           styles={textStyles}
         />
-        <TextField
+        <Dropdown
           label='Storage Type'
-          required
-          value={dataTemplateObject.storageType}
-          onChange={(event, newValue) => {
-            dataTemplateObject.storageType = newValue;
-          }}
-          styles={textStyles}
-          readOnly={true}
+          required={true}
+          options={[{ key: 'data', text: 'Data' }]}
+          defaultSelectedKey='data'
+          containerBorderRadius='5px'
+          styles={dropdownStyles}
         />
         <TextField
           label='Storage Name'

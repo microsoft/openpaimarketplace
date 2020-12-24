@@ -125,6 +125,7 @@ const BasicInformation = props => {
         />
         <TextField
           label='Data url'
+          required
           value={state.itemObject.dataUrl}
           onChange={(event, newValue) => {
             state.itemObject.dataUrl = newValue;
@@ -224,6 +225,7 @@ const BasicInformation = props => {
               isEmpty(state.itemObject.name) ||
               isEmpty(state.itemObject.type) ||
               isEmpty(state.itemObject.summary) ||
+              isEmpty(state.itemObject.dataUrl) ||
               isEmpty(itemDescription.description)
             ) {
               setErrorMessage(true);

@@ -76,6 +76,7 @@ const UploadFiles = ({
         </Stack>
       </UploadArea>
       <DefaultButton
+        style={{ width: '80px' }}
         text='Back'
         onClick={() => {
           setState({ step: 'selectType' });
