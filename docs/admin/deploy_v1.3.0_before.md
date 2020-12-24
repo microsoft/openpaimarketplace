@@ -2,6 +2,8 @@
 
 # Deploy Marketplace version v1.3.0 and before
 
+> Note: this document is not guaranteed to deploy openpaimarketplace successfully for backward compatability. If you meet any problems when deploying v1.3.0 and previous version, please propose issues in github or contact the contributors.
+
 ## Deploy by marketplace docker images
 
 1. Setup a postgres DB.
