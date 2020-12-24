@@ -1,9 +1,8 @@
 # OpenPAI Marketplace Doc for Admins
 
-> Note: This document suits for openpaimarketplace version v1.4.0 and later, and pai v1.4.0 and later.
-
-In openpaimarketplace version 1.4.0 and later, OpenPAI Marketplace can be deployed as services in OpenPAI cluster, please refer to [Deploy inside OpenPAI cluster](./deployment.md#Deploy-inside-OpenPAI) for more details. Besides, marketplace could also be deployed seperately outside the cluster, please refer to [Deploy outside OpenPAI cluster](./deployment.md#Deploy-outside-OpenPAI) for more details.
+In openpaimarketplace release v1.4.0 and later, the deployment has integrated into openpai cluster deployment process. Which means the deployment of narkeplace services will follow the standard process of deployment of other pai services (like webportal and rest-server). Therefore, we recommended users to use openpaimarketplace version v1.4.0 and later, and correspondingly deploy it in OpenPAI cluster version v1.4.0 and later.
 
 ## Table of Contents
 
-1. [Deployment](./deployment.md)
+1. [Deploy Marketplace version v1.4.0 and later](./deploy_v1.4.0_later.md)
+1. [Deploy Marketplace version v1.3.0 and before](./deploy_v1.3.0_before.md)
