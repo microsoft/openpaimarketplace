@@ -111,3 +111,24 @@ export async function createItem(marketItem) {
     throw new Error(res.statusText);
   }
 }
+
+export async function deleteItem(itemId, user) {
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
+  const item = await getItem(itemId);
+
+  if (item.author !== user.user && !user.admin) {
+    throw new Error('permission denied');
+  }
+
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  if (res.ok) {
+    alert(`Delete item ${itemId} successed.`);
+  } else {
+    throw new Error(res.statusText);
+  }
+}
