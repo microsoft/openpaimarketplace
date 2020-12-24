@@ -48,61 +48,79 @@ If the 3 services are started successfully, edit webportal plugin config in **se
   ## other configs ...
   ```
 
+  TODO: does the file value correctly and indicate properties required or optional 
+
   - `cluster.common.marketplace`: this config is the switch of marketplace, if this value is set true, marketplace will be enabled in OpenPAI, if this value is false or not set, marketplace will be disabled in OpenPAI.
 
   - `marketplace-db`: including `user, passwd and data-path` values. These values controls the basic info of postgresql database marketplace used.
 
   - `marketplace-restserver`: including `db_user, db_password and azure_storage`. These values are used when starting [Marketplace rest server](https://github.com/microsoft/pai/tree/master/src/marketplace-restserver/config). The first two values should be aligned with values set in `marketplace-db`. The last value `azure_storage` is not required, if this value exists, rest server will initialize it into database as an available [azure blob storage](../user/data_management.md).
 
-  - `marketplace-webportal.marketplace_api_uri`: this value is set with Marketplace rest server api url. If pylon is deployed in OpenPAI, if not. 
+  - `marketplace-webportal.marketplace_api_uri`: this value is set with Marketplace rest server api url. If pylon is deployed in OpenPAI, marketplace_api_uri could be set as `https://<openpai_cluster_ip>/marketplace/api`. If pylon is not deployed in OpenPAI, then marketplace_api_uri should be set as `https://<master_node_ip>:<9292>`. (TODO: if pylon is not set, the request will failed because of cors?)
 
-3.  Push config: `./paictl.py config push -p <config-folder> -m service` in a dev-box.
+  - `webportal.plugins`: this value is used in OpenPAI webportal, set with the marketplace webportal plugin url when marketplace-webportal service successfully started. Same as `marketpalce_api_uri`, if pylon is deployed in OpenPAI, marketplace_api_uri could be set as `https://<openpai_cluster_ip>/marketplace/plugin.js`. If pylon is not deployed in OpenPAI, then marketplace_api_uri should be set as `https://<master_node_ip>:<9292>/plugin.js`. 
 
-4.  Start marketplace services in OpenPAI: `./paictl.py service start -n marketplace-db marketplace-restserver marketplace-webportal`.
+2.  After the pai config file **service-configuration.yaml** are edited correctly, push config file to update the cluster config using command `./paictl.py config push -p <config-folder> -m service`.
 
-## Deploy without OpenPAI
+3.  Start marketplace services in OpenPAI: 
+
+  ```
+  ./paictl.py service start -n marketplace-db marketplace-restserver marketplace-webportal`.
+  ```
+
+4.  Make sure `webportal.plugins` is set correctly, then restart OpenPAI webportal service: 
+
+  ```
+  ./paictl.py service stop -n webportal`
+  ./paictl.py service start -n webportal`
+  ```
+
+## Deploy outside OpenPAI
 
 Admin can also deploy marketplace outside PAI cluster.
 
 ### Deploy by marketplace docker images
 
 1. Setup a postgres DB.
-    ```
-        docker run \
-          -p 5432:5432 \
-          -e POSTGRES_USER=user \
-          -e POSTGRES_PASSWORD=postgre \
-          -e POSTGRES_DB=marketplace \
-          postgres:12.0
-    ```
+
+  ```
+    docker run \
+      -p 5432:5432 \
+      -e POSTGRES_USER=user \
+      -e POSTGRES_PASSWORD=postgre \
+      -e POSTGRES_DB=marketplace \
+      postgres:12.0
+  ```
 
 2. Pull & run docker images from DockerHub: `openpai/pai-marketplace-restserver` and `openpai/pai-marketplace-webportal`.
-    ```
-    docker run \
-      -p 9292:9292 \
-      -e DB_USERNAME=user \
-      -e DB_PASSWORD=postgre \
-      -e DATABASE=marketplace \
-      -e DB_HOST=localhost \
-      -e DB_PORT=5432 \
-      -e NODE_ENV=production \
-      -e PORT=9292 \
-      -e AZURE_STORAGE="{\"storage_account\": \"<storage account>\", \"connection_string\": ["BlobEndpoint=<blob end point>\"], \"type\": \"blob\"}" \
-      openpai/pai-marketplace-restserver:v1.2.0
 
-    docker run \
-      -p 9293:9293 \
-      -e MARKETPLACE_API_URL="http://localhost:9292" \
-      -e SERVER_PORT=9293 \
-      -e NPM_INSTALL_TOKEN=<github package npm install token>
-      openpai/pai-marketplace-webportal:v1.2.0
-    ```
+  ```
+  docker run \
+    -p 9292:9292 \
+    -e DB_USERNAME=user \
+    -e DB_PASSWORD=postgre \
+    -e DATABASE=marketplace \
+    -e DB_HOST=localhost \
+    -e DB_PORT=5432 \
+    -e NODE_ENV=production \
+    -e PORT=9292 \
+    -e AZURE_STORAGE="{\"storage_account\": \"<storage account>\", \"connection_string\": ["BlobEndpoint=<blob end point>\"], \"type\": \"blob\"}" \
+    openpai/pai-marketplace-restserver:v1.2.0
+
+  docker run \
+    -p 9293:9293 \
+    -e MARKETPLACE_API_URL="http://localhost:9292" \
+    -e SERVER_PORT=9293 \
+    -e NPM_INSTALL_TOKEN=<github package npm install token>
+    openpai/pai-marketplace-webportal:v1.2.0
+  ```
 
 3. Visit `http://localhost:9293/plugin.js` to get the marketplace js file.
 
 ### Deploy service by source code
 
 1. Setup a postgres DB.
+
    ```
    docker run \
      -p 5432:5432 \
@@ -112,7 +130,9 @@ Admin can also deploy marketplace outside PAI cluster.
      postgres:12.0
    ```
 2. Run marketplace rest_server.
+
    - Setup `.env` file for marketplace rest_server.
+
    ```
    # .env file (not including this line)
    DB_USERNAME=<user_name>
@@ -125,6 +145,7 @@ Admin can also deploy marketplace outside PAI cluster.
    ```
 
    - Then git clone the source code and start the rest server.
+
    ```
    git clone https://github.com/microsoft/openpaimarketplace.git
    git checkout xxx // checkout to the version you needed
@@ -135,7 +156,9 @@ Admin can also deploy marketplace outside PAI cluster.
    ```
 
 3. Run marketplace webportal.
+
    - Setup `.env` file for marketplace webportal.
+
    ```
    # .env file (not including this line)
    LOG_LEVEL=<error, warn, info, verbose, debug or silly>
@@ -145,6 +168,7 @@ Admin can also deploy marketplace outside PAI cluster.
    ```
 
    - Then git clone the source code and start the webportal.
+
    ```
    git clone https://github.com/microsoft/openpaimarketplace.git
    git checkout xxx // checkout to the version you needed
