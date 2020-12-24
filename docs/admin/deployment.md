@@ -32,6 +32,7 @@ If the 3 services are started successfully, edit webportal plugin config in **se
     db_user: <username>   # default is 'user'
     db_password: <password> # default is 'passwd'
     azure_storage: # set this value if you want use Azure Blob as storage
+      type: blob
       storage_account: <storage_account>
       connection_strings:
       - '<connection_string>'
