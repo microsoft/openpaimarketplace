@@ -66,7 +66,7 @@
    DB_HOST=<database_host>
    DB_PORT=<database_port_number>
    PORT=<api_service_port>
-   AZURE_STORAGE="{\"storage_account\": \"<storage account>\", \"connection_string\": ["BlobEndpoint=<blob end point>\"], \"type\": \"blob\"}"
+   AZURE_STORAGE="{\"storage_account\": \"<storage account>\", \"connection_string\": [\"BlobEndpoint=<blob end point>\"], \"type\": \"blob\"}"
    ```
 
    - Then git clone the source code and start the rest server.
