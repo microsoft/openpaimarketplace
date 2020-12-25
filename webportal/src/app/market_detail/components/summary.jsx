@@ -38,7 +38,11 @@ export default function Summary(props) {
 
   async function clickUse() {
     try {
-      const jobProtocol = await generateJobProtocol(marketItem, user);
+      const jobProtocol = await generateJobProtocol(
+        marketItem,
+        user,
+        marketItem.useBlob,
+      );
       window.localStorage.removeItem('marketItem');
       window.localStorage.setItem('marketItem', JSON.stringify(jobProtocol));
       window.location.href = `/submit.html`;
