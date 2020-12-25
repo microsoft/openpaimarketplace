@@ -29,7 +29,7 @@
     -e DB_PORT=5432 \
     -e NODE_ENV=production \
     -e PORT=9292 \
-    -e AZURE_STORAGE="{\"storage_account\": \"<storage account>\", \"connection_string\": ["BlobEndpoint=<blob end point>\"], \"type\": \"blob\"}" \
+    -e AZURE_STORAGE="{\"storage_account\": \"<storage account>\", \"connection_string\": [\"BlobEndpoint=<blob end point>\"], \"type\": \"blob\"}" \
     openpai/pai-marketplace-restserver:v1.2.0
 
   docker run \
