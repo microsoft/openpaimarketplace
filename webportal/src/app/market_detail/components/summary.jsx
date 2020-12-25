@@ -23,6 +23,7 @@ import { generateJobProtocol } from '../utils/generate_job_protocol';
 import { getFileName } from 'App/utils/file_name_util';
 import Context from 'App/context';
 import { TYPE_ENUM } from 'App/utils/constants';
+import { deleteItem } from 'App/utils/marketplace_api';
 
 const { spacing, palette } = getTheme();
 
@@ -33,7 +34,7 @@ const Wrapper = styled.div`
 
 export default function Summary(props) {
   const { marketItem } = props;
-  const { user } = useContext(Context);
+  const { user, token, isAdmin, history } = useContext(Context);
 
   async function clickUse() {
     try {
@@ -46,17 +47,42 @@ export default function Summary(props) {
     }
   }
 
+  const menuProps = {
+    items: [
+      {
+        key: 'deleteItem',
+        text: 'Delete',
+        iconProps: { iconName: 'Delete' },
+        onClick: () => {
+          if (confirm('Are you sure you want to delete this item?')) {
+            deleteItem(marketItem.id, { user, token, isAdmin })
+              .then(() => history.push('/'))
+              .catch(err => alert(err.message));
+          }
+        },
+      },
+    ],
+  };
+
   return (
     <Wrapper>
       <Stack gap={'l1'}>
-        <Stack horizontal verticalAlign='center' gap='l2'>
-          {marketItem.type === TYPE_ENUM.DATA_TEMPLATE && <DataIcon />}
-          {marketItem.type === TYPE_ENUM.JOB_TEMPLATE && <JobIcon />}
-          {marketItem.type === TYPE_ENUM.OLD_TEMPLATE && <JobIcon />}
-          <Stack gap='m'>
-            <Text variant={'xLarge'}>{marketItem.name}</Text>
-            <Text variant={'large'}>{marketItem.summary}</Text>
+        <Stack horizontal horizontalAlign='space-between'>
+          <Stack horizontal verticalAlign='center' gap='l2'>
+            {marketItem.type === TYPE_ENUM.DATA_TEMPLATE && <DataIcon />}
+            {marketItem.type === TYPE_ENUM.JOB_TEMPLATE && <JobIcon />}
+            {marketItem.type === TYPE_ENUM.OLD_TEMPLATE && <JobIcon />}
+            <Stack gap='m'>
+              <Text variant={'xLarge'}>{marketItem.name}</Text>
+              <Text variant={'large'}>{marketItem.summary}</Text>
+            </Stack>
           </Stack>
+          <DefaultButton
+            styles={{ root: { height: '20px', background: 'white' } }}
+            iconProps={{ iconName: 'More' }}
+            menuProps={menuProps}
+            isBeakVisible={true}
+          />
         </Stack>
         <Stack
           horizontal

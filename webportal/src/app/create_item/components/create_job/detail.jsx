@@ -25,7 +25,7 @@ const DetailsArea = styled.div`
 `;
 
 const Detail = props => {
-  const { itemProtocol, itemObject, setStep } = props;
+  const { state, setState } = props;
 
   const columnProps = {
     tokens: { childrenGap: 'm' },
@@ -58,22 +58,22 @@ const Detail = props => {
     },
   };
 
-  const dockerImages = itemProtocol.prerequisites.filter(
+  const dockerImages = state.itemProtocol.prerequisites.filter(
     item => item.type === 'dockerimage',
   );
   const dockerImage =
     dockerImages && dockerImages.length > 0 ? dockerImages[0] : undefined;
-  const dataStorages = itemProtocol.prerequisites.filter(
+  const dataStorages = state.itemProtocol.prerequisites.filter(
     item => item.type === 'data',
   );
   const dataStorage =
     dataStorages && dataStorages.length > 0 ? dataStorages[0] : undefined;
-  const codeStorages = itemProtocol.prerequisites.filter(
+  const codeStorages = state.itemProtocol.prerequisites.filter(
     item => item.type === 'script',
   );
   const codeStorage =
     codeStorages && codeStorages.length > 0 ? codeStorages[0] : undefined;
-  const outputStorages = itemProtocol.prerequisites.filter(
+  const outputStorages = state.itemProtocol.prerequisites.filter(
     item => item.type === 'output',
   );
   const outputStorage =
@@ -85,16 +85,18 @@ const Detail = props => {
   useEffect(() => {
     const newPorts = [];
     const newCommands = [];
-    for (const taskRole in itemProtocol.taskRoles) {
-      if (!isNil(itemProtocol.taskRoles[taskRole].resourcePerInstance.ports)) {
+    for (const taskRole in state.itemProtocol.taskRoles) {
+      if (
+        !isNil(state.itemProtocol.taskRoles[taskRole].resourcePerInstance.ports)
+      ) {
         newPorts.push(
           ...Object.keys(
-            itemProtocol.taskRoles[taskRole].resourcePerInstance.ports,
+            state.itemProtocol.taskRoles[taskRole].resourcePerInstance.ports,
           ),
         );
       }
-      if (!isNil(itemProtocol.taskRoles[taskRole].commands)) {
-        newCommands.push(...itemProtocol.taskRoles[taskRole].commands);
+      if (!isNil(state.itemProtocol.taskRoles[taskRole].commands)) {
+        newCommands.push(...state.itemProtocol.taskRoles[taskRole].commands);
       }
     }
     setCommands(newCommands);
@@ -102,13 +104,13 @@ const Detail = props => {
   }, []);
 
   const submit = () => {
-    createItem(itemObject)
-      .then(id => {
-        window.location.href = `${window.location.href.slice(
-          0,
-          window.location.href.lastIndexOf('/'),
-        )}market_detail?itemId=${id}`;
-      })
+    createItem(state.itemObject)
+      .then(id =>
+        setState({
+          itemId: id,
+          step: 'completed',
+        }),
+      )
       .catch(err => {
         throw err;
       });
@@ -194,7 +196,7 @@ const Detail = props => {
       </Stack>
       <Stack
         horizontal
-        horizontalAlign='end'
+        horizontalAlign='space-between'
         gap='l1'
         styles={{
           root: {
@@ -204,7 +206,7 @@ const Detail = props => {
       >
         <DefaultButton
           text='Back'
-          onClick={() => setStep('basicInformation')}
+          onClick={() => setState({ step: 'basicInformation' })}
         />
         <PrimaryButton text='Next' onClick={submit} />
       </Stack>
@@ -214,11 +216,8 @@ const Detail = props => {
 
 Detail.propTypes = {
   user: PropTypes.string,
-  itemProtocol: PropTypes.object,
-  setItemProtocol: PropTypes.func,
-  itemObject: PropTypes.object,
-  setItemObject: PropTypes.func,
-  setStep: PropTypes.func,
+  state: PropTypes.object,
+  setState: PropTypes.func,
 };
 
 export default Detail;

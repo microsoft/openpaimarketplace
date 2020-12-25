@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import React, { useState, useCallback } from 'react';
+import React, { useReducer, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { getTheme } from '@uifabric/styling';
 import styled from 'styled-components';
@@ -10,13 +10,11 @@ import yaml from 'js-yaml';
 import { ActionButton, Stack } from 'office-ui-fabric-react';
 
 import Page from 'App/components/page';
+import { TYPE_ENUM } from 'App/utils/constants';
 import CreateStep from './components/create_step';
-import UploadFiles from './components/upload_files';
-import BasicInformation from './components/basic_information';
-import Detail from './components/detail';
-
-const defaultDescription =
-  '# Job Template Name\n\n## Training data\n\nPlease add the brief introduction of the training data\n\n## How to use\n\n### Prerequisites\n\nPlease add the prerequisites before run the job if have. The prerequisites include data downloading, package installation, environment variable settings, and so on.\n\n### Training command\n\nPlease add the training command here.\n\n### Get the result\n\nPlease show how to get the training result.\n\n## Reference\n\nYou can add the reference tutorials or projects here if have any.\n';
+import SelectType from './components/select_type';
+import CreateJob from './components/create_job/create_job';
+import CreateData from './components/create_data/create_data';
 
 const { spacing, palette } = getTheme();
 
@@ -27,21 +25,87 @@ const GrayCard = styled.div`
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px, rgba(0, 0, 0, 0.05) 0px 0.5px 1px;
 `;
 
+const itemDescription = {
+  description: '',
+
+  // Job template
+  trainingData: {
+    label: 'Training Data',
+    value: '',
+    placeholder: 'Please add the brief introduction of the training data',
+  },
+  prerequisites: {
+    label: 'Prerequisites',
+    value: '',
+    placeholder:
+      'Please add the prerequisites before run the job if have. The prerequisites include data downloading, package installation, environment variable settings, and so on.',
+  },
+  trainingCommand: {
+    label: 'Training Command',
+    value: '',
+    placeholder: 'Please add the training command here.',
+  },
+  getTheResult: {
+    label: 'Get The Result',
+    value: '',
+    placeholder: 'Please show how to get the training result.',
+  },
+  reference: {
+    label: 'Reference',
+    value: '',
+    placeholder:
+      'You can add the reference tutorials or projects here if have any.',
+  },
+
+  // Data template
+  getRawData: {
+    label: 'Get raw data',
+    value: '',
+    placeholder:
+      'Please add how to get the raw data here. It can include below information:\n' +
+      '1. Source address\n' +
+      '2. How to Get\n' +
+      '3. Data format\n' +
+      '4. Data preprocess\n',
+  },
+  useViaOpenPaiJobSubmition: {
+    label: 'Use via OpenPAI job submission',
+    value: '',
+    placeholder: 'You can add the submission command here.',
+  },
+  useInTheCode: {
+    label: 'Use in the code',
+    value: '',
+    placeholder:
+      'You can add code snippet to show how to use the data in the code.',
+  },
+  relatedProject: {
+    label: 'Related project',
+    value: '',
+    placeholder: 'You can add related projects here if have.',
+  },
+};
+
 const CreateItem = props => {
   const { user, routeProps } = props;
-  const [loadYamlError, setLoadYamlError] = useState(null);
-
-  const [itemProtocol, setItemProtocol] = useState(null);
-  const [itemObject, setItemObject] = useState({
-    name: '',
-    summary: '',
-    type: '',
-    description: '',
-    protocol: '',
-    author: user,
-    status: 'approved',
-  });
-  const [step, setStep] = useState('uploadFiles');
+  const [state, setState] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      itemProtocol: null,
+      itemDescription: itemDescription,
+      itemObject: {
+        name: '',
+        summary: '',
+        type: '',
+        description: '',
+        protocol: '',
+        author: user,
+        status: 'approved',
+      },
+      step: 'selectType',
+      itemId: '',
+    },
+  );
 
   const onDrop = useCallback(files => {
     const reader = new FileReader();
@@ -51,20 +115,25 @@ const CreateItem = props => {
     reader.onload = () => {
       try {
         const yamlObject = yaml.safeLoad(reader.result);
-        setItemProtocol(yamlObject);
-        setItemObject({
-          name: yamlObject.name || '',
-          summary: '',
-          type: '',
-          description: defaultDescription || '',
-          protocol: reader.result,
-          author: user,
-          status: 'approved',
+        setState({
+          itemProtocol: yamlObject,
+          itemObject: {
+            name: yamlObject.name || '',
+            type: TYPE_ENUM.JOB_TEMPLATE,
+            summary: '',
+            description: '',
+            protocol: reader.result,
+            author: user,
+            status: 'approved',
+          },
+          step: 'basicInformation',
+          loadYamlError: null,
+          selectFromJobList: false,
         });
-        setStep('basicInformation');
-        setLoadYamlError(null);
       } catch (err) {
-        setLoadYamlError(err.message);
+        setState({
+          loadYamlError: err.message,
+        });
       }
     };
     reader.readAsText(files[0]);
@@ -90,29 +159,43 @@ const CreateItem = props => {
       </Stack>
       <Stack>
         <GrayCard>
-          <CreateStep step={step} />
-          {step === 'uploadFiles' && (
-            <UploadFiles
+          {state.step === 'selectType' && (
+            <SelectType
+              updateItemType={(type, selectFromJobList) => {
+                let next = '';
+                if (type === TYPE_ENUM.JOB_TEMPLATE) {
+                  next = selectFromJobList
+                    ? 'selectFromJobList'
+                    : 'uploadFiles';
+                } else {
+                  next = 'basicInformation';
+                }
+                setState({
+                  itemObject: { ...state.itemObject, ...{ type: type } },
+                  step: next,
+                  selectFromJobList: selectFromJobList,
+                });
+              }}
+            />
+          )}
+          {state.step !== 'selectType' && !state.selectFromJobList && (
+            <CreateStep
+              step={state.step}
+              type={state.itemObject.type}
+              selectFromJobList={state.selectFromJobList}
+            />
+          )}
+          {state.itemObject.type === TYPE_ENUM.JOB_TEMPLATE && (
+            <CreateJob
+              user={user}
+              state={state}
+              setState={setState}
               getRootProps={getRootProps}
               getInputProps={getInputProps}
-              loadYamlError={loadYamlError}
             />
           )}
-          {step === 'basicInformation' && (
-            <BasicInformation
-              user={user}
-              itemObject={itemObject}
-              setItemObject={setItemObject}
-              setStep={setStep}
-            />
-          )}
-          {step === 'detail' && (
-            <Detail
-              user={user}
-              itemProtocol={itemProtocol}
-              itemObject={itemObject}
-              setStep={setStep}
-            />
+          {state.itemObject.type === TYPE_ENUM.DATA_TEMPLATE && (
+            <CreateData user={user} state={state} setState={setState} />
           )}
         </GrayCard>
       </Stack>
