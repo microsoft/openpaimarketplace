@@ -1,6 +1,6 @@
 
 
-# Deploy Marketplace version v1.3.0 and before
+# Deploy Marketplace version v1.3.0 and previous
 
 > Note: this document is not guaranteed to deploy openpaimarketplace successfully for backward compatability. If you meet any problems when deploying v1.3.0 and previous version, please submit issues in openpaimarketplace github project or contact the admins.
 

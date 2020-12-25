@@ -5,4 +5,4 @@ In openpaimarketplace release v1.4.0 and later, the deployment has integrated in
 ## Table of Contents
 
 1. [Deploy Marketplace version v1.4.0 and later](./deploy_v1.4.0_later.md)
-1. [Deploy Marketplace version v1.3.0 and before](./deploy_v1.3.0_before.md)
+1. [Deploy Marketplace version v1.3.0 and previous](./deploy_v1.3.0_previous.md)
