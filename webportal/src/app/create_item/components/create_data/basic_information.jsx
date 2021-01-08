@@ -102,6 +102,7 @@ const BasicInformation = props => {
           onChange={(event, newValue) => {
             const itemObject = cloneDeep(state.itemObject);
             itemObject.dataUrl = newValue;
+            itemObject.dataType = 'blob';
             setState({ itemObject });
           }}
           styles={textStyles}
