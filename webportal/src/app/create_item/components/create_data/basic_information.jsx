@@ -102,7 +102,9 @@ const BasicInformation = props => {
           onChange={(event, newValue) => {
             const itemObject = cloneDeep(state.itemObject);
             itemObject.dataUrl = newValue;
-            itemObject.dataType = 'blob';
+            itemObject.dataType = newValue.startsWith('https://github.com/')
+              ? 'github'
+              : 'blob';
             setState({ itemObject });
           }}
           styles={textStyles}
