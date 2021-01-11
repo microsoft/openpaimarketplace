@@ -50,7 +50,7 @@ const CreateCompleted = props => {
       </Stack>
       <Text>
         You can find your template{' '}
-        <Link onClick={viewItem}>{state.itemId}</Link> in the{' '}
+        <Link onClick={viewItem}>{state.itemObject.name}</Link> in the{' '}
         <Link onClick={viewList}>Marketplace list</Link>
       </Text>
     </Stack>
