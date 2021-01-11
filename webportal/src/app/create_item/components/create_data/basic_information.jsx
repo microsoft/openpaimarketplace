@@ -15,6 +15,8 @@ import {
 import styled from 'styled-components';
 import { cloneDeep, isEmpty } from 'lodash';
 import { useBoolean } from '@uifabric/react-hooks';
+import { createItem } from 'App/utils/marketplace_api';
+import generateDataTemplate from './data_template';
 
 const BasicInformationArea = styled.div`
   margin-bottom: 50px;
@@ -76,6 +78,30 @@ const BasicInformation = props => {
     );
   }
 
+  function submit() {
+    const dataTemplateObject = {
+      dockerImage: 'openpai/standard:python_3.6-pytorch_1.2.0-gpu',
+      storageType: 'data',
+      storageName: 'data',
+      storagePath: state.itemObject.dataUrl,
+      commands: '',
+    };
+    state.itemObject.protocol = generateDataTemplate(
+      dataTemplateObject,
+      state.itemObject,
+    );
+    createItem(state.itemObject)
+      .then(id =>
+        setState({
+          itemId: id,
+          step: 'completed',
+        }),
+      )
+      .catch(err => {
+        throw err;
+      });
+  }
+
   return (
     <BasicInformationArea>
       <Stack {...columnProps}>
@@ -109,7 +135,6 @@ const BasicInformation = props => {
         <TextField
           label='Short summary'
           description='(No more than 100 characters)'
-          required
           value={state.itemObject.summary}
           onChange={(event, newValue) => {
             const itemObject = cloneDeep(state.itemObject);
@@ -125,7 +150,6 @@ const BasicInformation = props => {
         />
         <TextField
           label='Description'
-          required
           multiline={true}
           rows={2}
           value={state.itemDescription.description}
@@ -234,9 +258,7 @@ const BasicInformation = props => {
             if (
               isEmpty(state.itemObject.name) ||
               isEmpty(state.itemObject.type) ||
-              isEmpty(state.itemObject.summary) ||
-              isEmpty(state.itemObject.dataUrl) ||
-              isEmpty(state.itemDescription.description)
+              isEmpty(state.itemObject.dataUrl)
             ) {
               setErrorMessage(true);
               alert('please enter all required fields.');
@@ -247,6 +269,7 @@ const BasicInformation = props => {
                 step: 'detail',
                 itemObject: state.itemObject,
               });
+              submit();
             }
           }}
         />
