@@ -81,14 +81,16 @@ export default function Summary(props) {
               <Text variant={'large'}>{marketItem.summary}</Text>
             </Stack>
           </Stack>
-          <DefaultButton
-            styles={{ root: { height: '30px', background: 'white' } }}
-            menuProps={menuProps}
-            menuIconProps={{
-              iconName: 'More',
-              styles: { root: { fontSize: '20px' } },
-            }}
-          />
+          {marketItem.author.toLowerCase() !== 'openpai' && (
+            <DefaultButton
+              styles={{ root: { height: '30px', background: 'white' } }}
+              menuProps={menuProps}
+              menuIconProps={{
+                iconName: 'More',
+                styles: { root: { fontSize: '20px' } },
+              }}
+            />
+          )}
         </Stack>
         <Stack
           horizontal
