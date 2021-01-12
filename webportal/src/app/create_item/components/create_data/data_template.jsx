@@ -53,7 +53,7 @@ function generateDataTemplate(dataTemplateObject, itemObject) {
   dataTemplate.taskRoles.taskrole.commands = dataTemplateObject.commands.split(
     '\n',
   );
-  dataTemplate.name = itemObject.name;
+  dataTemplate.name = itemObject.name.replace(/ /g, '_');
   return yaml.safeDump(dataTemplate);
 }
 

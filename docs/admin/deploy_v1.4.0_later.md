@@ -17,9 +17,6 @@ If the 3 services are started successfully, edit webportal plugin config in **se
 1. Add marketplace related configs in **service-configuration.yaml**, including `cluster.common.marketplace, marketplace-db, marketplace-restserver, marketplace-webportal and webportal.plugins` properties.
 
   ```
-
-  ## other configs ...
-
   cluster:
     common:
       marketplace: 'true'
@@ -46,8 +43,6 @@ If the 3 services are started successfully, edit webportal plugin config in **se
     - id: marketplace
       title: Marketplace
       uri: https://<openpai cluster>/marketplace/plugin.js
-
-  ## other configs ...
 
   ```
 
