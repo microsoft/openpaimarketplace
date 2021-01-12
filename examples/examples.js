@@ -5,7 +5,7 @@ const EXAMPLE_LIST = [
   {
     id: "0b41d10e-36e5-4e97-95c2-27726dd94f33",
     name: "COVID-19 Chest X-ray Dataset",
-    author: "ieee8023",
+    author: "OpenPAI",
     type: "data",
     dataType: "github",
     dataUrl:
@@ -24,7 +24,7 @@ const EXAMPLE_LIST = [
   {
     id: "e284b120-fdaf-11ea-adc1-0242ac120002",
     name: "COVID-19 Chest X-ray Diagnosis Model Training Job Template",
-    author: "mlmed",
+    author: "OpenPAI",
     type: "template",
     categories: "COVID-19",
     tags: ["official example"],
