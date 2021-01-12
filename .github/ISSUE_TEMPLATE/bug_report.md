@@ -14,3 +14,8 @@ assignees: ''
 ## Screenshots
 
 ## Additional Info
+### Version Info
+- openpaimarketplace version:
+- OpenPAI cluster version:
+- Browser type (edge, chrome, safari):
+- OS version:
