@@ -62,16 +62,6 @@ const CreateStep = props => {
               <Text>Basic information</Text>
             </StepText>
           </StepArea>
-          <StepArea left='calc(50% - 8px)'>
-            <CircleDot
-              color={
-                props.step === 'detail' ? palette.themePrimary : 'LightGray'
-              }
-            />
-            <StepText color={props.step === 'detail' ? 'black' : 'gray'}>
-              <Text>Detail</Text>
-            </StepText>
-          </StepArea>
           <StepArea left='calc(100% - 8px)'>
             <CircleDot
               color={
