@@ -48,12 +48,12 @@ const dataTemplate = {
 function generateDataTemplate(dataTemplateObject, itemObject) {
   dataTemplate.prerequisites[0].uri = dataTemplateObject.dockerImage;
   dataTemplate.prerequisites[1].name = dataTemplateObject.storageName;
-  dataTemplate.prerequisites[1].uri = [dataTemplateObject.storageName];
+  dataTemplate.prerequisites[1].uri = [dataTemplateObject.storagePath];
   dataTemplate.taskRoles.taskrole.data = dataTemplateObject.storageName;
   dataTemplate.taskRoles.taskrole.commands = dataTemplateObject.commands.split(
     '\n',
   );
-  dataTemplate.name = itemObject.name;
+  dataTemplate.name = itemObject.name.replace(/ /g, '_');
   return yaml.safeDump(dataTemplate);
 }
 

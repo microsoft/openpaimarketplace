@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { Stack } from 'office-ui-fabric-react';
 
 import BasicInformation from './basic_information';
-import Detail from './detail';
 import CreateCompleted from '../create_completed';
 
 const CreateData = props => {
@@ -21,9 +20,6 @@ const CreateData = props => {
           setState={setState}
           itemDescription={itemDescription}
         />
-      )}
-      {state.step === 'detail' && (
-        <Detail user={user} state={state} setState={setState} />
       )}
       {state.step === 'completed' && <CreateCompleted state={state} />}
     </Stack>
