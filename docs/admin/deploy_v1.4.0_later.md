@@ -17,6 +17,7 @@ If the 3 services are started successfully, edit webportal plugin config in **se
 1. Add marketplace related configs in **service-configuration.yaml**, including `cluster.common.marketplace, marketplace-db, marketplace-restserver, marketplace-webportal and webportal.plugins` properties.
 
   ```
+
   cluster:
     common:
       marketplace: 'true'
@@ -54,9 +55,9 @@ If the 3 services are started successfully, edit webportal plugin config in **se
 
   - `marketplace-restserver`: including `db_user, db_password and azure_storage`. These values are used when starting [Marketplace rest server](https://github.com/microsoft/pai/tree/master/src/marketplace-restserver/config). The first two values should be aligned with values set in `marketplace-db`. The last value `azure_storage` is not required, if this value exists, rest server will initialize it into database as an available [azure blob storage](../user/data_management.md).
 
-  - `marketplace-webportal.marketplace_api_uri`: this value is set with Marketplace rest server api url. If pylon is deployed in OpenPAI, marketplace_api_uri could be set as `https://<openpai_cluster_ip>/marketplace/api`. If pylon is not deployed in OpenPAI, then marketplace_api_uri should be set as `http://<master_node_ip>:<9292>`.
+  - `marketplace-webportal.marketplace_api_uri`: this value is set with Marketplace rest server api url. If OpenPAI webportal url is `https://xxx` , marketplace_api_uri should be set as `https://<openpai_cluster_ip>/marketplace/api`. If OpenPAI webpoortal url is `http://xxx`, then marketplace_api_uri should be set as `http://<master_node_ip>:<9292>`.
 
-  - `webportal.plugins`: this value is used in OpenPAI webportal, set with the marketplace webportal plugin url when marketplace-webportal service successfully started. Same as `marketpalce_api_uri`, if pylon is deployed in OpenPAI, marketplace_api_uri could be set as `https://<openpai_cluster_ip>/marketplace/plugin.js`. If pylon is not deployed in OpenPAI, then marketplace_api_uri should be set as `http://<master_node_ip>:<9293>/plugin.js`.
+  - `webportal.plugins`: this value is used in OpenPAI webportal, set with the marketplace webportal plugin url when marketplace-webportal service successfully started. Same as `marketpalce_api_uri`, if OpenPAI webportal url is `https://xxx`, marketplace_api_uri could be set as `https://<openpai_cluster_ip>/marketplace/plugin.js`. If OpenPAI webportal url is `http://xxx`, then marketplace_api_uri should be set as `http://<master_node_ip>:<9293>/plugin.js`.
 
 2.  After the pai config file **service-configuration.yaml** are edited correctly, push config file to update the cluster config using command `./paictl.py config push -p <config-folder> -m service`.
 
@@ -77,4 +78,6 @@ If the 3 services are started successfully, edit webportal plugin config in **se
 
 1. The marketplace will be deployed to master node in OpenPAI cluster.
 
-2. User can still deploy marketplaces service without set `cluster.common.market: "true"`, but the pylon will not expose the marketplace uri without this config.
+2. User can still deploy marketplaces service without set `cluster.common.market: "true"`, but the OpenPAI cluster will not expose the marketplace uri without this config.
+
+## Q&A
