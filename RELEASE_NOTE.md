@@ -1,4 +1,19 @@
 # Openpaimarketplace Release Note
+## Jan 2021 (version 1.5.0)
+
+- Refine deployment process #165
+- Refine manual book of marketplace deploy flow #154
+- Add search bar in market list page #158
+- Add create template page #163
+- Fix bugs of official examples #129
+
+## Dec 2020 (version 1.4.1)
+
+- Improve deployment and usage experience for v1.4.0
+
+  - Check environment variable `process.env.AZURE_STORAGE` exists before insert into database.
+
+  - Add a property `useBlob` in marketplaceItem model as a flag, and only contact `pai_copy` related commands if `useBlob` is true.
 
 ## Dec 2020 (version 1.4.0)
 
