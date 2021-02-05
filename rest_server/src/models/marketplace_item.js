@@ -15,6 +15,21 @@ class MarketplaceItem {
       name: DataTypes.STRING,
       author: DataTypes.STRING,
       type: DataTypes.STRING,
+      isPublic: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      isPrivate: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+      groupList: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: false,
+        defaultValue: [],
+      },
       dataType: DataTypes.STRING,
       dataUrl: DataTypes.STRING,
       useBlob: {
