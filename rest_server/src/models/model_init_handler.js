@@ -37,6 +37,8 @@ const createTemplates = async models => {
           ...item,
           protocol: protocolText,
           description: descriptionText,
+          isPublic: true,
+          isPrivate: false,
           ...{
             categories: Array.isArray(item.categories)
               ? item.categories
