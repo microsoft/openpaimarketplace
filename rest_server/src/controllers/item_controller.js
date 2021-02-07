@@ -12,6 +12,7 @@ const list = asyncHandler(async (req, res, next) => {
       req.query.author,
       req.query.type,
       req.query.keyword,
+      req.query.source,
     );
     res.status(200).json(result);
   } catch (e) {

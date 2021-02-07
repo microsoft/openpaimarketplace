@@ -111,6 +111,13 @@ class MarketplaceItem {
               `%${lowerKeyword}%`,
             ),
           },
+          {
+            summary: where(
+              fn('LOWER', col('source')),
+              Op.substring,
+              `%${lowerKeyword}%`,
+            ),
+          },
         ];
       }
       const items = await this.orm.findAll({ where: filterStatement });
