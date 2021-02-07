@@ -442,6 +442,17 @@ components:
           type: string
         type:
           type: string
+        source:
+          type: string
+          enum: [marketplace, pai]
+        isPublic:
+          type: boolean
+        isPrivate:
+          type: boolean
+        groupList:
+          type: array
+          items:
+            type: string
         dataType:
           type: string
         dataUrl:
@@ -474,6 +485,14 @@ components:
         updatedAt:
           type: string
           format: "date-time"
+      required:
+        - id
+        - name
+        - author
+        - type
+        - isPublic
+        - isPrivate
+        - groupList
     Storage:
       type: object
       properties:
