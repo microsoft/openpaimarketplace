@@ -81,6 +81,12 @@ const SideBar = () => {
           onClick={changeType(TYPE_ENUM.OLD_TEMPLATE)}
         />
       </Stack>
+      <Text variant={'large'}>My</Text>
+        <TypeFilter
+          text='Job Template'
+          selected={type === TYPE_ENUM.MY_TEMPLATE}
+          onClick={changeType(TYPE_ENUM.MY_TEMPLATE)}
+        />
     </Stack>
   );
 };

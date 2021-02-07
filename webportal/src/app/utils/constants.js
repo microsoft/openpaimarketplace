@@ -10,4 +10,5 @@ export const TYPE_ENUM = {
   DATA_TEMPLATE: 'data',
   JOB_TEMPLATE: 'template',
   OLD_TEMPLATE: 'old',
+  MY_TEMPLATE: 'my job templates',
 };
