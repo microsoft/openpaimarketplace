@@ -15,6 +15,11 @@ class MarketplaceItem {
       name: DataTypes.STRING,
       author: DataTypes.STRING,
       type: DataTypes.STRING,
+      source: {
+        type: DataTypes.ENUM('marketplace', 'pai'),
+        allowNull: false,
+        defaultValue: "marketplace",
+      },
       isPublic: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
