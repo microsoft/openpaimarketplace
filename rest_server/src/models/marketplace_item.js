@@ -18,7 +18,7 @@ class MarketplaceItem {
       source: {
         type: DataTypes.ENUM('marketplace', 'pai'),
         allowNull: false,
-        defaultValue: "marketplace",
+        defaultValue: 'marketplace',
       },
       isPublic: {
         type: DataTypes.BOOLEAN,
