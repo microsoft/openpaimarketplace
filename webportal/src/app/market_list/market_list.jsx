@@ -56,6 +56,7 @@ const MarketList = props => {
                   ? TYPE_ENUM.ALL
                   : qs.parse(routeProps.location.search).type
               }
+              author={qs.parse(routeProps.location.search).author}
               keyword={qs.parse(routeProps.location.search).keyword}
             />
           </StackItem>

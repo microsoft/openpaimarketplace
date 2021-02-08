@@ -34,10 +34,13 @@ export async function getConnectionString(
   }
 }
 
-export async function listItems(type, keyword) {
+export async function listItems(type, author, keyword) {
   const queryOptions = {};
   if (type) {
     queryOptions.type = type;
+  }
+  if (author) {
+    queryOptions.author = type;
   }
   if (keyword) {
     queryOptions.keyword = keyword;

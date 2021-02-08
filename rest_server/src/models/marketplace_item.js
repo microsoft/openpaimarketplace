@@ -75,56 +75,54 @@ class MarketplaceItem {
     this.models = models;
   }
 
-  async list(name, author, type, keyword) {
-    const handler = modelSyncHandler(async (name, author, type, keyword) => {
-      const filterStatement = {};
-      if (name) {
-        filterStatement.name = name;
-      }
-      if (author) {
-        filterStatement.author = author;
-      }
-      if (type && type !== 'all') {
-        filterStatement.type = type;
-      }
-      if (keyword) {
-        const lowerKeyword = toLower(keyword);
-        filterStatement[Op.or] = [
-          {
-            name: where(
-              fn('LOWER', col('name')),
-              Op.substring,
-              `%${lowerKeyword}%`,
-            ),
-          },
-          {
-            author: where(
-              fn('LOWER', col('author')),
-              Op.substring,
-              `%${lowerKeyword}%`,
-            ),
-          },
-          {
-            summary: where(
-              fn('LOWER', col('summary')),
-              Op.substring,
-              `%${lowerKeyword}%`,
-            ),
-          },
-          {
-            summary: where(
-              fn('LOWER', col('source')),
-              Op.substring,
-              `%${lowerKeyword}%`,
-            ),
-          },
-        ];
-      }
-      const items = await this.orm.findAll({ where: filterStatement });
-      return items;
-    });
+  async list(name, author, type, source, keyword) {
+    const handler = modelSyncHandler(
+      async (name, author, type, source, keyword) => {
+        const filterStatement = {};
+        if (name) {
+          filterStatement.name = name;
+        }
+        if (author) {
+          filterStatement.author = author;
+        }
+        if (type && type !== 'all') {
+          filterStatement.type = type;
+        }
+        if (source) {
+          filterStatement.source = source;
+        }
+        if (keyword) {
+          const lowerKeyword = toLower(keyword);
+          filterStatement[Op.or] = [
+            {
+              name: where(
+                fn('LOWER', col('name')),
+                Op.substring,
+                `%${lowerKeyword}%`,
+              ),
+            },
+            {
+              author: where(
+                fn('LOWER', col('author')),
+                Op.substring,
+                `%${lowerKeyword}%`,
+              ),
+            },
+            {
+              summary: where(
+                fn('LOWER', col('summary')),
+                Op.substring,
+                `%${lowerKeyword}%`,
+              ),
+            },
+          ];
+        }
+        const items = await this.orm.findAll({ where: filterStatement });
+        return items;
+      },
+    );
 
-    return await handler(name, author, type, keyword, this.models);
+    return await handler(name, author, type, source, keyword, this.models);
   }
 
   async create(itemReq) {
