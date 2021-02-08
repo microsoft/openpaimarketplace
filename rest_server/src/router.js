@@ -4,6 +4,7 @@ const express = require('express');
 const itemController = require('./controllers/item_controller');
 const userController = require('./controllers/user_controller');
 const storageController = require('./controllers/storage_controller');
+const token = require('./middlewares/token');
 
 const router = new express.Router();
 
@@ -52,6 +53,10 @@ router
   .get(storageController.get)
   .put(storageController.update)
   .delete(storageController.del);
+
+router.route('/tokens/user').get(token.checkAuthAndGetUserInfo, token.userInfoEcho);
+
+router.route('/tokens/token').get(token.checkAuthAndGetTokenInfo, token.tokenInfoEcho);
 
 // module exports
 module.exports = router;
