@@ -12,19 +12,23 @@ const SideBar = () => {
   const [type, setType] = useState(null);
   const [keyword, setKeyword] = useState();
   const { spacing } = getTheme();
-  const { history } = useContext(Context);
+  const { history, user } = useContext(Context);
 
   const getQueryString = (type, keyword) => {
     let qs = '';
     if (isNil(keyword) || keyword === '') {
       if (isNil(type)) {
         qs = '';
+      } else if (type === 'my') {
+        qs = queryString.stringify({ author: user });
       } else {
         qs = queryString.stringify({ type });
       }
     } else {
       if (isNil(type)) {
         qs = queryString.stringify({ keyword });
+      } else if (type === 'my') {
+        qs = queryString.stringify({ author: user, keyword });
       } else {
         qs = queryString.stringify({ type, keyword });
       }
@@ -81,6 +85,12 @@ const SideBar = () => {
           onClick={changeType(TYPE_ENUM.OLD_TEMPLATE)}
         />
       </Stack>
+      <Text variant={'large'}>My</Text>
+      <TypeFilter
+        text='My templates'
+        selected={type === 'my'}
+        onClick={changeType('my')}
+      />
     </Stack>
   );
 };
