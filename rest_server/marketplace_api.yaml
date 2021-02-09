@@ -477,7 +477,7 @@ components:
           type: string
           enum: [pending, approved, rejected]
         protocol:
-          type: object # TODO: outer link
+          type: string
           description: "https://github.com/microsoft/openpai-protocol/blob/master/schemas/v2/schema.yaml"
         useNumber:
           type: number

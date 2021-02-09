@@ -4,6 +4,7 @@ const { isNil } = require('lodash');
 const { MarketplaceItem } = require('../models');
 const asyncHandler = require('./async_handler');
 const { databaseErrorHandler } = require('./database_error_handler');
+const createError = require('http-errors');
 
 const list = asyncHandler(async (req, res, next) => {
   try {
@@ -13,6 +14,7 @@ const list = asyncHandler(async (req, res, next) => {
       req.query.type,
       req.query.source,
       req.query.keyword,
+      req.userInfo,
     );
     res.status(200).json(result);
   } catch (e) {
@@ -21,8 +23,16 @@ const list = asyncHandler(async (req, res, next) => {
 });
 
 const create = asyncHandler(async (req, res, next) => {
+  if (req.body.author !== req.tokenInfo.username) {
+    const httpError = createError(
+      'BadRequest',
+      'InvalidTokenError',
+      'Token should belong to author',
+    );
+    return res.status(httpError.status).send(httpError.message);
+  }
   try {
-    const id = await MarketplaceItem.create(req.body);
+    const id = await MarketplaceItem.create(req.body, req.tokenInfo);
     res.status(201).json({ id: id });
   } catch (e) {
     databaseErrorHandler(e, res);
