@@ -69,7 +69,7 @@ const checkAuthAndGetTokenInfo = async (req, res, next) => {
     return res.status(httpError.status).send(httpError.message);
   }
   console.log(tokenInfo);
-  req.body.tokenInfo = tokenInfo;
+  req.tokenInfo = tokenInfo;
   next();
 };
 
@@ -90,7 +90,7 @@ const checkAuthAndGetUserInfo = async (req, res, next) => {
   } else {
     return next(
       createError(
-        405,
+        400,
         'InvalidInputError',
         'Need "username" with json format in body',
       ),
@@ -106,18 +106,18 @@ const checkAuthAndGetUserInfo = async (req, res, next) => {
     return res.status(httpError.status).send(httpError.message);
   }
   console.log(userInfo);
-  req.body.userInfo = userInfo;
+  req.userInfo = userInfo;
   next();
 };
 
 const tokenInfoEcho = async (req, res) => {
   res.status(200);
-  res.send(req.body.tokenInfo);
+  res.send(req.tokenInfo);
 };
 
 const userInfoEcho = async (req, res) => {
   res.status(200);
-  res.send(req.body.userInfo);
+  res.send(req.userInfo);
 };
 
 module.exports = {
