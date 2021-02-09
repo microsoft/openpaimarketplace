@@ -5,7 +5,6 @@ const idpUrl = process.env.IDP_URL || '';
 
 const getTokenInfo = async token => {
   const queryUrl = `${idpUrl}/api/v2/tokens/check`;
-  console.log(queryUrl);
   return axios.get(queryUrl, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -15,7 +14,6 @@ const getTokenInfo = async token => {
 
 const getUserInfo = async (userName, token) => {
   const queryUrl = `${idpUrl}/api/v2/users/${userName}`;
-  console.log(queryUrl);
   return axios.get(queryUrl, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -28,9 +26,6 @@ const createHttpErrorFromAxiosError = error => {
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-    console.log(error.response.data);
-    console.log(error.response.status);
-    console.log(error.response.headers);
     httpError = createError(
       error.response.status,
       error.response.data.code,
@@ -40,14 +35,11 @@ const createHttpErrorFromAxiosError = error => {
     // The request was made but no response was received
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
     // http.ClientRequest in node.js
-    console.log(error.request);
     httpError = createError('BadRequest', error.request);
   } else {
     // Something happened in setting up the request that triggered an Error
-    console.log('Error', error.message);
     httpError = createError('InternalServerError', error.message);
   }
-  console.log(error.config);
   return httpError;
 };
 
@@ -61,7 +53,6 @@ const checkAuthAndGetTokenInfo = async (req, res, next) => {
       ),
     );
   }
-  console.log(req.body);
   const token = req.headers.authorization.split(' ')[1];
   let tokenInfo = {};
   try {
@@ -71,7 +62,6 @@ const checkAuthAndGetTokenInfo = async (req, res, next) => {
     const httpError = createHttpErrorFromAxiosError(err);
     return res.status(httpError.status).send(httpError.message);
   }
-  console.log(tokenInfo);
   req.tokenInfo = tokenInfo;
   next();
 };
@@ -86,7 +76,6 @@ const checkAuthAndGetUserInfo = async (req, res, next) => {
       ),
     );
   }
-  console.log(req.body);
   let userName = '';
   if (Object.prototype.hasOwnProperty.call(req.body, 'username')) {
     userName = req.body.username;
@@ -104,7 +93,6 @@ const checkAuthAndGetUserInfo = async (req, res, next) => {
     const httpError = createHttpErrorFromAxiosError(err);
     return res.status(httpError.status).send(httpError.message);
   }
-  console.log(userInfo);
   req.userInfo = userInfo;
   next();
 };

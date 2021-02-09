@@ -31,7 +31,7 @@ const create = asyncHandler(async (req, res, next) => {
     return res.status(httpError.status).send(httpError.message);
   }
   try {
-    const id = await MarketplaceItem.create(req.body, req.tokenInfo);
+    const id = await MarketplaceItem.create(req.body);
     res.status(201).json({ id: id });
   } catch (e) {
     databaseErrorHandler(e, res);
