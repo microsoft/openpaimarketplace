@@ -75,87 +75,92 @@ class MarketplaceItem {
     this.models = models;
   }
 
-  async list(name, author, type, keyword, userInfo) {
-    const handler = modelSyncHandler(async (name, author, type, keyword) => {
-      const filterStatement = {};
-      if (name) {
-        filterStatement.name = name;
-      }
-      if (author) {
-        filterStatement.author = author;
-      }
-      if (type && type !== 'all') {
-        filterStatement.type = type;
-      }
-      if (keyword) {
-        const lowerKeyword = toLower(keyword);
-        filterStatement[Op.or] = [
-          {
-            name: where(
-              fn('LOWER', col('name')),
-              Op.substring,
-              `%${lowerKeyword}%`,
-            ),
-          },
-          {
-            author: where(
-              fn('LOWER', col('author')),
-              Op.substring,
-              `%${lowerKeyword}%`,
-            ),
-          },
-          {
-            summary: where(
-              fn('LOWER', col('summary')),
-              Op.substring,
-              `%${lowerKeyword}%`,
-            ),
-          },
-        ];
-      }
-      if (!userInfo.admin) {
-        filterStatement[Op.or] = [
-          {
-            isPublic: {
-              [Op.eq]: true,
+  async list(name, author, type, source, keyword, userInfo) {
+    const handler = modelSyncHandler(
+      async (name, author, type, source, keyword) => {
+        const filterStatement = {};
+        if (name) {
+          filterStatement.name = name;
+        }
+        if (author) {
+          filterStatement.author = author;
+        }
+        if (type && type !== 'all') {
+          filterStatement.type = type;
+        }
+        if (source) {
+          filterStatement.source = source;
+        }
+        if (keyword) {
+          const lowerKeyword = toLower(keyword);
+          filterStatement[Op.or] = [
+            {
+              name: where(
+                fn('LOWER', col('name')),
+                Op.substring,
+                `%${lowerKeyword}%`,
+              ),
             },
-          },
-          {
-            [Op.and]: [
-              {
-                isPrivate: {
-                  [Op.eq]: true,
-                },
+            {
+              author: where(
+                fn('LOWER', col('author')),
+                Op.substring,
+                `%${lowerKeyword}%`,
+              ),
+            },
+            {
+              summary: where(
+                fn('LOWER', col('summary')),
+                Op.substring,
+                `%${lowerKeyword}%`,
+              ),
+            },
+          ];
+        }
+        if (!userInfo.admin) {
+          filterStatement[Op.or] = [
+            {
+              isPublic: {
+                [Op.eq]: true,
               },
-              {
-                author: {
-                  [Op.eq]: userInfo.username,
+            },
+            {
+              [Op.and]: [
+                {
+                  isPrivate: {
+                    [Op.eq]: true,
+                  },
                 },
-              },
-            ],
-          },
-          {
-            [Op.and]: [
-              {
-                isPublic: {
-                  [Op.eq]: false,
+                {
+                  author: {
+                    [Op.eq]: userInfo.username,
+                  },
                 },
-                isPrivate: {
-                  [Op.eq]: false,
+              ],
+            },
+            {
+              [Op.and]: [
+                {
+                  isPublic: {
+                    [Op.eq]: false,
+                  },
+                  isPrivate: {
+                    [Op.eq]: false,
+                  },
+                  groupList: {
+                    [Op.overlap]: userInfo.groupList,
+                  },
                 },
-                groupList: {
-                  [Op.overlap]: userInfo.groupList,
-                },
-              },
-            ],
-          },
-        ];
-      }
-      const items = await this.orm.findAll({ where: filterStatement });
-      return items;
-    });
+              ],
+            },
+          ];
+        }
+        const items = await this.orm.findAll({ where: filterStatement });
+        return items;
+      },
+    );
 
-    return await handler(name, author, type, keyword, this.models);
+    return await handler(name, author, type, source, keyword, this.models);
   }
 
   async create(itemReq) {

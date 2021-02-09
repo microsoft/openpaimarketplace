@@ -47,6 +47,10 @@ paths:
           name: keyword
           schema:
             type: string
+        - in: query
+          name: source
+          schema:
+            type: string
       responses:
         200:
           description: OK
