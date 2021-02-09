@@ -4,8 +4,17 @@ const { isNil } = require('lodash');
 const { Blob } = require('../models');
 const asyncHandler = require('./async_handler');
 const { databaseErrorHandler } = require('./database_error_handler');
+const createError = require('http-errors');
 
 const list = asyncHandler(async (req, res, next) => {
+  if (!req.tokenInfo.admin) {
+    const httpError = createError(
+      'Forbidden',
+      'ForbiddenUserError',
+      `Non-admin is not allow to do this operation.`,
+    );
+    return res.status(httpError.status).send(httpError.message);
+  }
   try {
     const result = await Blob.list(
       req.query.type,
@@ -21,6 +30,14 @@ const list = asyncHandler(async (req, res, next) => {
 
 const create = asyncHandler(async (req, res, next) => {
   // TODO: Add validation to distinguish TypeError
+  if (!req.tokenInfo.admin) {
+    const httpError = createError(
+      'Forbidden',
+      'ForbiddenUserError',
+      `Non-admin is not allow to do this operation.`,
+    );
+    return res.status(httpError.status).send(httpError.message);
+  }
   try {
     const id = await Blob.create(req.body);
     res.status(201).json({ id: id });
@@ -30,6 +47,14 @@ const create = asyncHandler(async (req, res, next) => {
 });
 
 const get = asyncHandler(async (req, res, next) => {
+  if (!req.tokenInfo.admin) {
+    const httpError = createError(
+      'Forbidden',
+      'ForbiddenUserError',
+      `Non-admin is not allow to do this operation.`,
+    );
+    return res.status(httpError.status).send(httpError.message);
+  }
   try {
     const result = await Blob.get(req.params.blobId);
     if (isNil(result)) {
@@ -44,6 +69,14 @@ const get = asyncHandler(async (req, res, next) => {
 
 const update = asyncHandler(async (req, res, next) => {
   // TODO: Add validation to distinguish TypeError
+  if (!req.tokenInfo.admin) {
+    const httpError = createError(
+      'Forbidden',
+      'ForbiddenUserError',
+      `Non-admin is not allow to do this operation.`,
+    );
+    return res.status(httpError.status).send(httpError.message);
+  }
   try {
     const result = await Blob.update(req.params.blobId, req.body);
     if (isNil(result)) {
@@ -57,6 +90,14 @@ const update = asyncHandler(async (req, res, next) => {
 });
 
 const del = asyncHandler(async (req, res, next) => {
+  if (!req.tokenInfo.admin) {
+    const httpError = createError(
+      'Forbidden',
+      'ForbiddenUserError',
+      `Non-admin is not allow to do this operation.`,
+    );
+    return res.status(httpError.status).send(httpError.message);
+  }
   try {
     const result = await Blob.del(req.params.blobId);
     if (isNil(result)) {
