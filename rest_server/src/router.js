@@ -10,8 +10,8 @@ const router = new express.Router();
 
 router
   .route('/items')
-  .get(itemController.list)
-  .post(itemController.create);
+  .get(token.checkAuthAndGetUserInfo, itemController.list)
+  .post(token.checkAuthAndGetTokenInfo, itemController.create);
 
 router
   .route('/items/:itemId')

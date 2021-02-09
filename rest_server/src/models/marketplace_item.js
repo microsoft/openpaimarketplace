@@ -75,7 +75,7 @@ class MarketplaceItem {
     this.models = models;
   }
 
-  async list(name, author, type, keyword) {
+  async list(name, author, type, keyword, userInfo) {
     const handler = modelSyncHandler(async (name, author, type, keyword) => {
       const filterStatement = {};
       if (name) {
@@ -110,6 +110,44 @@ class MarketplaceItem {
               Op.substring,
               `%${lowerKeyword}%`,
             ),
+          },
+        ];
+      }
+      if (!userInfo.admin) {
+        filterStatement[Op.or] = [
+          {
+            isPublic: {
+              [Op.eq]: true,
+            },
+          },
+          {
+            [Op.and]: [
+              {
+                isPrivate: {
+                  [Op.eq]: true,
+                },
+              },
+              {
+                author: {
+                  [Op.eq]: userInfo.username,
+                },
+              },
+            ],
+          },
+          {
+            [Op.and]: [
+              {
+                isPublic: {
+                  [Op.eq]: false,
+                },
+                isPrivate: {
+                  [Op.eq]: false,
+                },
+                groupList: {
+                  [Op.overlap]: userInfo.groupList,
+                },
+              },
+            ],
           },
         ];
       }
