@@ -157,7 +157,7 @@ class MarketplaceItem {
         }
         const items = await this.orm.findAll({ where: filterStatement });
         return items;
-      }
+      },
     );
 
     return await handler(name, author, type, source, keyword, this.models);
