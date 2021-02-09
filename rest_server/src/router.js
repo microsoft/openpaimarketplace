@@ -54,9 +54,13 @@ router
   .put(storageController.update)
   .delete(storageController.del);
 
-router.route('/tokens/user').get(token.checkAuthAndGetUserInfo, token.userInfoEcho);
+router
+  .route('/tokens/user')
+  .get(token.checkAuthAndGetUserInfo, token.userInfoEcho);
 
-router.route('/tokens/token').get(token.checkAuthAndGetTokenInfo, token.tokenInfoEcho);
+router
+  .route('/tokens/token')
+  .get(token.checkAuthAndGetTokenInfo, token.tokenInfoEcho);
 
 // module exports
 module.exports = router;
