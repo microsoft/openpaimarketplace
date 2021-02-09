@@ -1,5 +1,6 @@
 const axios = require('axios');
 const createError = require('http-errors');
+const jwtDecode = require('jwt-decode');
 
 const idpUrl = process.env.IDP_URL || '';
 
@@ -76,18 +77,20 @@ const checkAuthAndGetUserInfo = async (req, res, next) => {
       ),
     );
   }
-  let userName = '';
-  if (Object.prototype.hasOwnProperty.call(req.body, 'username')) {
-    userName = req.body.username;
-  } else {
-    return res
-      .status(400)
-      .send('InvalidInputError: Need "username" with json format in body');
-  }
   const token = req.headers.authorization.split(' ')[1];
+  const tokenInfo = jwtDecode(token);
+  if (!tokenInfo.username) {
+    return next(
+      createError(
+        'Unauthorized',
+        'UnauthorizedUserError',
+        'Guest is not allowed to do this operation.',
+      ),
+    );
+  }
   let userInfo = {};
   try {
-    const response = await getUserInfo(userName, token);
+    const response = await getUserInfo(tokenInfo.username, token);
     userInfo = response.data;
   } catch (err) {
     const httpError = createHttpErrorFromAxiosError(err);

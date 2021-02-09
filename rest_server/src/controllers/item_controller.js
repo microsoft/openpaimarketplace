@@ -13,9 +13,9 @@ function checkReadPermission(userInfo, item) {
   if (userInfo.username === item.author) {
     return true;
   }
-  if (userInfo.grouplist) {
+  if (userInfo.grouplist && item.groupList) {
     for (const group of userInfo.grouplist) {
-      if (item.group.includes(group)) {
+      if (item.groupList.includes(group)) {
         return true;
       }
     }
@@ -90,20 +90,21 @@ const get = asyncHandler(async (req, res, next) => {
 
 const update = asyncHandler(async (req, res, next) => {
   try {
-    const result = await MarketplaceItem.update(req.params.itemId, req.body);
-    if (isNil(result)) {
-      res.status(404).send('item not found');
-    } else {
-      if (checkWritePermission(req.tokenInfo, result)) {
-        res.status(200).send('updated');
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkWritePermission(req.tokenInfo, result)) {
+      result = await MarketplaceItem.update(req.params.itemId, req.body);
+      if (isNil(result)) {
+        res.status(404).send('item not found');
       } else {
-        const httpError = createError(
-          'Forbidden',
-          'ForbiddenUserError',
-          `User ${req.tokenInfo.username} is not allowed to update item ${req.params.itemId}.`,
-        );
-        return res.status(httpError.status).send(httpError.message);
+        res.status(200).send('updated');
       }
+    } else {
+      const httpError = createError(
+        'Forbidden',
+        'ForbiddenUserError',
+        `User ${req.tokenInfo.username} is not allowed to update item ${req.params.itemId}.`,
+      );
+      return res.status(httpError.status).send(httpError.message);
     }
   } catch (e) {
     databaseErrorHandler(e, res);
@@ -112,20 +113,21 @@ const update = asyncHandler(async (req, res, next) => {
 
 const del = asyncHandler(async (req, res, next) => {
   try {
-    const result = await MarketplaceItem.del(req.params.itemId);
-    if (isNil(result)) {
-      res.status(404).send('item not found');
-    } else {
-      if (checkWritePermission(req.tokenInfo, result)) {
-        res.status(200).send('deleted');
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkWritePermission(req.tokenInfo, result)) {
+      result = await MarketplaceItem.del(req.params.itemId);
+      if (isNil(result)) {
+        res.status(404).send('item not found');
       } else {
-        const httpError = createError(
-          'Forbidden',
-          'ForbiddenUserError',
-          `User ${req.tokenInfo.username} is not allowed to delete item ${req.params.itemId}.`,
-        );
-        return res.status(httpError.status).send(httpError.message);
+        res.status(200).send('deleted');
       }
+    } else {
+      const httpError = createError(
+        'Forbidden',
+        'ForbiddenUserError',
+        `User ${req.tokenInfo.username} is not allowed to delete item ${req.params.itemId}.`,
+      );
+      return res.status(httpError.status).send(httpError.message);
     }
   } catch (e) {
     databaseErrorHandler(e, res);
