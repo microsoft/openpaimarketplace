@@ -23,7 +23,11 @@ const list = asyncHandler(async (req, res, next) => {
 
 const create = asyncHandler(async (req, res, next) => {
   if (req.body.author !== req.tokenInfo.username) {
-    httpError = createError('BadRequest', 'InvalidTokenError', 'Token should belong to author');
+    const httpError = createError(
+      'BadRequest',
+      'InvalidTokenError',
+      'Token should belong to author',
+    );
     return res.status(httpError.status).send(httpError.message);
   }
   try {

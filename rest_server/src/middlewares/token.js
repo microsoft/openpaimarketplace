@@ -1,11 +1,10 @@
 const axios = require('axios');
-const express = require('express');
 const createError = require('http-errors');
 
 const idpUrl = process.env.IDP_URL || '';
 
 const getTokenInfo = async token => {
-  queryUrl = `${idpUrl}/api/v2/tokens/check`;
+  const queryUrl = `${idpUrl}/api/v2/tokens/check`;
   console.log(queryUrl);
   return axios.get(queryUrl, {
     headers: {
@@ -15,7 +14,7 @@ const getTokenInfo = async token => {
 };
 
 const getUserInfo = async (userName, token) => {
-  let queryUrl = `${idpUrl}/api/v2/users/${userName}`;
+  const queryUrl = `${idpUrl}/api/v2/users/${userName}`;
   console.log(queryUrl);
   return axios.get(queryUrl, {
     headers: {
@@ -32,7 +31,11 @@ const createHttpErrorFromAxiosError = error => {
     console.log(error.response.data);
     console.log(error.response.status);
     console.log(error.response.headers);
-    httpError = createError(error.response.status, error.response.data.code, error.response.data.message);
+    httpError = createError(
+      error.response.status,
+      error.response.data.code,
+      error.response.data.message,
+    );
   } else if (error.request) {
     // The request was made but no response was received
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -61,11 +64,11 @@ const checkAuthAndGetTokenInfo = async (req, res, next) => {
   console.log(req.body);
   const token = req.headers.authorization.split(' ')[1];
   let tokenInfo = {};
-  try{
+  try {
     const response = await getTokenInfo(token);
     tokenInfo = response.data;
-  } catch(err){
-    const httpError = createHttpErrorFromAxiosError(err)
+  } catch (err) {
+    const httpError = createHttpErrorFromAxiosError(err);
     return res.status(httpError.status).send(httpError.message);
   }
   console.log(tokenInfo);
@@ -85,16 +88,12 @@ const checkAuthAndGetUserInfo = async (req, res, next) => {
   }
   console.log(req.body);
   let userName = '';
-  if (req.body.hasOwnProperty('username')) {
+  if (Object.prototype.hasOwnProperty.call(req.body, 'username')) {
     userName = req.body.username;
   } else {
-    return next(
-      createError(
-        400,
-        'InvalidInputError',
-        'Need "username" with json format in body',
-      ),
-    );
+    return res
+      .status(400)
+      .send('InvalidInputError: Need "username" with json format in body');
   }
   const token = req.headers.authorization.split(' ')[1];
   let userInfo = {};
@@ -102,7 +101,7 @@ const checkAuthAndGetUserInfo = async (req, res, next) => {
     const response = await getUserInfo(userName, token);
     userInfo = response.data;
   } catch (err) {
-    const httpError = createHttpErrorFromAxiosError(err)
+    const httpError = createHttpErrorFromAxiosError(err);
     return res.status(httpError.status).send(httpError.message);
   }
   console.log(userInfo);
