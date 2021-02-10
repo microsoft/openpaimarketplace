@@ -6,6 +6,33 @@ const asyncHandler = require('./async_handler');
 const { databaseErrorHandler } = require('./database_error_handler');
 const createError = require('http-errors');
 
+function checkReadPermission(userInfo, item) {
+  if (userInfo.admin === true) {
+    return true;
+  }
+  if (userInfo.username === item.author) {
+    return true;
+  }
+  if (userInfo.grouplist && item.groupList) {
+    for (const group of userInfo.grouplist) {
+      if (item.groupList.includes(group)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function checkWritePermission(tokenInfo, item) {
+  if (tokenInfo.admin === true) {
+    return true;
+  }
+  if (tokenInfo.username === item.author) {
+    return true;
+  }
+  return false;
+}
+
 const list = asyncHandler(async (req, res, next) => {
   try {
     const result = await MarketplaceItem.list(
@@ -32,7 +59,7 @@ const create = asyncHandler(async (req, res, next) => {
     return res.status(httpError.status).send(httpError.message);
   }
   try {
-    const id = await MarketplaceItem.create(req.body, req.tokenInfo);
+    const id = await MarketplaceItem.create(req.body);
     res.status(201).json({ id: id });
   } catch (e) {
     databaseErrorHandler(e, res);
@@ -45,7 +72,16 @@ const get = asyncHandler(async (req, res, next) => {
     if (isNil(result)) {
       res.status(404).send('item not found');
     } else {
-      res.status(200).json(result);
+      if (checkReadPermission(req.userInfo, result)) {
+        res.status(200).json(result);
+      } else {
+        const httpError = createError(
+          'Forbidden',
+          'ForbiddenUserError',
+          `User ${req.userInfo.username} is not allowed to get item ${req.params.itemId}.`,
+        );
+        return res.status(httpError.status).send(httpError.message);
+      }
     }
   } catch (e) {
     databaseErrorHandler(e, res);
@@ -54,11 +90,21 @@ const get = asyncHandler(async (req, res, next) => {
 
 const update = asyncHandler(async (req, res, next) => {
   try {
-    const result = await MarketplaceItem.update(req.params.itemId, req.body);
-    if (isNil(result)) {
-      res.status(404).send('item not found');
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkWritePermission(req.tokenInfo, result)) {
+      result = await MarketplaceItem.update(req.params.itemId, req.body);
+      if (isNil(result)) {
+        res.status(404).send('item not found');
+      } else {
+        res.status(200).send('updated');
+      }
     } else {
-      res.status(200).send('updated');
+      const httpError = createError(
+        'Forbidden',
+        'ForbiddenUserError',
+        `User ${req.tokenInfo.username} is not allowed to update item ${req.params.itemId}.`,
+      );
+      return res.status(httpError.status).send(httpError.message);
     }
   } catch (e) {
     databaseErrorHandler(e, res);
@@ -67,74 +113,21 @@ const update = asyncHandler(async (req, res, next) => {
 
 const del = asyncHandler(async (req, res, next) => {
   try {
-    const result = await MarketplaceItem.del(req.params.itemId);
-    if (isNil(result)) {
-      res.status(404).send('item not found');
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkWritePermission(req.tokenInfo, result)) {
+      result = await MarketplaceItem.del(req.params.itemId);
+      if (isNil(result)) {
+        res.status(404).send('item not found');
+      } else {
+        res.status(200).send('deleted');
+      }
     } else {
-      res.status(200).send('deleted');
-    }
-  } catch (e) {
-    databaseErrorHandler(e, res);
-  }
-});
-
-const updateDescription = asyncHandler(async (req, res, next) => {
-  try {
-    const result = await MarketplaceItem.updateDescription(
-      req.params.itemId,
-      req.body,
-    );
-    if (isNil(result)) {
-      res.status(404).send('item not found');
-    } else {
-      res.status(200).send('description updated');
-    }
-  } catch (e) {
-    databaseErrorHandler(e, res);
-  }
-});
-
-const updateStatus = asyncHandler(async (req, res, next) => {
-  try {
-    if (req.body !== 'approved' && req.body !== 'rejected') {
-      res
-        .status(405)
-        .send('status could only be changed to approved or rejected');
-    }
-    const result = await MarketplaceItem.updateStatus(
-      req.params.itemId,
-      req.body,
-    );
-    if (isNil(result)) {
-      res.status(404).send('item not found');
-    } else {
-      res.status(200).send('status updated');
-    }
-  } catch (e) {
-    databaseErrorHandler(e, res);
-  }
-});
-
-const updateSubmits = asyncHandler(async (req, res, next) => {
-  try {
-    const result = await MarketplaceItem.updateSubmits(req.params.itemId);
-    if (isNil(result)) {
-      res.status(404).send('item not found');
-    } else {
-      res.status(200).send('ok');
-    }
-  } catch (e) {
-    databaseErrorHandler(e, res);
-  }
-});
-
-const listStarUsers = asyncHandler(async (req, res, next) => {
-  try {
-    const users = await MarketplaceItem.listStarUsers(req.params.itemId);
-    if (isNil(users)) {
-      res.status(404).send('item not found');
-    } else {
-      res.status(200).json(users.map(user => user.name));
+      const httpError = createError(
+        'Forbidden',
+        'ForbiddenUserError',
+        `User ${req.tokenInfo.username} is not allowed to delete item ${req.params.itemId}.`,
+      );
+      return res.status(httpError.status).send(httpError.message);
     }
   } catch (e) {
     databaseErrorHandler(e, res);
@@ -148,8 +141,4 @@ module.exports = {
   get,
   update,
   del,
-  updateDescription,
-  updateStatus,
-  listStarUsers,
-  updateSubmits,
 };

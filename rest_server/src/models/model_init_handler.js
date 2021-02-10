@@ -38,6 +38,7 @@ const createTemplates = async models => {
           protocol: protocolText,
           description: descriptionText,
           isPublic: true,
+          source: 'marketplace',
           isPrivate: false,
           ...{
             categories: Array.isArray(item.categories)

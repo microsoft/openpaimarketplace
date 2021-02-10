@@ -18,8 +18,13 @@ export async function getConnectionString(
     type,
   });
   const url = `${MARKETPLACE_API_URL}/storages/blobs?${queryStr}`;
+  const token = cookies.get('token');
   const res = await fetch(url, {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
   });
   if (res.ok) {
     const blobs = await res.json();
@@ -47,7 +52,14 @@ export async function listItems(type, author, keyword) {
   }
   const queryStr = queryString.stringify(queryOptions);
   const url = `${MARKETPLACE_API_URL}/items?${queryStr}`;
-  const res = await fetch(url);
+  const token = cookies.get('token');
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
   if (res.ok) {
     const items = await res.json();
     // order by updateDate
@@ -63,7 +75,14 @@ export async function listItems(type, author, keyword) {
 export async function getItem(itemId) {
   const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
   try {
-    const res = await fetch(url);
+    const token = cookies.get('token');
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
     let item;
     if (res.ok) {
       item = await res.json();
@@ -87,11 +106,14 @@ export async function getItem(itemId) {
 }
 
 export async function createItem(marketItem) {
+  const token = cookies.get('token');
+
   const url = `${MARKETPLACE_API_URL}/items`;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       name: marketItem.name,
@@ -123,10 +145,13 @@ export async function deleteItem(itemId, user) {
     throw new Error('permission denied');
   }
 
+  const token = cookies.get('token');
+
   const res = await fetch(url, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   });
   if (res.ok) {
