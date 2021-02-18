@@ -57,6 +57,7 @@ export default function Summary(props) {
         key: 'deleteItem',
         text: 'Delete',
         iconProps: { iconName: 'Delete' },
+        disabled: !isAdmin && user !== marketItem.author,
         onClick: () => {
           if (confirm('Are you sure you want to delete this item?')) {
             deleteItem(marketItem.id, { user, token, isAdmin })
