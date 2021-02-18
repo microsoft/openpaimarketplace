@@ -45,7 +45,7 @@ export async function listItems(type, author, keyword) {
     queryOptions.type = type;
   }
   if (author) {
-    queryOptions.author = type;
+    queryOptions.author = author;
   }
   if (keyword) {
     queryOptions.keyword = keyword;
