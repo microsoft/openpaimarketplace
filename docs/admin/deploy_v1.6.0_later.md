@@ -141,8 +141,6 @@ webportal:
         uri: https://my-marketplace
 ```
 
-### OpenPAI webportal service settings
-
 ## Notes
 
 1. The marketplace will be deployed to master node in OpenPAI cluster.
