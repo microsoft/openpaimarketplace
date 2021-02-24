@@ -15,6 +15,10 @@ assignees: ''
 
 ## Work Plan
 
-## Demo
+## Process Check List
+- [ ] Item 1
+- [ ] Item 2 
 
 ## Test cases
+- [ ] Test 1
+- [ ] Test 2
