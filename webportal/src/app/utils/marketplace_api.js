@@ -137,13 +137,8 @@ export async function createItem(marketItem) {
   }
 }
 
-export async function deleteItem(itemId, user) {
+export async function deleteItem(itemId) {
   const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
-  const item = await getItem(itemId);
-
-  if (item.author !== user.user && !user.admin) {
-    throw new Error('permission denied');
-  }
 
   const token = cookies.get('token');
 
