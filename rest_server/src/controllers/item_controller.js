@@ -5,6 +5,8 @@ const { MarketplaceItem } = require('../models');
 const asyncHandler = require('./async_handler');
 const { databaseErrorHandler } = require('./database_error_handler');
 const createError = require('http-errors');
+const yaml = require('js-yaml');
+const protocolValidator = require('../utils/protocol');
 
 function checkReadPermission(userInfo, item) {
   if (userInfo.admin === true) {
@@ -52,11 +54,26 @@ const list = asyncHandler(async (req, res, next) => {
 const create = asyncHandler(async (req, res, next) => {
   if (req.body.author !== req.tokenInfo.username) {
     const httpError = createError(
-      'BadRequest',
-      'InvalidTokenError',
-      'Token should belong to author',
+      400,
+      'InvalidTokenError: Token should belong to author',
     );
     return res.status(httpError.status).send(httpError.message);
+  }
+  const protocolError = createError(
+    400,
+    'InvalidProtocolError: Protocol should be an openpai-protocol',
+  );
+  if (req.body.protocol === '') {
+    return res.status(protocolError.status).send(protocolError.message);
+  }
+  try {
+    const protocol = yaml.load(req.body.protocol);
+    const valid = protocolValidator.validate(protocol);
+    if (!valid) {
+      return res.status(protocolError.status).send(protocolError.message);
+    }
+  } catch (e) {
+    return res.status(protocolError.status).send(protocolError.message);
   }
   try {
     const id = await MarketplaceItem.create(req.body);
