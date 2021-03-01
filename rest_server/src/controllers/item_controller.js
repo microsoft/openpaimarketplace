@@ -5,6 +5,7 @@ const { MarketplaceItem } = require('../models');
 const asyncHandler = require('./async_handler');
 const { databaseErrorHandler } = require('./database_error_handler');
 const createError = require('http-errors');
+const yaml = require('js-yaml');
 
 function checkReadPermission(userInfo, item) {
   if (userInfo.admin === true) {
@@ -52,9 +53,25 @@ const list = asyncHandler(async (req, res, next) => {
 const create = asyncHandler(async (req, res, next) => {
   if (req.body.author !== req.tokenInfo.username) {
     const httpError = createError(
-      'BadRequest',
-      'InvalidTokenError',
-      'Token should belong to author',
+      400,
+      'InvalidTokenError: Token should belong to author',
+    );
+    return res.status(httpError.status).send(httpError.message);
+  }
+  if (req.body.protocol === '') {
+    const httpError = createError(
+      400,
+      'InvalidProtocolError: Protocol should be an openpai-protocol',
+    );
+    return res.status(httpError.status).send(httpError.message);
+  }
+  try {
+    yaml.load(req.body.protocol);
+    // TODO: Add openpai-protocol validation
+  } catch (e) {
+    const httpError = createError(
+      400,
+      'InvalidProtocolError: Protocol should be an openpai-protocol',
     );
     return res.status(httpError.status).send(httpError.message);
   }
