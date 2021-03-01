@@ -6,6 +6,7 @@ const asyncHandler = require('./async_handler');
 const { databaseErrorHandler } = require('./database_error_handler');
 const createError = require('http-errors');
 const yaml = require('js-yaml');
+const protocolValidator = require('../utils/protocol');
 
 function checkReadPermission(userInfo, item) {
   if (userInfo.admin === true) {
@@ -58,22 +59,21 @@ const create = asyncHandler(async (req, res, next) => {
     );
     return res.status(httpError.status).send(httpError.message);
   }
+  const protocolError = createError(
+    400,
+    'InvalidProtocolError: Protocol should be an openpai-protocol',
+  );
   if (req.body.protocol === '') {
-    const httpError = createError(
-      400,
-      'InvalidProtocolError: Protocol should be an openpai-protocol',
-    );
-    return res.status(httpError.status).send(httpError.message);
+    return res.status(protocolError.status).send(protocolError.message);
   }
   try {
-    yaml.load(req.body.protocol);
-    // TODO: Add openpai-protocol validation
+    const protocol = yaml.load(req.body.protocol);
+    const valid = protocolValidator.validate(protocol);
+    if (!valid) {
+      return res.status(protocolError.status).send(protocolError.message);
+    }
   } catch (e) {
-    const httpError = createError(
-      400,
-      'InvalidProtocolError: Protocol should be an openpai-protocol',
-    );
-    return res.status(httpError.status).send(httpError.message);
+    return res.status(protocolError.status).send(protocolError.message);
   }
   try {
     const id = await MarketplaceItem.create(req.body);
