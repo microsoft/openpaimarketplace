@@ -27,9 +27,29 @@ const createNotFound = message => {
   return createError(404, resMessage);
 };
 
-const createInternalServerError = message => {
-  const resMessage = isNil(message) ? 'Internal server error' : message;
-  return createError(500, resMessage);
+const createInternalServerError = err => {
+  let message = 'Internal server error';
+  if (err instanceof Error) {
+    if (
+      err.name === 'SequelizeConnectionRefusedError' ||
+      err.name === 'SequelizeConnectionError'
+    ) {
+      message = 'Database connection failed';
+    } else if (err.name === 'SequelizeDatabaseError') {
+      message = 'Database error';
+    } else if (err.name === 'SequelizeValidationError') {
+      message = 'Database validation not passed';
+      return createBadRequest(message);
+    } else if (err.name === 'SequelizeUniqueConstraintError') {
+      message = 'The item has already exists';
+      return createBadRequest(message);
+    } else {
+      message = 'Unexpected internal error';
+    }
+  } else if (typeof err === 'string') {
+    message = err;
+  }
+  return createError(500, message);
 };
 
 module.exports = {
