@@ -23,12 +23,12 @@ class MarketplaceItem {
       isPublic: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false,
+        defaultValue: true,
       },
       isPrivate: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: false,
       },
       groupList: {
         type: DataTypes.ARRAY(DataTypes.STRING),
