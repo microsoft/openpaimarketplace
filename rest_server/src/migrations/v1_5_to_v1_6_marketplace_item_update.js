@@ -1,4 +1,6 @@
-const { PostgresQueryInterface } = require('sequelize');
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+const { get } = require('lodash');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -32,7 +34,7 @@ module.exports = {
     await queryInterface.removeColumn(tableName, 'isPublic');
     await queryInterface.removeColumn(tableName, 'isPrivate');
     await queryInterface.removeColumn(tableName, 'groupList');
-    if (queryInterface instanceof PostgresQueryInterface) {
+    if (get(queryInterface, 'dropEnum')) {
       await queryInterface.dropEnum('enum_MarketplaceItems_source');
     }
   },
