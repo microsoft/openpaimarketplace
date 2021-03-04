@@ -52,7 +52,9 @@ const list = asyncHandler(async (req, res, next) => {
 
 const create = asyncHandler(async (req, res, next) => {
   if (isNil(req.body.author)) {
-    req.body.author = req.tokenInfo.username;
+    return next(
+      error.createBadRequest('Author info is missing in require body'),
+    );
   }
   if (req.body.author !== req.tokenInfo.username) {
     return next(
