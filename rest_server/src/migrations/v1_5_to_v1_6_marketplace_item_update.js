@@ -1,3 +1,5 @@
+const { PostgresQueryInterface } = require('sequelize');
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // logic for transforming into the new state
@@ -30,7 +32,7 @@ module.exports = {
     await queryInterface.removeColumn(tableName, 'isPublic');
     await queryInterface.removeColumn(tableName, 'isPrivate');
     await queryInterface.removeColumn(tableName, 'groupList');
-    if (queryInterface instanceof Sequelize.PostgresQueryInterface) {
+    if (queryInterface instanceof PostgresQueryInterface) {
       await queryInterface.dropEnum('enum_MarketplaceItems_source');
     }
   },
