@@ -74,6 +74,9 @@ If the 3 services are started successfully, edit webportal plugin config in **se
   ./paictl.py service start -n pylon webportal
   ```
 
+**Warning:** Upgrade marketplace from previous version without changing the `services-configuration.yaml` file, the auto added marketplace item may cause duplicate marketplace tags in webportal [#230](https://github.com/microsoft/openpaimarketplace/issues/230).
+Admin can either set `webportal.marketplace: false` to avoid the auto added item, or remove the old marketplace item from `webportal.plugins` to delete the old one.
+
 ## Advance settings
 
 Set `cluster.common.marketplace: 'true'` will use the default settings in `marketplace-db marketplace-restserver marketplace-webportal`, and also add a default marketplace page to OpenPAI webportal.
@@ -100,7 +103,7 @@ Admin can change marketplace-restserver settings in the OpenPAI config file **se
 ```yaml
 marketplace-restserver:
     db_user: <username>     # use the value from marketplace-db settings by default
-    db_password: <username> # use the value from marketplace-db settings by default
+    db_password: <password> # use the value from marketplace-db settings by default
     db: marketplace         # use the value from marketplace-db settings by default
     db_host: postgres
     db_port: 9291           # use the value from marketplace-db settings by default
