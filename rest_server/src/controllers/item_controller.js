@@ -14,7 +14,7 @@ function checkReadPermission(userInfo, item) {
   if (userInfo.username === item.author) {
     return true;
   }
-  if (userInfo.grouplist && item.groupList) {
+  if (!item.isPrivate && (userInfo.grouplist && item.groupList)) {
     for (const group of userInfo.grouplist) {
       if (item.groupList.includes(group)) {
         return true;
