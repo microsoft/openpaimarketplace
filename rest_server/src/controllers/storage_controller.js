@@ -3,17 +3,13 @@
 const { isNil } = require('lodash');
 const { Blob } = require('../models');
 const asyncHandler = require('./async_handler');
-const { databaseErrorHandler } = require('./database_error_handler');
-const createError = require('http-errors');
+const error = require('../models/error');
 
 const list = asyncHandler(async (req, res, next) => {
   if (!req.tokenInfo.admin) {
-    const httpError = createError(
-      'Forbidden',
-      'ForbiddenUserError',
-      `Non-admin is not allow to do this operation.`,
+    return next(
+      error.createForbidden('Only admin is allowed to this operation'),
     );
-    return res.status(httpError.status).send(httpError.message);
   }
   try {
     const result = await Blob.list(
@@ -24,89 +20,75 @@ const list = asyncHandler(async (req, res, next) => {
     );
     res.status(200).json(result);
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
 const create = asyncHandler(async (req, res, next) => {
-  // TODO: Add validation to distinguish TypeError
   if (!req.tokenInfo.admin) {
-    const httpError = createError(
-      'Forbidden',
-      'ForbiddenUserError',
-      `Non-admin is not allow to do this operation.`,
+    return next(
+      error.createForbidden('Only admin is allowed to this operation'),
     );
-    return res.status(httpError.status).send(httpError.message);
   }
   try {
     const id = await Blob.create(req.body);
     res.status(201).json({ id: id });
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
 const get = asyncHandler(async (req, res, next) => {
   if (!req.tokenInfo.admin) {
-    const httpError = createError(
-      'Forbidden',
-      'ForbiddenUserError',
-      `Non-admin is not allow to do this operation.`,
+    return next(
+      error.createForbidden('Only admin is allowed to this operation'),
     );
-    return res.status(httpError.status).send(httpError.message);
   }
   try {
     const result = await Blob.get(req.params.blobId);
     if (isNil(result)) {
-      res.status(404).send('blob not found');
+      return next(error.createNotFound('Blob not found'));
     } else {
       res.status(200).json(result);
     }
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
 const update = asyncHandler(async (req, res, next) => {
-  // TODO: Add validation to distinguish TypeError
   if (!req.tokenInfo.admin) {
-    const httpError = createError(
-      'Forbidden',
-      'ForbiddenUserError',
-      `Non-admin is not allow to do this operation.`,
+    return next(
+      error.createForbidden('Only admin is allowed to this operation'),
     );
-    return res.status(httpError.status).send(httpError.message);
   }
   try {
     const result = await Blob.update(req.params.blobId, req.body);
     if (isNil(result)) {
-      res.status(404).send('blob not found');
+      return next(error.createNotFound('Blob not found'));
     } else {
       res.status(200).send('updated');
     }
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
 const del = asyncHandler(async (req, res, next) => {
   if (!req.tokenInfo.admin) {
-    const httpError = createError(
-      'Forbidden',
-      'ForbiddenUserError',
-      `Non-admin is not allow to do this operation.`,
+    return next(
+      error.createForbidden('Only admin is allowed to this operation'),
     );
-    return res.status(httpError.status).send(httpError.message);
   }
   try {
     const result = await Blob.del(req.params.blobId);
     if (isNil(result)) {
-      res.status(404).send('blob not found');
+      return next(error.createNotFound('Blob not found'));
     } else {
       res.status(200).send('deleted');
     }
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 

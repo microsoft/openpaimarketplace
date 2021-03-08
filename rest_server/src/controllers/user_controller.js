@@ -3,14 +3,14 @@
 const { User } = require('../models');
 const { isEmpty, isNil } = require('lodash');
 const asyncHandler = require('./async_handler');
-const { databaseErrorHandler } = require('./database_error_handler');
+const error = require('../models/error');
 
 const list = asyncHandler(async (req, res, next) => {
   try {
     const users = await User.list();
     res.status(200).json(users);
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
@@ -22,7 +22,7 @@ const create = asyncHandler(async (req, res, next) => {
     if (e.name === 'SequelizeUniqueConstraintError') {
       res.status(409).send('conflict');
     }
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
@@ -35,7 +35,7 @@ const del = asyncHandler(async (req, res, next) => {
       res.status(200).send('deleted');
     }
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
@@ -48,7 +48,7 @@ const listItems = asyncHandler(async (req, res, next) => {
       res.status(200).json(items);
     }
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
@@ -63,7 +63,7 @@ const getItem = asyncHandler(async (req, res, next) => {
       res.status(200).json(items[0]);
     }
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
@@ -83,7 +83,7 @@ const updateItem = asyncHandler(async (req, res, next) => {
       res.status(200).send('ok');
     }
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 
@@ -101,7 +101,7 @@ const deleteItem = asyncHandler(async (req, res, next) => {
       res.status(200).send('ok');
     }
   } catch (e) {
-    databaseErrorHandler(e, res);
+    return next(error.createInternalServerError(e));
   }
 });
 

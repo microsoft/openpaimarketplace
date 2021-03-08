@@ -6,6 +6,7 @@ const app = express();
 const router = require('./router');
 const dotnev = require('dotenv');
 const bodyParser = require('body-parser');
+const { errorHandler } = require('./middlewares/errorHandler');
 
 dotnev.config();
 
@@ -18,6 +19,8 @@ app.get('/', function(req, res) {
 });
 
 app.use('/', router);
+
+app.use(errorHandler);
 
 app.listen(process.env.PORT, function() {
   console.log(`Marketplace service listening on port ${process.env.PORT}!`);

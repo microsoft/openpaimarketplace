@@ -1,6 +1,7 @@
 const axios = require('axios');
-const createError = require('http-errors');
 const jwtDecode = require('jwt-decode');
+const error = require('../models/error');
+const { isNil } = require('lodash');
 
 const idpUrl = process.env.IDP_URL || '';
 
@@ -22,37 +23,9 @@ const getUserInfo = async (userName, token) => {
   });
 };
 
-const createHttpErrorFromAxiosError = error => {
-  let httpError;
-  if (error.response) {
-    // The request was made and the server responded with a status code
-    // that falls out of the range of 2xx
-    httpError = createError(
-      error.response.status,
-      error.response.data.code,
-      error.response.data.message,
-    );
-  } else if (error.request) {
-    // The request was made but no response was received
-    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-    // http.ClientRequest in node.js
-    httpError = createError('BadRequest', error.request);
-  } else {
-    // Something happened in setting up the request that triggered an Error
-    httpError = createError('InternalServerError', error.message);
-  }
-  return httpError;
-};
-
 const checkAuthAndGetTokenInfo = async (req, res, next) => {
   if (!req.headers.authorization) {
-    return next(
-      createError(
-        'Unauthorized',
-        'UnauthorizedUserError',
-        'Guest is not allowed to do this operation.',
-      ),
-    );
+    return next(error.createUnauthorized());
   }
   const token = req.headers.authorization.split(' ')[1];
   let tokenInfo = {};
@@ -60,8 +33,13 @@ const checkAuthAndGetTokenInfo = async (req, res, next) => {
     const response = await getTokenInfo(token);
     tokenInfo = response.data;
   } catch (err) {
-    const httpError = createHttpErrorFromAxiosError(err);
-    return res.status(httpError.status).send(httpError.message);
+    if (!isNil(err.response) && err.response.status === 401) {
+      return next(error.createUnauthorized());
+    } else {
+      return next(
+        error.createInternalServerError('Something wrong with token idp api'),
+      );
+    }
   }
   req.tokenInfo = tokenInfo;
   next();
@@ -69,32 +47,30 @@ const checkAuthAndGetTokenInfo = async (req, res, next) => {
 
 const checkAuthAndGetUserInfo = async (req, res, next) => {
   if (!req.headers.authorization) {
-    return next(
-      createError(
-        'Unauthorized',
-        'UnauthorizedUserError',
-        'Guest is not allowed to do this operation.',
-      ),
-    );
+    return next(error.createUnauthorized());
   }
   const token = req.headers.authorization.split(' ')[1];
-  const tokenInfo = jwtDecode(token);
+  let tokenInfo = {};
+  try {
+    tokenInfo = jwtDecode(token);
+  } catch (err) {
+    return next(error.createUnauthorized());
+  }
   if (!tokenInfo.username) {
-    return next(
-      createError(
-        'Unauthorized',
-        'UnauthorizedUserError',
-        'Guest is not allowed to do this operation.',
-      ),
-    );
+    return next(error.createUnauthorized());
   }
   let userInfo = {};
   try {
     const response = await getUserInfo(tokenInfo.username, token);
     userInfo = response.data;
   } catch (err) {
-    const httpError = createHttpErrorFromAxiosError(err);
-    return res.status(httpError.status).send(httpError.message);
+    if (!isNil(err.response) && err.response.status === 401) {
+      return next(error.createUnauthorized());
+    } else {
+      return next(
+        error.createInternalServerError('Something wrong with token idp api'),
+      );
+    }
   }
   req.userInfo = userInfo;
   next();
