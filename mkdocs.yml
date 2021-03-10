@@ -10,7 +10,8 @@ nav:
       - Create Template: user/create_template.md
   - Admin Manual:
       - Introduction: admin/README.md
-      - Deploy Marketplace version v1.4.0 and later: admin/deploy_v1.4.0_later.md
+      - Deploy Marketplace version v1.6.0 and later: admin/deploy_v1.6.0_later.md
+      - Deploy Marketplace version v1.4.0 and v1.5.0: admin/deploy_v1.4.0_later.md
       - Deploy Marketplace version v1.3.0 and before: admin/deploy_v1.3.0_before.md
 plugins:
   - search
