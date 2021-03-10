@@ -1,4 +1,12 @@
 # Openpaimarketplace Release Note
+
+## Mar 2021 (version 1.6.0)
+
+- Simplify deploy config #209
+- Save to template #212
+- Add access control #210
+- [Upgrade Guide](https://openpaimarketplace.readthedocs.io/en/latest/admin/deploy_v1.6.0_later.html)
+
 ## Jan 2021 (version 1.5.0)
 
 - Refine deployment process #165
@@ -43,7 +51,7 @@
 - New location and structure of official templates
   - Put official templates in [examples folder](./examples): protocols in [item_protocols folder](./examples/item_protocols), descriptions in [item_descriptions folder](./examples/item_descriptions).
   - All these example templates will be loaded when marketplace rest server starts.
-  
+
 - Better UI Design
   - Toggle up pai webportal Marketplace plugin by default
   - Add download button in Marketplace data template
