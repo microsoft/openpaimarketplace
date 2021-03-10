@@ -74,6 +74,18 @@ If the 3 services are started successfully, edit webportal plugin config in **se
   ./paictl.py service start -n pylon webportal
   ```
 
+**Step 5.** (Optional) Migrate marketplace item schema from v1.5.0 to v1.6.0
+
+In OpenPAI Marketplace v1.6.0, we changed marketplace item schema to support access control for marketplace items. For user who has deployed the marketplace, marketplace database need to be migrated to new schema. Otherwise, it will throw an "SequelizeDatabaseError: column <column_name> does not exist" exception.
+
+To migrate marketplace, the suggested approach is use `sequelize-cli` and `npx`, like in `rest_server/migrate_marketplace_item.sh`.
+```bash
+# Install dependency
+npm install npx sequelize-cli
+# Do migrate in migrations/
+npx sequelize-cli db:migrate
+```
+
 **Warning:** Upgrade marketplace from previous version without changing the `services-configuration.yaml` file, the auto added marketplace item may cause duplicate marketplace tags in webportal [#230](https://github.com/microsoft/openpaimarketplace/issues/230).
 Admin can either set `webportal.marketplace: false` to avoid the auto added item, or remove the old marketplace item from `webportal.plugins` to delete the old one.
 
