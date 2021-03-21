@@ -38,13 +38,13 @@ const BasicInformation = props => {
     const getGroupList = async () => {
       const groups = await listGroups();
       const options = [];
-      for (const [index, group] of groupList.entries()) {
+      for (const [index, group] of groups.entries()) {
         options.push({
           key: index.toString(),
           text: group.groupname,
         });
       }
-      setGroupList(groups);
+      setGroupListOpptions(options);
     };
     getGroupList();
   }, []);
@@ -52,22 +52,33 @@ const BasicInformation = props => {
   const choiceGroupOptions = [
     {
       key: 'public',
-      text: 'Public',
+      text: 'Public\u00A0\u00A0',
     },
     {
       key: 'private',
-      text: 'Private',
+      text: 'Private\u00A0\u00A0',
     },
     {
       key: 'shared',
-      text: 'Shared',
+      text: 'Shared\u00A0\u00A0',
       onRenderField: (props, render) => {
         return (
           <Stack horizontal horizontalAlign='space-between'>
             {render(props)}
             <Dropdown
-              defaultSelectedKey='public'
-              options={shareGroupsDropDown()}
+              options={groupListOptions}
+              multiSelect
+              onChange={(_, item) => {
+                if (item) {
+                  const itemObject = cloneDeep(state.itemObject);
+                  if (!itemObject.groupList) {
+                    itemObject.groupList = [];
+                  }
+                  itemObject.groupList =
+                    item.selected ? [...itemObject.groupList, item.text] : itemObject.groupList.filter(text => text !== item.text);
+                  setState({ itemObject });
+                }
+              }}
             ></Dropdown>
           </Stack>
         );
@@ -261,8 +272,22 @@ const BasicInformation = props => {
       </Stack>
       <ChoiceGroup
         styles={{ flexContainer: { display: 'flex' } }}
-        defaultSelectedKey='0'
+        defaultSelectedKey='public'
         options={choiceGroupOptions}
+        onChange={(_, option) => {
+          const itemObject = cloneDeep(state.itemObject);
+          if (option.key === 'public') {
+            itemObject.public = true;
+            itemObject.private = false;
+          } else if (option.key === 'private') {
+            itemObject.public = false;
+            itemObject.private = true;
+          } else {
+            itemObject.public = false;
+            itemObject.private = false;
+          }
+          setState({ itemObject });
+        }}
       />
       <Stack
         horizontal
