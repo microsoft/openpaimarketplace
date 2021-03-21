@@ -76,9 +76,9 @@ const BasicInformation = props => {
                   if (!itemObject.groupList) {
                     itemObject.groupList = [];
                   }
-                  itemObject.groupList = item.selected ?
-                    [...itemObject.groupList, item.text] :
-                    itemObject.groupList.filter(text => text !== item.text);
+                  itemObject.groupList = item.selected
+                    ? [...itemObject.groupList, item.text]
+                    : itemObject.groupList.filter(text => text !== item.text);
                   setState({ itemObject });
                 }
               }}
