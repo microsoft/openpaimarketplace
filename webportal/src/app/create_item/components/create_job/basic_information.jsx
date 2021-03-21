@@ -4,7 +4,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  ChoiceGroup,
   DefaultButton,
+  Dropdown,
   PrimaryButton,
   Stack,
   Text,
@@ -23,12 +25,49 @@ const BasicInformationArea = styled.div`
 `;
 
 const BasicInformation = props => {
-  const { state, setState } = props;
+  const { state, setState, groupList } = props;
   const [errorMessage, setErrorMessage] = useState(false);
   const [
     advancedDescription,
     { toggle: toggleAdvancedDescription },
   ] = useBoolean(false);
+
+  const shareGroupsDropDown = () => {
+    const options = [];
+    for (const [index, group] of groupList.entries()) {
+      options.push({
+        key: index.toString(),
+        text: group.groupname,
+      });
+    }
+    return options;
+  };
+
+  const choiceGroupOptions = [
+    {
+      key: 'public',
+      text: 'Public',
+    },
+    {
+      key: 'private',
+      text: 'Private',
+    },
+    {
+      key: 'shared',
+      text: 'Shared',
+      onRenderField: (props, render) => {
+        return (
+          <Stack horizontal horizontalAlign='space-between'>
+            {render(props)}
+            <Dropdown
+              defaultSelectedKey='public'
+              options={shareGroupsDropDown()}
+            ></Dropdown>
+          </Stack>
+        );
+      },
+    },
+  ];
 
   const columnProps = {
     tokens: { childrenGap: 'm' },
@@ -214,6 +253,11 @@ const BasicInformation = props => {
           </DefaultButton>
         </Stack>
       </Stack>
+      <ChoiceGroup
+        styles={{ flexContainer: { display: 'flex' } }}
+        defaultSelectedKey='0'
+        options={choiceGroupOptions}
+      />
       <Stack
         horizontal
         horizontalAlign='space-between'
@@ -261,6 +305,7 @@ BasicInformation.propTypes = {
   user: PropTypes.string,
   state: PropTypes.object,
   setState: PropTypes.func,
+  groupList: PropTypes.array,
 };
 
 export default BasicInformation;
