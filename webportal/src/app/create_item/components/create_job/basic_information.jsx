@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   ChoiceGroup,
@@ -17,6 +17,7 @@ import {
 import styled from 'styled-components';
 import { cloneDeep, isEmpty } from 'lodash';
 import { useBoolean } from '@uifabric/react-hooks';
+import { listGroups } from 'App/utils/pai_api';
 
 const BasicInformationArea = styled.div`
   margin-bottom: 50px;
@@ -25,23 +26,28 @@ const BasicInformationArea = styled.div`
 `;
 
 const BasicInformation = props => {
-  const { state, setState, groupList } = props;
+  const { state, setState } = props;
   const [errorMessage, setErrorMessage] = useState(false);
   const [
     advancedDescription,
     { toggle: toggleAdvancedDescription },
   ] = useBoolean(false);
 
-  const shareGroupsDropDown = () => {
-    const options = [];
-    for (const [index, group] of groupList.entries()) {
-      options.push({
-        key: index.toString(),
-        text: group.groupname,
-      });
-    }
-    return options;
-  };
+  const [groupListOptions, setGroupListOpptions] = useState([]);
+  useEffect(() => {
+    const getGroupList = async () => {
+      const groups = await listGroups();
+      const options = [];
+      for (const [index, group] of groupList.entries()) {
+        options.push({
+          key: index.toString(),
+          text: group.groupname,
+        });
+      }
+      setGroupList(groups);
+    };
+    getGroupList();
+  }, []);
 
   const choiceGroupOptions = [
     {
@@ -305,7 +311,6 @@ BasicInformation.propTypes = {
   user: PropTypes.string,
   state: PropTypes.object,
   setState: PropTypes.func,
-  groupList: PropTypes.array,
 };
 
 export default BasicInformation;
