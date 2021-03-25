@@ -146,24 +146,11 @@ export default function Summary(props) {
               </Stack>
             </TooltipHost>
             <VerticalLine />
-            <TooltipHost
-              calloutProps={{
-                isBeakVisible: false,
-              }}
-              delay={0}
-              tooltipProps={{
-                onRenderContent: () => <Text>Access Info</Text>,
-              }}
-            >
-              <Stack horizontal gap='s1'>
-                <AccessInfo
-                  // isPublic={marketItem.isPublic}
-                  isPublic={false}
-                  isPrivate={false}
-                  groupList={marketItem.groupList}
-                />
-              </Stack>
-            </TooltipHost>
+            <AccessInfo
+              isPublic={marketItem.isPublic}
+              isPrivate={marketItem.isPrivate}
+              groupList={marketItem.groupList}
+            />
           </Stack>
           <Stack horizontal gap='s1'>
             {marketItem.type === TYPE_ENUM.DATA_TEMPLATE &&
