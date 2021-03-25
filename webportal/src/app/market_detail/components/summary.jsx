@@ -120,13 +120,13 @@ export default function Summary(props) {
               }}
               delay={0}
               tooltipProps={{
-                onRenderContent: () => <Text>Create Time</Text>,
+                onRenderContent: () => <Text>Update Time</Text>,
               }}
             >
               <Stack horizontal gap='s1'>
                 <Icon iconName='Clock' />
                 <Text>
-                  {DateTime.fromISO(marketItem.createdAt).toLocaleString()}
+                  {DateTime.fromISO(marketItem.updatedAt).toLocaleString()}
                 </Text>
               </Stack>
             </TooltipHost>
@@ -142,6 +142,20 @@ export default function Summary(props) {
             >
               <Stack horizontal gap='s1'>
                 <Text>{capitalize(marketItem.type)}</Text>
+              </Stack>
+            </TooltipHost>
+            <VerticalLine />
+            <TooltipHost
+              calloutProps={{
+                isBeakVisible: false,
+              }}
+              delay={0}
+              tooltipProps={{
+                onRenderContent: () => <Text>Access Info</Text>,
+              }}
+            >
+              <Stack horizontal gap='s1'>
+                <Text>Public</Text>
               </Stack>
             </TooltipHost>
           </Stack>
