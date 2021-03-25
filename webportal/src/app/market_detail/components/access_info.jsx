@@ -3,6 +3,7 @@
 
 import { Stack, Text, getTheme, TooltipHost } from 'office-ui-fabric-react';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const AccessInfo = props => {
   const { isPublic, isPrivate, groupList } = props;
@@ -17,17 +18,15 @@ export const AccessInfo = props => {
       tooltipProps={{
         onRenderContent: () => {
           return (
-            <>
+            <Stack gap='m'>
               <Text>Access Info</Text>
               {isPublic === false && isPrivate === false && (
-                <>
-                  <br /><br />
+                <Stack gap='s1'>
                   <Text variant={'small'}>Share-to groups:</Text>
-                  <br />
                   <Text>{groupListInfo}</Text>
-                </>
+                </Stack>
               )}
-            </>
+            </Stack>
           );
         },
       }}
@@ -39,4 +38,10 @@ export const AccessInfo = props => {
       </Stack>
     </TooltipHost>
   );
+};
+
+AccessInfo.propTypes = {
+  isPublic: PropTypes.bool,
+  isPrivate: PropTypes.bool,
+  groupList: PropTypes.arrayOf(PropTypes.string),
 };
