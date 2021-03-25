@@ -24,6 +24,7 @@ import { getFileName } from 'App/utils/file_name_util';
 import Context from 'App/context';
 import { TYPE_ENUM } from 'App/utils/constants';
 import { deleteItem } from 'App/utils/marketplace_api';
+import { AccessInfo } from 'App/market_detail/components/access_info';
 
 const { spacing, palette } = getTheme();
 
@@ -155,7 +156,12 @@ export default function Summary(props) {
               }}
             >
               <Stack horizontal gap='s1'>
-                <Text>Public</Text>
+                <AccessInfo
+                  // isPublic={marketItem.isPublic}
+                  isPublic={false}
+                  isPrivate={false}
+                  groupList={marketItem.groupList}
+                />
               </Stack>
             </TooltipHost>
           </Stack>
