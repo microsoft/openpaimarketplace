@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Stack, Text, getTheme, TooltipHost } from 'office-ui-fabric-react';
+import { Stack, Text, TooltipHost } from 'office-ui-fabric-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 
