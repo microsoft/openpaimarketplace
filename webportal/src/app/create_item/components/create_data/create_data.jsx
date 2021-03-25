@@ -9,7 +9,7 @@ import BasicInformation from './basic_information';
 import CreateCompleted from '../create_completed';
 
 const CreateData = props => {
-  const { user, state, setState, itemDescription } = props;
+  const { user, state, setState, itemDescription, api } = props;
 
   return (
     <Stack>
@@ -19,6 +19,7 @@ const CreateData = props => {
           state={state}
           setState={setState}
           itemDescription={itemDescription}
+          api={api}
         />
       )}
       {state.step === 'completed' && <CreateCompleted state={state} />}

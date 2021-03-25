@@ -19,6 +19,7 @@ const CreateJob = props => {
     getRootProps,
     getInputProps,
     itemDescription,
+    api,
   } = props;
 
   return (
@@ -40,6 +41,7 @@ const CreateJob = props => {
           state={state}
           setState={setState}
           itemDescription={itemDescription}
+          api={api}
         />
       )}
       {state.step === 'detail' && (

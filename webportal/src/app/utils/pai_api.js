@@ -3,10 +3,8 @@
 import querystring from 'query-string';
 import yaml from 'js-yaml';
 
-const REST_SERVER_URI = process.env.REST_SERVER_URI;
-
-export async function listGroups() {
-  const url = `${REST_SERVER_URI}/api/v2/groups`;
+export async function listGroups(api) {
+  const url = `${api}/api/v2/groups`;
   const token = cookies.get('token');
 
   const res = await fetch(url, {

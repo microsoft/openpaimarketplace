@@ -28,7 +28,7 @@ const BasicInformationArea = styled.div`
 `;
 
 const BasicInformation = props => {
-  const { state, setState } = props;
+  const { state, setState, api } = props;
   const [errorMessage, setErrorMessage] = useState(false);
   const [
     advancedDescription,
@@ -38,7 +38,7 @@ const BasicInformation = props => {
   const [groupListOptions, setGroupListOpptions] = useState([]);
   useEffect(() => {
     const getGroupList = async () => {
-      const groups = await listGroups();
+      const groups = await listGroups(api);
       const options = [];
       for (const [index, group] of groups.entries()) {
         options.push({
@@ -362,6 +362,7 @@ BasicInformation.propTypes = {
   state: PropTypes.object,
   setState: PropTypes.func,
   itemDescription: PropTypes.object,
+  api: PropTypes.string,
 };
 
 export default BasicInformation;
