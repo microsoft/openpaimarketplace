@@ -2,11 +2,12 @@ const axios = require('axios');
 const jwtDecode = require('jwt-decode');
 const error = require('../models/error');
 const { isNil } = require('lodash');
+const urljoin = require('url-join');
 
 const idpUrl = process.env.IDP_URL || '';
 
 const getTokenInfo = async token => {
-  const queryUrl = `${idpUrl}/api/v2/tokens/check`;
+  const queryUrl = urljoin(`${idpUrl}`, '/api/v2/tokens/check');
   return axios.get(queryUrl, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -15,7 +16,7 @@ const getTokenInfo = async token => {
 };
 
 const getUserInfo = async (userName, token) => {
-  const queryUrl = `${idpUrl}/api/v2/users/${userName}`;
+  const queryUrl = urljoin(`${idpUrl}`, '/api/v2/users/', `${userName}`);
   return axios.get(queryUrl, {
     headers: {
       Authorization: `Bearer ${token}`,
