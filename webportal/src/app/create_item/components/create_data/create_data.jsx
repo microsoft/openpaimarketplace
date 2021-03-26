@@ -28,6 +28,7 @@ const CreateData = props => {
 };
 
 CreateData.propTypes = {
+  api: PropTypes.string,
   user: PropTypes.string,
   state: PropTypes.object,
   setState: PropTypes.func,

@@ -13,13 +13,13 @@ import SelectFromJobList from './select_from_job_list';
 
 const CreateJob = props => {
   const {
+    api,
     user,
     state,
     setState,
     getRootProps,
     getInputProps,
     itemDescription,
-    api,
   } = props;
 
   return (
@@ -53,6 +53,7 @@ const CreateJob = props => {
 };
 
 CreateJob.propTypes = {
+  api: PropTypes.string,
   user: PropTypes.string,
   state: PropTypes.object,
   setState: PropTypes.func,

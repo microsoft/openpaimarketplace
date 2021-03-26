@@ -200,7 +200,12 @@ const CreateItem = props => {
             />
           )}
           {state.itemObject.type === TYPE_ENUM.DATA_TEMPLATE && (
-            <CreateData user={user} state={state} setState={setState} api={api} />
+            <CreateData
+              user={user}
+              state={state}
+              setState={setState}
+              api={api}
+            />
           )}
         </GrayCard>
       </Stack>
@@ -214,7 +219,6 @@ CreateItem.propTypes = {
   token: PropTypes.string,
   isAdmin: PropTypes.bool,
   routeProps: PropTypes.object,
-  api: PropTypes.string,
 };
 
 export default CreateItem;
