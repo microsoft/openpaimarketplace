@@ -3,6 +3,25 @@
 import querystring from 'query-string';
 import yaml from 'js-yaml';
 
+export async function listGroups(api) {
+  const url = `${api}/api/v2/groups`;
+  const token = cookies.get('token');
+
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (res.ok) {
+    const groups = await res.json();
+    return groups;
+  } else if (res.status === 404) {
+    throw new Error(res.statusText);
+  }
+}
+
 export async function fetchSucessJobs(api, username, token) {
   const res = await fetch(
     `${api}/api/v1/jobs?${querystring.stringify({
