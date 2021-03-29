@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  ChoiceGroup,
   DefaultButton,
-  Dropdown,
   PrimaryButton,
   Stack,
   Text,
@@ -19,7 +17,7 @@ import { cloneDeep, isEmpty } from 'lodash';
 import { useBoolean } from '@uifabric/react-hooks';
 import { createItem } from 'App/utils/marketplace_api';
 import generateDataTemplate from './data_template';
-import { listGroups } from 'App/utils/pai_api';
+import { ShareOptions } from '../share_options';
 
 const BasicInformationArea = styled.div`
   margin-bottom: 50px;
@@ -34,60 +32,6 @@ const BasicInformation = props => {
     advancedDescription,
     { toggle: toggleAdvancedDescription },
   ] = useBoolean(false);
-
-  const [groupListOptions, setGroupListOpptions] = useState([]);
-  useEffect(() => {
-    const getGroupList = async () => {
-      const groups = await listGroups(api);
-      const options = [];
-      for (const [index, group] of groups.entries()) {
-        options.push({
-          key: index.toString(),
-          text: group.groupname,
-        });
-      }
-      setGroupListOpptions(options);
-    };
-    getGroupList();
-  }, []);
-
-  const choiceGroupOptions = [
-    {
-      key: 'public',
-      text: 'Public\u00A0\u00A0',
-    },
-    {
-      key: 'private',
-      text: 'Private\u00A0\u00A0',
-    },
-    {
-      key: 'shared',
-      text: 'Shared\u00A0\u00A0',
-      onRenderField: (props, render) => {
-        return (
-          <Stack horizontal horizontalAlign='space-between'>
-            {render(props)}
-            <Dropdown
-              options={groupListOptions}
-              multiSelect
-              onChange={(_, item) => {
-                if (item) {
-                  const itemObject = cloneDeep(state.itemObject);
-                  if (!itemObject.groupList) {
-                    itemObject.groupList = [];
-                  }
-                  itemObject.groupList = item.selected
-                    ? [...itemObject.groupList, item.text]
-                    : itemObject.groupList.filter(text => text !== item.text);
-                  setState({ itemObject });
-                }
-              }}
-            ></Dropdown>
-          </Stack>
-        );
-      },
-    },
-  ];
 
   const columnProps = {
     tokens: { childrenGap: 'm' },
@@ -295,25 +239,7 @@ const BasicInformation = props => {
           </DefaultButton>
         </Stack>
       </Stack>
-      <ChoiceGroup
-        styles={{ flexContainer: { display: 'flex' } }}
-        defaultSelectedKey='public'
-        options={choiceGroupOptions}
-        onChange={(_, option) => {
-          const itemObject = cloneDeep(state.itemObject);
-          if (option.key === 'public') {
-            itemObject.public = true;
-            itemObject.private = false;
-          } else if (option.key === 'private') {
-            itemObject.public = false;
-            itemObject.private = true;
-          } else {
-            itemObject.public = false;
-            itemObject.private = false;
-          }
-          setState({ itemObject });
-        }}
-      />
+      <ShareOptions state={state} setState={setState} api={api} />
       <Stack
         horizontal
         horizontalAlign='space-between'
