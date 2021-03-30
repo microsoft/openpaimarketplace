@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Stack,
-  DefaultButton,
-  Modal,
-  TextField,
-} from 'office-ui-fabric-react';
+import { Stack, DefaultButton, Modal, TextField } from 'office-ui-fabric-react';
 import React, { useReducer, useContext } from 'react';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
