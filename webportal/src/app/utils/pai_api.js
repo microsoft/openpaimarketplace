@@ -64,24 +64,3 @@ export async function getJobConfig(api, userName, jobName) {
     }
   }
 }
-
-export async function fetchSucessJobs(api, username, token) {
-  const res = await fetch(
-    `${api}/api/v1/jobs?${querystring.stringify({
-      username,
-    })}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  if (res.ok) {
-    const jobs = await res.json();
-    const successJobs = jobs.filter(job => job.state === 'SUCCEEDED');
-    return successJobs;
-  } else {
-    throw new Error(res.statusText);
-  }
-}
