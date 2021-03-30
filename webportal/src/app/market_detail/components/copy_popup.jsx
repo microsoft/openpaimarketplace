@@ -2,19 +2,14 @@
 // Licensed under the MIT License.
 
 import {
-  getTheme,
-  mergeStyleSets,
   Stack,
-  Text,
-  TooltipHost,
   DefaultButton,
   Modal,
   TextField,
 } from 'office-ui-fabric-react';
-import React, { useState, useReducer, useContext } from 'react';
+import React, { useReducer, useContext } from 'react';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { createItem } from 'App/utils/marketplace_api';
 import Context from 'App/context';
 import { ShareOptions } from 'App/market_detail/components/share_options';

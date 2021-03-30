@@ -12,7 +12,6 @@ import {
   FontWeights,
 } from 'office-ui-fabric-react';
 import { listGroups } from 'App/utils/pai_api';
-import { cloneDeep } from 'lodash';
 
 export const ShareOptions = props => {
   const { copyItem, dispatch, api } = props;
@@ -80,7 +79,7 @@ export const ShareOptions = props => {
     } else if (option.key === 'private') {
       dispatch({ type: 'setPrivate' });
     } else {
-      dispatch({ type: 'setGroupList', value: groupList})
+      dispatch({ type: 'setGroupList', value: groupList });
     }
   };
 

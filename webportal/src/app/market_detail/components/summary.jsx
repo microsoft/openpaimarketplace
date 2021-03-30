@@ -11,7 +11,7 @@ import {
   TooltipHost,
 } from 'office-ui-fabric-react';
 import { useBoolean } from '@uifabric/react-hooks';
-import React, { useContext, useReducer } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { capitalize } from 'lodash';
