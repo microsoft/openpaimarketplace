@@ -24,6 +24,7 @@ import { getFileName } from 'App/utils/file_name_util';
 import Context from 'App/context';
 import { TYPE_ENUM } from 'App/utils/constants';
 import { deleteItem } from 'App/utils/marketplace_api';
+import { AccessInfo } from 'App/market_detail/components/access_info';
 
 const { spacing, palette } = getTheme();
 
@@ -120,13 +121,13 @@ export default function Summary(props) {
               }}
               delay={0}
               tooltipProps={{
-                onRenderContent: () => <Text>Create Time</Text>,
+                onRenderContent: () => <Text>Update Time</Text>,
               }}
             >
               <Stack horizontal gap='s1'>
                 <Icon iconName='Clock' />
                 <Text>
-                  {DateTime.fromISO(marketItem.createdAt).toLocaleString()}
+                  {DateTime.fromISO(marketItem.updatedAt).toLocaleString()}
                 </Text>
               </Stack>
             </TooltipHost>
@@ -144,6 +145,12 @@ export default function Summary(props) {
                 <Text>{capitalize(marketItem.type)}</Text>
               </Stack>
             </TooltipHost>
+            <VerticalLine />
+            <AccessInfo
+              isPublic={marketItem.isPublic}
+              isPrivate={marketItem.isPrivate}
+              groupList={marketItem.groupList}
+            />
           </Stack>
           <Stack horizontal gap='s1'>
             {marketItem.type === TYPE_ENUM.DATA_TEMPLATE &&

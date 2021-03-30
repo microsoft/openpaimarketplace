@@ -78,6 +78,7 @@ module.exports = () => {
         'process.env': {
           MARKETPLACE_API_URL: JSON.stringify(process.env.MARKETPLACE_API_URL),
           NPM_INSTALL_TOKEN: JSON.stringify(process.env.NPM_INSTALL_TOKEN),
+          REST_SERVER_URI: JSON.stringify(process.env.REST_SERVER_URI),
         },
       }),
       new webpack.IgnorePlugin({
