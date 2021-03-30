@@ -7,7 +7,7 @@ class Filter {
   }
 
   apply() {
-    return { keyword: this.keyword };
+    return { keyword: this.keyword, state: 'SUCCEEDED' };
   }
 }
 
