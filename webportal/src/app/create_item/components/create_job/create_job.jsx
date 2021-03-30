@@ -33,7 +33,12 @@ const CreateJob = props => {
         />
       )}
       {state.step === 'selectFromJobList' && (
-        <SelectFromJobList state={state} setState={setState} />
+        <SelectFromJobList
+          api={api}
+          state={state}
+          setState={setState}
+          user={user}
+        />
       )}
       {state.step === 'basicInformation' && (
         <BasicInformation
