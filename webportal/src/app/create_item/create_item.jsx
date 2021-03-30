@@ -87,7 +87,7 @@ const itemDescription = {
 };
 
 const CreateItem = props => {
-  const { user, routeProps } = props;
+  const { user, routeProps, api } = props;
   const [state, setState] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -97,6 +97,10 @@ const CreateItem = props => {
         name: '',
         summary: '',
         type: '',
+        source: 'marketplace',
+        isPublic: true,
+        isPrivate: false,
+        groupList: [],
         description: '',
         protocol: '',
         author: user,
@@ -192,10 +196,16 @@ const CreateItem = props => {
               setState={setState}
               getRootProps={getRootProps}
               getInputProps={getInputProps}
+              api={api}
             />
           )}
           {state.itemObject.type === TYPE_ENUM.DATA_TEMPLATE && (
-            <CreateData user={user} state={state} setState={setState} />
+            <CreateData
+              user={user}
+              state={state}
+              setState={setState}
+              api={api}
+            />
           )}
         </GrayCard>
       </Stack>

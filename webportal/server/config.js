@@ -9,6 +9,7 @@ let config = {
   env: process.env.NODE_ENV,
   logLevel: process.env.LOG_LEVEL,
   serverPort: process.env.SERVER_PORT,
+  restServerUri: process.env.REST_SERVER_URI,
 };
 
 const configSchema = Joi.object()
@@ -24,6 +25,7 @@ const configSchema = Joi.object()
       .min(8000)
       .max(65535)
       .default(9286),
+    restServerUri: Joi.string(),
   })
   .required();
 

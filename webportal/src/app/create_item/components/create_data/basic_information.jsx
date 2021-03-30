@@ -17,6 +17,7 @@ import { cloneDeep, isEmpty } from 'lodash';
 import { useBoolean } from '@uifabric/react-hooks';
 import { createItem } from 'App/utils/marketplace_api';
 import generateDataTemplate from './data_template';
+import { ShareOptions } from '../share_options';
 
 const BasicInformationArea = styled.div`
   margin-bottom: 50px;
@@ -25,7 +26,7 @@ const BasicInformationArea = styled.div`
 `;
 
 const BasicInformation = props => {
-  const { state, setState } = props;
+  const { state, setState, api } = props;
   const [errorMessage, setErrorMessage] = useState(false);
   const [
     advancedDescription,
@@ -238,6 +239,7 @@ const BasicInformation = props => {
           </DefaultButton>
         </Stack>
       </Stack>
+      <ShareOptions state={state} setState={setState} api={api} />
       <Stack
         horizontal
         horizontalAlign='space-between'
@@ -286,6 +288,7 @@ BasicInformation.propTypes = {
   state: PropTypes.object,
   setState: PropTypes.func,
   itemDescription: PropTypes.object,
+  api: PropTypes.string,
 };
 
 export default BasicInformation;

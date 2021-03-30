@@ -15,6 +15,7 @@ import {
 import styled from 'styled-components';
 import { cloneDeep, isEmpty } from 'lodash';
 import { useBoolean } from '@uifabric/react-hooks';
+import { ShareOptions } from '../share_options';
 
 const BasicInformationArea = styled.div`
   margin-bottom: 50px;
@@ -23,7 +24,7 @@ const BasicInformationArea = styled.div`
 `;
 
 const BasicInformation = props => {
-  const { state, setState } = props;
+  const { state, setState, api } = props;
   const [errorMessage, setErrorMessage] = useState(false);
   const [
     advancedDescription,
@@ -214,6 +215,7 @@ const BasicInformation = props => {
           </DefaultButton>
         </Stack>
       </Stack>
+      <ShareOptions state={state} setState={setState} api={api} />
       <Stack
         horizontal
         horizontalAlign='space-between'
@@ -261,6 +263,7 @@ BasicInformation.propTypes = {
   user: PropTypes.string,
   state: PropTypes.object,
   setState: PropTypes.func,
+  api: PropTypes.string,
 };
 
 export default BasicInformation;
