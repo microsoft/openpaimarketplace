@@ -61,7 +61,6 @@ const Table = props => {
     setOrdering,
     pagination,
     loading,
-    updateFilteredJobsInfo,
   } = props;
 
   // workaround for fabric's bug
