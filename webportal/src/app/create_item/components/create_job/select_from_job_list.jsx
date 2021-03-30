@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Text,
@@ -9,9 +9,11 @@ import {
   DefaultButton,
   PrimaryButton,
 } from 'office-ui-fabric-react';
-import { isEmpty } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 
-const SelectFromJobList = ({ state, setState }) => {
+const SelectFromJobList = ({ api, state, setState }) => {
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
   return (
     <>
       <Text>Job list here.</Text>
@@ -25,39 +27,15 @@ const SelectFromJobList = ({ state, setState }) => {
           },
         }}
       >
-        <DefaultButton
-          text='Back'
-          onClick={() => {
-            setState({ step: 'uploadFiles' });
-          }}
-        />
-        <PrimaryButton
-          text='Next'
-          onClick={() => {
-            if (
-              isEmpty(state.itemObject.name) ||
-              isEmpty(state.itemObject.type) ||
-              isEmpty(state.itemObject.summary) ||
-              isEmpty(state.itemDescription.description)
-            ) {
-              setErrorMessage(true);
-              alert('please enter all required fields.');
-            } else {
-              setErrorMessage(false);
-              state.itemObject.description = generateDescription(state);
-              setState({
-                step: 'detail',
-                itemObject: state.itemObject,
-              });
-            }
-          }}
-        />
+        <DefaultButton text='Back' onClick={() => {}} />
+        <PrimaryButton text='Next' onClick={() => {}} />
       </Stack>
     </>
   );
 };
 
 SelectFromJobList.propTypes = {
+  api: PropTypes.string,
   state: PropTypes.object,
   setState: PropTypes.func,
 };
