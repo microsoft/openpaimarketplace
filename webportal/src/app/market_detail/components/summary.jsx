@@ -10,6 +10,7 @@ import {
   Icon,
   TooltipHost,
 } from 'office-ui-fabric-react';
+import { useBoolean } from '@uifabric/react-hooks';
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -25,6 +26,7 @@ import Context from 'App/context';
 import { TYPE_ENUM } from 'App/utils/constants';
 import { deleteItem } from 'App/utils/marketplace_api';
 import { AccessInfo } from 'App/market_detail/components/access_info';
+import { CopyPopup } from 'App/market_detail/components/copy_popup';
 
 const { spacing, palette } = getTheme();
 
@@ -36,6 +38,10 @@ const Wrapper = styled.div`
 export default function Summary(props) {
   const { marketItem, marketItemDispatch } = props;
   const { user, token, isAdmin, history } = useContext(Context);
+  const [
+    isCopyPopupOpen,
+    { setTrue: showCopyPopup, setFalse: hideCopyPopup },
+  ] = useBoolean(false);
 
   async function clickUse() {
     try {
@@ -54,6 +60,12 @@ export default function Summary(props) {
 
   const menuProps = {
     items: [
+      {
+        key: 'copyItem',
+        text: 'Copy',
+        iconProps: { iconName: 'Copy' },
+        onClick: showCopyPopup,
+      },
       {
         key: 'deleteItem',
         text: 'Delete',
@@ -83,16 +95,15 @@ export default function Summary(props) {
               <Text variant={'large'}>{marketItem.summary}</Text>
             </Stack>
           </Stack>
-          {marketItem.author.toLowerCase() !== 'openpai' && (
-            <DefaultButton
-              styles={{ root: { height: '30px', background: 'white' } }}
-              menuProps={menuProps}
-              menuIconProps={{
-                iconName: 'More',
-                styles: { root: { fontSize: '20px' } },
-              }}
-            />
-          )}
+
+          <DefaultButton
+            styles={{ root: { height: '30px', background: 'white' } }}
+            menuProps={menuProps}
+            menuIconProps={{
+              iconName: 'More',
+              styles: { root: { fontSize: '20px' } },
+            }}
+          />
         </Stack>
         <Stack
           horizontal
@@ -188,6 +199,11 @@ export default function Summary(props) {
           </Stack>
         </Stack>
       </Stack>
+      <CopyPopup
+        isModalOpen={isCopyPopupOpen}
+        hideModal={hideCopyPopup}
+        marketItem={marketItem}
+      />
     </Wrapper>
   );
 }
