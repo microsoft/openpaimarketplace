@@ -14,8 +14,8 @@ import {
 import { listGroups } from 'App/utils/pai_api';
 
 export const ShareOptions = props => {
-  const { copyItem, dispatch, api } = props;
-  var groupList = copyItem.groupList;
+  const { marketItem, dispatch, api } = props;
+  var groupList = marketItem.groupList;
 
   const [groupListOptions, setGroupListOpptions] = useState([]);
   useEffect(() => {
@@ -106,7 +106,7 @@ export const ShareOptions = props => {
 };
 
 ShareOptions.propTypes = {
-  copyItem: PropTypes.object,
+  marketItem: PropTypes.object,
   dispatch: PropTypes.func,
   api: PropTypes.string,
 };

@@ -141,6 +141,61 @@ export async function createItem(marketItem) {
   }
 }
 
+export async function updateItem(marketItem, itemId) {
+  const token = cookies.get('token');
+  console.log(
+    itemId,
+    JSON.stringify({
+      name: marketItem.name,
+      author: marketItem.author,
+      type: marketItem.type,
+      source: marketItem.source,
+      isPublic: marketItem.isPublic,
+      isPrivate: marketItem.isPrivate,
+      groupList: marketItem.groupList,
+      dataType: marketItem.dataType,
+      dataUrl: marketItem.dataUrl,
+      category: marketItem.category,
+      summary: marketItem.summary,
+      description: marketItem.description,
+      protocol: marketItem.protocol,
+      tags: marketItem.tags,
+      status: marketItem.status,
+    }),
+  );
+
+  const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name: marketItem.name,
+      author: marketItem.author,
+      type: marketItem.type,
+      source: marketItem.source,
+      isPublic: marketItem.isPublic,
+      isPrivate: marketItem.isPrivate,
+      groupList: marketItem.groupList,
+      dataType: marketItem.dataType,
+      dataUrl: marketItem.dataUrl,
+      category: marketItem.category,
+      summary: marketItem.summary,
+      description: marketItem.description,
+      protocol: marketItem.protocol,
+      tags: marketItem.tags,
+      status: marketItem.status,
+    }),
+  });
+  if (res.ok) {
+    alert(`Update item ${itemId} successed.`);
+  } else {
+    throw new Error(res.statusText);
+  }
+}
+
 export async function deleteItem(itemId) {
   const url = `${MARKETPLACE_API_URL}/items/${itemId}`;
 

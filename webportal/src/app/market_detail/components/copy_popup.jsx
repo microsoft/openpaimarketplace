@@ -70,7 +70,7 @@ export const CopyPopup = props => {
             styles={{ root: { minWidth: 400, maxWidth: 500 } }}
           />
           <ShareOptions
-            copyItem={copyMarketItem}
+            marketItem={copyMarketItem}
             dispatch={dispatch}
             api={api}
           />
@@ -94,8 +94,9 @@ export const CopyPopup = props => {
           <DefaultButton
             text='Submit'
             onClick={() => {
-              createItem(copyMarketItem);
-              hideModal();
+              createItem(copyMarketItem).then(() => {
+                hideModal();
+              });
             }}
           />
         </Stack>

@@ -18,23 +18,8 @@ const marketItemReducer = (state, action) => {
   switch (action.type) {
     case 'setItem':
       return action.value;
-    case 'setName':
-      return { ...state, name: action.value };
-    case 'setSummary':
-      return { ...state, summary: action.value };
-    case 'setDescription':
-      return { ...state, description: action.value };
-    case 'setPublic':
-      return { ...state, isPublic: true, isPrivate: false, groupList: [] };
-    case 'setPrivate':
-      return { ...state, isPrivate: true, isPublic: false, groupList: [] };
-    case 'setGroupList':
-      return {
-        ...state,
-        isPublic: false,
-        isPrivate: false,
-        groupList: action.value,
-      };
+    case 'updateItem':
+      return { ...state, ...action.value };
     default:
       throw new Error();
   }
@@ -48,7 +33,8 @@ const MarketDetail = props => {
   useEffect(() => {
     async function fetchItem() {
       const itemId = qs.parse(routeProps.location.search).itemId;
-      const newMarketItem = await getItem(itemId);
+      var newMarketItem = await getItem(itemId);
+      newMarketItem.itemId = itemId;
       marketItemDispatch({ type: 'setItem', value: newMarketItem });
       setLoading(false);
     }
