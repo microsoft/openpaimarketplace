@@ -14,8 +14,8 @@ const copyMarketItemReducer = (state, action) => {
   switch (action.type) {
     case 'setName':
       return { ...state, name: action.value };
-    case 'setProtocol':
-      return { ...state, protocol: action.value };
+    case 'setSummary':
+      return { ...state, summary: action.value };
     case 'setDescription':
       return { ...state, description: action.value };
     case 'setPublic':
@@ -64,9 +64,10 @@ export const CopyPopup = props => {
           <TextField
             label='Name'
             defaultValue={copyMarketItem.name}
-            onChange={debounce(name => {
+            onChange={debounce((_, name) => {
               dispatch({ type: 'setName', value: name });
             }, 100)}
+            styles={{ root: { minWidth: 400, maxWidth: 500 } }}
           />
           <ShareOptions
             copyItem={copyMarketItem}
@@ -76,16 +77,19 @@ export const CopyPopup = props => {
           <TextField
             label='Summary'
             defaultValue={copyMarketItem.summary}
-            onChange={debounce(summary => {
+            onChange={debounce((_, summary) => {
               dispatch({ type: 'setSummary', value: summary });
             }, 100)}
           />
           <TextField
             label='Description'
             defaultValue={copyMarketItem.description}
-            onChange={debounce(desc => {
+            onChange={debounce((_, desc) => {
               dispatch({ type: 'setDescription', value: desc });
             }, 100)}
+            multiline={true}
+            rows={6}
+            styles={{ root: { minWidth: 400, maxWidth: 500 } }}
           />
           <DefaultButton
             text='Submit'
