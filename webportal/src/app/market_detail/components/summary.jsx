@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Summary(props) {
-  const { marketItem } = props;
+  const { marketItem, marketItemDispatch } = props;
   const { user, token, isAdmin, history } = useContext(Context);
 
   async function clickUse() {
@@ -194,4 +194,5 @@ export default function Summary(props) {
 
 Summary.propTypes = {
   marketItem: PropTypes.object,
+  marketItemDispatch: PropTypes.object,
 };
