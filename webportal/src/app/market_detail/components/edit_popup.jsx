@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Stack, DefaultButton, Modal, TextField } from 'office-ui-fabric-react';
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer, useContext, useEffect } from 'react';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import { updateItem } from 'App/utils/marketplace_api';
@@ -12,6 +12,15 @@ import Card from 'App/components/card';
 
 const editTempItemReducer = (state, action) => {
   switch (action.type) {
+    case 'setState':
+      return {
+        name: action.value.name,
+        summary: action.value.summary,
+        description: action.value.description,
+        isPublic: action.value.isPublic,
+        isPrivate: action.value.isPrivate,
+        groupList: action.value.groupList,
+      };
     case 'setName':
       return { ...state, name: action.value };
     case 'setSummary':
@@ -46,8 +55,22 @@ export const EditPopup = props => {
     groupList: marketItem.groupList,
   });
 
+  useEffect(() => {
+    editTempItemDispatch({ type: 'setState', value: marketItem });
+  }, [marketItem]);
+
   return (
-    <Modal isOpen={isModalOpen} onDismiss={hideModal} isBlocking={false}>
+    <Modal
+      isOpen={isModalOpen}
+      onDismiss={() => {
+        editTempItemDispatch({
+          type: 'setState',
+          value: marketItem,
+        });
+        hideModal();
+      }}
+      isBlocking={false}
+    >
       <Card>
         <Stack gap='m'>
           <TextField
@@ -91,7 +114,9 @@ export const EditPopup = props => {
                   protocol: JSON.stringify(marketItem.protocol),
                 },
                 marketItem.itemId,
-              ).then(()=>{hideModal();});
+              ).then(() => {
+                hideModal();
+              });
             }}
           />
         </Stack>
