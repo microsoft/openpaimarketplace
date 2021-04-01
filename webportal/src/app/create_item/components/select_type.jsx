@@ -41,9 +41,7 @@ const SelectType = props => {
       <Stack horizontalAlign='center' gap='12%'>
         <Text variant={'xLarge'}>Create new item</Text>
         <GridWrapper>
-          <HoverCard
-            onClick={() => props.updateItemType(TYPE_ENUM.JOB_TEMPLATE)}
-          >
+          <HoverCard onClick={() => toggleHideDialog()}>
             <Stack horizontal verticalAlign='center'>
               <JobIcon style={{ transform: 'scale(0.75)' }} />
               <Text variant={'large'} style={{ marginRight: '30px' }}>

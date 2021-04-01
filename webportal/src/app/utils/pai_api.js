@@ -22,31 +22,31 @@ export async function listGroups(api) {
   }
 }
 
-export async function fetchSucessJobs(api, username, token) {
-  const res = await fetch(
-    `${api}/api/v1/jobs?${querystring.stringify({
-      username,
-    })}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+export async function listJobs(api, query) {
+  const url = `${api}/api/v2/jobs?${querystring.stringify(query)}`;
+  const token = cookies.get('token');
 
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
   if (res.ok) {
     const jobs = await res.json();
-    const successJobs = jobs.filter(job => job.state === 'SUCCEEDED');
-    return successJobs;
-  } else {
+    return jobs;
+  } else if (res.status === 404) {
     throw new Error(res.statusText);
   }
 }
 
-export async function fetchJobConfig(api, userName, jobName, token) {
+export async function getJobConfig(api, userName, jobName) {
   const url = userName
-    ? `${api}/api/v1/jobs/${userName}~${jobName}/config`
-    : `${api}/api/v1/jobs/${jobName}/config`;
+    ? `${api}/api/v2/jobs/${userName}~${jobName}/config`
+    : `${api}/api/v2/jobs/${jobName}/config`;
+  const token = cookies.get('token');
+
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
