@@ -5,12 +5,12 @@ import { Stack, DefaultButton, Modal, TextField } from 'office-ui-fabric-react';
 import React, { useReducer, useContext, useEffect } from 'react';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
-import { createItem } from 'App/utils/marketplace_api';
+import { updateItem } from 'App/utils/marketplace_api';
 import Context from 'App/context';
 import { ShareOptions } from 'App/market_detail/components/share_options';
 import Card from 'App/components/card';
 
-const copyMarketItemReducer = (state, action) => {
+const editTempItemReducer = (state, action) => {
   switch (action.type) {
     case 'setState':
       return {
@@ -43,12 +43,11 @@ const copyMarketItemReducer = (state, action) => {
   }
 };
 
-export const CopyPopup = props => {
-  const { isModalOpen, hideModal, marketItem } = props;
-  const { user, api } = useContext(Context);
-
-  const [copyMarketItem, dispatch] = useReducer(copyMarketItemReducer, {
-    name: `${marketItem.name}(${user})`,
+export const EditPopup = props => {
+  const { isModalOpen, hideModal, marketItem, marketItemDispatch } = props;
+  const { api } = useContext(Context);
+  const [editTempItem, editTempItemDispatch] = useReducer(editTempItemReducer, {
+    name: marketItem.name,
     summary: marketItem.summary,
     description: marketItem.description,
     isPublic: marketItem.isPublic,
@@ -57,19 +56,16 @@ export const CopyPopup = props => {
   });
 
   useEffect(() => {
-    dispatch({
-      type: 'setState',
-      value: { ...marketItem, name: `${marketItem.name}(${user})` },
-    });
+    editTempItemDispatch({ type: 'setState', value: marketItem });
   }, [marketItem]);
 
   return (
     <Modal
       isOpen={isModalOpen}
       onDismiss={() => {
-        dispatch({
+        editTempItemDispatch({
           type: 'setState',
-          value: { ...marketItem, name: `${marketItem.name}(${user})` },
+          value: marketItem,
         });
         hideModal();
       }}
@@ -79,29 +75,29 @@ export const CopyPopup = props => {
         <Stack gap='m'>
           <TextField
             label='Name'
-            defaultValue={copyMarketItem.name}
+            defaultValue={editTempItem.name}
             onChange={debounce((_, name) => {
-              dispatch({ type: 'setName', value: name });
+              editTempItemDispatch({ type: 'setName', value: name });
             }, 100)}
             styles={{ root: { minWidth: 400, maxWidth: 500 } }}
           />
           <ShareOptions
-            marketItem={copyMarketItem}
-            dispatch={dispatch}
+            marketItem={editTempItem}
+            dispatch={editTempItemDispatch}
             api={api}
           />
           <TextField
             label='Summary'
-            defaultValue={copyMarketItem.summary}
+            defaultValue={editTempItem.summary}
             onChange={debounce((_, summary) => {
-              dispatch({ type: 'setSummary', value: summary });
+              editTempItemDispatch({ type: 'setSummary', value: summary });
             }, 100)}
           />
           <TextField
             label='Description'
-            defaultValue={copyMarketItem.description}
+            defaultValue={marketItem.description}
             onChange={debounce((_, desc) => {
-              dispatch({ type: 'setDescription', value: desc });
+              editTempItemDispatch({ type: 'setDescription', value: desc });
             }, 100)}
             multiline={true}
             rows={6}
@@ -110,11 +106,15 @@ export const CopyPopup = props => {
           <DefaultButton
             text='Submit'
             onClick={() => {
-              createItem({
-                ...marketItem,
-                ...copyMarketItem,
-                protocol: JSON.stringify(marketItem.protocol),
-              }).then(() => {
+              marketItemDispatch({ type: 'updateItem', value: editTempItem });
+              updateItem(
+                {
+                  ...marketItem,
+                  ...editTempItem,
+                  protocol: JSON.stringify(marketItem.protocol),
+                },
+                marketItem.itemId,
+              ).then(() => {
                 hideModal();
               });
             }}
@@ -125,8 +125,9 @@ export const CopyPopup = props => {
   );
 };
 
-CopyPopup.propTypes = {
+EditPopup.propTypes = {
   isModalOpen: PropTypes.bool,
   hideModal: PropTypes.func,
   marketItem: PropTypes.object,
+  marketItemDispatch: PropTypes.func,
 };

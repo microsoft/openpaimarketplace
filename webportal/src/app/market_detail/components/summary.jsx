@@ -27,6 +27,7 @@ import { TYPE_ENUM } from 'App/utils/constants';
 import { deleteItem } from 'App/utils/marketplace_api';
 import { AccessInfo } from 'App/market_detail/components/access_info';
 import { CopyPopup } from 'App/market_detail/components/copy_popup';
+import { EditPopup } from 'App/market_detail/components/edit_popup';
 
 const { spacing, palette } = getTheme();
 
@@ -36,11 +37,15 @@ const Wrapper = styled.div`
 `;
 
 export default function Summary(props) {
-  const { marketItem } = props;
+  const { marketItem, marketItemDispatch } = props;
   const { user, token, isAdmin, history } = useContext(Context);
   const [
     isCopyPopupOpen,
     { setTrue: showCopyPopup, setFalse: hideCopyPopup },
+  ] = useBoolean(false);
+  const [
+    isEditPopupOpen,
+    { setTrue: showEditPopup, setFalse: hideEditPopup },
   ] = useBoolean(false);
 
   async function clickUse() {
@@ -65,6 +70,13 @@ export default function Summary(props) {
         text: 'Copy',
         iconProps: { iconName: 'Copy' },
         onClick: showCopyPopup,
+      },
+      {
+        key: 'editItem',
+        text: 'Edit',
+        iconProps: { iconName: 'Edit' },
+        disabled: !isAdmin && user !== marketItem.author,
+        onClick: showEditPopup,
       },
       {
         key: 'deleteItem',
@@ -204,10 +216,17 @@ export default function Summary(props) {
         hideModal={hideCopyPopup}
         marketItem={marketItem}
       />
+      <EditPopup
+        isModalOpen={isEditPopupOpen}
+        hideModal={hideEditPopup}
+        marketItem={marketItem}
+        marketItemDispatch={marketItemDispatch}
+      />
     </Wrapper>
   );
 }
 
 Summary.propTypes = {
   marketItem: PropTypes.object,
+  marketItemDispatch: PropTypes.func,
 };
