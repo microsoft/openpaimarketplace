@@ -39,8 +39,8 @@ export const ShareOptions = props => {
   }
 
   const options = [
-    { key: optionTypes.PUBLIC, text: 'Private' },
-    { key: optionTypes.PRIVATE, text: 'Public' },
+    { key: optionTypes.PRIVATE, text: 'Private' },
+    { key: optionTypes.PUBLIC, text: 'Public' },
     {
       key: optionTypes.PROTECTED,
       text: 'Protected',
@@ -110,7 +110,7 @@ export const ShareOptions = props => {
         Share Option
       </Label>
       <ChoiceGroup
-        defaultSelectedKey='Private'
+        defaultSelectedKey={optionTypes.PRIVATE}
         options={options}
         onChange={onChoiceChange}
       />
