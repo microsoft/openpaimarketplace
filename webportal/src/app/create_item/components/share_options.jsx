@@ -36,7 +36,7 @@ export const ShareOptions = props => {
     PUBLIC: 'public',
     PRIVATE: 'private',
     PROTECTED: 'protected',
-  }
+  };
 
   const options = [
     { key: optionTypes.PRIVATE, text: 'Private' },
