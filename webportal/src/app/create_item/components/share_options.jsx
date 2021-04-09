@@ -32,11 +32,17 @@ export const ShareOptions = props => {
     getGroupList();
   }, []);
 
+  const optionTypes = {
+    PUBLIC: 'public',
+    PRIVATE: 'private',
+    PROTECTED: 'protected',
+  };
+
   const options = [
-    { key: 'Private', text: 'Private' },
-    { key: 'Public', text: 'Public' },
+    { key: optionTypes.PRIVATE, text: 'Private' },
+    { key: optionTypes.PUBLIC, text: 'Public' },
     {
-      key: 'Protected',
+      key: optionTypes.PROTECTED,
       text: 'Protected',
       onRenderField: (props, render) => {
         return (
@@ -75,15 +81,15 @@ export const ShareOptions = props => {
 
   const onChoiceChange = (_, option) => {
     const itemObject = cloneDeep(state.itemObject);
-    if (option.key === 'public') {
+    if (option.key === optionTypes.PUBLIC) {
       itemObject.isPublic = true;
       itemObject.isPrivate = false;
       itemObject.groupList = [];
-    } else if (option.key === 'private') {
+    } else if (option.key === optionTypes.PRIVATE) {
       itemObject.isPublic = false;
       itemObject.isPrivate = true;
       itemObject.groupList = [];
-    } else {
+    } else if (option.key === optionTypes.PROTECTED) {
       itemObject.isPublic = false;
       itemObject.isPrivate = false;
     }
@@ -104,7 +110,7 @@ export const ShareOptions = props => {
         Share Option
       </Label>
       <ChoiceGroup
-        defaultSelectedKey='Private'
+        defaultSelectedKey={optionTypes.PRIVATE}
         options={options}
         onChange={onChoiceChange}
       />
