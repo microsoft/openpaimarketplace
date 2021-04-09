@@ -234,7 +234,10 @@ const BasicInformation = props => {
         <PrimaryButton
           text='Next'
           onClick={() => {
-            if (isEmpty(state.itemObject.name) || isEmpty(state.itemObject.type)) {
+            if (
+              isEmpty(state.itemObject.name) ||
+              isEmpty(state.itemObject.type)
+            ) {
               setErrorMessage(true);
               alert('please enter all required fields.');
             } else {
