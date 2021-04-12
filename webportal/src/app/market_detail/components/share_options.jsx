@@ -74,7 +74,6 @@ export const ShareOptions = props => {
   ];
 
   const onChoiceChange = (_, option) => {
-    console.log('option', option);
     if (option.key === 'Public') {
       dispatch({ type: 'setPublic' });
     } else if (option.key === 'Private') {
