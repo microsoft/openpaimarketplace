@@ -215,6 +215,7 @@ export default function Summary(props) {
         isModalOpen={isCopyPopupOpen}
         hideModal={hideCopyPopup}
         marketItem={marketItem}
+        marketItemDispatch={marketItemDispatch}
       />
       <EditPopup
         isModalOpen={isEditPopupOpen}

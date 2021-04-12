@@ -45,7 +45,7 @@ const copyMarketItemReducer = (state, action) => {
 };
 
 export const CopyPopup = props => {
-  const { isModalOpen, hideModal, marketItem } = props;
+  const { isModalOpen, hideModal, marketItem, marketItemDispatch } = props;
   const { user, api, history } = useContext(Context);
 
   const [copyMarketItem, dispatch] = useReducer(copyMarketItemReducer, {
@@ -123,8 +123,14 @@ export const CopyPopup = props => {
                 const qs = queryString.stringify({
                   itemId: itemId,
                 });
-                console.log(qs)
                 history.push(`/market_detail?${qs}`);
+                marketItemDispatch({
+                  type: 'updateItem',
+                  value: {
+                    ...copyMarketItem,
+                    author: user,
+                  },
+                });
               });
             }}
           />
@@ -138,4 +144,5 @@ CopyPopup.propTypes = {
   isModalOpen: PropTypes.bool,
   hideModal: PropTypes.func,
   marketItem: PropTypes.object,
+  marketItemDispatch: PropTypes.func,
 };
