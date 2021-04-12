@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 
 export const AccessInfo = props => {
   const { isPublic, isPrivate, groupList } = props;
-  const groupListInfo = groupList.toString();
+  let groupListInfo = groupList.toString();
+  if (groupListInfo === '') {
+    groupListInfo = 'No group is shared currently';
+  }
 
   return (
     <TooltipHost
