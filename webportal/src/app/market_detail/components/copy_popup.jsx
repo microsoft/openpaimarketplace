@@ -113,6 +113,7 @@ export const CopyPopup = props => {
               createItem({
                 ...marketItem,
                 ...copyMarketItem,
+                author: user,
                 protocol: JSON.stringify(marketItem.protocol),
               }).then(() => {
                 hideModal();
