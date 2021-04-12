@@ -102,7 +102,6 @@ const BasicInformation = props => {
         <TextField
           label='Short summary'
           description='(No more than 100 characters)'
-          required
           value={state.itemObject.summary}
           onChange={(event, newValue) => {
             const itemObject = cloneDeep(state.itemObject);
@@ -118,7 +117,6 @@ const BasicInformation = props => {
         />
         <TextField
           label='Description'
-          required
           multiline={true}
           rows={2}
           value={state.itemDescription.description}
@@ -238,9 +236,7 @@ const BasicInformation = props => {
           onClick={() => {
             if (
               isEmpty(state.itemObject.name) ||
-              isEmpty(state.itemObject.type) ||
-              isEmpty(state.itemObject.summary) ||
-              isEmpty(state.itemDescription.description)
+              isEmpty(state.itemObject.type)
             ) {
               setErrorMessage(true);
               alert('please enter all required fields.');

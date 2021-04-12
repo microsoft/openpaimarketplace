@@ -107,25 +107,6 @@ export async function getItem(itemId) {
 
 export async function createItem(marketItem) {
   const token = cookies.get('token');
-  console.log(
-    JSON.stringify({
-      name: marketItem.name,
-      author: marketItem.author,
-      type: marketItem.type,
-      source: marketItem.source,
-      isPublic: marketItem.isPublic,
-      isPrivate: marketItem.isPrivate,
-      groupList: marketItem.groupList,
-      dataType: marketItem.dataType,
-      dataUrl: marketItem.dataUrl,
-      category: marketItem.category,
-      summary: marketItem.summary,
-      description: marketItem.description,
-      protocol: marketItem.protocol,
-      tags: marketItem.tags,
-      status: marketItem.status,
-    }),
-  );
 
   const url = `${MARKETPLACE_API_URL}/items`;
   const res = await fetch(url, {

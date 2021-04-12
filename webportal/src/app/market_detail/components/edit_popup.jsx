@@ -110,7 +110,6 @@ export const EditPopup = props => {
               updateItem(
                 {
                   ...marketItem,
-                  ...editTempItem,
                   protocol: JSON.stringify(marketItem.protocol),
                 },
                 marketItem.itemId,
