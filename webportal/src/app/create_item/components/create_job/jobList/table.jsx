@@ -121,7 +121,7 @@ const Table = props => {
       const href = legacy
         ? `/job-detail.html?jobName=${name}`
         : `/job-detail.html?username=${namespace || username}&jobName=${name}`;
-      return <Link href={href}>{name}</Link>;
+      return <Link onClick={() => window.open(href, '_blank')}>{name}</Link>;
     },
   });
 
