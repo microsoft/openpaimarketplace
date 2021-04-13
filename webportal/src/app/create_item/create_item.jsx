@@ -151,7 +151,9 @@ const CreateItem = props => {
         <ActionButton
           iconProps={{ iconName: 'revToggleKey' }}
           onClick={() => {
-            if (confirm('Are you sure you want to leave this page?')) {
+            if (state.step === 'completed') {
+              routeProps.history.push('/');
+            } else if (confirm('Are you sure you want to leave this page?')) {
               routeProps.history.push('/');
             } else {
               // Do nothing!
