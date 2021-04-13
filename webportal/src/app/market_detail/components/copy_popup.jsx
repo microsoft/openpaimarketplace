@@ -111,8 +111,6 @@ export const CopyPopup = props => {
           <DefaultButton
             text='Submit'
             onClick={() => {
-              console.log(marketItem);
-              console.log(copyMarketItem);
               createItem({
                 ...marketItem,
                 ...copyMarketItem,
