@@ -123,7 +123,6 @@ export const CopyPopup = props => {
                 const qs = queryString.stringify({
                   itemId: itemId,
                 });
-                history.push(`/market_detail?${qs}`);
                 marketItemDispatch({
                   type: 'updateItem',
                   value: {
@@ -131,6 +130,7 @@ export const CopyPopup = props => {
                     author: user,
                   },
                 });
+                history.push(`/market_detail?${qs}`);
               });
             }}
           />
