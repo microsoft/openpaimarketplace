@@ -9,6 +9,7 @@ import { createItem } from 'App/utils/marketplace_api';
 import Context from 'App/context';
 import { ShareOptions } from 'App/market_detail/components/share_options';
 import Card from 'App/components/card';
+import queryString from 'query-string';
 
 const copyMarketItemReducer = (state, action) => {
   switch (action.type) {
@@ -44,8 +45,8 @@ const copyMarketItemReducer = (state, action) => {
 };
 
 export const CopyPopup = props => {
-  const { isModalOpen, hideModal, marketItem } = props;
-  const { user, api } = useContext(Context);
+  const { isModalOpen, hideModal, marketItem, marketItemDispatch } = props;
+  const { user, api, history } = useContext(Context);
 
   const [copyMarketItem, dispatch] = useReducer(copyMarketItemReducer, {
     name: `${marketItem.name}(${user})`,
@@ -115,8 +116,19 @@ export const CopyPopup = props => {
                 ...copyMarketItem,
                 author: user,
                 protocol: JSON.stringify(marketItem.protocol),
-              }).then(() => {
+              }).then(itemId => {
                 hideModal();
+                const qs = queryString.stringify({
+                  itemId: itemId,
+                });
+                marketItemDispatch({
+                  type: 'updateItem',
+                  value: {
+                    ...copyMarketItem,
+                    author: user,
+                  },
+                });
+                history.push(`/market_detail?${qs}`);
               });
             }}
           />
@@ -130,4 +142,5 @@ CopyPopup.propTypes = {
   isModalOpen: PropTypes.bool,
   hideModal: PropTypes.func,
   marketItem: PropTypes.object,
+  marketItemDispatch: PropTypes.func,
 };
