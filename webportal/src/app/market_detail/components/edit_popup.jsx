@@ -107,12 +107,15 @@ export const EditPopup = props => {
             text='Submit'
             onClick={() => {
               marketItemDispatch({ type: 'updateItem', value: editTempItem });
+              // Dispatch is handled asynchronously and API does not provide any way of executing a piece of code after the dispatch has been executed.
+              // The marketItem here may be the old one, so we merge the item manually.
+              const newItem = { ...marketItem, ...editTempItem };
               updateItem(
                 {
-                  ...marketItem,
-                  protocol: JSON.stringify(marketItem.protocol),
+                  ...newItem,
+                  protocol: JSON.stringify(newItem.protocol),
                 },
-                marketItem.itemId,
+                newItem.itemId,
               ).then(() => {
                 hideModal();
               });

@@ -13,6 +13,22 @@ import {
 } from 'office-ui-fabric-react';
 import { listGroups } from 'App/utils/pai_api';
 
+const optionTypes = {
+  PUBLIC: 'public',
+  PRIVATE: 'private',
+  PROTECTED: 'protected',
+};
+
+function getOptionTypes(item) {
+  if (item.isPrivate) {
+    return optionTypes.PRIVATE;
+  } else if (item.isPublic) {
+    return optionTypes.PUBLIC;
+  } else {
+    return optionTypes.PROTECTED;
+  }
+}
+
 export const ShareOptions = props => {
   const { marketItem, dispatch, api } = props;
   var groupList = marketItem.groupList;
@@ -34,10 +50,10 @@ export const ShareOptions = props => {
   }, []);
 
   const options = [
-    { key: 'Private', text: 'Private' },
-    { key: 'Public', text: 'Public' },
+    { key: optionTypes.PRIVATE, text: 'Private' },
+    { key: optionTypes.PUBLIC, text: 'Public' },
     {
-      key: 'Protected',
+      key: optionTypes.PROTECTED,
       text: 'Protected',
       onRenderField: (props, render) => {
         return (
@@ -74,11 +90,11 @@ export const ShareOptions = props => {
   ];
 
   const onChoiceChange = (_, option) => {
-    if (option.key === 'Public') {
+    if (option.key === optionTypes.PUBLIC) {
       dispatch({ type: 'setPublic' });
-    } else if (option.key === 'Private') {
+    } else if (option.key === optionTypes.PRIVATE) {
       dispatch({ type: 'setPrivate' });
-    } else {
+    } else if (option.key === optionTypes.PROTECTED) {
       dispatch({ type: 'setGroupList', value: groupList });
     }
   };
@@ -97,7 +113,7 @@ export const ShareOptions = props => {
         Share Option
       </Label>
       <ChoiceGroup
-        defaultSelectedKey='Private'
+        defaultSelectedKey={getOptionTypes(marketItem)}
         options={options}
         onChange={onChoiceChange}
       />
