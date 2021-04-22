@@ -1,5 +1,12 @@
 # Openpaimarketplace Release Note
 
+## April 2021 (version 1.7.0)
+
+- Add save to template in new submission page and new features #253
+- Implement item process experience: including create, copy, list and edit #249
+- Add item creation from job list #256
+- Add share option of protected/public/private #254
+
 ## Mar 2021 (version 1.6.0)
 
 - Simplify deploy config #209
