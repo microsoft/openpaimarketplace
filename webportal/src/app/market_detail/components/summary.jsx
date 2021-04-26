@@ -6,6 +6,7 @@ import {
   PrimaryButton,
   Stack,
   Text,
+  TextField,
   getTheme,
   Icon,
   TooltipHost,
@@ -14,7 +15,7 @@ import { useBoolean } from '@uifabric/react-hooks';
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { capitalize } from 'lodash';
+import { capitalize, debounce } from 'lodash';
 import { DateTime } from 'luxon';
 import { saveAs } from 'file-saver';
 import { ReactComponent as DataIcon } from 'App/assets/data.svg';
@@ -24,7 +25,7 @@ import { generateJobProtocol } from '../utils/generate_job_protocol';
 import { getFileName } from 'App/utils/file_name_util';
 import Context from 'App/context';
 import { TYPE_ENUM } from 'App/utils/constants';
-import { deleteItem } from 'App/utils/marketplace_api';
+import { deleteItem, updateItem } from 'App/utils/marketplace_api';
 import { AccessInfo } from 'App/market_detail/components/access_info';
 import { CopyPopup } from 'App/market_detail/components/copy_popup';
 import { EditPopup } from 'App/market_detail/components/edit_popup';
@@ -47,6 +48,32 @@ export default function Summary(props) {
     isEditPopupOpen,
     { setTrue: showEditPopup, setFalse: hideEditPopup },
   ] = useBoolean(false);
+  const [
+    isEditingName,
+    { setTrue: setIsEditingNameTrue, setFalse: setIsEditingNameFalse },
+  ] = useBoolean(false);
+  const [
+    isEditingSummary,
+    { setTrue: setIsEditingSummaryTrue, setFalse: setIsEditingSummaryFalse },
+  ] = useBoolean(false);
+  const [
+    itemUpdate,
+    { setTrue: setItemUpdateTrue, setFalse: setItemUpdateFalse },
+  ] = useBoolean(false);
+
+  function update() {
+    if (itemUpdate) {
+      updateItem(
+        {
+          ...marketItem,
+          protocol: JSON.stringify(marketItem.protocol),
+        },
+        marketItem.itemId,
+      ).then(() => {
+        setItemUpdateFalse();
+      });
+    }
+  }
 
   async function clickUse() {
     try {
@@ -103,8 +130,53 @@ export default function Summary(props) {
             {marketItem.type === TYPE_ENUM.JOB_TEMPLATE && <JobIcon />}
             {marketItem.type === TYPE_ENUM.OLD_TEMPLATE && <JobIcon />}
             <Stack gap='m'>
-              <Text variant={'xLarge'}>{marketItem.name}</Text>
-              <Text variant={'large'}>{marketItem.summary}</Text>
+              <TextField
+                borderless={!isEditingName}
+                defaultValue={marketItem.name}
+                styles={{
+                  field: {
+                    fontSize: '20px',
+                    fontWeight: '600',
+                  },
+                  root: {
+                    marginLeft: '-12px',
+                  },
+                }}
+                onChange={debounce((_, name) => {
+                  marketItemDispatch({ type: 'updateItem', value: { name } });
+                  setItemUpdateTrue();
+                }, 100)}
+                onFocus={setIsEditingNameTrue}
+                onBlur={() => {
+                  setIsEditingNameFalse();
+                  update();
+                }}
+              />
+              <TextField
+                borderless={!isEditingSummary}
+                defaultValue={marketItem.summary}
+                styles={{
+                  field: {
+                    fontSize: '16px',
+                    fontWeight: '400',
+                  },
+                  root: {
+                    marginLeft: '-12px',
+                  },
+                }}
+                onChange={debounce((_, summary) => {
+                  marketItemDispatch({
+                    type: 'updateItem',
+                    value: { summary },
+                  });
+                  setItemUpdateTrue();
+                }, 100)}
+                onFocus={isEditingSummary}
+                onBlur={() => {
+                  setIsEditingSummaryFalse();
+                  update();
+                }}
+              />
             </Stack>
           </Stack>
 
