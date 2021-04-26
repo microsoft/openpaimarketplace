@@ -171,7 +171,7 @@ export default function Summary(props) {
                   });
                   setItemUpdateTrue();
                 }, 100)}
-                onFocus={isEditingSummary}
+                onFocus={setIsEditingSummaryTrue}
                 onBlur={() => {
                   setIsEditingSummaryFalse();
                   update();
