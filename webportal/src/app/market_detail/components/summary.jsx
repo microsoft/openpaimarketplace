@@ -38,7 +38,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Summary(props) {
-  const { marketItem, marketItemDispatch } = props;
+  const { marketItem, marketItemDispatch, api } = props;
   const { user, token, isAdmin, history } = useContext(Context);
   const [
     isCopyPopupOpen,
@@ -242,9 +242,9 @@ export default function Summary(props) {
             </TooltipHost>
             <VerticalLine />
             <AccessInfo
-              isPublic={marketItem.isPublic}
-              isPrivate={marketItem.isPrivate}
-              groupList={marketItem.groupList}
+              marketItem={marketItem}
+              marketItemDispatch={marketItemDispatch}
+              api={api}
             />
           </Stack>
           <Stack horizontal gap='s1'>
@@ -302,4 +302,5 @@ export default function Summary(props) {
 Summary.propTypes = {
   marketItem: PropTypes.object,
   marketItemDispatch: PropTypes.func,
+  api: PropTypes.string,
 };
