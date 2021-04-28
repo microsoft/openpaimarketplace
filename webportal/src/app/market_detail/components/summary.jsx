@@ -9,6 +9,7 @@ import {
   TextField,
   getTheme,
   Icon,
+  IconButton,
   TooltipHost,
 } from 'office-ui-fabric-react';
 import { useBoolean } from '@uifabric/react-hooks';
@@ -130,53 +131,86 @@ export default function Summary(props) {
             {marketItem.type === TYPE_ENUM.JOB_TEMPLATE && <JobIcon />}
             {marketItem.type === TYPE_ENUM.OLD_TEMPLATE && <JobIcon />}
             <Stack gap='m'>
-              <TextField
-                borderless={!isEditingName}
-                defaultValue={marketItem.name}
-                styles={{
-                  field: {
-                    fontSize: '20px',
-                    fontWeight: '600',
-                  },
-                  root: {
-                    marginLeft: '-12px',
-                  },
-                }}
-                onChange={debounce((_, name) => {
-                  marketItemDispatch({ type: 'updateItem', value: { name } });
-                  setItemUpdateTrue();
-                }, 100)}
-                onFocus={setIsEditingNameTrue}
-                onBlur={() => {
-                  setIsEditingNameFalse();
-                  update();
-                }}
-              />
-              <TextField
-                borderless={!isEditingSummary}
-                defaultValue={marketItem.summary}
-                styles={{
-                  field: {
-                    fontSize: '16px',
-                    fontWeight: '400',
-                  },
-                  root: {
-                    marginLeft: '-12px',
-                  },
-                }}
-                onChange={debounce((_, summary) => {
-                  marketItemDispatch({
-                    type: 'updateItem',
-                    value: { summary },
-                  });
-                  setItemUpdateTrue();
-                }, 100)}
-                onFocus={setIsEditingSummaryTrue}
-                onBlur={() => {
-                  setIsEditingSummaryFalse();
-                  update();
-                }}
-              />
+              {isEditingName && (
+                <TextField
+                  borderless={!isEditingName}
+                  defaultValue={marketItem.name}
+                  styles={{
+                    field: {
+                      fontSize: '20px',
+                      fontWeight: '600',
+                    },
+                    root: {
+                      marginLeft: '-12px',
+                    },
+                  }}
+                  onChange={debounce((_, name) => {
+                    marketItemDispatch({ type: 'updateItem', value: { name } });
+                    setItemUpdateTrue();
+                  }, 100)}
+                  onBlur={() => {
+                    setIsEditingNameFalse();
+                    update();
+                  }}
+                  autoFocus={isEditingName}
+                />
+              )}
+              {!isEditingName && (
+                <Stack gap='m' horizontal verticalAlign='center'>
+                  <Text variant='xLarge'>{marketItem.name}</Text>
+                  <IconButton
+                    iconProps={{ iconName: 'Edit' }}
+                    title='Edit'
+                    ariaLabel='Edit'
+                    onClick={() => {
+                      setIsEditingNameTrue();
+                    }}
+                  />
+                </Stack>
+              )}
+              {isEditingSummary && (
+                <TextField
+                  borderless={!isEditingSummary}
+                  defaultValue={marketItem.summary}
+                  styles={{
+                    field: {
+                      fontSize: '16px',
+                      fontWeight: '400',
+                    },
+                    fieldGroup: {
+                      width: '800px',
+                    },
+                    root: {
+                      marginLeft: '-12px',
+                    },
+                  }}
+                  onChange={debounce((_, summary) => {
+                    marketItemDispatch({
+                      type: 'updateItem',
+                      value: { summary },
+                    });
+                    setItemUpdateTrue();
+                  }, 100)}
+                  onBlur={() => {
+                    setIsEditingSummaryFalse();
+                    update();
+                  }}
+                  autoFocus={isEditingSummary}
+                />
+              )}
+              {!isEditingSummary && (
+                <Stack gap='m' horizontal verticalAlign='center'>
+                  <Text variant='large'>{marketItem.summary}</Text>
+                  <IconButton
+                    iconProps={{ iconName: 'Edit' }}
+                    title='Edit'
+                    ariaLabel='Edit'
+                    onClick={() => {
+                      setIsEditingSummaryTrue();
+                    }}
+                  />
+                </Stack>
+              )}
             </Stack>
           </Stack>
 
