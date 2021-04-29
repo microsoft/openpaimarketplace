@@ -53,23 +53,25 @@ const PivotCard = props => {
                   ariaLabel='Save'
                   onClick={() => {
                     setIsEditingDescriptionFalse();
-                    marketItemDispatch({
-                      type: 'updateItem',
-                      value: { description: markdown },
-                    });
-                    const newItem = {
-                      ...marketItem,
-                      ...{ description: markdown },
-                    };
-                    updateItem(
-                      {
-                        ...newItem,
-                        protocol: JSON.stringify(newItem.protocol),
-                      },
-                      newItem.itemId,
-                    ).catch(err => {
-                      alert(err);
-                    });
+                    if (marketItem.description !== markdown) {
+                      marketItemDispatch({
+                        type: 'updateItem',
+                        value: { description: markdown },
+                      });
+                      const newItem = {
+                        ...marketItem,
+                        ...{ description: markdown },
+                      };
+                      updateItem(
+                        {
+                          ...newItem,
+                          protocol: JSON.stringify(newItem.protocol),
+                        },
+                        newItem.itemId,
+                      ).catch(err => {
+                        alert(err);
+                      });
+                    }
                   }}
                   styles={{ root: { marginTop: '-55px', float: 'right' } }}
                 />

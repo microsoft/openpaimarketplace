@@ -144,6 +144,9 @@ export default function Summary(props) {
                       fontSize: '20px',
                       fontWeight: '600',
                     },
+                    fieldGroup: {
+                      width: '800px',
+                    },
                     root: {
                       marginLeft: '-12px',
                     },
