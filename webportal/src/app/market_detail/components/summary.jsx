@@ -70,9 +70,13 @@ export default function Summary(props) {
           protocol: JSON.stringify(marketItem.protocol),
         },
         marketItem.itemId,
-      ).then(() => {
-        setItemUpdateFalse();
-      });
+      )
+        .then(() => {
+          setItemUpdateFalse();
+        })
+        .catch(err => {
+          alert(err);
+        });
     }
   }
 

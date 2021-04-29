@@ -82,7 +82,9 @@ export const AccessInfo = props => {
         protocol: JSON.stringify(newItem.protocol),
       },
       newItem.itemId,
-    );
+    ).catch(err => {
+      alert(err);
+    });
   }
 
   function getSelectedGroups() {

@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Pivot, PivotItem, getTheme } from 'office-ui-fabric-react';
-import React from 'react';
+import { Pivot, PivotItem, IconButton, getTheme } from 'office-ui-fabric-react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import yaml from 'js-yaml';
+import MarkdownEditor from '@uiw/react-markdown-editor';
+import { useBoolean } from '@uifabric/react-hooks';
 
 import DataTemplateDetail from './data_template_detail';
 import JobTemplateDetail from './job_template_detail';
@@ -14,6 +16,7 @@ import ReactMarkdown from 'react-markdown';
 import 'github-markdown-css';
 import { TYPE_ENUM } from 'App/utils/constants';
 import CodeWrapper from 'App/components/code_wrapper';
+import { updateItem } from 'App/utils/marketplace_api';
 
 const { spacing, palette } = getTheme();
 
@@ -27,17 +30,78 @@ const PivotItemWrapper = styled.div`
 `;
 
 const PivotCard = props => {
-  const { marketItem } = props;
+  const { marketItem, marketItemDispatch } = props;
+  const [markdown, setMarkdown] = useState(marketItem.description);
+  const [
+    isEditingDescription,
+    {
+      setTrue: setIsEditingDescriptionTrue,
+      setFalse: setIsEditingDescriptionFalse,
+    },
+  ] = useBoolean(false);
 
   return (
     <Wrapper>
       <Pivot>
         <PivotItem headerText='Description'>
           <PivotItemWrapper>
-            <ReactMarkdown
-              className='markdown-body'
-              source={marketItem.description}
-            />
+            {isEditingDescription && (
+              <>
+                <IconButton
+                  iconProps={{ iconName: 'Save' }}
+                  title='Save'
+                  ariaLabel='Save'
+                  onClick={() => {
+                    setIsEditingDescriptionFalse();
+                    marketItemDispatch({
+                      type: 'updateItem',
+                      value: { description: markdown },
+                    });
+                    const newItem = {
+                      ...marketItem,
+                      ...{ description: markdown },
+                    };
+                    updateItem(
+                      {
+                        ...newItem,
+                        protocol: JSON.stringify(newItem.protocol),
+                      },
+                      newItem.itemId,
+                    ).catch(err => {
+                      alert(err);
+                    });
+                  }}
+                  styles={{ root: { marginTop: '-55px', float: 'right' } }}
+                />
+                <MarkdownEditor
+                  value={markdown}
+                  onChange={(_, __, value) => setMarkdown(value)}
+                  visible={true}
+                  options={{
+                    autofocus: true,
+                    showCursorWhenSelecting: true,
+                  }}
+                  height={700}
+                />
+              </>
+            )}
+            {!isEditingDescription && (
+              <>
+                <IconButton
+                  iconProps={{ iconName: 'Edit' }}
+                  title='Edit'
+                  ariaLabel='Edit'
+                  onClick={() => {
+                    setIsEditingDescriptionTrue();
+                  }}
+                  styles={{ root: { marginTop: '-55px', float: 'right' } }}
+                />
+                <ReactMarkdown
+                  className='markdown-body'
+                  source={marketItem.description}
+                />
+              </>
+            )}
           </PivotItemWrapper>
         </PivotItem>
         <PivotItem headerText='Detail'>
@@ -65,6 +129,8 @@ const PivotCard = props => {
 
 PivotCard.propTypes = {
   marketItem: PropTypes.object,
+  marketItemDispatch: PropTypes.func,
+  api: PropTypes.string,
 };
 
 export default PivotCard;
