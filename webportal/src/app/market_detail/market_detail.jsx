@@ -58,9 +58,14 @@ const MarketDetail = props => {
           <Summary
             marketItem={marketItem}
             marketItemDispatch={marketItemDispatch}
+            api={api}
           />
           <HorizontalLine />
-          <PivotCard marketItem={marketItem} />
+          <PivotCard
+            marketItem={marketItem}
+            marketItemDispatch={marketItemDispatch}
+            api={api}
+          />
         </Page>
       )}
     </Context.Provider>
