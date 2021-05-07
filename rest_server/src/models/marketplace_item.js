@@ -99,7 +99,7 @@ class MarketplaceItem {
         if (categories) {
           filterStatement.categories = {
             [Op.contains]: categories,
-          }
+          };
         }
         if (keyword) {
           const lowerKeyword = toLower(keyword);
@@ -170,7 +170,16 @@ class MarketplaceItem {
       },
     );
 
-    return await handler(name, author, type, source, keyword, tags, categories, this.models);
+    return await handler(
+      name,
+      author,
+      type,
+      source,
+      keyword,
+      tags,
+      categories,
+      this.models,
+    );
   }
 
   async create(itemReq) {
