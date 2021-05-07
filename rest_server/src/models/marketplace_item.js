@@ -75,9 +75,9 @@ class MarketplaceItem {
     this.models = models;
   }
 
-  async list(name, author, type, source, keyword, userInfo) {
+  async list(name, author, type, source, keyword, tags, categories, userInfo) {
     const handler = modelSyncHandler(
-      async (name, author, type, source, keyword) => {
+      async (name, author, type, source, keyword, tags, categories) => {
         const filterStatement = {};
         if (name) {
           filterStatement.name = name;
@@ -90,6 +90,16 @@ class MarketplaceItem {
         }
         if (source) {
           filterStatement.source = source;
+        }
+        if (tags) {
+          filterStatement.tags = {
+            [Op.contains]: tags,
+          };
+        }
+        if (categories) {
+          filterStatement.categories = {
+            [Op.contains]: categories,
+          }
         }
         if (keyword) {
           const lowerKeyword = toLower(keyword);
@@ -160,7 +170,7 @@ class MarketplaceItem {
       },
     );
 
-    return await handler(name, author, type, source, keyword, this.models);
+    return await handler(name, author, type, source, keyword, tags, categories, this.models);
   }
 
   async create(itemReq) {
