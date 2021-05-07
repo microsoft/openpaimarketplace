@@ -16,7 +16,7 @@ import { useBoolean } from '@uifabric/react-hooks';
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { capitalize, debounce } from 'lodash';
+import { capitalize, debounce, isEmpty } from 'lodash';
 import { DateTime } from 'luxon';
 import { saveAs } from 'file-saver';
 import { ReactComponent as DataIcon } from 'App/assets/data.svg';
@@ -61,22 +61,27 @@ export default function Summary(props) {
     itemUpdate,
     { setTrue: setItemUpdateTrue, setFalse: setItemUpdateFalse },
   ] = useBoolean(false);
+  const [ emptyNameError, { setTrue: showEmptyNameError, setFalse: hideEmptyNameError } ] = useBoolean(false);
 
   function update() {
     if (itemUpdate) {
-      updateItem(
-        {
-          ...marketItem,
-          protocol: JSON.stringify(marketItem.protocol),
-        },
-        marketItem.itemId,
-      )
-        .then(() => {
-          setItemUpdateFalse();
-        })
-        .catch(err => {
-          alert(err);
-        });
+      if (isEmpty(marketItem.name)) {
+        setIsEditingNameTrue();
+      } else {
+        updateItem(
+          {
+            ...marketItem,
+            protocol: JSON.stringify(marketItem.protocol),
+          },
+          marketItem.itemId,
+        )
+          .then(() => {
+            setItemUpdateFalse();
+          })
+          .catch(err => {
+            alert(err);
+          });
+      }
     }
   }
 
@@ -153,12 +158,20 @@ export default function Summary(props) {
                   }}
                   onChange={debounce((_, name) => {
                     marketItemDispatch({ type: 'updateItem', value: { name } });
+                    if (isEmpty(name)) {
+                      showEmptyNameError();
+                    } else {
+                      hideEmptyNameError();
+                    }
                     setItemUpdateTrue();
                   }, 100)}
                   onBlur={() => {
                     setIsEditingNameFalse();
                     update();
                   }}
+                  errorMessage={
+                    emptyNameError ? 'Empty name is invalid.' : undefined
+                  }
                   autoFocus={isEditingName}
                 />
               )}
