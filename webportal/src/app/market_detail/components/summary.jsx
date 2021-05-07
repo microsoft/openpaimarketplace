@@ -61,7 +61,10 @@ export default function Summary(props) {
     itemUpdate,
     { setTrue: setItemUpdateTrue, setFalse: setItemUpdateFalse },
   ] = useBoolean(false);
-  const [ emptyNameError, { setTrue: showEmptyNameError, setFalse: hideEmptyNameError } ] = useBoolean(false);
+  const [
+    emptyNameError,
+    { setTrue: showEmptyNameError, setFalse: hideEmptyNameError },
+  ] = useBoolean(false);
 
   function update() {
     if (itemUpdate) {
