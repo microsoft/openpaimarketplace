@@ -42,6 +42,8 @@ const list = asyncHandler(async (req, res, next) => {
       req.query.type,
       req.query.source,
       req.query.keyword,
+      req.query.tag ? req.query.tag.split(',') : undefined,
+      req.query.category ? req.query.category.split(',') : undefined,
       req.userInfo,
     );
     res.status(200).json(result);
