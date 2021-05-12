@@ -30,6 +30,7 @@ import { deleteItem, updateItem } from 'App/utils/marketplace_api';
 import { AccessInfo } from 'App/market_detail/components/access_info';
 import { CopyPopup } from 'App/market_detail/components/copy_popup';
 import { EditPopup } from 'App/market_detail/components/edit_popup';
+import { ItemTags } from 'App/market_detail/components/item_tags';
 
 const { spacing, palette } = getTheme();
 
@@ -299,6 +300,12 @@ export default function Summary(props) {
             </TooltipHost>
             <VerticalLine />
             <AccessInfo
+              marketItem={marketItem}
+              marketItemDispatch={marketItemDispatch}
+              api={api}
+            />
+            <VerticalLine />
+            <ItemTags
               marketItem={marketItem}
               marketItemDispatch={marketItemDispatch}
               api={api}
