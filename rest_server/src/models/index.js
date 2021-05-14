@@ -3,6 +3,8 @@
 const Sequelize = require('sequelize');
 const { DataTypes } = require('sequelize');
 const MarketplaceItem = require('./marketplace_item');
+const ItemTag = require('./item_tag');
+const ItemCategory = require('./item_category');
 const User = require('./user');
 const Blob = require('./blob');
 const dotnev = require('dotenv');
@@ -32,6 +34,8 @@ sequelize
 
 const models = {
   MarketplaceItem: new MarketplaceItem(sequelize, DataTypes),
+  ItemTag: new ItemTag(sequelize, DataTypes),
+  ItemCategory: new ItemCategory(sequelize, DataTypes),
   User: new User(sequelize, DataTypes),
   Blob: new Blob(sequelize, DataTypes),
 };

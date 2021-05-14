@@ -22,7 +22,7 @@ router
 
 router
   .route('/tags')
-  .get(token.checkAuthAndGetUserInfo, tagController.get)
+  .get(token.checkAuthAndGetUserInfo, tagController.list)
   .post(token.checkAuthAndGetTokenInfo, tagController.create);
 
 router
