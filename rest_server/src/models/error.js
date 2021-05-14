@@ -28,7 +28,6 @@ const createNotFound = message => {
 };
 
 const createInternalServerError = err => {
-  console.log(err);
   let message = 'Internal server error';
   if (err instanceof Error) {
     if (
