@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 const express = require('express');
 const itemController = require('./controllers/item_controller');
+const tagController = require('./controllers/tag_controller');
+const categoryController = require('./controllers/category_controller');
 const storageController = require('./controllers/storage_controller');
 const token = require('./middlewares/token');
 
@@ -17,6 +19,28 @@ router
   .get(token.checkAuthAndGetUserInfo, itemController.get)
   .put(token.checkAuthAndGetTokenInfo, itemController.update)
   .delete(token.checkAuthAndGetTokenInfo, itemController.del);
+
+router
+  .route('/tags')
+  .get(token.checkAuthAndGetUserInfo, tagController.list)
+  .post(token.checkAuthAndGetTokenInfo, tagController.create);
+
+router
+  .route('/tags/:tagId')
+  .get(token.checkAuthAndGetUserInfo, tagController.get)
+  .put(token.checkAuthAndGetTokenInfo, tagController.update)
+  .delete(token.checkAuthAndGetTokenInfo, tagController.del);
+
+router
+  .route('/categories')
+  .get(token.checkAuthAndGetUserInfo, categoryController.get)
+  .post(token.checkAuthAndGetTokenInfo, categoryController.create);
+
+router
+  .route('/categories/:categoryId')
+  .get(token.checkAuthAndGetUserInfo, categoryController.get)
+  .put(token.checkAuthAndGetTokenInfo, categoryController.update)
+  .delete(token.checkAuthAndGetTokenInfo, categoryController.del);
 
 router
   .route('/storages/blobs')
