@@ -1,8 +1,8 @@
 # OpenPAI Marketplace Doc for Users
 
-> Note: This document suits for openpaimarketplace version v1.4.0 and later.
+> Note: This document is based on openpaimarketplace version v1.4.0 and later.
 
-Openpaimarketplace has two type of templates: data template and job tempalte. Both these two type of tempaltes could be directly used to create an OpenPAI job easily. The step-by-step usage guide is included in [quick start tutorial](./quick-start.md).
+Openpaimarketplace has two types of templates: data template and job tempalte. Both tempaltes could be directly used to create an OpenPAI job easily. The step-by-step usage guide is included in [quick start tutorial](./quick-start.md).
 
 - Data Template
 
