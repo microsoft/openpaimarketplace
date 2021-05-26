@@ -135,231 +135,241 @@ export default function Summary(props) {
     ],
   };
 
+  const context = {
+    user,
+    api,
+    token,
+    isAdmin,
+    history,
+  };
+
   return (
-    <Wrapper>
-      <Stack gap={'l1'}>
-        <Stack horizontal horizontalAlign='space-between'>
-          <Stack horizontal verticalAlign='center' gap='l2'>
-            {marketItem.type === TYPE_ENUM.DATA_TEMPLATE && <DataIcon />}
-            {marketItem.type === TYPE_ENUM.JOB_TEMPLATE && <JobIcon />}
-            {marketItem.type === TYPE_ENUM.OLD_TEMPLATE && <JobIcon />}
-            <Stack gap='m'>
-              {isEditingName && (
-                <TextField
-                  borderless={!isEditingName}
-                  defaultValue={marketItem.name}
-                  styles={{
-                    field: {
-                      fontSize: '20px',
-                      fontWeight: '600',
-                    },
-                    fieldGroup: {
-                      width: '800px',
-                    },
-                    root: {
-                      marginLeft: '-12px',
-                    },
-                  }}
-                  onChange={debounce((_, name) => {
-                    marketItemDispatch({ type: 'updateItem', value: { name } });
-                    if (isEmpty(name)) {
-                      showEmptyNameError();
-                    } else {
-                      hideEmptyNameError();
+    <Context.Provider value={context}>
+      <Wrapper>
+        <Stack gap={'l1'}>
+          <Stack horizontal horizontalAlign='space-between'>
+            <Stack horizontal verticalAlign='center' gap='l2'>
+              {marketItem.type === TYPE_ENUM.DATA_TEMPLATE && <DataIcon />}
+              {marketItem.type === TYPE_ENUM.JOB_TEMPLATE && <JobIcon />}
+              {marketItem.type === TYPE_ENUM.OLD_TEMPLATE && <JobIcon />}
+              <Stack gap='m'>
+                {isEditingName && (
+                  <TextField
+                    borderless={!isEditingName}
+                    defaultValue={marketItem.name}
+                    styles={{
+                      field: {
+                        fontSize: '20px',
+                        fontWeight: '600',
+                      },
+                      fieldGroup: {
+                        width: '800px',
+                      },
+                      root: {
+                        marginLeft: '-12px',
+                      },
+                    }}
+                    onChange={debounce((_, name) => {
+                      marketItemDispatch({ type: 'updateItem', value: { name } });
+                      if (isEmpty(name)) {
+                        showEmptyNameError();
+                      } else {
+                        hideEmptyNameError();
+                      }
+                      setItemUpdateTrue();
+                    }, 100)}
+                    onBlur={() => {
+                      setIsEditingNameFalse();
+                      update();
+                    }}
+                    errorMessage={
+                      emptyNameError ? 'Empty name is invalid.' : undefined
                     }
-                    setItemUpdateTrue();
-                  }, 100)}
-                  onBlur={() => {
-                    setIsEditingNameFalse();
-                    update();
-                  }}
-                  errorMessage={
-                    emptyNameError ? 'Empty name is invalid.' : undefined
-                  }
-                  autoFocus={isEditingName}
-                />
-              )}
-              {!isEditingName && (
-                <Stack gap='m' horizontal verticalAlign='center'>
-                  <Text variant='xLarge'>{marketItem.name}</Text>
-                  <IconButton
-                    iconProps={{ iconName: 'Edit' }}
-                    title='Edit'
-                    ariaLabel='Edit'
-                    onClick={() => {
-                      setIsEditingNameTrue();
+                    autoFocus={isEditingName}
+                  />
+                )}
+                {!isEditingName && (
+                  <Stack gap='m' horizontal verticalAlign='center'>
+                    <Text variant='xLarge'>{marketItem.name}</Text>
+                    <IconButton
+                      iconProps={{ iconName: 'Edit' }}
+                      title='Edit'
+                      ariaLabel='Edit'
+                      onClick={() => {
+                        setIsEditingNameTrue();
+                      }}
+                    />
+                  </Stack>
+                )}
+                {isEditingSummary && (
+                  <TextField
+                    borderless={!isEditingSummary}
+                    defaultValue={marketItem.summary}
+                    styles={{
+                      field: {
+                        fontSize: '16px',
+                        fontWeight: '400',
+                      },
+                      fieldGroup: {
+                        width: '800px',
+                      },
+                      root: {
+                        marginLeft: '-12px',
+                      },
+                    }}
+                    onChange={debounce((_, summary) => {
+                      marketItemDispatch({
+                        type: 'updateItem',
+                        value: { summary },
+                      });
+                      setItemUpdateTrue();
+                    }, 100)}
+                    onBlur={() => {
+                      setIsEditingSummaryFalse();
+                      update();
+                    }}
+                    autoFocus={isEditingSummary}
+                  />
+                )}
+                {!isEditingSummary && (
+                  <Stack gap='m' horizontal verticalAlign='center'>
+                    <Text variant='large'>{marketItem.summary}</Text>
+                    <IconButton
+                      iconProps={{ iconName: 'Edit' }}
+                      title='Edit'
+                      ariaLabel='Edit'
+                      onClick={() => {
+                        setIsEditingSummaryTrue();
+                      }}
+                    />
+                  </Stack>
+                )}
+              </Stack>
+            </Stack>
+
+            <DefaultButton
+              styles={{ root: { height: '30px', background: 'white' } }}
+              menuProps={menuProps}
+              menuIconProps={{
+                iconName: 'More',
+                styles: { root: { fontSize: '20px' } },
+              }}
+            />
+          </Stack>
+          <Stack
+            horizontal
+            verticalAlign='center'
+            horizontalAlign='space-between'
+          >
+            <Stack horizontal gap='l1'>
+              <TooltipHost
+                calloutProps={{
+                  isBeakVisible: false,
+                }}
+                delay={0}
+                tooltipProps={{
+                  onRenderContent: () => <Text>Author</Text>,
+                }}
+              >
+                <Stack horizontal gap='s1'>
+                  <Icon iconName='Contact' />
+                  <Text>{marketItem.author}</Text>
+                </Stack>
+              </TooltipHost>
+              <VerticalLine />
+              <TooltipHost
+                calloutProps={{
+                  isBeakVisible: false,
+                }}
+                delay={0}
+                tooltipProps={{
+                  onRenderContent: () => <Text>Update Time</Text>,
+                }}
+              >
+                <Stack horizontal gap='s1'>
+                  <Icon iconName='Clock' />
+                  <Text>
+                    {DateTime.fromISO(marketItem.updatedAt).toLocaleString()}
+                  </Text>
+                </Stack>
+              </TooltipHost>
+              <VerticalLine />
+              <TooltipHost
+                calloutProps={{
+                  isBeakVisible: false,
+                }}
+                delay={0}
+                tooltipProps={{
+                  onRenderContent: () => <Text>Type</Text>,
+                }}
+              >
+                <Stack horizontal gap='s1'>
+                  <Text>{capitalize(marketItem.type)}</Text>
+                </Stack>
+              </TooltipHost>
+              <VerticalLine />
+              <AccessInfo
+                marketItem={marketItem}
+                marketItemDispatch={marketItemDispatch}
+                api={api}
+              />
+              <VerticalLine />
+              <ItemTags
+                marketItem={marketItem}
+                marketItemDispatch={marketItemDispatch}
+                api={api}
+              />
+            </Stack>
+            <Stack horizontal gap='s1'>
+              {marketItem.type === TYPE_ENUM.DATA_TEMPLATE &&
+                marketItem.dataType === 'blob' && (
+                  <DefaultButton
+                    text='Download'
+                    onClick={async () => {
+                      const fileName = getFileName(marketItem.dataUrl);
+                      const res = await fetch(marketItem.dataUrl);
+                      const content = await res.blob();
+                      saveAs(content, fileName);
                     }}
                   />
-                </Stack>
-              )}
-              {isEditingSummary && (
-                <TextField
-                  borderless={!isEditingSummary}
-                  defaultValue={marketItem.summary}
-                  styles={{
-                    field: {
-                      fontSize: '16px',
-                      fontWeight: '400',
-                    },
-                    fieldGroup: {
-                      width: '800px',
-                    },
-                    root: {
-                      marginLeft: '-12px',
-                    },
-                  }}
-                  onChange={debounce((_, summary) => {
-                    marketItemDispatch({
-                      type: 'updateItem',
-                      value: { summary },
-                    });
-                    setItemUpdateTrue();
-                  }, 100)}
-                  onBlur={() => {
-                    setIsEditingSummaryFalse();
-                    update();
-                  }}
-                  autoFocus={isEditingSummary}
-                />
-              )}
-              {!isEditingSummary && (
-                <Stack gap='m' horizontal verticalAlign='center'>
-                  <Text variant='large'>{marketItem.summary}</Text>
-                  <IconButton
-                    iconProps={{ iconName: 'Edit' }}
-                    title='Edit'
-                    ariaLabel='Edit'
-                    onClick={() => {
-                      setIsEditingSummaryTrue();
+                )}
+              {marketItem.type === TYPE_ENUM.DATA_TEMPLATE &&
+                marketItem.dataType === 'github' && (
+                  <DefaultButton
+                    text='Download'
+                    onClick={async () => {
+                      const fileName = getFileName(marketItem.dataUrl);
+                      const res = await fetch(marketItem.dataUrl, {
+                        mode: 'no-cors',
+                      });
+                      const content = await res.blob();
+                      saveAs(content, fileName);
                     }}
                   />
-                </Stack>
-              )}
+                )}
+              <PrimaryButton
+                text='Use'
+                onClick={async () => {
+                  await clickUse();
+                }}
+              />
             </Stack>
           </Stack>
-
-          <DefaultButton
-            styles={{ root: { height: '30px', background: 'white' } }}
-            menuProps={menuProps}
-            menuIconProps={{
-              iconName: 'More',
-              styles: { root: { fontSize: '20px' } },
-            }}
-          />
         </Stack>
-        <Stack
-          horizontal
-          verticalAlign='center'
-          horizontalAlign='space-between'
-        >
-          <Stack horizontal gap='l1'>
-            <TooltipHost
-              calloutProps={{
-                isBeakVisible: false,
-              }}
-              delay={0}
-              tooltipProps={{
-                onRenderContent: () => <Text>Author</Text>,
-              }}
-            >
-              <Stack horizontal gap='s1'>
-                <Icon iconName='Contact' />
-                <Text>{marketItem.author}</Text>
-              </Stack>
-            </TooltipHost>
-            <VerticalLine />
-            <TooltipHost
-              calloutProps={{
-                isBeakVisible: false,
-              }}
-              delay={0}
-              tooltipProps={{
-                onRenderContent: () => <Text>Update Time</Text>,
-              }}
-            >
-              <Stack horizontal gap='s1'>
-                <Icon iconName='Clock' />
-                <Text>
-                  {DateTime.fromISO(marketItem.updatedAt).toLocaleString()}
-                </Text>
-              </Stack>
-            </TooltipHost>
-            <VerticalLine />
-            <TooltipHost
-              calloutProps={{
-                isBeakVisible: false,
-              }}
-              delay={0}
-              tooltipProps={{
-                onRenderContent: () => <Text>Type</Text>,
-              }}
-            >
-              <Stack horizontal gap='s1'>
-                <Text>{capitalize(marketItem.type)}</Text>
-              </Stack>
-            </TooltipHost>
-            <VerticalLine />
-            <AccessInfo
-              marketItem={marketItem}
-              marketItemDispatch={marketItemDispatch}
-              api={api}
-            />
-            <VerticalLine />
-            <ItemTags
-              marketItem={marketItem}
-              marketItemDispatch={marketItemDispatch}
-              api={api}
-            />
-          </Stack>
-          <Stack horizontal gap='s1'>
-            {marketItem.type === TYPE_ENUM.DATA_TEMPLATE &&
-              marketItem.dataType === 'blob' && (
-                <DefaultButton
-                  text='Download'
-                  onClick={async () => {
-                    const fileName = getFileName(marketItem.dataUrl);
-                    const res = await fetch(marketItem.dataUrl);
-                    const content = await res.blob();
-                    saveAs(content, fileName);
-                  }}
-                />
-              )}
-            {marketItem.type === TYPE_ENUM.DATA_TEMPLATE &&
-              marketItem.dataType === 'github' && (
-                <DefaultButton
-                  text='Download'
-                  onClick={async () => {
-                    const fileName = getFileName(marketItem.dataUrl);
-                    const res = await fetch(marketItem.dataUrl, {
-                      mode: 'no-cors',
-                    });
-                    const content = await res.blob();
-                    saveAs(content, fileName);
-                  }}
-                />
-              )}
-            <PrimaryButton
-              text='Use'
-              onClick={async () => {
-                await clickUse();
-              }}
-            />
-          </Stack>
-        </Stack>
-      </Stack>
-      <CopyPopup
-        isModalOpen={isCopyPopupOpen}
-        hideModal={hideCopyPopup}
-        marketItem={marketItem}
-        marketItemDispatch={marketItemDispatch}
-      />
-      <EditPopup
-        isModalOpen={isEditPopupOpen}
-        hideModal={hideEditPopup}
-        marketItem={marketItem}
-        marketItemDispatch={marketItemDispatch}
-      />
-    </Wrapper>
+        <CopyPopup
+          isModalOpen={isCopyPopupOpen}
+          hideModal={hideCopyPopup}
+          marketItem={marketItem}
+          marketItemDispatch={marketItemDispatch}
+        />
+        <EditPopup
+          isModalOpen={isEditPopupOpen}
+          hideModal={hideEditPopup}
+          marketItem={marketItem}
+          marketItemDispatch={marketItemDispatch}
+        />
+      </Wrapper>
+    </Context.Provider>
   );
 }
 

@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import { Stack, CommandBar, CommandBarButton } from 'office-ui-fabric-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { updateItem } from 'App/utils/marketplace_api';
 import { isEmpty, isArray, cloneDeep } from 'lodash';
+import Context from 'App/context';
 
 const deleteTag = (item, tag) => {
   const newItem = cloneDeep(item);
@@ -25,7 +26,9 @@ const generateBarItems = (item, editable, maxLength) => {
       });
     }
   }
-  items.push({ addTagButton: true });
+  if (editable) {
+    items.push({ key: 'addTagButton', addTagButton: true });
+  }
   return items;
 };
 
@@ -85,7 +88,13 @@ TagButton.propTypes = {
 
 export const ItemTags = props => {
   const { marketItem, marketItemDispatch, api } = props;
-  const items = generateBarItems(marketItem, true, marketItemDispatch, api);
+  const { user, token, isAdmin, history } = useContext(Context);
+  const items = generateBarItems(
+    marketItem,
+    isAdmin || user == marketItem.author,
+    marketItemDispatch,
+    api,
+  );
 
   return (
     <CommandBar
