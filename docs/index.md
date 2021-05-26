@@ -1,6 +1,6 @@
 # openpaimarketplace
 
-A marketplace which stores examples and job templates of [OpenPAI](https://github.com/microsoft/pai). Users could use the marketplace to share their jobs or run-and-learn others' sharing job.
+A marketplace which stores examples and job templates of [OpenPAI](https://github.com/microsoft/pai). Users could use the marketplace to share their jobs or run-and-learn others' sharing jobs.
 
 ## Table of Contents
 
