@@ -33,7 +33,7 @@ router
 
 router
   .route('/categories')
-  .get(token.checkAuthAndGetUserInfo, categoryController.get)
+  .get(token.checkAuthAndGetUserInfo, categoryController.list)
   .post(token.checkAuthAndGetTokenInfo, categoryController.create);
 
 router

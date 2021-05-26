@@ -13,6 +13,9 @@ const descriptionDir = path.join(
 );
 
 const createTemplates = async models => {
+  const itemTags = [];
+  const itemCategories = [];
+
   await Promise.all(
     EXAMPLE_LIST.map(async item => {
       try {
@@ -46,12 +49,40 @@ const createTemplates = async models => {
               : [item.categories],
           },
         };
-        await models.MarketplaceItem.orm.create(newItem);
+        const marketplaceItem = await models.MarketplaceItem.orm.create(
+          newItem,
+        );
+        if (Array.isArray(item.categories)) {
+          for (const categoryName of item.categories) {
+            itemTags.push([categoryName, marketplaceItem.id]);
+          }
+        }
+        if (Array.isArray(item.tags)) {
+          for (const tagName of item.tags) {
+            itemCategories.push([tagName, marketplaceItem.id]);
+          }
+        }
       } catch (err) {
         console.log(err.message);
       }
     }),
   );
+  try {
+    for (const [categoryName, itemId] of itemCategories) {
+      const [category] = await models.ItemCategory.orm.findOrCreate({
+        where: { name: categoryName },
+      });
+      category.addMarketplaceItem(itemId);
+    }
+    for (const [tagName, itemId] of itemTags) {
+      const [tag] = await models.ItemTag.orm.findOrCreate({
+        where: { name: tagName },
+      });
+      tag.addMarketplaceItem(itemId);
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
 const createStorageBlobs = async models => {

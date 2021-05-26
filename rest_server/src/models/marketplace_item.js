@@ -72,6 +72,12 @@ class MarketplaceItem {
     this.orm.belongsToMany(models.User.orm, {
       through: 'StarRelation',
     });
+    this.orm.belongsToMany(models.ItemTag.orm, {
+      through: 'ItemTagRelation',
+    });
+    this.orm.belongsToMany(models.ItemCategory.orm, {
+      through: 'ItemCategoryRelation',
+    });
     this.models = models;
   }
 
