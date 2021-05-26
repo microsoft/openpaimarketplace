@@ -14,7 +14,7 @@
 
 ---
 
-A marketplace which stores data and job templates of openpai. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
+A marketplace which stores data and job templates of OpenPAI. Users could use openpaimarketplace to share their jobs or run-and-learn others' sharing job.
 
 ## Components
 
