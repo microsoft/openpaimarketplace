@@ -1,6 +1,6 @@
 # OpenPAI Marketplace Doc for Admins
 
-In openpaimarketplace release v1.4.0 and later, the deployment has integrated into OpenPAI cluster deployment process. Which means the deployment of markeplace services will follow the standard process of deployment of other OpenPAI services (like webportal and rest-server). Therefore, we recommended users to use openpaimarketplace version v1.4.0 and later, and correspondingly deploy it in OpenPAI cluster version v1.4.0 and later.
+In openpaimarketplace release v1.4.0 and later, the deployment has been integrated into OpenPAI cluster deployment process. This means the deployment of markeplace services follows the standard process of deployment of other OpenPAI services (like webportal and rest-server). Therefore, we recommend users to use openpaimarketplace version v1.4.0 and later, and correspondingly deploy it in OpenPAI cluster version v1.4.0 and later.
 
 ## Table of Contents
 
