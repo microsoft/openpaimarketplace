@@ -21,6 +21,24 @@ router
   .delete(token.checkAuthAndGetTokenInfo, itemController.del);
 
 router
+  .route('/items/:itemId/tag')
+  .get(token.checkAuthAndGetUserInfo, itemController.listTags);
+
+router
+  .route('/items/:itemId/tag/:tagId')
+  .post(token.checkAuthAndGetUserInfo, itemController.addTag)
+  .delete(token.checkAuthAndGetUserInfo, itemController.deleteTag);
+
+router
+  .route('/items/:itemId/category')
+  .get(token.checkAuthAndGetUserInfo, itemController.listCategories);
+
+router
+  .route('/items/:itemId/category/:categoryId')
+  .post(token.checkAuthAndGetUserInfo, itemController.addCategory)
+  .delete(token.checkAuthAndGetUserInfo, itemController.deleteCategory);
+
+router
   .route('/tags')
   .get(token.checkAuthAndGetUserInfo, tagController.list)
   .post(token.checkAuthAndGetTokenInfo, tagController.create);

@@ -52,14 +52,14 @@ const createTemplates = async models => {
         const marketplaceItem = await models.MarketplaceItem.orm.create(
           newItem,
         );
-        if (Array.isArray(item.categories)) {
-          for (const categoryName of item.categories) {
-            itemTags.push([categoryName, marketplaceItem.id]);
+        if (Array.isArray(newItem.categories)) {
+          for (const categoryName of newItem.categories) {
+            itemCategories.push([categoryName, marketplaceItem.id]);
           }
         }
-        if (Array.isArray(item.tags)) {
-          for (const tagName of item.tags) {
-            itemCategories.push([tagName, marketplaceItem.id]);
+        if (Array.isArray(newItem.tags)) {
+          for (const tagName of newItem.tags) {
+            itemTags.push([tagName, marketplaceItem.id]);
           }
         }
       } catch (err) {
