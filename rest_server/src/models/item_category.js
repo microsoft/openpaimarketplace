@@ -11,15 +11,18 @@ class ItemCategory {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       description: DataTypes.STRING,
       extras: DataTypes.TEXT,
     });
   }
 
   associate(models) {
-    this.orm.belongsToMany(models.User.orm, {
-      through: 'StarRelation',
+    this.orm.belongsToMany(models.MarketplaceItem.orm, {
+      through: 'ItemCategoryRelation',
     });
     this.models = models;
   }

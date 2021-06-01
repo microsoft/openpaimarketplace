@@ -11,7 +11,10 @@ class ItemTag {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       color: DataTypes.STRING,
       description: DataTypes.STRING,
       extras: DataTypes.TEXT,
@@ -19,8 +22,8 @@ class ItemTag {
   }
 
   associate(models) {
-    this.orm.belongsToMany(models.User.orm, {
-      through: 'StarRelation',
+    this.orm.belongsToMany(models.MarketplaceItem.orm, {
+      through: 'ItemTagRelation',
     });
     this.models = models;
   }

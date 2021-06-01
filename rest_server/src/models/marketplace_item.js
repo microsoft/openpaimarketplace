@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const { isNil, toLower } = require('lodash');
-const { Op, fn, col, where } = require('sequelize');
+const { Op, fn, col, where, cast } = require('sequelize');
 const modelSyncHandler = require('./model_init_handler');
 
 class MarketplaceItem {
@@ -72,6 +72,12 @@ class MarketplaceItem {
     this.orm.belongsToMany(models.User.orm, {
       through: 'StarRelation',
     });
+    this.orm.belongsToMany(models.ItemTag.orm, {
+      through: 'ItemTagRelation',
+    });
+    this.orm.belongsToMany(models.ItemCategory.orm, {
+      through: 'ItemCategoryRelation',
+    });
     this.models = models;
   }
 
@@ -90,16 +96,6 @@ class MarketplaceItem {
         }
         if (source) {
           filterStatement.source = source;
-        }
-        if (tags) {
-          filterStatement.tags = {
-            [Op.contains]: tags,
-          };
-        }
-        if (categories) {
-          filterStatement.categories = {
-            [Op.contains]: categories,
-          };
         }
         if (keyword) {
           const lowerKeyword = toLower(keyword);
@@ -122,7 +118,7 @@ class MarketplaceItem {
               summary: where(
                 fn('LOWER', col('summary')),
                 Op.substring,
-                `%${lowerKeyword}%`,
+                ```%${lowerKeyword}%`,
               ),
             },
           ];
@@ -165,7 +161,51 @@ class MarketplaceItem {
             },
           ];
         }
-        const items = await this.orm.findAll({ where: filterStatement });
+
+        const havings = [];
+        const havingArrayAgg = (queryParameter, colName) => {
+          if (queryParameter) {
+            havings.push({
+              where: where(
+                fn('array_agg', col(colName)),
+                Op.contains,
+                cast(queryParameter, 'varchar[]'),
+              ),
+            });
+          }
+        };
+        havingArrayAgg(tags, 'ItemTags.name');
+        havingArrayAgg(categories, 'ItemCategories.name');
+
+        const items = await this.orm.findAll({
+          where: filterStatement,
+          having: havings,
+          group: [
+            'MarketplaceItem.id',
+            'ItemTags.id',
+            'ItemTags->ItemTagRelation.createdAt',
+            'ItemTags->ItemTagRelation.updatedAt',
+            'ItemTags->ItemTagRelation.MarketplaceItemId',
+            'ItemTags->ItemTagRelation.ItemTagId',
+            'ItemCategories.id',
+            'ItemCategories->ItemCategoryRelation.createdAt',
+            'ItemCategories->ItemCategoryRelation.updatedAt',
+            'ItemCategories->ItemCategoryRelation.MarketplaceItemId',
+            'ItemCategories->ItemCategoryRelation.ItemCategoryId',
+          ],
+          include: [
+            {
+              attributes: ['id', 'name', 'color'],
+              model: this.models.ItemTag.orm,
+              through: { attributes: [] },
+            },
+            {
+              attributes: ['id', 'name'],
+              model: this.models.ItemCategory.orm,
+              through: { attributes: [] },
+            },
+          ],
+        });
         return items;
       },
     );
@@ -299,6 +339,54 @@ class MarketplaceItem {
     });
 
     return await handler(itemId, this.models);
+  }
+
+  async getTags(item) {
+    const handler = modelSyncHandler(async item => {
+      return await item.getItemTags();
+    });
+
+    return await handler(item, this.models);
+  }
+
+  async addTag(item, tagId) {
+    const handler = modelSyncHandler(async item => {
+      return await item.addItemTag(tagId);
+    });
+
+    return await handler(item, this.models);
+  }
+
+  async deleteTag(item, tagId) {
+    const handler = modelSyncHandler(async item => {
+      return await item.removeItemTag(tagId);
+    });
+
+    return await handler(item, this.models);
+  }
+
+  async getCategories(item) {
+    const handler = modelSyncHandler(async item => {
+      return await item.getItemCategories();
+    });
+
+    return await handler(item, this.models);
+  }
+
+  async addCategory(item, tagId) {
+    const handler = modelSyncHandler(async item => {
+      return await item.addItemCategory(tagId);
+    });
+
+    return await handler(item, this.models);
+  }
+
+  async deleteCategory(item, tagId) {
+    const handler = modelSyncHandler(async item => {
+      return await item.removeItemCategory(tagId);
+    });
+
+    return await handler(item, this.models);
   }
 }
 
