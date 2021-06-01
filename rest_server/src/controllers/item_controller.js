@@ -155,6 +155,141 @@ const del = asyncHandler(async (req, res, next) => {
   }
 });
 
+const listTags = asyncHandler(async (req, res, next) => {
+  try {
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkReadPermission(req.userInfo, result)) {
+      result = await MarketplaceItem.getTags(result);
+      if (isNil(result)) {
+        return next(error.createNotFound());
+      } else {
+        res.status(200).json(result);
+      }
+    } else {
+      return next(
+        error.createForbidden(
+          `The access to the item ${req.params.itemId} is forbidden`,
+        ),
+      );
+    }
+  } catch (e) {
+    return next(error.createInternalServerError(e));
+  }
+});
+
+const addTag = asyncHandler(async (req, res, next) => {
+  try {
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkReadPermission(req.userInfo, result)) {
+      result = await MarketplaceItem.addTag(result, req.params.tagId);
+      if (isNil(result)) {
+        return next(error.createNotFound());
+      } else {
+        res.status(200).send('added');
+      }
+    } else {
+      return next(
+        error.createForbidden(
+          `The access to the item ${req.params.itemId} is forbidden`,
+        ),
+      );
+    }
+  } catch (e) {
+    return next(error.createInternalServerError(e));
+  }
+});
+
+const deleteTag = asyncHandler(async (req, res, next) => {
+  try {
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkReadPermission(req.userInfo, result)) {
+      result = await MarketplaceItem.deleteTag(result, req.params.tagId);
+      if (isNil(result)) {
+        return next(error.createNotFound());
+      } else {
+        res.status(200).json('deleted');
+      }
+    } else {
+      return next(
+        error.createForbidden(
+          `The access to the item ${req.params.itemId} is forbidden`,
+        ),
+      );
+    }
+  } catch (e) {
+    return next(error.createInternalServerError(e));
+  }
+});
+
+const listCategories = asyncHandler(async (req, res, next) => {
+  try {
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkReadPermission(req.userInfo, result)) {
+      result = await MarketplaceItem.getCategories(result);
+      if (isNil(result)) {
+        return next(error.createNotFound());
+      } else {
+        res.status(200).json(result);
+      }
+    } else {
+      return next(
+        error.createForbidden(
+          `The access to the item ${req.params.itemId} is forbidden`,
+        ),
+      );
+    }
+  } catch (e) {
+    return next(error.createInternalServerError(e));
+  }
+});
+
+const addCategory = asyncHandler(async (req, res, next) => {
+  try {
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkReadPermission(req.userInfo, result)) {
+      result = await MarketplaceItem.addCategory(result, req.params.categoryId);
+      if (isNil(result)) {
+        return next(error.createNotFound());
+      } else {
+        res.status(200).send('added');
+      }
+    } else {
+      return next(
+        error.createForbidden(
+          `The access to the item ${req.params.itemId} is forbidden`,
+        ),
+      );
+    }
+  } catch (e) {
+    return next(error.createInternalServerError(e));
+  }
+});
+
+const deleteCategory = asyncHandler(async (req, res, next) => {
+  try {
+    let result = await MarketplaceItem.get(req.params.itemId);
+    if (checkReadPermission(req.userInfo, result)) {
+      result = await MarketplaceItem.deleteCategory(
+        result,
+        req.params.categoryId,
+      );
+      if (isNil(result)) {
+        return next(error.createNotFound());
+      } else {
+        res.status(200).json('deleted');
+      }
+    } else {
+      return next(
+        error.createForbidden(
+          `The access to the item ${req.params.itemId} is forbidden`,
+        ),
+      );
+    }
+  } catch (e) {
+    return next(error.createInternalServerError(e));
+  }
+});
+
 // module exports
 module.exports = {
   list,
@@ -162,4 +297,10 @@ module.exports = {
   get,
   update,
   del,
+  listTags,
+  addTag,
+  deleteTag,
+  listCategories,
+  addCategory,
+  deleteCategory,
 };
