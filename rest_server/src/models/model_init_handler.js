@@ -52,15 +52,21 @@ const createTemplates = async models => {
         const marketplaceItem = await models.MarketplaceItem.orm.create(
           newItem,
         );
+
         if (Array.isArray(newItem.categories)) {
           for (const categoryName of newItem.categories) {
             itemCategories.push([categoryName, marketplaceItem.id]);
           }
+        } else {
+          itemCategories.push([newItem.categories, marketplaceItem.id]);
         }
+
         if (Array.isArray(newItem.tags)) {
           for (const tagName of newItem.tags) {
             itemTags.push([tagName, marketplaceItem.id]);
           }
+        } else {
+          itemCategories.push([newItem.tags, marketplaceItem.id]);
         }
       } catch (err) {
         console.log(err.message);

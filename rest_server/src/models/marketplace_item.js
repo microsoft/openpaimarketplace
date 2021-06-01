@@ -161,25 +161,22 @@ class MarketplaceItem {
             },
           ];
         }
+
         const havings = [];
-        if (tags) {
-          havings.push({
-            where: where(
-              fn('array_agg', col('ItemTags.name')),
-              Op.contains,
-              cast(tags, 'varchar[]'),
-            ),
-          });
-        }
-        if (categories) {
-          havings.push({
-            where: where(
-              fn('array_agg', col('ItemCategories.name')),
-              Op.contains,
-              cast(categories, 'varchar[]'),
-            ),
-          });
-        }
+        const havingArrayAgg = (queryParameter, colName) => {
+          if (queryParameter) {
+            havings.push({
+              where: where(
+                fn('array_agg', col(colName)),
+                Op.contains,
+                cast(queryParameter, 'varchar[]'),
+              ),
+            });
+          }
+        };
+        havingArrayAgg(tags, 'ItemTags.name');
+        havingArrayAgg(categories, 'ItemCategories.name');
+
         const items = await this.orm.findAll({
           where: filterStatement,
           having: havings,
@@ -212,6 +209,7 @@ class MarketplaceItem {
         return items;
       },
     );
+
     return await handler(
       name,
       author,
@@ -352,7 +350,7 @@ class MarketplaceItem {
   }
 
   async addTag(item, tagId) {
-    const handler = modelSyncHandler(async itemId => {
+    const handler = modelSyncHandler(async item => {
       return await item.addItemTag(tagId);
     });
 
