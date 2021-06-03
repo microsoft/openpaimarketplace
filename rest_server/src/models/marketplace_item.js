@@ -118,7 +118,7 @@ class MarketplaceItem {
               summary: where(
                 fn('LOWER', col('summary')),
                 Op.substring,
-                ```%${lowerKeyword}%`,
+                `%${lowerKeyword}%`,
               ),
             },
           ];
