@@ -1,59 +1,68 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getTheme, Stack, Text, SearchBox } from 'office-ui-fabric-react';
-import queryString from 'query-string';
-import { isNil } from 'lodash';
-import TypeFilter from './type_filter';
+import { isEmpty } from 'lodash';
+import FilterItem from './type_filter';
 import Context from 'App/context';
 import { TYPE_ENUM } from 'App/utils/constants';
+import PropTypes from 'prop-types';
 
-const SideBar = () => {
-  const [type, setType] = useState(null);
-  const [keyword, setKeyword] = useState();
+const SideBar = props => {
+  const { categories } = props;
+  const [currentType, setCurrentType] = useState(null);
+  const [currentAuthor, setCurrentAuthor] = useState(null);
+  const [currentCategory, setCurrentCategory] = useState(null);
   const { spacing } = getTheme();
-  const { history, user } = useContext(Context);
+  const { history, user, routeProps } = useContext(Context);
 
-  const getQueryString = (type, keyword) => {
-    let qs = '';
-    if (isNil(keyword) || keyword === '') {
-      if (isNil(type)) {
-        qs = '';
-      } else if (type === 'my') {
-        qs = queryString.stringify({ author: user });
-      } else {
-        qs = queryString.stringify({ type });
-      }
-    } else {
-      if (isNil(type)) {
-        qs = queryString.stringify({ keyword });
-      } else if (type === 'my') {
-        qs = queryString.stringify({ author: user, keyword });
-      } else {
-        qs = queryString.stringify({ type, keyword });
-      }
-    }
-    return qs;
-  };
+  useEffect(() => {
+    const searchParams = new URLSearchParams(routeProps.location.search);
+    setCurrentType(searchParams.get('type'));
+    setCurrentAuthor(searchParams.get('author'));
+    setCurrentCategory(searchParams.get('category'));
+  }, []);
 
-  const changeType = newType => {
+  const changeUrl = (section, value) => {
     return () => {
-      if (type === newType) {
-        setType(null);
-        const qs = getQueryString(null, keyword);
-        history.push(`/?${qs}`);
-      } else {
-        setType(newType);
-        const qs = getQueryString(newType, keyword);
-        history.push(`/?${qs}`);
+      const searchParams = new URLSearchParams(routeProps.location.search);
+      if (section === 'keyword') {
+        if (value === '') {
+          searchParams.delete('keyword');
+        } else {
+          searchParams.set('keyword', value);
+        }
+      } else if (section === 'type') {
+        if (currentType === value) {
+          setCurrentType(null);
+          searchParams.delete('type');
+        } else {
+          setCurrentType(value);
+          searchParams.set('type', value);
+        }
+      } else if (section === 'author') {
+        if (currentAuthor === value) {
+          setCurrentAuthor(null);
+          searchParams.delete('author');
+        } else {
+          setCurrentAuthor(value);
+          searchParams.set('author', value);
+        }
+      } else if (section === 'category') {
+        if (currentCategory === value) {
+          setCurrentCategory(null);
+          searchParams.delete('category');
+        } else {
+          setCurrentCategory(value);
+          searchParams.set('category', value);
+        }
       }
+      history.push(`/?${searchParams.toString()}`);
     };
   };
 
   const searchKeyword = newKeyword => {
-    setKeyword(newKeyword);
-    const qs = getQueryString(type, newKeyword);
-    history.push(`/?${qs}`);
+    changeUrl('keyword', newKeyword)();
   };
 
   return (
@@ -64,35 +73,53 @@ const SideBar = () => {
       <SearchBox onSearch={searchKeyword} />
       <Text variant={'large'}>Types</Text>
       <Stack>
-        <TypeFilter
+        <FilterItem
           text='All'
-          selected={type === TYPE_ENUM.ALL}
-          onClick={changeType(TYPE_ENUM.ALL)}
+          selected={currentType === TYPE_ENUM.ALL}
+          onClick={changeUrl('type', TYPE_ENUM.ALL)}
         />
-        <TypeFilter
+        <FilterItem
           text='Data Template'
-          selected={type === TYPE_ENUM.DATA_TEMPLATE}
-          onClick={changeType(TYPE_ENUM.DATA_TEMPLATE)}
+          selected={currentType === TYPE_ENUM.DATA_TEMPLATE}
+          onClick={changeUrl('type', TYPE_ENUM.DATA_TEMPLATE)}
         />
-        <TypeFilter
+        <FilterItem
           text='Job Template'
-          selected={type === TYPE_ENUM.JOB_TEMPLATE}
-          onClick={changeType(TYPE_ENUM.JOB_TEMPLATE)}
+          selected={currentType === TYPE_ENUM.JOB_TEMPLATE}
+          onClick={changeUrl('type', TYPE_ENUM.JOB_TEMPLATE)}
         />
-        <TypeFilter
+        <FilterItem
           text='Old Example'
-          selected={type === TYPE_ENUM.OLD_TEMPLATE}
-          onClick={changeType(TYPE_ENUM.OLD_TEMPLATE)}
+          selected={currentType === TYPE_ENUM.OLD_TEMPLATE}
+          onClick={changeUrl('type', TYPE_ENUM.OLD_TEMPLATE)}
         />
       </Stack>
       <Text variant={'large'}>My</Text>
-      <TypeFilter
+      <FilterItem
         text='My templates'
-        selected={type === 'my'}
-        onClick={changeType('my')}
+        selected={currentAuthor === user}
+        onClick={changeUrl('author', user)}
       />
+      <Text variant={'large'}>Categories</Text>
+      <Stack>
+        {!isEmpty(categories) &&
+          categories.map(category => {
+            return (
+              <FilterItem
+                key={category}
+                text={category}
+                selected={currentCategory === category}
+                onClick={changeUrl('category', category)}
+              />
+            );
+          })}
+      </Stack>
     </Stack>
   );
+};
+
+SideBar.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default SideBar;

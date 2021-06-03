@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import React, { useState, useEffect } from 'react';
-import { Stack, Text, getTheme } from 'office-ui-fabric-react';
+import { Stack, Text, getTheme, ActionButton } from 'office-ui-fabric-react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { capitalize, isNil } from 'lodash';
+import { capitalize, isNil, isEmpty } from 'lodash';
 import ItemCard from './item_card';
 import HorizontalLine from 'App/components/horizontal_line';
 import { listItems } from 'App/utils/marketplace_api';
 import Loading from 'App/components/loading';
 
-const { spacing } = getTheme();
+const { spacing, palette } = getTheme();
+
+const Section = styled.div`
+  padding: ${spacing.m};
+  background: ${palette.white};
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px, rgba(0, 0, 0, 0.05) 0px 0.5px 1px;
+`;
 
 const GridWrapper = styled.div`
   display: grid;
@@ -19,23 +25,26 @@ const GridWrapper = styled.div`
 `;
 
 const ItemList = props => {
-  const { type, author, keyword } = props;
-  const [itemList, setItemList] = useState([]);
+  const { type, author, keyword, category } = props;
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isPartialOfficial, setIsPartialOfficial] = useState(true);
+  const [isPartialPublic, setIsPartialPublic] = useState(true);
+  const [isPartialPrivate, setIsPartialPrivate] = useState(true);
   useEffect(() => {
     async function fetchData() {
       try {
-        const items = await listItems(type, author, keyword);
-        setItemList(items);
+        const items = await listItems(type, author, keyword, category);
+        setItems(items);
         setLoading(false);
       } catch (e) {
         alert(e.message);
-        setItemList([]);
+        setItems([]);
         setLoading(false);
       }
     }
     fetchData();
-  }, [type, author, keyword]);
+  }, [type, author, keyword, category]);
 
   return (
     <div>
@@ -50,11 +59,110 @@ const ItemList = props => {
             {isNil(type) ? 'All' : capitalize(type)}
           </Text>
           <HorizontalLine />
-          <GridWrapper>
-            {itemList.map(item => (
-              <ItemCard key={item.id} item={item} />
-            ))}
-          </GridWrapper>
+          <Section>
+            <Stack gap='s1'>
+              <Text variant={'large'}>Official</Text>
+              {!isEmpty(
+                items.filter(item => {
+                  return item.author === 'OpenPAI';
+                }),
+              ) && (
+                <div>
+                  <GridWrapper>
+                    {isPartialOfficial
+                      ? items
+                          .filter(item => {
+                            return item.author === 'OpenPAI';
+                          })
+                          .slice(0, 6)
+                          .map(item => <ItemCard key={item.id} item={item} />)
+                      : items
+                          .filter(item => {
+                            return item.author === 'OpenPAI';
+                          })
+                          .map(item => <ItemCard key={item.id} item={item} />)}
+                  </GridWrapper>
+                  {isPartialOfficial && (
+                    <ActionButton
+                      onClick={() => {
+                        setIsPartialOfficial(false);
+                      }}
+                    >
+                      More
+                    </ActionButton>
+                  )}
+                </div>
+              )}
+            </Stack>
+          </Section>
+          <Section>
+            <Text variant={'large'}>Other Public</Text>
+            {!isEmpty(
+              items.filter(item => {
+                return item.author !== 'OpenPAI' && item.isPublic;
+              }),
+            ) && (
+              <div>
+                <GridWrapper>
+                  {isPartialPublic
+                    ? items
+                        .filter(item => {
+                          return item.author !== 'OpenPAI' && item.isPublic;
+                        })
+                        .slice(0, 6)
+                        .map(item => <ItemCard key={item.id} item={item} />)
+                    : items
+                        .filter(item => {
+                          return item.author !== 'OpenPAI' && item.isPublic;
+                        })
+                        .map(item => <ItemCard key={item.id} item={item} />)}
+                </GridWrapper>
+                {isPartialPublic && (
+                  <ActionButton
+                    onClick={() => {
+                      setIsPartialPublic(false);
+                    }}
+                  >
+                    More
+                  </ActionButton>
+                )}
+              </div>
+            )}
+          </Section>
+          <Section>
+            <Text variant={'large'}>Other Private</Text>
+            {!isEmpty(
+              items.filter(item => {
+                return item.author !== 'OpenPAI' && item.isPrivate;
+              }),
+            ) && (
+              <div>
+                <GridWrapper>
+                  {isPartialPrivate
+                    ? items
+                        .filter(item => {
+                          return item.author !== 'OpenPAI' && item.isPrivate;
+                        })
+                        .slice(0, 6)
+                        .map(item => <ItemCard key={item.id} item={item} />)
+                    : items
+                        .filter(item => {
+                          return item.author !== 'OpenPAI' && item.isPrivate;
+                        })
+                        .map(item => <ItemCard key={item.id} item={item} />)}
+                </GridWrapper>
+                {isPartialPrivate && (
+                  <ActionButton
+                    onClick={() => {
+                      setIsPartialPrivate(false);
+                    }}
+                  >
+                    More
+                  </ActionButton>
+                )}
+              </div>
+            )}
+          </Section>
         </Stack>
       )}
     </div>
@@ -65,6 +173,7 @@ ItemList.propTypes = {
   type: PropTypes.string,
   author: PropTypes.string,
   keyword: PropTypes.string,
+  category: PropTypes.string,
 };
 
 export default ItemList;
