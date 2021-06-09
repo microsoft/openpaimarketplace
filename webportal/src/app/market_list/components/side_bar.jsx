@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getTheme, Stack, Text, SearchBox } from 'office-ui-fabric-react';
 import { isEmpty } from 'lodash';
-import FilterItem from './type_filter';
+import FilterItem from './filter_item';
 import Context from 'App/context';
 import { TYPE_ENUM } from 'App/utils/constants';
 import PropTypes from 'prop-types';
