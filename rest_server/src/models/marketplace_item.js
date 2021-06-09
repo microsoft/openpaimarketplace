@@ -102,23 +102,23 @@ class MarketplaceItem {
           filterStatement[Op.or] = [
             {
               name: where(
-                fn('LOWER', col('name')),
+                fn('LOWER', col('"MarketplaceItem"."name"')),
                 Op.substring,
                 `%${lowerKeyword}%`,
               ),
             },
             {
               author: where(
-                fn('LOWER', col('author')),
+                fn('LOWER', col('"MarketplaceItem"."author"')),
                 Op.substring,
                 `%${lowerKeyword}%`,
               ),
             },
             {
               summary: where(
-                fn('LOWER', col('summary')),
+                fn('LOWER', col('"MarketplaceItem"."summary"')),
                 Op.substring,
-                ```%${lowerKeyword}%`,
+                `%${lowerKeyword}%`,
               ),
             },
           ];
