@@ -12,6 +12,10 @@ import Loading from 'App/components/loading';
 
 const { spacing, palette } = getTheme();
 
+const isOfficial = item => {
+  return item.categories.includes('official example');
+};
+
 const Section = styled.div`
   padding: ${spacing.m};
   background: ${palette.white};
@@ -64,7 +68,7 @@ const ItemList = props => {
               <Text variant={'large'}>Official</Text>
               {!isEmpty(
                 items.filter(item => {
-                  return item.author === 'OpenPAI';
+                  return isOfficial(item);
                 }),
               ) && (
                 <div>
@@ -72,13 +76,13 @@ const ItemList = props => {
                     {isPartialOfficial
                       ? items
                           .filter(item => {
-                            return item.author === 'OpenPAI';
+                            return isOfficial(item);
                           })
                           .slice(0, 6)
                           .map(item => <ItemCard key={item.id} item={item} />)
                       : items
                           .filter(item => {
-                            return item.author === 'OpenPAI';
+                            return isOfficial(item);
                           })
                           .map(item => <ItemCard key={item.id} item={item} />)}
                   </GridWrapper>
@@ -107,7 +111,7 @@ const ItemList = props => {
             <Text variant={'large'}>Other Public</Text>
             {!isEmpty(
               items.filter(item => {
-                return item.author !== 'OpenPAI' && item.isPublic;
+                return !isOfficial(item) && item.isPublic;
               }),
             ) && (
               <div>
@@ -115,13 +119,13 @@ const ItemList = props => {
                   {isPartialPublic
                     ? items
                         .filter(item => {
-                          return item.author !== 'OpenPAI' && item.isPublic;
+                          return !isOfficial(item) && item.isPublic;
                         })
                         .slice(0, 6)
                         .map(item => <ItemCard key={item.id} item={item} />)
                     : items
                         .filter(item => {
-                          return item.author !== 'OpenPAI' && item.isPublic;
+                          return !isOfficial(item) && item.isPublic;
                         })
                         .map(item => <ItemCard key={item.id} item={item} />)}
                 </GridWrapper>
@@ -149,7 +153,7 @@ const ItemList = props => {
             <Text variant={'large'}>Other Private</Text>
             {!isEmpty(
               items.filter(item => {
-                return item.author !== 'OpenPAI' && item.isPrivate;
+                return !isOfficial(item) && item.isPrivate;
               }),
             ) && (
               <div>
@@ -157,13 +161,13 @@ const ItemList = props => {
                   {isPartialPrivate
                     ? items
                         .filter(item => {
-                          return item.author !== 'OpenPAI' && item.isPrivate;
+                          return !isOfficial(item) && item.isPrivate;
                         })
                         .slice(0, 6)
                         .map(item => <ItemCard key={item.id} item={item} />)
                     : items
                         .filter(item => {
-                          return item.author !== 'OpenPAI' && item.isPrivate;
+                          return !isOfficial(item) && item.isPrivate;
                         })
                         .map(item => <ItemCard key={item.id} item={item} />)}
                 </GridWrapper>
