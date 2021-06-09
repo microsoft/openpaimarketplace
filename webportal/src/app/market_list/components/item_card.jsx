@@ -26,12 +26,12 @@ const ItemCard = props => {
   const { history } = useContext(Context);
 
   const populateUpdateTime = () => {
-    const createdTime = Math.floor(
+    const updateTime = Math.floor(
       Math.abs(new Date() - new Date(item.updatedAt)) / 1000 / 3600 / 24,
     );
-    return createdTime === 0
+    return updateTime === 0
       ? 'not long ago'
-      : createdTime + (createdTime > 1 ? ' days ago' : ' day ago');
+      : updateTime + (updateTime > 1 ? ' days ago' : ' day ago');
   };
 
   return (
