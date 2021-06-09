@@ -82,13 +82,21 @@ const ItemList = props => {
                           })
                           .map(item => <ItemCard key={item.id} item={item} />)}
                   </GridWrapper>
-                  {isPartialOfficial && (
+                  {isPartialOfficial ? (
                     <ActionButton
                       onClick={() => {
                         setIsPartialOfficial(false);
                       }}
                     >
                       More
+                    </ActionButton>
+                  ) : (
+                    <ActionButton
+                      onClick={() => {
+                        setIsPartialOfficial(true);
+                      }}
+                    >
+                      Less
                     </ActionButton>
                   )}
                 </div>
@@ -117,13 +125,21 @@ const ItemList = props => {
                         })
                         .map(item => <ItemCard key={item.id} item={item} />)}
                 </GridWrapper>
-                {isPartialPublic && (
+                {isPartialPublic ? (
                   <ActionButton
                     onClick={() => {
                       setIsPartialPublic(false);
                     }}
                   >
                     More
+                  </ActionButton>
+                ) : (
+                  <ActionButton
+                    onClick={() => {
+                      setIsPartialPublic(true);
+                    }}
+                  >
+                    Less
                   </ActionButton>
                 )}
               </div>
@@ -151,13 +167,21 @@ const ItemList = props => {
                         })
                         .map(item => <ItemCard key={item.id} item={item} />)}
                 </GridWrapper>
-                {isPartialPrivate && (
+                {isPartialPrivate ? (
                   <ActionButton
                     onClick={() => {
                       setIsPartialPrivate(false);
                     }}
                   >
                     More
+                  </ActionButton>
+                ) : (
+                  <ActionButton
+                    onClick={() => {
+                      setIsPartialPrivate(true);
+                    }}
+                  >
+                    Less
                   </ActionButton>
                 )}
               </div>
