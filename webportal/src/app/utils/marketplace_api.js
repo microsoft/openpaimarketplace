@@ -173,7 +173,7 @@ export async function updateItem(marketItem, itemId) {
     }),
   });
   if (res.ok) {
-    alert(`Update item ${itemId} successed.`);
+    alert(`Successfully updated item ${itemId}.`);
   } else {
     throw new Error(res.statusText);
   }
@@ -192,7 +192,7 @@ export async function deleteItem(itemId) {
     },
   });
   if (res.ok) {
-    alert(`Delete item ${itemId} successed.`);
+    alert(`Successfully deleted item ${itemId}.`);
   } else {
     throw new Error(res.statusText);
   }
