@@ -16,8 +16,9 @@ async function checkReadPermission(userInfo, item, categories) {
   if (categories === undefined) {
     categories = await MarketplaceItem.getCategories(item);
   }
+  const categoriesArray = categories.map(category => category.name);
   if (
-    !categories.includes(OFFICIAL_EXAMPLE) &&
+    !categoriesArray.includes(OFFICIAL_EXAMPLE) &&
     userInfo.username === item.author
   ) {
     return true;
@@ -42,8 +43,9 @@ async function checkWritePermission(tokenInfo, item, categories) {
   if (categories === undefined) {
     categories = await MarketplaceItem.getCategories(item);
   }
+  const categoriesArray = categories.map(category => category.name);
   if (
-    !categories.includes(OFFICIAL_EXAMPLE) &&
+    !categoriesArray.includes(OFFICIAL_EXAMPLE) &&
     tokenInfo.username === item.author
   ) {
     return true;

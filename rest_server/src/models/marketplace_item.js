@@ -4,6 +4,8 @@ const { isNil, toLower } = require('lodash');
 const { Op, fn, col, where, cast } = require('sequelize');
 const modelSyncHandler = require('./model_init_handler');
 
+const OFFICIAL_EXAMPLE = 'official example';
+
 class MarketplaceItem {
   constructor(sequelize, DataTypes) {
     this.orm = sequelize.define('MarketplaceItem', {
@@ -123,44 +125,6 @@ class MarketplaceItem {
             },
           ];
         }
-        if (!userInfo.admin) {
-          filterStatement[Op.or] = [
-            {
-              isPublic: {
-                [Op.eq]: true,
-              },
-            },
-            {
-              [Op.and]: [
-                {
-                  isPrivate: {
-                    [Op.eq]: true,
-                  },
-                },
-                {
-                  author: {
-                    [Op.eq]: userInfo.username,
-                  },
-                },
-              ],
-            },
-            {
-              [Op.and]: [
-                {
-                  isPublic: {
-                    [Op.eq]: false,
-                  },
-                  isPrivate: {
-                    [Op.eq]: false,
-                  },
-                  groupList: {
-                    [Op.overlap]: userInfo.groupList,
-                  },
-                },
-              ],
-            },
-          ];
-        }
 
         const havings = [];
         const havingArrayAgg = (queryParameter, colName) => {
@@ -176,6 +140,65 @@ class MarketplaceItem {
         };
         havingArrayAgg(tags, 'ItemTags.name');
         havingArrayAgg(categories, 'ItemCategories.name');
+
+        if (!userInfo.admin) {
+          if (filterStatement[Op.and] === undefined) {
+            filterStatement[Op.and] = [];
+          }
+          filterStatement[Op.and].push({
+            [Op.or]: [
+              {
+                isPublic: {
+                  [Op.eq]: true,
+                },
+              },
+              {
+                [Op.and]: [
+                  {
+                    isPrivate: {
+                      [Op.eq]: true,
+                    },
+                  },
+                  {
+                    author: {
+                      [Op.eq]: userInfo.username,
+                    },
+                  },
+                ],
+              },
+              {
+                [Op.and]: [
+                  {
+                    isPublic: {
+                      [Op.eq]: false,
+                    },
+                    isPrivate: {
+                      [Op.eq]: false,
+                    },
+                    groupList: {
+                      [Op.overlap]: userInfo.groupList,
+                    },
+                  },
+                ],
+              },
+            ],
+          });
+
+          havings.push({
+            [Op.not]: {
+              [Op.and]: [
+                {
+                  isPrivate: true,
+                },
+                where(
+                  fn('array_agg', col('ItemCategories.name')),
+                  Op.contains,
+                  cast([OFFICIAL_EXAMPLE], 'varchar[]'),
+                ),
+              ],
+            },
+          });
+        }
 
         const items = await this.orm.findAll({
           where: filterStatement,
