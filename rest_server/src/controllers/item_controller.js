@@ -7,11 +7,19 @@ const yaml = require('js-yaml');
 const protocolValidator = require('../utils/protocol');
 const error = require('../models/error');
 
-function checkReadPermission(userInfo, item) {
+const OFFICIAL_EXAMPLE = 'official example';
+
+async function checkReadPermission(userInfo, item, categories) {
   if (userInfo.admin === true) {
     return true;
   }
-  if (userInfo.username === item.author) {
+  if (categories === undefined) {
+    categories = await MarketplaceItem.getCategories(item);
+  }
+  if (
+    !categories.includes(OFFICIAL_EXAMPLE) &&
+    userInfo.username === item.author
+  ) {
     return true;
   }
   if (item.isPublic) {
@@ -27,11 +35,17 @@ function checkReadPermission(userInfo, item) {
   return false;
 }
 
-function checkWritePermission(tokenInfo, item) {
+async function checkWritePermission(tokenInfo, item, categories) {
   if (tokenInfo.admin === true) {
     return true;
   }
-  if (tokenInfo.username === item.author) {
+  if (categories === undefined) {
+    categories = await MarketplaceItem.getCategories(item);
+  }
+  if (
+    !categories.includes(OFFICIAL_EXAMPLE) &&
+    tokenInfo.username === item.author
+  ) {
     return true;
   }
   return false;
@@ -96,7 +110,7 @@ const get = asyncHandler(async (req, res, next) => {
     if (isNil(result)) {
       return next(error.createNotFound());
     } else {
-      if (checkReadPermission(req.userInfo, result)) {
+      if (await checkReadPermission(req.userInfo, result)) {
         res.status(200).json(result);
       } else {
         return next(
@@ -114,7 +128,7 @@ const get = asyncHandler(async (req, res, next) => {
 const update = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkWritePermission(req.tokenInfo, result)) {
+    if (await checkWritePermission(req.tokenInfo, result)) {
       result = await MarketplaceItem.update(req.params.itemId, req.body);
       if (isNil(result)) {
         return next(error.createNotFound());
@@ -136,7 +150,7 @@ const update = asyncHandler(async (req, res, next) => {
 const del = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkWritePermission(req.tokenInfo, result)) {
+    if (await checkWritePermission(req.tokenInfo, result)) {
       result = await MarketplaceItem.del(req.params.itemId);
       if (isNil(result)) {
         return next(error.createNotFound());
@@ -158,7 +172,7 @@ const del = asyncHandler(async (req, res, next) => {
 const listTags = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkReadPermission(req.userInfo, result)) {
+    if (await checkReadPermission(req.userInfo, result)) {
       result = await MarketplaceItem.getTags(result);
       if (isNil(result)) {
         return next(error.createNotFound());
@@ -180,7 +194,7 @@ const listTags = asyncHandler(async (req, res, next) => {
 const addTag = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkWritePermission(req.tokenInfo, result)) {
+    if (await checkWritePermission(req.tokenInfo, result)) {
       result = await MarketplaceItem.addTag(result, req.params.tagId);
       if (isNil(result)) {
         return next(error.createNotFound());
@@ -202,7 +216,7 @@ const addTag = asyncHandler(async (req, res, next) => {
 const deleteTag = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkWritePermission(req.tokenInfo, result)) {
+    if (await checkWritePermission(req.tokenInfo, result)) {
       result = await MarketplaceItem.deleteTag(result, req.params.tagId);
       if (isNil(result)) {
         return next(error.createNotFound());
@@ -223,14 +237,13 @@ const deleteTag = asyncHandler(async (req, res, next) => {
 
 const listCategories = asyncHandler(async (req, res, next) => {
   try {
-    let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkReadPermission(req.userInfo, result)) {
-      result = await MarketplaceItem.getCategories(result);
-      if (isNil(result)) {
-        return next(error.createNotFound());
-      } else {
-        res.status(200).json(result);
-      }
+    const result = await MarketplaceItem.get(req.params.itemId);
+    const categories = await MarketplaceItem.getCategories(result);
+    if (isNil(result)) {
+      return next(error.createNotFound());
+    }
+    if (await checkReadPermission(req.userInfo, result, categories)) {
+      res.status(200).json(categories);
     } else {
       return next(
         error.createForbidden(
@@ -246,12 +259,9 @@ const listCategories = asyncHandler(async (req, res, next) => {
 const addCategory = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkWritePermission(req.tokenInfo, result)) {
+    if (await checkWritePermission(req.tokenInfo, result)) {
       const category = await ItemCategory.get(req.params.categoryId);
-      if (
-        category.name === 'official example' &&
-        req.tokenInfo.admin !== true
-      ) {
+      if (category.name === OFFICIAL_EXAMPLE && req.tokenInfo.admin !== true) {
         return next(
           error.createForbidden(
             'Only admin can set "official example" category.',
@@ -279,7 +289,7 @@ const addCategory = asyncHandler(async (req, res, next) => {
 const deleteCategory = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkWritePermission(req.tokenInfo, result)) {
+    if (await checkWritePermission(req.tokenInfo, result)) {
       result = await MarketplaceItem.deleteCategory(
         result,
         req.params.categoryId,
