@@ -373,17 +373,17 @@ class MarketplaceItem {
     return await handler(item, this.models);
   }
 
-  async addCategory(item, tagId) {
+  async addCategory(item, categoryId) {
     const handler = modelSyncHandler(async item => {
-      return await item.addItemCategory(tagId);
+      return await item.addItemCategory(categoryId);
     });
 
     return await handler(item, this.models);
   }
 
-  async deleteCategory(item, tagId) {
+  async deleteCategory(item, categoryId) {
     const handler = modelSyncHandler(async item => {
-      return await item.removeItemCategory(tagId);
+      return await item.removeItemCategory(categoryId);
     });
 
     return await handler(item, this.models);

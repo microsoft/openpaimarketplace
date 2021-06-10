@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const { isNil } = require('lodash');
-const { MarketplaceItem } = require('../models');
+const { MarketplaceItem, ItemCategory } = require('../models');
 const asyncHandler = require('./async_handler');
 const yaml = require('js-yaml');
 const protocolValidator = require('../utils/protocol');
@@ -246,7 +246,18 @@ const listCategories = asyncHandler(async (req, res, next) => {
 const addCategory = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkReadPermission(req.userInfo, result)) {
+    if (checkWritePermission(req.tokenInfo, result)) {
+      const category = await ItemCategory.get(req.params.categoryId);
+      if (
+        category.name === 'official example' &&
+        req.tokenInfo.admin !== true
+      ) {
+        return next(
+          error.createForbidden(
+            'Only admin can set "official example" category.',
+          ),
+        );
+      }
       result = await MarketplaceItem.addCategory(result, req.params.categoryId);
       if (isNil(result)) {
         return next(error.createNotFound());
@@ -268,7 +279,7 @@ const addCategory = asyncHandler(async (req, res, next) => {
 const deleteCategory = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkReadPermission(req.userInfo, result)) {
+    if (checkWritePermission(req.tokenInfo, result)) {
       result = await MarketplaceItem.deleteCategory(
         result,
         req.params.categoryId,
