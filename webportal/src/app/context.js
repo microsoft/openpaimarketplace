@@ -8,4 +8,5 @@ export default React.createContext({
   token: null,
   isAdmin: false,
   history: null,
+  routeProps: null,
 });

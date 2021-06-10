@@ -39,7 +39,7 @@ export async function getConnectionString(
   }
 }
 
-export async function listItems(type, author, keyword) {
+export async function listItems(type, author, keyword, category) {
   const queryOptions = {};
   if (type) {
     queryOptions.type = type;
@@ -49,6 +49,9 @@ export async function listItems(type, author, keyword) {
   }
   if (keyword) {
     queryOptions.keyword = keyword;
+  }
+  if (category) {
+    queryOptions.category = category;
   }
   const queryStr = queryString.stringify(queryOptions);
   const url = `${MARKETPLACE_API_URL}/items?${queryStr}`;
@@ -170,7 +173,7 @@ export async function updateItem(marketItem, itemId) {
     }),
   });
   if (res.ok) {
-    alert(`Update item ${itemId} successed.`);
+    alert(`Successfully updated item ${itemId}.`);
   } else {
     throw new Error(res.statusText);
   }
@@ -189,7 +192,27 @@ export async function deleteItem(itemId) {
     },
   });
   if (res.ok) {
-    alert(`Delete item ${itemId} successed.`);
+    alert(`Successfully deleted item ${itemId}.`);
+  } else {
+    throw new Error(res.statusText);
+  }
+}
+
+export async function listCategories() {
+  const url = `${MARKETPLACE_API_URL}/categories`;
+
+  const token = cookies.get('token');
+
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (res.ok) {
+    const result = await res.json();
+    return result;
   } else {
     throw new Error(res.statusText);
   }
