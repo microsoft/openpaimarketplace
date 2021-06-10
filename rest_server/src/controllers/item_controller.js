@@ -180,7 +180,7 @@ const listTags = asyncHandler(async (req, res, next) => {
 const addTag = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkReadPermission(req.userInfo, result)) {
+    if (checkWritePermission(req.tokenInfo, result)) {
       result = await MarketplaceItem.addTag(result, req.params.tagId);
       if (isNil(result)) {
         return next(error.createNotFound());
@@ -202,7 +202,7 @@ const addTag = asyncHandler(async (req, res, next) => {
 const deleteTag = asyncHandler(async (req, res, next) => {
   try {
     let result = await MarketplaceItem.get(req.params.itemId);
-    if (checkReadPermission(req.userInfo, result)) {
+    if (checkWritePermission(req.tokenInfo, result)) {
       result = await MarketplaceItem.deleteTag(result, req.params.tagId);
       if (isNil(result)) {
         return next(error.createNotFound());
