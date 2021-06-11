@@ -7,34 +7,6 @@ const yaml = require('js-yaml');
 const protocolValidator = require('../utils/protocol');
 const error = require('../models/error');
 
-async function checkReadPermission(userInfo, item, categories) {
-  if (userInfo.admin === true) {
-    return true;
-  }
-  if (categories === undefined) {
-    categories = await MarketplaceItem.getCategories(item);
-  }
-  if (
-    !categories.some(
-      category => category.name === ItemCategory.OFFICIAL_EXAMPLE,
-    ) &&
-    userInfo.username === item.author
-  ) {
-    return true;
-  }
-  if (item.isPublic) {
-    return true;
-  }
-  if (!item.isPrivate && (userInfo.grouplist && item.groupList)) {
-    for (const group of userInfo.grouplist) {
-      if (item.groupList.includes(group)) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 async function checkWritePermission(tokenInfo, item, categories) {
   if (tokenInfo.admin === true) {
     return true;
@@ -49,6 +21,23 @@ async function checkWritePermission(tokenInfo, item, categories) {
     tokenInfo.username === item.author
   ) {
     return true;
+  }
+  return false;
+}
+
+async function checkReadPermission(userInfo, item, categories) {
+  if (
+    item.isPublic ||
+    (await checkWritePermission(userInfo, item, categories))
+  ) {
+    return true;
+  }
+  if (!item.isPrivate && (userInfo.grouplist && item.groupList)) {
+    for (const group of userInfo.grouplist) {
+      if (item.groupList.includes(group)) {
+        return true;
+      }
+    }
   }
   return false;
 }
