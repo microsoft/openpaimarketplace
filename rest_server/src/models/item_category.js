@@ -4,9 +4,9 @@ const { isNil } = require('lodash');
 const modelSyncHandler = require('./model_init_handler');
 
 class ItemCategory {
-  static OFFICIAL_EXAMPLE = 'official example';
-
   constructor(sequelize, DataTypes) {
+    this.OFFICIAL_EXAMPLE = 'official example';
+
     this.orm = sequelize.define('ItemCategory', {
       id: {
         type: DataTypes.STRING,
