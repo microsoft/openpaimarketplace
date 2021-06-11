@@ -7,8 +7,6 @@ const yaml = require('js-yaml');
 const protocolValidator = require('../utils/protocol');
 const error = require('../models/error');
 
-const OFFICIAL_EXAMPLE = 'official example';
-
 async function checkReadPermission(userInfo, item, categories) {
   if (userInfo.admin === true) {
     return true;
@@ -17,7 +15,7 @@ async function checkReadPermission(userInfo, item, categories) {
     categories = await MarketplaceItem.getCategories(item);
   }
   if (
-    !categories.some(category => category.name === OFFICIAL_EXAMPLE) &&
+    !categories.some(category => category.name === ItemCategory.OFFICIAL_EXAMPLE) &&
     userInfo.username === item.author
   ) {
     return true;
@@ -43,7 +41,7 @@ async function checkWritePermission(tokenInfo, item, categories) {
     categories = await MarketplaceItem.getCategories(item);
   }
   if (
-    !categories.some(category => category.name === OFFICIAL_EXAMPLE) &&
+    !categories.some(category => category.name === ItemCategory.OFFICIAL_EXAMPLE) &&
     tokenInfo.username === item.author
   ) {
     return true;
@@ -261,10 +259,10 @@ const addCategory = asyncHandler(async (req, res, next) => {
     let result = await MarketplaceItem.get(req.params.itemId);
     if (await checkWritePermission(req.tokenInfo, result)) {
       const category = await ItemCategory.get(req.params.categoryId);
-      if (category.name === OFFICIAL_EXAMPLE && req.tokenInfo.admin !== true) {
+      if (category.name === ItemCategory.OFFICIAL_EXAMPLE && req.tokenInfo.admin !== true) {
         return next(
           error.createForbidden(
-            'Only admin can set "official example" category.',
+            `Only admin can set "${ItemCategory.OFFICIAL_EXAMPLE}" category.`,
           ),
         );
       }

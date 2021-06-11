@@ -3,8 +3,7 @@
 const { isNil, toLower } = require('lodash');
 const { Op, fn, col, where, cast } = require('sequelize');
 const modelSyncHandler = require('./model_init_handler');
-
-const OFFICIAL_EXAMPLE = 'official example';
+const ItemCategory = require('./item_category');
 
 class MarketplaceItem {
   constructor(sequelize, DataTypes) {
@@ -193,7 +192,7 @@ class MarketplaceItem {
                 where(
                   fn('array_agg', col('ItemCategories.name')),
                   Op.contains,
-                  cast([OFFICIAL_EXAMPLE], 'varchar[]'),
+                  cast([ItemCategory.OFFICIAL_EXAMPLE], 'varchar[]'),
                 ),
               ],
             },
