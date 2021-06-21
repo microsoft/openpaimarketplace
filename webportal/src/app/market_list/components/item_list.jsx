@@ -14,7 +14,8 @@ const { spacing, palette } = getTheme();
 
 const isOfficial = item => {
   return (
-    !isNil(item.categories) && item.categories.includes("official example");
+    !isNil(item.ItemCategories) &&
+    item.ItemCategories.some(category => category.name === 'official example')
   );
 };
 
