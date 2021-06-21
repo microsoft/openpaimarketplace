@@ -26,8 +26,8 @@ router
 
 router
   .route('/items/:itemId/tag/:tagId')
-  .post(token.checkAuthAndGetUserInfo, itemController.addTag)
-  .delete(token.checkAuthAndGetUserInfo, itemController.deleteTag);
+  .post(token.checkAuthAndGetTokenInfo, itemController.addTag)
+  .delete(token.checkAuthAndGetTokenInfo, itemController.deleteTag);
 
 router
   .route('/items/:itemId/category')
@@ -35,8 +35,8 @@ router
 
 router
   .route('/items/:itemId/category/:categoryId')
-  .post(token.checkAuthAndGetUserInfo, itemController.addCategory)
-  .delete(token.checkAuthAndGetUserInfo, itemController.deleteCategory);
+  .post(token.checkAuthAndGetTokenInfo, itemController.addCategory)
+  .delete(token.checkAuthAndGetTokenInfo, itemController.deleteCategory);
 
 router
   .route('/tags')
