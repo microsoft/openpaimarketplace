@@ -13,7 +13,10 @@ import Loading from 'App/components/loading';
 const { spacing, palette } = getTheme();
 
 const isOfficial = item => {
-  return item.categories.includes('official example');
+  return (
+    !isNil(item.ItemCategories) &&
+    item.ItemCategories.some(category => category.name === 'official example')
+  );
 };
 
 const Section = styled.div`
