@@ -29,7 +29,6 @@ import { TYPE_ENUM } from 'App/utils/constants';
 import { deleteItem, updateItem } from 'App/utils/marketplace_api';
 import { AccessInfo } from 'App/market_detail/components/access_info';
 import { CopyPopup } from 'App/market_detail/components/copy_popup';
-import { EditPopup } from 'App/market_detail/components/edit_popup';
 
 const { spacing, palette } = getTheme();
 
@@ -44,10 +43,6 @@ export default function Summary(props) {
   const [
     isCopyPopupOpen,
     { setTrue: showCopyPopup, setFalse: hideCopyPopup },
-  ] = useBoolean(false);
-  const [
-    isEditPopupOpen,
-    { setTrue: showEditPopup, setFalse: hideEditPopup },
   ] = useBoolean(false);
   const [
     isEditingName,
@@ -110,13 +105,6 @@ export default function Summary(props) {
         text: 'Copy',
         iconProps: { iconName: 'Copy' },
         onClick: showCopyPopup,
-      },
-      {
-        key: 'editItem',
-        text: 'Edit',
-        iconProps: { iconName: 'Edit' },
-        disabled: !isAdmin && user !== marketItem.author,
-        onClick: showEditPopup,
       },
       {
         key: 'deleteItem',
@@ -343,12 +331,6 @@ export default function Summary(props) {
       <CopyPopup
         isModalOpen={isCopyPopupOpen}
         hideModal={hideCopyPopup}
-        marketItem={marketItem}
-        marketItemDispatch={marketItemDispatch}
-      />
-      <EditPopup
-        isModalOpen={isEditPopupOpen}
-        hideModal={hideEditPopup}
         marketItem={marketItem}
         marketItemDispatch={marketItemDispatch}
       />
