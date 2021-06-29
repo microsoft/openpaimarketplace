@@ -94,6 +94,7 @@ const ItemList = props => {
                       onClick={() => {
                         setIsPartialOfficial(false);
                       }}
+                      iconProps={{ iconName: 'Add' }}
                     >
                       More
                     </ActionButton>
@@ -102,6 +103,7 @@ const ItemList = props => {
                       onClick={() => {
                         setIsPartialOfficial(true);
                       }}
+                      iconProps={{ iconName: 'Remove' }}
                     >
                       Less
                     </ActionButton>
@@ -111,7 +113,7 @@ const ItemList = props => {
             </Stack>
           </Section>
           <Section>
-            <Text variant={'large'}>Other Public</Text>
+            <Text variant={'large'}>Public</Text>
             {!isEmpty(
               items.filter(item => {
                 return !isOfficial(item) && item.isPublic;
@@ -137,6 +139,7 @@ const ItemList = props => {
                     onClick={() => {
                       setIsPartialPublic(false);
                     }}
+                    iconProps={{ iconName: 'Add' }}
                   >
                     More
                   </ActionButton>
@@ -145,6 +148,7 @@ const ItemList = props => {
                     onClick={() => {
                       setIsPartialPublic(true);
                     }}
+                    iconProps={{ iconName: 'Remove' }}
                   >
                     Less
                   </ActionButton>
@@ -153,7 +157,7 @@ const ItemList = props => {
             )}
           </Section>
           <Section>
-            <Text variant={'large'}>Other Private</Text>
+            <Text variant={'large'}>Private</Text>
             {!isEmpty(
               items.filter(item => {
                 return !isOfficial(item) && item.isPrivate;
@@ -179,6 +183,7 @@ const ItemList = props => {
                     onClick={() => {
                       setIsPartialPrivate(false);
                     }}
+                    iconProps={{ iconName: 'Add' }}
                   >
                     More
                   </ActionButton>
@@ -187,6 +192,7 @@ const ItemList = props => {
                     onClick={() => {
                       setIsPartialPrivate(true);
                     }}
+                    iconProps={{ iconName: 'Remove' }}
                   >
                     Less
                   </ActionButton>
