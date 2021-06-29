@@ -55,7 +55,13 @@ const PivotCard = props => {
                     setIsEditingDescriptionFalse();
                     setMarkdown(marketItem.description);
                   }}
-                  styles={{ root: { marginTop: '-55px', marginRight: '25px', float: 'right' } }}
+                  styles={{
+                    root: {
+                      marginTop: '-55px',
+                      marginRight: '25px',
+                      float: 'right',
+                    },
+                  }}
                 />
                 <IconButton
                   iconProps={{ iconName: 'Save' }}
