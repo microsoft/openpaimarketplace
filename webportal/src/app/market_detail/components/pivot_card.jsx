@@ -48,6 +48,16 @@ const PivotCard = props => {
             {isEditingDescription && (
               <>
                 <IconButton
+                  iconProps={{ iconName: 'Cancel' }}
+                  title='Cancel'
+                  ariaLabel='Cancel'
+                  onClick={() => {
+                    setIsEditingDescriptionFalse();
+                    setMarkdown(marketItem.description);
+                  }}
+                  styles={{ root: { marginTop: '-55px', marginRight: '25px', float: 'right' } }}
+                />
+                <IconButton
                   iconProps={{ iconName: 'Save' }}
                   title='Save'
                   ariaLabel='Save'
