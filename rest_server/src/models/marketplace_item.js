@@ -24,7 +24,7 @@ class MarketplaceItem {
       isPublic: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false,
+        defaultValue: true,
       },
       isPrivate: {
         type: DataTypes.BOOLEAN,
@@ -246,6 +246,14 @@ class MarketplaceItem {
 
   async create(itemReq) {
     const handler = modelSyncHandler(async itemReq => {
+      if (itemReq.isPrivate) {
+        itemReq.isPublic = false;
+        itemReq.groupList = [];
+      } else if (itemReq.isPublic) {
+        itemReq.isPrivate = false;
+        itemReq.groupList = [];
+      }
+
       const item = await this.orm.create(itemReq);
       return item.id;
     });
