@@ -24,7 +24,7 @@ class MarketplaceItem {
       isPublic: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: false,
       },
       isPrivate: {
         type: DataTypes.BOOLEAN,
