@@ -246,6 +246,10 @@ class MarketplaceItem {
 
   async create(itemReq) {
     const handler = modelSyncHandler(async itemReq => {
+      // Item's 3 different cases:
+      // 1. Share to all users (isPublic: true)
+      // 2. Private (isPrivate: true)
+      // 3. Share to some specific groups (isPublic: false & isPrivate: false)
       if (itemReq.isPrivate) {
         itemReq.isPublic = false;
         itemReq.groupList = [];
